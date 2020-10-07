@@ -1,0 +1,7 @@
+datamodel: datamodel.prisma
+
+generate:
+  - generator: javascript-client
+    output: ../src/generated/prisma-client
+
+endpoint: https://us1.prisma.sh/neword-2bedf8/Hold-Management-Api/dev

@@ -1,0 +1,12 @@
+type User{
+   id: ID! @id
+   active: Boolean!
+   grade: String!
+   matricule: String! @unique
+   username: String!
+   fullname: String!
+   phone: String! @unique
+   reserve: Float
+   role: String!
+   password: String!
+}

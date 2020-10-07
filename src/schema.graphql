@@ -1,0 +1,32 @@
+const typeDefs = `
+type Query{
+    info: String!
+    users: [User!]!
+}
+
+type Mutation{
+    signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!,password:String!): AuthPayload!
+    signIn(matricule:String!,password:String!): AuthPayload!
+}
+type AuthPayload{
+    token: String!
+    user: User!
+}
+
+type User{
+   id: ID!
+   active: Boolean!
+   grade: String!
+   matricule: String!
+   username: String!
+   fullname: String!
+   phone: String!
+   reserve: Float
+   role: String!
+   password: String!
+}
+
+`
+module.exports ={
+    typeDefs
+}

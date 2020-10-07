@@ -1,0 +1,39 @@
+{
+  "prettier.endOfLine": "auto",
+  "tslint.packageManager": "yarn",
+  "window.zoomLevel": 0,
+  "prettier.singleQuote": false,
+  "prettier.printWidth": 100,
+  "prettier.trailingComma": "none",
+  "prettier.semi": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": false,
+    "source.fixAll.tslint": true
+  },
+  "editor.tabSize": 2,
+  "javascript.preferences.quoteStyle": "double",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.formatOnPaste": true,
+  "[javascriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[css]": {
+    "editor.formatOnSave": false
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
