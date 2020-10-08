@@ -3,7 +3,23 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateLog {
+/* GraphQL */ `type AggregateBon {
+  count: Int!
+}
+
+type AggregateDotation {
+  count: Int!
+}
+
+type AggregateHold {
+  count: Int!
+}
+
+type AggregateHoldsOnBons {
+  count: Int!
+}
+
+type AggregateLog {
   count: Int!
 }
 
@@ -15,13 +31,1453 @@ type BatchPayload {
   count: Long!
 }
 
+type Bon {
+  id: ID!
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  consumed_date: DateTime!
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  user: User!
+  holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  created_at: DateTime!
+}
+
+type BonConnection {
+  pageInfo: PageInfo!
+  edges: [BonEdge]!
+  aggregate: AggregateBon!
+}
+
+input BonCreateInput {
+  id: ID
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  consumed_date: DateTime!
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  user: UserCreateOneWithoutBonsInput!
+  holds: HoldsOnBonsCreateManyWithoutBonInput
+}
+
+input BonCreateManyWithoutUserInput {
+  create: [BonCreateWithoutUserInput!]
+  connect: [BonWhereUniqueInput!]
+}
+
+input BonCreateOneWithoutHoldsInput {
+  create: BonCreateWithoutHoldsInput
+  connect: BonWhereUniqueInput
+}
+
+input BonCreateWithoutHoldsInput {
+  id: ID
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  consumed_date: DateTime!
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  user: UserCreateOneWithoutBonsInput!
+}
+
+input BonCreateWithoutUserInput {
+  id: ID
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  consumed_date: DateTime!
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  holds: HoldsOnBonsCreateManyWithoutBonInput
+}
+
+type BonEdge {
+  node: Bon!
+  cursor: String!
+}
+
+enum BonOrderByInput {
+  id_ASC
+  id_DESC
+  consumed_ASC
+  consumed_DESC
+  coverage_when_consuming_ASC
+  coverage_when_consuming_DESC
+  consumed_date_ASC
+  consumed_date_DESC
+  emission_date_ASC
+  emission_date_DESC
+  departure_ASC
+  departure_DESC
+  destination_ASC
+  destination_DESC
+  fuel_type_ASC
+  fuel_type_DESC
+  reason_ASC
+  reason_DESC
+  number_of_liter_ASC
+  number_of_liter_DESC
+  initial_number_of_liter_ASC
+  initial_number_of_liter_DESC
+  status_ASC
+  status_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type BonPreviousValues {
+  id: ID!
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  consumed_date: DateTime!
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  created_at: DateTime!
+}
+
+input BonScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  consumed: Boolean
+  consumed_not: Boolean
+  coverage_when_consuming: Float
+  coverage_when_consuming_not: Float
+  coverage_when_consuming_in: [Float!]
+  coverage_when_consuming_not_in: [Float!]
+  coverage_when_consuming_lt: Float
+  coverage_when_consuming_lte: Float
+  coverage_when_consuming_gt: Float
+  coverage_when_consuming_gte: Float
+  consumed_date: DateTime
+  consumed_date_not: DateTime
+  consumed_date_in: [DateTime!]
+  consumed_date_not_in: [DateTime!]
+  consumed_date_lt: DateTime
+  consumed_date_lte: DateTime
+  consumed_date_gt: DateTime
+  consumed_date_gte: DateTime
+  emission_date: DateTime
+  emission_date_not: DateTime
+  emission_date_in: [DateTime!]
+  emission_date_not_in: [DateTime!]
+  emission_date_lt: DateTime
+  emission_date_lte: DateTime
+  emission_date_gt: DateTime
+  emission_date_gte: DateTime
+  departure: String
+  departure_not: String
+  departure_in: [String!]
+  departure_not_in: [String!]
+  departure_lt: String
+  departure_lte: String
+  departure_gt: String
+  departure_gte: String
+  departure_contains: String
+  departure_not_contains: String
+  departure_starts_with: String
+  departure_not_starts_with: String
+  departure_ends_with: String
+  departure_not_ends_with: String
+  destination: String
+  destination_not: String
+  destination_in: [String!]
+  destination_not_in: [String!]
+  destination_lt: String
+  destination_lte: String
+  destination_gt: String
+  destination_gte: String
+  destination_contains: String
+  destination_not_contains: String
+  destination_starts_with: String
+  destination_not_starts_with: String
+  destination_ends_with: String
+  destination_not_ends_with: String
+  fuel_type: String
+  fuel_type_not: String
+  fuel_type_in: [String!]
+  fuel_type_not_in: [String!]
+  fuel_type_lt: String
+  fuel_type_lte: String
+  fuel_type_gt: String
+  fuel_type_gte: String
+  fuel_type_contains: String
+  fuel_type_not_contains: String
+  fuel_type_starts_with: String
+  fuel_type_not_starts_with: String
+  fuel_type_ends_with: String
+  fuel_type_not_ends_with: String
+  reason: String
+  reason_not: String
+  reason_in: [String!]
+  reason_not_in: [String!]
+  reason_lt: String
+  reason_lte: String
+  reason_gt: String
+  reason_gte: String
+  reason_contains: String
+  reason_not_contains: String
+  reason_starts_with: String
+  reason_not_starts_with: String
+  reason_ends_with: String
+  reason_not_ends_with: String
+  number_of_liter: Float
+  number_of_liter_not: Float
+  number_of_liter_in: [Float!]
+  number_of_liter_not_in: [Float!]
+  number_of_liter_lt: Float
+  number_of_liter_lte: Float
+  number_of_liter_gt: Float
+  number_of_liter_gte: Float
+  initial_number_of_liter: Float
+  initial_number_of_liter_not: Float
+  initial_number_of_liter_in: [Float!]
+  initial_number_of_liter_not_in: [Float!]
+  initial_number_of_liter_lt: Float
+  initial_number_of_liter_lte: Float
+  initial_number_of_liter_gt: Float
+  initial_number_of_liter_gte: Float
+  status: Boolean
+  status_not: Boolean
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [BonScalarWhereInput!]
+  OR: [BonScalarWhereInput!]
+  NOT: [BonScalarWhereInput!]
+}
+
+type BonSubscriptionPayload {
+  mutation: MutationType!
+  node: Bon
+  updatedFields: [String!]
+  previousValues: BonPreviousValues
+}
+
+input BonSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: BonWhereInput
+  AND: [BonSubscriptionWhereInput!]
+  OR: [BonSubscriptionWhereInput!]
+  NOT: [BonSubscriptionWhereInput!]
+}
+
+input BonUpdateInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+  user: UserUpdateOneRequiredWithoutBonsInput
+  holds: HoldsOnBonsUpdateManyWithoutBonInput
+}
+
+input BonUpdateManyDataInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+}
+
+input BonUpdateManyMutationInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+}
+
+input BonUpdateManyWithoutUserInput {
+  create: [BonCreateWithoutUserInput!]
+  delete: [BonWhereUniqueInput!]
+  connect: [BonWhereUniqueInput!]
+  set: [BonWhereUniqueInput!]
+  disconnect: [BonWhereUniqueInput!]
+  update: [BonUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [BonUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [BonScalarWhereInput!]
+  updateMany: [BonUpdateManyWithWhereNestedInput!]
+}
+
+input BonUpdateManyWithWhereNestedInput {
+  where: BonScalarWhereInput!
+  data: BonUpdateManyDataInput!
+}
+
+input BonUpdateOneRequiredWithoutHoldsInput {
+  create: BonCreateWithoutHoldsInput
+  update: BonUpdateWithoutHoldsDataInput
+  upsert: BonUpsertWithoutHoldsInput
+  connect: BonWhereUniqueInput
+}
+
+input BonUpdateWithoutHoldsDataInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+  user: UserUpdateOneRequiredWithoutBonsInput
+}
+
+input BonUpdateWithoutUserDataInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+  holds: HoldsOnBonsUpdateManyWithoutBonInput
+}
+
+input BonUpdateWithWhereUniqueWithoutUserInput {
+  where: BonWhereUniqueInput!
+  data: BonUpdateWithoutUserDataInput!
+}
+
+input BonUpsertWithoutHoldsInput {
+  update: BonUpdateWithoutHoldsDataInput!
+  create: BonCreateWithoutHoldsInput!
+}
+
+input BonUpsertWithWhereUniqueWithoutUserInput {
+  where: BonWhereUniqueInput!
+  update: BonUpdateWithoutUserDataInput!
+  create: BonCreateWithoutUserInput!
+}
+
+input BonWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  consumed: Boolean
+  consumed_not: Boolean
+  coverage_when_consuming: Float
+  coverage_when_consuming_not: Float
+  coverage_when_consuming_in: [Float!]
+  coverage_when_consuming_not_in: [Float!]
+  coverage_when_consuming_lt: Float
+  coverage_when_consuming_lte: Float
+  coverage_when_consuming_gt: Float
+  coverage_when_consuming_gte: Float
+  consumed_date: DateTime
+  consumed_date_not: DateTime
+  consumed_date_in: [DateTime!]
+  consumed_date_not_in: [DateTime!]
+  consumed_date_lt: DateTime
+  consumed_date_lte: DateTime
+  consumed_date_gt: DateTime
+  consumed_date_gte: DateTime
+  emission_date: DateTime
+  emission_date_not: DateTime
+  emission_date_in: [DateTime!]
+  emission_date_not_in: [DateTime!]
+  emission_date_lt: DateTime
+  emission_date_lte: DateTime
+  emission_date_gt: DateTime
+  emission_date_gte: DateTime
+  departure: String
+  departure_not: String
+  departure_in: [String!]
+  departure_not_in: [String!]
+  departure_lt: String
+  departure_lte: String
+  departure_gt: String
+  departure_gte: String
+  departure_contains: String
+  departure_not_contains: String
+  departure_starts_with: String
+  departure_not_starts_with: String
+  departure_ends_with: String
+  departure_not_ends_with: String
+  destination: String
+  destination_not: String
+  destination_in: [String!]
+  destination_not_in: [String!]
+  destination_lt: String
+  destination_lte: String
+  destination_gt: String
+  destination_gte: String
+  destination_contains: String
+  destination_not_contains: String
+  destination_starts_with: String
+  destination_not_starts_with: String
+  destination_ends_with: String
+  destination_not_ends_with: String
+  fuel_type: String
+  fuel_type_not: String
+  fuel_type_in: [String!]
+  fuel_type_not_in: [String!]
+  fuel_type_lt: String
+  fuel_type_lte: String
+  fuel_type_gt: String
+  fuel_type_gte: String
+  fuel_type_contains: String
+  fuel_type_not_contains: String
+  fuel_type_starts_with: String
+  fuel_type_not_starts_with: String
+  fuel_type_ends_with: String
+  fuel_type_not_ends_with: String
+  reason: String
+  reason_not: String
+  reason_in: [String!]
+  reason_not_in: [String!]
+  reason_lt: String
+  reason_lte: String
+  reason_gt: String
+  reason_gte: String
+  reason_contains: String
+  reason_not_contains: String
+  reason_starts_with: String
+  reason_not_starts_with: String
+  reason_ends_with: String
+  reason_not_ends_with: String
+  number_of_liter: Float
+  number_of_liter_not: Float
+  number_of_liter_in: [Float!]
+  number_of_liter_not_in: [Float!]
+  number_of_liter_lt: Float
+  number_of_liter_lte: Float
+  number_of_liter_gt: Float
+  number_of_liter_gte: Float
+  initial_number_of_liter: Float
+  initial_number_of_liter_not: Float
+  initial_number_of_liter_in: [Float!]
+  initial_number_of_liter_not_in: [Float!]
+  initial_number_of_liter_lt: Float
+  initial_number_of_liter_lte: Float
+  initial_number_of_liter_gt: Float
+  initial_number_of_liter_gte: Float
+  status: Boolean
+  status_not: Boolean
+  user: UserWhereInput
+  holds_every: HoldsOnBonsWhereInput
+  holds_some: HoldsOnBonsWhereInput
+  holds_none: HoldsOnBonsWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [BonWhereInput!]
+  OR: [BonWhereInput!]
+  NOT: [BonWhereInput!]
+}
+
+input BonWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
+
+type Dotation {
+  id: ID!
+  comment: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_dotated: Float!
+  number_of_liter_received: Float!
+  user: User
+  hold: Hold
+  created_at: DateTime!
+}
+
+type DotationConnection {
+  pageInfo: PageInfo!
+  edges: [DotationEdge]!
+  aggregate: AggregateDotation!
+}
+
+input DotationCreateInput {
+  id: ID
+  comment: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_dotated: Float!
+  number_of_liter_received: Float!
+  user: UserCreateOneWithoutDotationsInput
+  hold: HoldCreateOneWithoutDotationsInput
+}
+
+input DotationCreateManyWithoutHoldInput {
+  create: [DotationCreateWithoutHoldInput!]
+  connect: [DotationWhereUniqueInput!]
+}
+
+input DotationCreateManyWithoutUserInput {
+  create: [DotationCreateWithoutUserInput!]
+  connect: [DotationWhereUniqueInput!]
+}
+
+input DotationCreateWithoutHoldInput {
+  id: ID
+  comment: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_dotated: Float!
+  number_of_liter_received: Float!
+  user: UserCreateOneWithoutDotationsInput
+}
+
+input DotationCreateWithoutUserInput {
+  id: ID
+  comment: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_dotated: Float!
+  number_of_liter_received: Float!
+  hold: HoldCreateOneWithoutDotationsInput
+}
+
+type DotationEdge {
+  node: Dotation!
+  cursor: String!
+}
+
+enum DotationOrderByInput {
+  id_ASC
+  id_DESC
+  comment_ASC
+  comment_DESC
+  start_date_ASC
+  start_date_DESC
+  end_date_ASC
+  end_date_DESC
+  number_of_liter_dotated_ASC
+  number_of_liter_dotated_DESC
+  number_of_liter_received_ASC
+  number_of_liter_received_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type DotationPreviousValues {
+  id: ID!
+  comment: String!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_dotated: Float!
+  number_of_liter_received: Float!
+  created_at: DateTime!
+}
+
+input DotationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  comment: String
+  comment_not: String
+  comment_in: [String!]
+  comment_not_in: [String!]
+  comment_lt: String
+  comment_lte: String
+  comment_gt: String
+  comment_gte: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  start_date: DateTime
+  start_date_not: DateTime
+  start_date_in: [DateTime!]
+  start_date_not_in: [DateTime!]
+  start_date_lt: DateTime
+  start_date_lte: DateTime
+  start_date_gt: DateTime
+  start_date_gte: DateTime
+  end_date: DateTime
+  end_date_not: DateTime
+  end_date_in: [DateTime!]
+  end_date_not_in: [DateTime!]
+  end_date_lt: DateTime
+  end_date_lte: DateTime
+  end_date_gt: DateTime
+  end_date_gte: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_dotated_not: Float
+  number_of_liter_dotated_in: [Float!]
+  number_of_liter_dotated_not_in: [Float!]
+  number_of_liter_dotated_lt: Float
+  number_of_liter_dotated_lte: Float
+  number_of_liter_dotated_gt: Float
+  number_of_liter_dotated_gte: Float
+  number_of_liter_received: Float
+  number_of_liter_received_not: Float
+  number_of_liter_received_in: [Float!]
+  number_of_liter_received_not_in: [Float!]
+  number_of_liter_received_lt: Float
+  number_of_liter_received_lte: Float
+  number_of_liter_received_gt: Float
+  number_of_liter_received_gte: Float
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [DotationScalarWhereInput!]
+  OR: [DotationScalarWhereInput!]
+  NOT: [DotationScalarWhereInput!]
+}
+
+type DotationSubscriptionPayload {
+  mutation: MutationType!
+  node: Dotation
+  updatedFields: [String!]
+  previousValues: DotationPreviousValues
+}
+
+input DotationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DotationWhereInput
+  AND: [DotationSubscriptionWhereInput!]
+  OR: [DotationSubscriptionWhereInput!]
+  NOT: [DotationSubscriptionWhereInput!]
+}
+
+input DotationUpdateInput {
+  comment: String
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_received: Float
+  user: UserUpdateOneWithoutDotationsInput
+  hold: HoldUpdateOneWithoutDotationsInput
+}
+
+input DotationUpdateManyDataInput {
+  comment: String
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_received: Float
+}
+
+input DotationUpdateManyMutationInput {
+  comment: String
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_received: Float
+}
+
+input DotationUpdateManyWithoutHoldInput {
+  create: [DotationCreateWithoutHoldInput!]
+  delete: [DotationWhereUniqueInput!]
+  connect: [DotationWhereUniqueInput!]
+  set: [DotationWhereUniqueInput!]
+  disconnect: [DotationWhereUniqueInput!]
+  update: [DotationUpdateWithWhereUniqueWithoutHoldInput!]
+  upsert: [DotationUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [DotationScalarWhereInput!]
+  updateMany: [DotationUpdateManyWithWhereNestedInput!]
+}
+
+input DotationUpdateManyWithoutUserInput {
+  create: [DotationCreateWithoutUserInput!]
+  delete: [DotationWhereUniqueInput!]
+  connect: [DotationWhereUniqueInput!]
+  set: [DotationWhereUniqueInput!]
+  disconnect: [DotationWhereUniqueInput!]
+  update: [DotationUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [DotationUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [DotationScalarWhereInput!]
+  updateMany: [DotationUpdateManyWithWhereNestedInput!]
+}
+
+input DotationUpdateManyWithWhereNestedInput {
+  where: DotationScalarWhereInput!
+  data: DotationUpdateManyDataInput!
+}
+
+input DotationUpdateWithoutHoldDataInput {
+  comment: String
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_received: Float
+  user: UserUpdateOneWithoutDotationsInput
+}
+
+input DotationUpdateWithoutUserDataInput {
+  comment: String
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_received: Float
+  hold: HoldUpdateOneWithoutDotationsInput
+}
+
+input DotationUpdateWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput!
+  data: DotationUpdateWithoutHoldDataInput!
+}
+
+input DotationUpdateWithWhereUniqueWithoutUserInput {
+  where: DotationWhereUniqueInput!
+  data: DotationUpdateWithoutUserDataInput!
+}
+
+input DotationUpsertWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput!
+  update: DotationUpdateWithoutHoldDataInput!
+  create: DotationCreateWithoutHoldInput!
+}
+
+input DotationUpsertWithWhereUniqueWithoutUserInput {
+  where: DotationWhereUniqueInput!
+  update: DotationUpdateWithoutUserDataInput!
+  create: DotationCreateWithoutUserInput!
+}
+
+input DotationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  comment: String
+  comment_not: String
+  comment_in: [String!]
+  comment_not_in: [String!]
+  comment_lt: String
+  comment_lte: String
+  comment_gt: String
+  comment_gte: String
+  comment_contains: String
+  comment_not_contains: String
+  comment_starts_with: String
+  comment_not_starts_with: String
+  comment_ends_with: String
+  comment_not_ends_with: String
+  start_date: DateTime
+  start_date_not: DateTime
+  start_date_in: [DateTime!]
+  start_date_not_in: [DateTime!]
+  start_date_lt: DateTime
+  start_date_lte: DateTime
+  start_date_gt: DateTime
+  start_date_gte: DateTime
+  end_date: DateTime
+  end_date_not: DateTime
+  end_date_in: [DateTime!]
+  end_date_not_in: [DateTime!]
+  end_date_lt: DateTime
+  end_date_lte: DateTime
+  end_date_gt: DateTime
+  end_date_gte: DateTime
+  number_of_liter_dotated: Float
+  number_of_liter_dotated_not: Float
+  number_of_liter_dotated_in: [Float!]
+  number_of_liter_dotated_not_in: [Float!]
+  number_of_liter_dotated_lt: Float
+  number_of_liter_dotated_lte: Float
+  number_of_liter_dotated_gt: Float
+  number_of_liter_dotated_gte: Float
+  number_of_liter_received: Float
+  number_of_liter_received_not: Float
+  number_of_liter_received_in: [Float!]
+  number_of_liter_received_not_in: [Float!]
+  number_of_liter_received_lt: Float
+  number_of_liter_received_lte: Float
+  number_of_liter_received_gt: Float
+  number_of_liter_received_gte: Float
+  user: UserWhereInput
+  hold: HoldWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [DotationWhereInput!]
+  OR: [DotationWhereInput!]
+  NOT: [DotationWhereInput!]
+}
+
+input DotationWhereUniqueInput {
+  id: ID
+}
+
+type Hold {
+  id: ID!
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  user: User!
+  bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
+  created_at: DateTime!
+}
+
+type HoldConnection {
+  pageInfo: PageInfo!
+  edges: [HoldEdge]!
+  aggregate: AggregateHold!
+}
+
+input HoldCreateInput {
+  id: ID
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  user: UserCreateOneWithoutHoldInput!
+  bons: HoldsOnBonsCreateManyWithoutHoldInput
+  dotations: DotationCreateManyWithoutHoldInput
+}
+
+input HoldCreateOneWithoutBonsInput {
+  create: HoldCreateWithoutBonsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldCreateOneWithoutDotationsInput {
+  create: HoldCreateWithoutDotationsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldCreateOneWithoutUserInput {
+  create: HoldCreateWithoutUserInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldCreateWithoutBonsInput {
+  id: ID
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  user: UserCreateOneWithoutHoldInput!
+  dotations: DotationCreateManyWithoutHoldInput
+}
+
+input HoldCreateWithoutDotationsInput {
+  id: ID
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  user: UserCreateOneWithoutHoldInput!
+  bons: HoldsOnBonsCreateManyWithoutHoldInput
+}
+
+input HoldCreateWithoutUserInput {
+  id: ID
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  bons: HoldsOnBonsCreateManyWithoutHoldInput
+  dotations: DotationCreateManyWithoutHoldInput
+}
+
+type HoldEdge {
+  node: Hold!
+  cursor: String!
+}
+
+enum HoldOrderByInput {
+  id_ASC
+  id_DESC
+  super_capacity_ASC
+  super_capacity_DESC
+  gazoil_capacity_ASC
+  gazoil_capacity_DESC
+  real_super_quantity_ASC
+  real_super_quantity_DESC
+  real_gazoil_quantity_ASC
+  real_gazoil_quantity_DESC
+  theorical_super_quantity_ASC
+  theorical_super_quantity_DESC
+  theorical_gazoil_quantity_ASC
+  theorical_gazoil_quantity_DESC
+  reserve_super_quantity_ASC
+  reserve_super_quantity_DESC
+  reserve_gazoil_quantity_ASC
+  reserve_gazoil_quantity_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type HoldPreviousValues {
+  id: ID!
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  real_super_quantity: Float!
+  real_gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  created_at: DateTime!
+}
+
+type HoldsOnBons {
+  id: ID!
+  hold: Hold!
+  bon: Bon!
+  created_at: DateTime!
+}
+
+type HoldsOnBonsConnection {
+  pageInfo: PageInfo!
+  edges: [HoldsOnBonsEdge]!
+  aggregate: AggregateHoldsOnBons!
+}
+
+input HoldsOnBonsCreateInput {
+  id: ID
+  hold: HoldCreateOneWithoutBonsInput!
+  bon: BonCreateOneWithoutHoldsInput!
+}
+
+input HoldsOnBonsCreateManyWithoutBonInput {
+  create: [HoldsOnBonsCreateWithoutBonInput!]
+  connect: [HoldsOnBonsWhereUniqueInput!]
+}
+
+input HoldsOnBonsCreateManyWithoutHoldInput {
+  create: [HoldsOnBonsCreateWithoutHoldInput!]
+  connect: [HoldsOnBonsWhereUniqueInput!]
+}
+
+input HoldsOnBonsCreateWithoutBonInput {
+  id: ID
+  hold: HoldCreateOneWithoutBonsInput!
+}
+
+input HoldsOnBonsCreateWithoutHoldInput {
+  id: ID
+  bon: BonCreateOneWithoutHoldsInput!
+}
+
+type HoldsOnBonsEdge {
+  node: HoldsOnBons!
+  cursor: String!
+}
+
+enum HoldsOnBonsOrderByInput {
+  id_ASC
+  id_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type HoldsOnBonsPreviousValues {
+  id: ID!
+  created_at: DateTime!
+}
+
+input HoldsOnBonsScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [HoldsOnBonsScalarWhereInput!]
+  OR: [HoldsOnBonsScalarWhereInput!]
+  NOT: [HoldsOnBonsScalarWhereInput!]
+}
+
+type HoldsOnBonsSubscriptionPayload {
+  mutation: MutationType!
+  node: HoldsOnBons
+  updatedFields: [String!]
+  previousValues: HoldsOnBonsPreviousValues
+}
+
+input HoldsOnBonsSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HoldsOnBonsWhereInput
+  AND: [HoldsOnBonsSubscriptionWhereInput!]
+  OR: [HoldsOnBonsSubscriptionWhereInput!]
+  NOT: [HoldsOnBonsSubscriptionWhereInput!]
+}
+
+input HoldsOnBonsUpdateInput {
+  hold: HoldUpdateOneRequiredWithoutBonsInput
+  bon: BonUpdateOneRequiredWithoutHoldsInput
+}
+
+input HoldsOnBonsUpdateManyWithoutBonInput {
+  create: [HoldsOnBonsCreateWithoutBonInput!]
+  delete: [HoldsOnBonsWhereUniqueInput!]
+  connect: [HoldsOnBonsWhereUniqueInput!]
+  set: [HoldsOnBonsWhereUniqueInput!]
+  disconnect: [HoldsOnBonsWhereUniqueInput!]
+  update: [HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput!]
+  upsert: [HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput!]
+  deleteMany: [HoldsOnBonsScalarWhereInput!]
+}
+
+input HoldsOnBonsUpdateManyWithoutHoldInput {
+  create: [HoldsOnBonsCreateWithoutHoldInput!]
+  delete: [HoldsOnBonsWhereUniqueInput!]
+  connect: [HoldsOnBonsWhereUniqueInput!]
+  set: [HoldsOnBonsWhereUniqueInput!]
+  disconnect: [HoldsOnBonsWhereUniqueInput!]
+  update: [HoldsOnBonsUpdateWithWhereUniqueWithoutHoldInput!]
+  upsert: [HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [HoldsOnBonsScalarWhereInput!]
+}
+
+input HoldsOnBonsUpdateWithoutBonDataInput {
+  hold: HoldUpdateOneRequiredWithoutBonsInput
+}
+
+input HoldsOnBonsUpdateWithoutHoldDataInput {
+  bon: BonUpdateOneRequiredWithoutHoldsInput
+}
+
+input HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput {
+  where: HoldsOnBonsWhereUniqueInput!
+  data: HoldsOnBonsUpdateWithoutBonDataInput!
+}
+
+input HoldsOnBonsUpdateWithWhereUniqueWithoutHoldInput {
+  where: HoldsOnBonsWhereUniqueInput!
+  data: HoldsOnBonsUpdateWithoutHoldDataInput!
+}
+
+input HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput {
+  where: HoldsOnBonsWhereUniqueInput!
+  update: HoldsOnBonsUpdateWithoutBonDataInput!
+  create: HoldsOnBonsCreateWithoutBonInput!
+}
+
+input HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput {
+  where: HoldsOnBonsWhereUniqueInput!
+  update: HoldsOnBonsUpdateWithoutHoldDataInput!
+  create: HoldsOnBonsCreateWithoutHoldInput!
+}
+
+input HoldsOnBonsWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  hold: HoldWhereInput
+  bon: BonWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [HoldsOnBonsWhereInput!]
+  OR: [HoldsOnBonsWhereInput!]
+  NOT: [HoldsOnBonsWhereInput!]
+}
+
+input HoldsOnBonsWhereUniqueInput {
+  id: ID
+}
+
+type HoldSubscriptionPayload {
+  mutation: MutationType!
+  node: Hold
+  updatedFields: [String!]
+  previousValues: HoldPreviousValues
+}
+
+input HoldSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HoldWhereInput
+  AND: [HoldSubscriptionWhereInput!]
+  OR: [HoldSubscriptionWhereInput!]
+  NOT: [HoldSubscriptionWhereInput!]
+}
+
+input HoldUpdateInput {
+  super_capacity: Float
+  gazoil_capacity: Float
+  real_super_quantity: Float
+  real_gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  user: UserUpdateOneRequiredWithoutHoldInput
+  bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  dotations: DotationUpdateManyWithoutHoldInput
+}
+
+input HoldUpdateManyMutationInput {
+  super_capacity: Float
+  gazoil_capacity: Float
+  real_super_quantity: Float
+  real_gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+}
+
+input HoldUpdateOneRequiredWithoutBonsInput {
+  create: HoldCreateWithoutBonsInput
+  update: HoldUpdateWithoutBonsDataInput
+  upsert: HoldUpsertWithoutBonsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldUpdateOneWithoutDotationsInput {
+  create: HoldCreateWithoutDotationsInput
+  update: HoldUpdateWithoutDotationsDataInput
+  upsert: HoldUpsertWithoutDotationsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: HoldWhereUniqueInput
+}
+
+input HoldUpdateOneWithoutUserInput {
+  create: HoldCreateWithoutUserInput
+  update: HoldUpdateWithoutUserDataInput
+  upsert: HoldUpsertWithoutUserInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: HoldWhereUniqueInput
+}
+
+input HoldUpdateWithoutBonsDataInput {
+  super_capacity: Float
+  gazoil_capacity: Float
+  real_super_quantity: Float
+  real_gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  user: UserUpdateOneRequiredWithoutHoldInput
+  dotations: DotationUpdateManyWithoutHoldInput
+}
+
+input HoldUpdateWithoutDotationsDataInput {
+  super_capacity: Float
+  gazoil_capacity: Float
+  real_super_quantity: Float
+  real_gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  user: UserUpdateOneRequiredWithoutHoldInput
+  bons: HoldsOnBonsUpdateManyWithoutHoldInput
+}
+
+input HoldUpdateWithoutUserDataInput {
+  super_capacity: Float
+  gazoil_capacity: Float
+  real_super_quantity: Float
+  real_gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  dotations: DotationUpdateManyWithoutHoldInput
+}
+
+input HoldUpsertWithoutBonsInput {
+  update: HoldUpdateWithoutBonsDataInput!
+  create: HoldCreateWithoutBonsInput!
+}
+
+input HoldUpsertWithoutDotationsInput {
+  update: HoldUpdateWithoutDotationsDataInput!
+  create: HoldCreateWithoutDotationsInput!
+}
+
+input HoldUpsertWithoutUserInput {
+  update: HoldUpdateWithoutUserDataInput!
+  create: HoldCreateWithoutUserInput!
+}
+
+input HoldWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  super_capacity: Float
+  super_capacity_not: Float
+  super_capacity_in: [Float!]
+  super_capacity_not_in: [Float!]
+  super_capacity_lt: Float
+  super_capacity_lte: Float
+  super_capacity_gt: Float
+  super_capacity_gte: Float
+  gazoil_capacity: Float
+  gazoil_capacity_not: Float
+  gazoil_capacity_in: [Float!]
+  gazoil_capacity_not_in: [Float!]
+  gazoil_capacity_lt: Float
+  gazoil_capacity_lte: Float
+  gazoil_capacity_gt: Float
+  gazoil_capacity_gte: Float
+  real_super_quantity: Float
+  real_super_quantity_not: Float
+  real_super_quantity_in: [Float!]
+  real_super_quantity_not_in: [Float!]
+  real_super_quantity_lt: Float
+  real_super_quantity_lte: Float
+  real_super_quantity_gt: Float
+  real_super_quantity_gte: Float
+  real_gazoil_quantity: Float
+  real_gazoil_quantity_not: Float
+  real_gazoil_quantity_in: [Float!]
+  real_gazoil_quantity_not_in: [Float!]
+  real_gazoil_quantity_lt: Float
+  real_gazoil_quantity_lte: Float
+  real_gazoil_quantity_gt: Float
+  real_gazoil_quantity_gte: Float
+  theorical_super_quantity: Float
+  theorical_super_quantity_not: Float
+  theorical_super_quantity_in: [Float!]
+  theorical_super_quantity_not_in: [Float!]
+  theorical_super_quantity_lt: Float
+  theorical_super_quantity_lte: Float
+  theorical_super_quantity_gt: Float
+  theorical_super_quantity_gte: Float
+  theorical_gazoil_quantity: Float
+  theorical_gazoil_quantity_not: Float
+  theorical_gazoil_quantity_in: [Float!]
+  theorical_gazoil_quantity_not_in: [Float!]
+  theorical_gazoil_quantity_lt: Float
+  theorical_gazoil_quantity_lte: Float
+  theorical_gazoil_quantity_gt: Float
+  theorical_gazoil_quantity_gte: Float
+  reserve_super_quantity: Float
+  reserve_super_quantity_not: Float
+  reserve_super_quantity_in: [Float!]
+  reserve_super_quantity_not_in: [Float!]
+  reserve_super_quantity_lt: Float
+  reserve_super_quantity_lte: Float
+  reserve_super_quantity_gt: Float
+  reserve_super_quantity_gte: Float
+  reserve_gazoil_quantity: Float
+  reserve_gazoil_quantity_not: Float
+  reserve_gazoil_quantity_in: [Float!]
+  reserve_gazoil_quantity_not_in: [Float!]
+  reserve_gazoil_quantity_lt: Float
+  reserve_gazoil_quantity_lte: Float
+  reserve_gazoil_quantity_gt: Float
+  reserve_gazoil_quantity_gte: Float
+  user: UserWhereInput
+  bons_every: HoldsOnBonsWhereInput
+  bons_some: HoldsOnBonsWhereInput
+  bons_none: HoldsOnBonsWhereInput
+  dotations_every: DotationWhereInput
+  dotations_some: DotationWhereInput
+  dotations_none: DotationWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [HoldWhereInput!]
+  OR: [HoldWhereInput!]
+  NOT: [HoldWhereInput!]
+}
+
+input HoldWhereUniqueInput {
+  id: ID
+}
 
 type Log {
   id: ID!
   action: String!
   user: User!
-  createdAt: DateTime!
+  created_at: DateTime!
 }
 
 type LogConnection {
@@ -56,14 +1512,14 @@ enum LogOrderByInput {
   id_DESC
   action_ASC
   action_DESC
-  createdAt_ASC
-  createdAt_DESC
+  created_at_ASC
+  created_at_DESC
 }
 
 type LogPreviousValues {
   id: ID!
   action: String!
-  createdAt: DateTime!
+  created_at: DateTime!
 }
 
 input LogScalarWhereInput {
@@ -95,14 +1551,14 @@ input LogScalarWhereInput {
   action_not_starts_with: String
   action_ends_with: String
   action_not_ends_with: String
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
   AND: [LogScalarWhereInput!]
   OR: [LogScalarWhereInput!]
   NOT: [LogScalarWhereInput!]
@@ -201,14 +1657,14 @@ input LogWhereInput {
   action_ends_with: String
   action_not_ends_with: String
   user: UserWhereInput
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
   AND: [LogWhereInput!]
   OR: [LogWhereInput!]
   NOT: [LogWhereInput!]
@@ -221,6 +1677,29 @@ input LogWhereUniqueInput {
 scalar Long
 
 type Mutation {
+  createBon(data: BonCreateInput!): Bon!
+  updateBon(data: BonUpdateInput!, where: BonWhereUniqueInput!): Bon
+  updateManyBons(data: BonUpdateManyMutationInput!, where: BonWhereInput): BatchPayload!
+  upsertBon(where: BonWhereUniqueInput!, create: BonCreateInput!, update: BonUpdateInput!): Bon!
+  deleteBon(where: BonWhereUniqueInput!): Bon
+  deleteManyBons(where: BonWhereInput): BatchPayload!
+  createDotation(data: DotationCreateInput!): Dotation!
+  updateDotation(data: DotationUpdateInput!, where: DotationWhereUniqueInput!): Dotation
+  updateManyDotations(data: DotationUpdateManyMutationInput!, where: DotationWhereInput): BatchPayload!
+  upsertDotation(where: DotationWhereUniqueInput!, create: DotationCreateInput!, update: DotationUpdateInput!): Dotation!
+  deleteDotation(where: DotationWhereUniqueInput!): Dotation
+  deleteManyDotations(where: DotationWhereInput): BatchPayload!
+  createHold(data: HoldCreateInput!): Hold!
+  updateHold(data: HoldUpdateInput!, where: HoldWhereUniqueInput!): Hold
+  updateManyHolds(data: HoldUpdateManyMutationInput!, where: HoldWhereInput): BatchPayload!
+  upsertHold(where: HoldWhereUniqueInput!, create: HoldCreateInput!, update: HoldUpdateInput!): Hold!
+  deleteHold(where: HoldWhereUniqueInput!): Hold
+  deleteManyHolds(where: HoldWhereInput): BatchPayload!
+  createHoldsOnBons(data: HoldsOnBonsCreateInput!): HoldsOnBons!
+  updateHoldsOnBons(data: HoldsOnBonsUpdateInput!, where: HoldsOnBonsWhereUniqueInput!): HoldsOnBons
+  upsertHoldsOnBons(where: HoldsOnBonsWhereUniqueInput!, create: HoldsOnBonsCreateInput!, update: HoldsOnBonsUpdateInput!): HoldsOnBons!
+  deleteHoldsOnBons(where: HoldsOnBonsWhereUniqueInput!): HoldsOnBons
+  deleteManyHoldsOnBonses(where: HoldsOnBonsWhereInput): BatchPayload!
   createLog(data: LogCreateInput!): Log!
   updateLog(data: LogUpdateInput!, where: LogWhereUniqueInput!): Log
   updateManyLogs(data: LogUpdateManyMutationInput!, where: LogWhereInput): BatchPayload!
@@ -253,6 +1732,18 @@ type PageInfo {
 }
 
 type Query {
+  bon(where: BonWhereUniqueInput!): Bon
+  bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon]!
+  bonsConnection(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BonConnection!
+  dotation(where: DotationWhereUniqueInput!): Dotation
+  dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation]!
+  dotationsConnection(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DotationConnection!
+  hold(where: HoldWhereUniqueInput!): Hold
+  holds(where: HoldWhereInput, orderBy: HoldOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Hold]!
+  holdsConnection(where: HoldWhereInput, orderBy: HoldOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HoldConnection!
+  holdsOnBons(where: HoldsOnBonsWhereUniqueInput!): HoldsOnBons
+  holdsOnBonses(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons]!
+  holdsOnBonsesConnection(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HoldsOnBonsConnection!
   log(where: LogWhereUniqueInput!): Log
   logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log]!
   logsConnection(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LogConnection!
@@ -263,6 +1754,10 @@ type Query {
 }
 
 type Subscription {
+  bon(where: BonSubscriptionWhereInput): BonSubscriptionPayload
+  dotation(where: DotationSubscriptionWhereInput): DotationSubscriptionPayload
+  hold(where: HoldSubscriptionWhereInput): HoldSubscriptionPayload
+  holdsOnBons(where: HoldsOnBonsSubscriptionWhereInput): HoldsOnBonsSubscriptionPayload
   log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -275,11 +1770,14 @@ type User {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float
+  reserve: Float!
   role: String!
   password: String!
-  createdAt: DateTime!
   logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log!]
+  bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon!]
+  dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
+  hold: Hold
+  created_at: DateTime!
 }
 
 type UserConnection {
@@ -296,15 +1794,81 @@ input UserCreateInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float
+  reserve: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
+  bons: BonCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUserInput
+}
+
+input UserCreateOneWithoutBonsInput {
+  create: UserCreateWithoutBonsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutDotationsInput {
+  create: UserCreateWithoutDotationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutHoldInput {
+  create: UserCreateWithoutHoldInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutLogsInput {
   create: UserCreateWithoutLogsInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutBonsInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  reserve: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUserInput
+}
+
+input UserCreateWithoutDotationsInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  reserve: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+  bons: BonCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUserInput
+}
+
+input UserCreateWithoutHoldInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  reserve: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+  bons: BonCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutLogsInput {
@@ -315,9 +1879,12 @@ input UserCreateWithoutLogsInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float
+  reserve: Float!
   role: String!
   password: String!
+  bons: BonCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUserInput
 }
 
 type UserEdge {
@@ -346,8 +1913,8 @@ enum UserOrderByInput {
   role_DESC
   password_ASC
   password_DESC
-  createdAt_ASC
-  createdAt_DESC
+  created_at_ASC
+  created_at_DESC
 }
 
 type UserPreviousValues {
@@ -358,10 +1925,10 @@ type UserPreviousValues {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float
+  reserve: Float!
   role: String!
   password: String!
-  createdAt: DateTime!
+  created_at: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -393,6 +1960,9 @@ input UserUpdateInput {
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
+  bons: BonUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -407,11 +1977,79 @@ input UserUpdateManyMutationInput {
   password: String
 }
 
+input UserUpdateOneRequiredWithoutBonsInput {
+  create: UserCreateWithoutBonsInput
+  update: UserUpdateWithoutBonsDataInput
+  upsert: UserUpsertWithoutBonsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredWithoutHoldInput {
+  create: UserCreateWithoutHoldInput
+  update: UserUpdateWithoutHoldDataInput
+  upsert: UserUpsertWithoutHoldInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneRequiredWithoutLogsInput {
   create: UserCreateWithoutLogsInput
   update: UserUpdateWithoutLogsDataInput
   upsert: UserUpsertWithoutLogsInput
   connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneWithoutDotationsInput {
+  create: UserCreateWithoutDotationsInput
+  update: UserUpdateWithoutDotationsDataInput
+  upsert: UserUpsertWithoutDotationsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutBonsDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUserInput
+}
+
+input UserUpdateWithoutDotationsDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
+  bons: BonUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUserInput
+}
+
+input UserUpdateWithoutHoldDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
+  bons: BonUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutLogsDataInput {
@@ -424,6 +2062,24 @@ input UserUpdateWithoutLogsDataInput {
   reserve: Float
   role: String
   password: String
+  bons: BonUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUserInput
+}
+
+input UserUpsertWithoutBonsInput {
+  update: UserUpdateWithoutBonsDataInput!
+  create: UserCreateWithoutBonsInput!
+}
+
+input UserUpsertWithoutDotationsInput {
+  update: UserUpdateWithoutDotationsDataInput!
+  create: UserCreateWithoutDotationsInput!
+}
+
+input UserUpsertWithoutHoldInput {
+  update: UserUpdateWithoutHoldDataInput!
+  create: UserCreateWithoutHoldInput!
 }
 
 input UserUpsertWithoutLogsInput {
@@ -554,17 +2210,24 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
-  createdAt: DateTime
-  createdAt_not: DateTime
-  createdAt_in: [DateTime!]
-  createdAt_not_in: [DateTime!]
-  createdAt_lt: DateTime
-  createdAt_lte: DateTime
-  createdAt_gt: DateTime
-  createdAt_gte: DateTime
   logs_every: LogWhereInput
   logs_some: LogWhereInput
   logs_none: LogWhereInput
+  bons_every: BonWhereInput
+  bons_some: BonWhereInput
+  bons_none: BonWhereInput
+  dotations_every: DotationWhereInput
+  dotations_some: DotationWhereInput
+  dotations_none: DotationWhereInput
+  hold: HoldWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

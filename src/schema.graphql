@@ -22,17 +22,69 @@ type User{
    username: String!
    fullname: String!
    phone: String!
-   reserve: Float
+   reserve: Float!
    role: String!
    password: String!
-   createdAt: String!
-   logs: [Log!]!
+   logs: [Log!]
+   bons: [Bon!]
+   dotations: [Dotation!]
+   hold: Hold
+   created_at: String!
+}
+type Dotation{
+    id: ID!
+    comment: String!
+    start_date: String!
+    end_date: String!
+    number_of_liter_dotated: Float!
+    number_of_liter_received: Float!
+    user: User 
+    hold: Hold 
+    created_at: String!
 }
 type Log{
     id: ID!
     action: String!
     user: User!
-    createdAt: String!
+    created_at: String!
+}
+type Hold{
+    id: ID!
+    super_capacity: Float!
+    gazoil_capacity: Float!
+    real_super_quantity: Float!
+    real_gazoil_quantity: Float!
+    theorical_super_quantity: Float!
+    theorical_gazoil_quantity: Float!
+    reserve_super_quantity: Float!
+    reserve_gazoil_quantity: Float!
+    user: User!
+    bons: [HoldsOnBons!]
+    dotations: [Dotation!]
+    created_at: String!
+}
+type HoldsOnBons{
+    id: ID!
+    hold: Hold!
+    bon: Bon!
+    created_at: String!
+}
+type Bon{
+    id: ID!
+    consumed: Boolean!
+    coverage_when_consuming: Float!
+    consumed_date: String!
+    emission_date: String!
+    departure: String!
+    destination: String!
+    fuel_type: String!
+    reason: String!
+    number_of_liter: Float!
+    initial_number_of_liter: Float!
+    status: Boolean!
+    user: User!
+    holds: [HoldsOnBons!]!
+    created_at: String!
 }
 
 `

@@ -16,6 +16,10 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  bon: (where?: BonWhereInput) => Promise<boolean>;
+  dotation: (where?: DotationWhereInput) => Promise<boolean>;
+  hold: (where?: HoldWhereInput) => Promise<boolean>;
+  holdsOnBons: (where?: HoldsOnBonsWhereInput) => Promise<boolean>;
   log: (where?: LogWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -39,6 +43,84 @@ export interface Prisma {
    * Queries
    */
 
+  bon: (where: BonWhereUniqueInput) => BonNullablePromise;
+  bons: (args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Bon>;
+  bonsConnection: (args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => BonConnectionPromise;
+  dotation: (where: DotationWhereUniqueInput) => DotationNullablePromise;
+  dotations: (args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Dotation>;
+  dotationsConnection: (args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => DotationConnectionPromise;
+  hold: (where: HoldWhereUniqueInput) => HoldNullablePromise;
+  holds: (args?: {
+    where?: HoldWhereInput;
+    orderBy?: HoldOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Hold>;
+  holdsConnection: (args?: {
+    where?: HoldWhereInput;
+    orderBy?: HoldOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => HoldConnectionPromise;
+  holdsOnBons: (
+    where: HoldsOnBonsWhereUniqueInput
+  ) => HoldsOnBonsNullablePromise;
+  holdsOnBonses: (args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<HoldsOnBons>;
+  holdsOnBonsesConnection: (args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => HoldsOnBonsConnectionPromise;
   log: (where: LogWhereUniqueInput) => LogNullablePromise;
   logs: (args?: {
     where?: LogWhereInput;
@@ -83,6 +165,68 @@ export interface Prisma {
    * Mutations
    */
 
+  createBon: (data: BonCreateInput) => BonPromise;
+  updateBon: (args: {
+    data: BonUpdateInput;
+    where: BonWhereUniqueInput;
+  }) => BonPromise;
+  updateManyBons: (args: {
+    data: BonUpdateManyMutationInput;
+    where?: BonWhereInput;
+  }) => BatchPayloadPromise;
+  upsertBon: (args: {
+    where: BonWhereUniqueInput;
+    create: BonCreateInput;
+    update: BonUpdateInput;
+  }) => BonPromise;
+  deleteBon: (where: BonWhereUniqueInput) => BonPromise;
+  deleteManyBons: (where?: BonWhereInput) => BatchPayloadPromise;
+  createDotation: (data: DotationCreateInput) => DotationPromise;
+  updateDotation: (args: {
+    data: DotationUpdateInput;
+    where: DotationWhereUniqueInput;
+  }) => DotationPromise;
+  updateManyDotations: (args: {
+    data: DotationUpdateManyMutationInput;
+    where?: DotationWhereInput;
+  }) => BatchPayloadPromise;
+  upsertDotation: (args: {
+    where: DotationWhereUniqueInput;
+    create: DotationCreateInput;
+    update: DotationUpdateInput;
+  }) => DotationPromise;
+  deleteDotation: (where: DotationWhereUniqueInput) => DotationPromise;
+  deleteManyDotations: (where?: DotationWhereInput) => BatchPayloadPromise;
+  createHold: (data: HoldCreateInput) => HoldPromise;
+  updateHold: (args: {
+    data: HoldUpdateInput;
+    where: HoldWhereUniqueInput;
+  }) => HoldPromise;
+  updateManyHolds: (args: {
+    data: HoldUpdateManyMutationInput;
+    where?: HoldWhereInput;
+  }) => BatchPayloadPromise;
+  upsertHold: (args: {
+    where: HoldWhereUniqueInput;
+    create: HoldCreateInput;
+    update: HoldUpdateInput;
+  }) => HoldPromise;
+  deleteHold: (where: HoldWhereUniqueInput) => HoldPromise;
+  deleteManyHolds: (where?: HoldWhereInput) => BatchPayloadPromise;
+  createHoldsOnBons: (data: HoldsOnBonsCreateInput) => HoldsOnBonsPromise;
+  updateHoldsOnBons: (args: {
+    data: HoldsOnBonsUpdateInput;
+    where: HoldsOnBonsWhereUniqueInput;
+  }) => HoldsOnBonsPromise;
+  upsertHoldsOnBons: (args: {
+    where: HoldsOnBonsWhereUniqueInput;
+    create: HoldsOnBonsCreateInput;
+    update: HoldsOnBonsUpdateInput;
+  }) => HoldsOnBonsPromise;
+  deleteHoldsOnBons: (where: HoldsOnBonsWhereUniqueInput) => HoldsOnBonsPromise;
+  deleteManyHoldsOnBonses: (
+    where?: HoldsOnBonsWhereInput
+  ) => BatchPayloadPromise;
   createLog: (data: LogCreateInput) => LogPromise;
   updateLog: (args: {
     data: LogUpdateInput;
@@ -124,6 +268,18 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  bon: (
+    where?: BonSubscriptionWhereInput
+  ) => BonSubscriptionPayloadSubscription;
+  dotation: (
+    where?: DotationSubscriptionWhereInput
+  ) => DotationSubscriptionPayloadSubscription;
+  hold: (
+    where?: HoldSubscriptionWhereInput
+  ) => HoldSubscriptionPayloadSubscription;
+  holdsOnBons: (
+    where?: HoldsOnBonsSubscriptionWhereInput
+  ) => HoldsOnBonsSubscriptionPayloadSubscription;
   log: (
     where?: LogSubscriptionWhereInput
   ) => LogSubscriptionPayloadSubscription;
@@ -145,8 +301,80 @@ export type LogOrderByInput =
   | "id_DESC"
   | "action_ASC"
   | "action_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC";
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type BonOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "consumed_ASC"
+  | "consumed_DESC"
+  | "coverage_when_consuming_ASC"
+  | "coverage_when_consuming_DESC"
+  | "consumed_date_ASC"
+  | "consumed_date_DESC"
+  | "emission_date_ASC"
+  | "emission_date_DESC"
+  | "departure_ASC"
+  | "departure_DESC"
+  | "destination_ASC"
+  | "destination_DESC"
+  | "fuel_type_ASC"
+  | "fuel_type_DESC"
+  | "reason_ASC"
+  | "reason_DESC"
+  | "number_of_liter_ASC"
+  | "number_of_liter_DESC"
+  | "initial_number_of_liter_ASC"
+  | "initial_number_of_liter_DESC"
+  | "status_ASC"
+  | "status_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type DotationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "comment_ASC"
+  | "comment_DESC"
+  | "start_date_ASC"
+  | "start_date_DESC"
+  | "end_date_ASC"
+  | "end_date_DESC"
+  | "number_of_liter_dotated_ASC"
+  | "number_of_liter_dotated_DESC"
+  | "number_of_liter_received_ASC"
+  | "number_of_liter_received_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type HoldsOnBonsOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type HoldOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "super_capacity_ASC"
+  | "super_capacity_DESC"
+  | "gazoil_capacity_ASC"
+  | "gazoil_capacity_DESC"
+  | "real_super_quantity_ASC"
+  | "real_super_quantity_DESC"
+  | "real_gazoil_quantity_ASC"
+  | "real_gazoil_quantity_DESC"
+  | "theorical_super_quantity_ASC"
+  | "theorical_super_quantity_DESC"
+  | "theorical_gazoil_quantity_ASC"
+  | "theorical_gazoil_quantity_DESC"
+  | "reserve_super_quantity_ASC"
+  | "reserve_super_quantity_DESC"
+  | "reserve_gazoil_quantity_ASC"
+  | "reserve_gazoil_quantity_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -169,12 +397,12 @@ export type UserOrderByInput =
   | "role_DESC"
   | "password_ASC"
   | "password_DESC"
-  | "createdAt_ASC"
-  | "createdAt_DESC";
+  | "created_at_ASC"
+  | "created_at_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type LogWhereUniqueInput = AtLeastOne<{
+export type BonWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -208,14 +436,14 @@ export interface LogWhereInput {
   action_ends_with?: Maybe<String>;
   action_not_ends_with?: Maybe<String>;
   user?: Maybe<UserWhereInput>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<LogWhereInput[] | LogWhereInput>;
   OR?: Maybe<LogWhereInput[] | LogWhereInput>;
   NOT?: Maybe<LogWhereInput[] | LogWhereInput>;
@@ -344,21 +572,381 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
   logs_every?: Maybe<LogWhereInput>;
   logs_some?: Maybe<LogWhereInput>;
   logs_none?: Maybe<LogWhereInput>;
+  bons_every?: Maybe<BonWhereInput>;
+  bons_some?: Maybe<BonWhereInput>;
+  bons_none?: Maybe<BonWhereInput>;
+  dotations_every?: Maybe<DotationWhereInput>;
+  dotations_some?: Maybe<DotationWhereInput>;
+  dotations_none?: Maybe<DotationWhereInput>;
+  hold?: Maybe<HoldWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
+
+export interface BonWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  consumed?: Maybe<Boolean>;
+  consumed_not?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  coverage_when_consuming_not?: Maybe<Float>;
+  coverage_when_consuming_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_not_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_lt?: Maybe<Float>;
+  coverage_when_consuming_lte?: Maybe<Float>;
+  coverage_when_consuming_gt?: Maybe<Float>;
+  coverage_when_consuming_gte?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  consumed_date_not?: Maybe<DateTimeInput>;
+  consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_lt?: Maybe<DateTimeInput>;
+  consumed_date_lte?: Maybe<DateTimeInput>;
+  consumed_date_gt?: Maybe<DateTimeInput>;
+  consumed_date_gte?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  emission_date_not?: Maybe<DateTimeInput>;
+  emission_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_lt?: Maybe<DateTimeInput>;
+  emission_date_lte?: Maybe<DateTimeInput>;
+  emission_date_gt?: Maybe<DateTimeInput>;
+  emission_date_gte?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  departure_not?: Maybe<String>;
+  departure_in?: Maybe<String[] | String>;
+  departure_not_in?: Maybe<String[] | String>;
+  departure_lt?: Maybe<String>;
+  departure_lte?: Maybe<String>;
+  departure_gt?: Maybe<String>;
+  departure_gte?: Maybe<String>;
+  departure_contains?: Maybe<String>;
+  departure_not_contains?: Maybe<String>;
+  departure_starts_with?: Maybe<String>;
+  departure_not_starts_with?: Maybe<String>;
+  departure_ends_with?: Maybe<String>;
+  departure_not_ends_with?: Maybe<String>;
+  destination?: Maybe<String>;
+  destination_not?: Maybe<String>;
+  destination_in?: Maybe<String[] | String>;
+  destination_not_in?: Maybe<String[] | String>;
+  destination_lt?: Maybe<String>;
+  destination_lte?: Maybe<String>;
+  destination_gt?: Maybe<String>;
+  destination_gte?: Maybe<String>;
+  destination_contains?: Maybe<String>;
+  destination_not_contains?: Maybe<String>;
+  destination_starts_with?: Maybe<String>;
+  destination_not_starts_with?: Maybe<String>;
+  destination_ends_with?: Maybe<String>;
+  destination_not_ends_with?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  fuel_type_not?: Maybe<String>;
+  fuel_type_in?: Maybe<String[] | String>;
+  fuel_type_not_in?: Maybe<String[] | String>;
+  fuel_type_lt?: Maybe<String>;
+  fuel_type_lte?: Maybe<String>;
+  fuel_type_gt?: Maybe<String>;
+  fuel_type_gte?: Maybe<String>;
+  fuel_type_contains?: Maybe<String>;
+  fuel_type_not_contains?: Maybe<String>;
+  fuel_type_starts_with?: Maybe<String>;
+  fuel_type_not_starts_with?: Maybe<String>;
+  fuel_type_ends_with?: Maybe<String>;
+  fuel_type_not_ends_with?: Maybe<String>;
+  reason?: Maybe<String>;
+  reason_not?: Maybe<String>;
+  reason_in?: Maybe<String[] | String>;
+  reason_not_in?: Maybe<String[] | String>;
+  reason_lt?: Maybe<String>;
+  reason_lte?: Maybe<String>;
+  reason_gt?: Maybe<String>;
+  reason_gte?: Maybe<String>;
+  reason_contains?: Maybe<String>;
+  reason_not_contains?: Maybe<String>;
+  reason_starts_with?: Maybe<String>;
+  reason_not_starts_with?: Maybe<String>;
+  reason_ends_with?: Maybe<String>;
+  reason_not_ends_with?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  number_of_liter_not?: Maybe<Float>;
+  number_of_liter_in?: Maybe<Float[] | Float>;
+  number_of_liter_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_lt?: Maybe<Float>;
+  number_of_liter_lte?: Maybe<Float>;
+  number_of_liter_gt?: Maybe<Float>;
+  number_of_liter_gte?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  initial_number_of_liter_not?: Maybe<Float>;
+  initial_number_of_liter_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_not_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_lt?: Maybe<Float>;
+  initial_number_of_liter_lte?: Maybe<Float>;
+  initial_number_of_liter_gt?: Maybe<Float>;
+  initial_number_of_liter_gte?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  status_not?: Maybe<Boolean>;
+  user?: Maybe<UserWhereInput>;
+  holds_every?: Maybe<HoldsOnBonsWhereInput>;
+  holds_some?: Maybe<HoldsOnBonsWhereInput>;
+  holds_none?: Maybe<HoldsOnBonsWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<BonWhereInput[] | BonWhereInput>;
+  OR?: Maybe<BonWhereInput[] | BonWhereInput>;
+  NOT?: Maybe<BonWhereInput[] | BonWhereInput>;
+}
+
+export interface HoldsOnBonsWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  hold?: Maybe<HoldWhereInput>;
+  bon?: Maybe<BonWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
+  OR?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
+  NOT?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
+}
+
+export interface HoldWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  super_capacity?: Maybe<Float>;
+  super_capacity_not?: Maybe<Float>;
+  super_capacity_in?: Maybe<Float[] | Float>;
+  super_capacity_not_in?: Maybe<Float[] | Float>;
+  super_capacity_lt?: Maybe<Float>;
+  super_capacity_lte?: Maybe<Float>;
+  super_capacity_gt?: Maybe<Float>;
+  super_capacity_gte?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  gazoil_capacity_not?: Maybe<Float>;
+  gazoil_capacity_in?: Maybe<Float[] | Float>;
+  gazoil_capacity_not_in?: Maybe<Float[] | Float>;
+  gazoil_capacity_lt?: Maybe<Float>;
+  gazoil_capacity_lte?: Maybe<Float>;
+  gazoil_capacity_gt?: Maybe<Float>;
+  gazoil_capacity_gte?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_super_quantity_not?: Maybe<Float>;
+  real_super_quantity_in?: Maybe<Float[] | Float>;
+  real_super_quantity_not_in?: Maybe<Float[] | Float>;
+  real_super_quantity_lt?: Maybe<Float>;
+  real_super_quantity_lte?: Maybe<Float>;
+  real_super_quantity_gt?: Maybe<Float>;
+  real_super_quantity_gte?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  real_gazoil_quantity_not?: Maybe<Float>;
+  real_gazoil_quantity_in?: Maybe<Float[] | Float>;
+  real_gazoil_quantity_not_in?: Maybe<Float[] | Float>;
+  real_gazoil_quantity_lt?: Maybe<Float>;
+  real_gazoil_quantity_lte?: Maybe<Float>;
+  real_gazoil_quantity_gt?: Maybe<Float>;
+  real_gazoil_quantity_gte?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_super_quantity_not?: Maybe<Float>;
+  theorical_super_quantity_in?: Maybe<Float[] | Float>;
+  theorical_super_quantity_not_in?: Maybe<Float[] | Float>;
+  theorical_super_quantity_lt?: Maybe<Float>;
+  theorical_super_quantity_lte?: Maybe<Float>;
+  theorical_super_quantity_gt?: Maybe<Float>;
+  theorical_super_quantity_gte?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity_not?: Maybe<Float>;
+  theorical_gazoil_quantity_in?: Maybe<Float[] | Float>;
+  theorical_gazoil_quantity_not_in?: Maybe<Float[] | Float>;
+  theorical_gazoil_quantity_lt?: Maybe<Float>;
+  theorical_gazoil_quantity_lte?: Maybe<Float>;
+  theorical_gazoil_quantity_gt?: Maybe<Float>;
+  theorical_gazoil_quantity_gte?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_super_quantity_not?: Maybe<Float>;
+  reserve_super_quantity_in?: Maybe<Float[] | Float>;
+  reserve_super_quantity_not_in?: Maybe<Float[] | Float>;
+  reserve_super_quantity_lt?: Maybe<Float>;
+  reserve_super_quantity_lte?: Maybe<Float>;
+  reserve_super_quantity_gt?: Maybe<Float>;
+  reserve_super_quantity_gte?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity_not?: Maybe<Float>;
+  reserve_gazoil_quantity_in?: Maybe<Float[] | Float>;
+  reserve_gazoil_quantity_not_in?: Maybe<Float[] | Float>;
+  reserve_gazoil_quantity_lt?: Maybe<Float>;
+  reserve_gazoil_quantity_lte?: Maybe<Float>;
+  reserve_gazoil_quantity_gt?: Maybe<Float>;
+  reserve_gazoil_quantity_gte?: Maybe<Float>;
+  user?: Maybe<UserWhereInput>;
+  bons_every?: Maybe<HoldsOnBonsWhereInput>;
+  bons_some?: Maybe<HoldsOnBonsWhereInput>;
+  bons_none?: Maybe<HoldsOnBonsWhereInput>;
+  dotations_every?: Maybe<DotationWhereInput>;
+  dotations_some?: Maybe<DotationWhereInput>;
+  dotations_none?: Maybe<DotationWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<HoldWhereInput[] | HoldWhereInput>;
+  OR?: Maybe<HoldWhereInput[] | HoldWhereInput>;
+  NOT?: Maybe<HoldWhereInput[] | HoldWhereInput>;
+}
+
+export interface DotationWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  comment?: Maybe<String>;
+  comment_not?: Maybe<String>;
+  comment_in?: Maybe<String[] | String>;
+  comment_not_in?: Maybe<String[] | String>;
+  comment_lt?: Maybe<String>;
+  comment_lte?: Maybe<String>;
+  comment_gt?: Maybe<String>;
+  comment_gte?: Maybe<String>;
+  comment_contains?: Maybe<String>;
+  comment_not_contains?: Maybe<String>;
+  comment_starts_with?: Maybe<String>;
+  comment_not_starts_with?: Maybe<String>;
+  comment_ends_with?: Maybe<String>;
+  comment_not_ends_with?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  start_date_not?: Maybe<DateTimeInput>;
+  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_lt?: Maybe<DateTimeInput>;
+  start_date_lte?: Maybe<DateTimeInput>;
+  start_date_gt?: Maybe<DateTimeInput>;
+  start_date_gte?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  end_date_not?: Maybe<DateTimeInput>;
+  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_lt?: Maybe<DateTimeInput>;
+  end_date_lte?: Maybe<DateTimeInput>;
+  end_date_gt?: Maybe<DateTimeInput>;
+  end_date_gte?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_dotated_not?: Maybe<Float>;
+  number_of_liter_dotated_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_lt?: Maybe<Float>;
+  number_of_liter_dotated_lte?: Maybe<Float>;
+  number_of_liter_dotated_gt?: Maybe<Float>;
+  number_of_liter_dotated_gte?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_received_not?: Maybe<Float>;
+  number_of_liter_received_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_lt?: Maybe<Float>;
+  number_of_liter_received_lte?: Maybe<Float>;
+  number_of_liter_received_gt?: Maybe<Float>;
+  number_of_liter_received_gte?: Maybe<Float>;
+  user?: Maybe<UserWhereInput>;
+  hold?: Maybe<HoldWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<DotationWhereInput[] | DotationWhereInput>;
+  OR?: Maybe<DotationWhereInput[] | DotationWhereInput>;
+  NOT?: Maybe<DotationWhereInput[] | DotationWhereInput>;
+}
+
+export type DotationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type HoldWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type HoldsOnBonsWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type LogWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -366,18 +954,29 @@ export type UserWhereUniqueInput = AtLeastOne<{
   phone?: Maybe<String>;
 }>;
 
-export interface LogCreateInput {
+export interface BonCreateInput {
   id?: Maybe<ID_Input>;
-  action: String;
-  user: UserCreateOneWithoutLogsInput;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  consumed_date: DateTimeInput;
+  emission_date: DateTimeInput;
+  departure: String;
+  destination: String;
+  fuel_type: String;
+  reason: String;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  user: UserCreateOneWithoutBonsInput;
+  holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
 }
 
-export interface UserCreateOneWithoutLogsInput {
-  create?: Maybe<UserCreateWithoutLogsInput>;
+export interface UserCreateOneWithoutBonsInput {
+  create?: Maybe<UserCreateWithoutBonsInput>;
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutLogsInput {
+export interface UserCreateWithoutBonsInput {
   id?: Maybe<ID_Input>;
   active: Boolean;
   grade: String;
@@ -385,56 +984,12 @@ export interface UserCreateWithoutLogsInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve?: Maybe<Float>;
-  role: String;
-  password: String;
-}
-
-export interface LogUpdateInput {
-  action?: Maybe<String>;
-  user?: Maybe<UserUpdateOneRequiredWithoutLogsInput>;
-}
-
-export interface UserUpdateOneRequiredWithoutLogsInput {
-  create?: Maybe<UserCreateWithoutLogsInput>;
-  update?: Maybe<UserUpdateWithoutLogsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutLogsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserUpdateWithoutLogsDataInput {
-  active?: Maybe<Boolean>;
-  grade?: Maybe<String>;
-  matricule?: Maybe<String>;
-  username?: Maybe<String>;
-  fullname?: Maybe<String>;
-  phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
-  role?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
-export interface UserUpsertWithoutLogsInput {
-  update: UserUpdateWithoutLogsDataInput;
-  create: UserCreateWithoutLogsInput;
-}
-
-export interface LogUpdateManyMutationInput {
-  action?: Maybe<String>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  active: Boolean;
-  grade: String;
-  matricule: String;
-  username: String;
-  fullname: String;
-  phone: String;
-  reserve?: Maybe<Float>;
+  reserve: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUserInput>;
 }
 
 export interface LogCreateManyWithoutUserInput {
@@ -447,7 +1002,229 @@ export interface LogCreateWithoutUserInput {
   action: String;
 }
 
-export interface UserUpdateInput {
+export interface DotationCreateManyWithoutUserInput {
+  create?: Maybe<
+    DotationCreateWithoutUserInput[] | DotationCreateWithoutUserInput
+  >;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+}
+
+export interface DotationCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  comment: String;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_dotated: Float;
+  number_of_liter_received: Float;
+  hold?: Maybe<HoldCreateOneWithoutDotationsInput>;
+}
+
+export interface HoldCreateOneWithoutDotationsInput {
+  create?: Maybe<HoldCreateWithoutDotationsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutDotationsInput {
+  id?: Maybe<ID_Input>;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  user: UserCreateOneWithoutHoldInput;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+}
+
+export interface UserCreateOneWithoutHoldInput {
+  create?: Maybe<UserCreateWithoutHoldInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+}
+
+export interface BonCreateManyWithoutUserInput {
+  create?: Maybe<BonCreateWithoutUserInput[] | BonCreateWithoutUserInput>;
+  connect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+}
+
+export interface BonCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  consumed_date: DateTimeInput;
+  emission_date: DateTimeInput;
+  departure: String;
+  destination: String;
+  fuel_type: String;
+  reason: String;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+}
+
+export interface HoldsOnBonsCreateManyWithoutBonInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
+  >;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+}
+
+export interface HoldsOnBonsCreateWithoutBonInput {
+  id?: Maybe<ID_Input>;
+  hold: HoldCreateOneWithoutBonsInput;
+}
+
+export interface HoldCreateOneWithoutBonsInput {
+  create?: Maybe<HoldCreateWithoutBonsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutBonsInput {
+  id?: Maybe<ID_Input>;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  user: UserCreateOneWithoutHoldInput;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface DotationCreateManyWithoutHoldInput {
+  create?: Maybe<
+    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+  >;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+}
+
+export interface DotationCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  comment: String;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_dotated: Float;
+  number_of_liter_received: Float;
+  user?: Maybe<UserCreateOneWithoutDotationsInput>;
+}
+
+export interface UserCreateOneWithoutDotationsInput {
+  create?: Maybe<UserCreateWithoutDotationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutDotationsInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+}
+
+export interface HoldCreateOneWithoutUserInput {
+  create?: Maybe<HoldCreateWithoutUserInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface HoldsOnBonsCreateManyWithoutHoldInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutHoldInput[] | HoldsOnBonsCreateWithoutHoldInput
+  >;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+}
+
+export interface HoldsOnBonsCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  bon: BonCreateOneWithoutHoldsInput;
+}
+
+export interface BonCreateOneWithoutHoldsInput {
+  create?: Maybe<BonCreateWithoutHoldsInput>;
+  connect?: Maybe<BonWhereUniqueInput>;
+}
+
+export interface BonCreateWithoutHoldsInput {
+  id?: Maybe<ID_Input>;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  consumed_date: DateTimeInput;
+  emission_date: DateTimeInput;
+  departure: String;
+  destination: String;
+  fuel_type: String;
+  reason: String;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  user: UserCreateOneWithoutBonsInput;
+}
+
+export interface BonUpdateInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
+  holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutBonsInput {
+  create?: Maybe<UserCreateWithoutBonsInput>;
+  update?: Maybe<UserUpdateWithoutBonsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutBonsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutBonsDataInput {
   active?: Maybe<Boolean>;
   grade?: Maybe<String>;
   matricule?: Maybe<String>;
@@ -458,6 +1235,8 @@ export interface UserUpdateInput {
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
 }
 
 export interface LogUpdateManyWithoutUserInput {
@@ -524,14 +1303,14 @@ export interface LogScalarWhereInput {
   action_not_starts_with?: Maybe<String>;
   action_ends_with?: Maybe<String>;
   action_not_ends_with?: Maybe<String>;
-  createdAt?: Maybe<DateTimeInput>;
-  createdAt_not?: Maybe<DateTimeInput>;
-  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  createdAt_lt?: Maybe<DateTimeInput>;
-  createdAt_lte?: Maybe<DateTimeInput>;
-  createdAt_gt?: Maybe<DateTimeInput>;
-  createdAt_gte?: Maybe<DateTimeInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
   OR?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
   NOT?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
@@ -546,6 +1325,833 @@ export interface LogUpdateManyDataInput {
   action?: Maybe<String>;
 }
 
+export interface DotationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    DotationCreateWithoutUserInput[] | DotationCreateWithoutUserInput
+  >;
+  delete?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  set?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  disconnect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  update?: Maybe<
+    | DotationUpdateWithWhereUniqueWithoutUserInput[]
+    | DotationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | DotationUpsertWithWhereUniqueWithoutUserInput[]
+    | DotationUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  updateMany?: Maybe<
+    | DotationUpdateManyWithWhereNestedInput[]
+    | DotationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface DotationUpdateWithWhereUniqueWithoutUserInput {
+  where: DotationWhereUniqueInput;
+  data: DotationUpdateWithoutUserDataInput;
+}
+
+export interface DotationUpdateWithoutUserDataInput {
+  comment?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+  hold?: Maybe<HoldUpdateOneWithoutDotationsInput>;
+}
+
+export interface HoldUpdateOneWithoutDotationsInput {
+  create?: Maybe<HoldCreateWithoutDotationsInput>;
+  update?: Maybe<HoldUpdateWithoutDotationsDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutDotationsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutDotationsDataInput {
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutHoldInput {
+  create?: Maybe<UserCreateWithoutHoldInput>;
+  update?: Maybe<UserUpdateWithoutHoldDataInput>;
+  upsert?: Maybe<UserUpsertWithoutHoldInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutHoldDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+}
+
+export interface BonUpdateManyWithoutUserInput {
+  create?: Maybe<BonCreateWithoutUserInput[] | BonCreateWithoutUserInput>;
+  delete?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  connect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  set?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  disconnect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  update?: Maybe<
+    | BonUpdateWithWhereUniqueWithoutUserInput[]
+    | BonUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | BonUpsertWithWhereUniqueWithoutUserInput[]
+    | BonUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  updateMany?: Maybe<
+    BonUpdateManyWithWhereNestedInput[] | BonUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BonUpdateWithWhereUniqueWithoutUserInput {
+  where: BonWhereUniqueInput;
+  data: BonUpdateWithoutUserDataInput;
+}
+
+export interface BonUpdateWithoutUserDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+}
+
+export interface HoldsOnBonsUpdateManyWithoutBonInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
+  >;
+  delete?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  set?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  disconnect?: Maybe<
+    HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput
+  >;
+  update?: Maybe<
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput[]
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput
+  >;
+  upsert?: Maybe<
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput[]
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput
+  >;
+  deleteMany?: Maybe<
+    HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput
+  >;
+}
+
+export interface HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  data: HoldsOnBonsUpdateWithoutBonDataInput;
+}
+
+export interface HoldsOnBonsUpdateWithoutBonDataInput {
+  hold?: Maybe<HoldUpdateOneRequiredWithoutBonsInput>;
+}
+
+export interface HoldUpdateOneRequiredWithoutBonsInput {
+  create?: Maybe<HoldCreateWithoutBonsInput>;
+  update?: Maybe<HoldUpdateWithoutBonsDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutBonsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutBonsDataInput {
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface DotationUpdateManyWithoutHoldInput {
+  create?: Maybe<
+    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+  >;
+  delete?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  set?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  disconnect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  update?: Maybe<
+    | DotationUpdateWithWhereUniqueWithoutHoldInput[]
+    | DotationUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | DotationUpsertWithWhereUniqueWithoutHoldInput[]
+    | DotationUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  updateMany?: Maybe<
+    | DotationUpdateManyWithWhereNestedInput[]
+    | DotationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface DotationUpdateWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput;
+  data: DotationUpdateWithoutHoldDataInput;
+}
+
+export interface DotationUpdateWithoutHoldDataInput {
+  comment?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneWithoutDotationsInput>;
+}
+
+export interface UserUpdateOneWithoutDotationsInput {
+  create?: Maybe<UserCreateWithoutDotationsInput>;
+  update?: Maybe<UserUpdateWithoutDotationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutDotationsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutDotationsDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+}
+
+export interface HoldUpdateOneWithoutUserInput {
+  create?: Maybe<HoldCreateWithoutUserInput>;
+  update?: Maybe<HoldUpdateWithoutUserDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutUserInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutUserDataInput {
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface HoldsOnBonsUpdateManyWithoutHoldInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutHoldInput[] | HoldsOnBonsCreateWithoutHoldInput
+  >;
+  delete?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  set?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  disconnect?: Maybe<
+    HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput
+  >;
+  update?: Maybe<
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutHoldInput[]
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput[]
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<
+    HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput
+  >;
+}
+
+export interface HoldsOnBonsUpdateWithWhereUniqueWithoutHoldInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  data: HoldsOnBonsUpdateWithoutHoldDataInput;
+}
+
+export interface HoldsOnBonsUpdateWithoutHoldDataInput {
+  bon?: Maybe<BonUpdateOneRequiredWithoutHoldsInput>;
+}
+
+export interface BonUpdateOneRequiredWithoutHoldsInput {
+  create?: Maybe<BonCreateWithoutHoldsInput>;
+  update?: Maybe<BonUpdateWithoutHoldsDataInput>;
+  upsert?: Maybe<BonUpsertWithoutHoldsInput>;
+  connect?: Maybe<BonWhereUniqueInput>;
+}
+
+export interface BonUpdateWithoutHoldsDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
+}
+
+export interface BonUpsertWithoutHoldsInput {
+  update: BonUpdateWithoutHoldsDataInput;
+  create: BonCreateWithoutHoldsInput;
+}
+
+export interface HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  update: HoldsOnBonsUpdateWithoutHoldDataInput;
+  create: HoldsOnBonsCreateWithoutHoldInput;
+}
+
+export interface HoldsOnBonsScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+  OR?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+  NOT?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+}
+
+export interface HoldUpsertWithoutUserInput {
+  update: HoldUpdateWithoutUserDataInput;
+  create: HoldCreateWithoutUserInput;
+}
+
+export interface UserUpsertWithoutDotationsInput {
+  update: UserUpdateWithoutDotationsDataInput;
+  create: UserCreateWithoutDotationsInput;
+}
+
+export interface DotationUpsertWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput;
+  update: DotationUpdateWithoutHoldDataInput;
+  create: DotationCreateWithoutHoldInput;
+}
+
+export interface DotationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  comment?: Maybe<String>;
+  comment_not?: Maybe<String>;
+  comment_in?: Maybe<String[] | String>;
+  comment_not_in?: Maybe<String[] | String>;
+  comment_lt?: Maybe<String>;
+  comment_lte?: Maybe<String>;
+  comment_gt?: Maybe<String>;
+  comment_gte?: Maybe<String>;
+  comment_contains?: Maybe<String>;
+  comment_not_contains?: Maybe<String>;
+  comment_starts_with?: Maybe<String>;
+  comment_not_starts_with?: Maybe<String>;
+  comment_ends_with?: Maybe<String>;
+  comment_not_ends_with?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  start_date_not?: Maybe<DateTimeInput>;
+  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_lt?: Maybe<DateTimeInput>;
+  start_date_lte?: Maybe<DateTimeInput>;
+  start_date_gt?: Maybe<DateTimeInput>;
+  start_date_gte?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  end_date_not?: Maybe<DateTimeInput>;
+  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_lt?: Maybe<DateTimeInput>;
+  end_date_lte?: Maybe<DateTimeInput>;
+  end_date_gt?: Maybe<DateTimeInput>;
+  end_date_gte?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_dotated_not?: Maybe<Float>;
+  number_of_liter_dotated_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_lt?: Maybe<Float>;
+  number_of_liter_dotated_lte?: Maybe<Float>;
+  number_of_liter_dotated_gt?: Maybe<Float>;
+  number_of_liter_dotated_gte?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_received_not?: Maybe<Float>;
+  number_of_liter_received_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_lt?: Maybe<Float>;
+  number_of_liter_received_lte?: Maybe<Float>;
+  number_of_liter_received_gt?: Maybe<Float>;
+  number_of_liter_received_gte?: Maybe<Float>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  OR?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  NOT?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+}
+
+export interface DotationUpdateManyWithWhereNestedInput {
+  where: DotationScalarWhereInput;
+  data: DotationUpdateManyDataInput;
+}
+
+export interface DotationUpdateManyDataInput {
+  comment?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+}
+
+export interface HoldUpsertWithoutBonsInput {
+  update: HoldUpdateWithoutBonsDataInput;
+  create: HoldCreateWithoutBonsInput;
+}
+
+export interface HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  update: HoldsOnBonsUpdateWithoutBonDataInput;
+  create: HoldsOnBonsCreateWithoutBonInput;
+}
+
+export interface BonUpsertWithWhereUniqueWithoutUserInput {
+  where: BonWhereUniqueInput;
+  update: BonUpdateWithoutUserDataInput;
+  create: BonCreateWithoutUserInput;
+}
+
+export interface BonScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  consumed?: Maybe<Boolean>;
+  consumed_not?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  coverage_when_consuming_not?: Maybe<Float>;
+  coverage_when_consuming_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_not_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_lt?: Maybe<Float>;
+  coverage_when_consuming_lte?: Maybe<Float>;
+  coverage_when_consuming_gt?: Maybe<Float>;
+  coverage_when_consuming_gte?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  consumed_date_not?: Maybe<DateTimeInput>;
+  consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_lt?: Maybe<DateTimeInput>;
+  consumed_date_lte?: Maybe<DateTimeInput>;
+  consumed_date_gt?: Maybe<DateTimeInput>;
+  consumed_date_gte?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  emission_date_not?: Maybe<DateTimeInput>;
+  emission_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_lt?: Maybe<DateTimeInput>;
+  emission_date_lte?: Maybe<DateTimeInput>;
+  emission_date_gt?: Maybe<DateTimeInput>;
+  emission_date_gte?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  departure_not?: Maybe<String>;
+  departure_in?: Maybe<String[] | String>;
+  departure_not_in?: Maybe<String[] | String>;
+  departure_lt?: Maybe<String>;
+  departure_lte?: Maybe<String>;
+  departure_gt?: Maybe<String>;
+  departure_gte?: Maybe<String>;
+  departure_contains?: Maybe<String>;
+  departure_not_contains?: Maybe<String>;
+  departure_starts_with?: Maybe<String>;
+  departure_not_starts_with?: Maybe<String>;
+  departure_ends_with?: Maybe<String>;
+  departure_not_ends_with?: Maybe<String>;
+  destination?: Maybe<String>;
+  destination_not?: Maybe<String>;
+  destination_in?: Maybe<String[] | String>;
+  destination_not_in?: Maybe<String[] | String>;
+  destination_lt?: Maybe<String>;
+  destination_lte?: Maybe<String>;
+  destination_gt?: Maybe<String>;
+  destination_gte?: Maybe<String>;
+  destination_contains?: Maybe<String>;
+  destination_not_contains?: Maybe<String>;
+  destination_starts_with?: Maybe<String>;
+  destination_not_starts_with?: Maybe<String>;
+  destination_ends_with?: Maybe<String>;
+  destination_not_ends_with?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  fuel_type_not?: Maybe<String>;
+  fuel_type_in?: Maybe<String[] | String>;
+  fuel_type_not_in?: Maybe<String[] | String>;
+  fuel_type_lt?: Maybe<String>;
+  fuel_type_lte?: Maybe<String>;
+  fuel_type_gt?: Maybe<String>;
+  fuel_type_gte?: Maybe<String>;
+  fuel_type_contains?: Maybe<String>;
+  fuel_type_not_contains?: Maybe<String>;
+  fuel_type_starts_with?: Maybe<String>;
+  fuel_type_not_starts_with?: Maybe<String>;
+  fuel_type_ends_with?: Maybe<String>;
+  fuel_type_not_ends_with?: Maybe<String>;
+  reason?: Maybe<String>;
+  reason_not?: Maybe<String>;
+  reason_in?: Maybe<String[] | String>;
+  reason_not_in?: Maybe<String[] | String>;
+  reason_lt?: Maybe<String>;
+  reason_lte?: Maybe<String>;
+  reason_gt?: Maybe<String>;
+  reason_gte?: Maybe<String>;
+  reason_contains?: Maybe<String>;
+  reason_not_contains?: Maybe<String>;
+  reason_starts_with?: Maybe<String>;
+  reason_not_starts_with?: Maybe<String>;
+  reason_ends_with?: Maybe<String>;
+  reason_not_ends_with?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  number_of_liter_not?: Maybe<Float>;
+  number_of_liter_in?: Maybe<Float[] | Float>;
+  number_of_liter_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_lt?: Maybe<Float>;
+  number_of_liter_lte?: Maybe<Float>;
+  number_of_liter_gt?: Maybe<Float>;
+  number_of_liter_gte?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  initial_number_of_liter_not?: Maybe<Float>;
+  initial_number_of_liter_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_not_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_lt?: Maybe<Float>;
+  initial_number_of_liter_lte?: Maybe<Float>;
+  initial_number_of_liter_gt?: Maybe<Float>;
+  initial_number_of_liter_gte?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  status_not?: Maybe<Boolean>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  OR?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  NOT?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+}
+
+export interface BonUpdateManyWithWhereNestedInput {
+  where: BonScalarWhereInput;
+  data: BonUpdateManyDataInput;
+}
+
+export interface BonUpdateManyDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+}
+
+export interface UserUpsertWithoutHoldInput {
+  update: UserUpdateWithoutHoldDataInput;
+  create: UserCreateWithoutHoldInput;
+}
+
+export interface HoldUpsertWithoutDotationsInput {
+  update: HoldUpdateWithoutDotationsDataInput;
+  create: HoldCreateWithoutDotationsInput;
+}
+
+export interface DotationUpsertWithWhereUniqueWithoutUserInput {
+  where: DotationWhereUniqueInput;
+  update: DotationUpdateWithoutUserDataInput;
+  create: DotationCreateWithoutUserInput;
+}
+
+export interface UserUpsertWithoutBonsInput {
+  update: UserUpdateWithoutBonsDataInput;
+  create: UserCreateWithoutBonsInput;
+}
+
+export interface BonUpdateManyMutationInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+}
+
+export interface DotationCreateInput {
+  id?: Maybe<ID_Input>;
+  comment: String;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_dotated: Float;
+  number_of_liter_received: Float;
+  user?: Maybe<UserCreateOneWithoutDotationsInput>;
+  hold?: Maybe<HoldCreateOneWithoutDotationsInput>;
+}
+
+export interface DotationUpdateInput {
+  comment?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneWithoutDotationsInput>;
+  hold?: Maybe<HoldUpdateOneWithoutDotationsInput>;
+}
+
+export interface DotationUpdateManyMutationInput {
+  comment?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated?: Maybe<Float>;
+  number_of_liter_received?: Maybe<Float>;
+}
+
+export interface HoldCreateInput {
+  id?: Maybe<ID_Input>;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  user: UserCreateOneWithoutHoldInput;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface HoldUpdateInput {
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface HoldUpdateManyMutationInput {
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  real_super_quantity?: Maybe<Float>;
+  real_gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+}
+
+export interface HoldsOnBonsCreateInput {
+  id?: Maybe<ID_Input>;
+  hold: HoldCreateOneWithoutBonsInput;
+  bon: BonCreateOneWithoutHoldsInput;
+}
+
+export interface HoldsOnBonsUpdateInput {
+  hold?: Maybe<HoldUpdateOneRequiredWithoutBonsInput>;
+  bon?: Maybe<BonUpdateOneRequiredWithoutHoldsInput>;
+}
+
+export interface LogCreateInput {
+  id?: Maybe<ID_Input>;
+  action: String;
+  user: UserCreateOneWithoutLogsInput;
+}
+
+export interface UserCreateOneWithoutLogsInput {
+  create?: Maybe<UserCreateWithoutLogsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutLogsInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve: Float;
+  role: String;
+  password: String;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+}
+
+export interface LogUpdateInput {
+  action?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutLogsInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutLogsInput {
+  create?: Maybe<UserCreateWithoutLogsInput>;
+  update?: Maybe<UserUpdateWithoutLogsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutLogsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutLogsDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutLogsInput {
+  update: UserUpdateWithoutLogsDataInput;
+  create: UserCreateWithoutLogsInput;
+}
+
+export interface LogUpdateManyMutationInput {
+  action?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+}
+
+export interface UserUpdateInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+}
+
 export interface UserUpdateManyMutationInput {
   active?: Maybe<Boolean>;
   grade?: Maybe<String>;
@@ -556,6 +2162,60 @@ export interface UserUpdateManyMutationInput {
   reserve?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
+}
+
+export interface BonSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BonWhereInput>;
+  AND?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
+  OR?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
+  NOT?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
+}
+
+export interface DotationSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<DotationWhereInput>;
+  AND?: Maybe<
+    DotationSubscriptionWhereInput[] | DotationSubscriptionWhereInput
+  >;
+  OR?: Maybe<DotationSubscriptionWhereInput[] | DotationSubscriptionWhereInput>;
+  NOT?: Maybe<
+    DotationSubscriptionWhereInput[] | DotationSubscriptionWhereInput
+  >;
+}
+
+export interface HoldSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<HoldWhereInput>;
+  AND?: Maybe<HoldSubscriptionWhereInput[] | HoldSubscriptionWhereInput>;
+  OR?: Maybe<HoldSubscriptionWhereInput[] | HoldSubscriptionWhereInput>;
+  NOT?: Maybe<HoldSubscriptionWhereInput[] | HoldSubscriptionWhereInput>;
+}
+
+export interface HoldsOnBonsSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<HoldsOnBonsWhereInput>;
+  AND?: Maybe<
+    HoldsOnBonsSubscriptionWhereInput[] | HoldsOnBonsSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    HoldsOnBonsSubscriptionWhereInput[] | HoldsOnBonsSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    HoldsOnBonsSubscriptionWhereInput[] | HoldsOnBonsSubscriptionWhereInput
+  >;
 }
 
 export interface LogSubscriptionWhereInput {
@@ -584,33 +2244,100 @@ export interface NodeNode {
   id: ID_Output;
 }
 
-export interface Log {
+export interface Bon {
   id: ID_Output;
-  action: String;
-  createdAt: DateTimeOutput;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  consumed_date: DateTimeOutput;
+  emission_date: DateTimeOutput;
+  departure: String;
+  destination: String;
+  fuel_type: String;
+  reason: String;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  created_at: DateTimeOutput;
 }
 
-export interface LogPromise extends Promise<Log>, Fragmentable {
+export interface BonPromise extends Promise<Bon>, Fragmentable {
   id: () => Promise<ID_Output>;
-  action: () => Promise<String>;
+  consumed: () => Promise<Boolean>;
+  coverage_when_consuming: () => Promise<Float>;
+  consumed_date: () => Promise<DateTimeOutput>;
+  emission_date: () => Promise<DateTimeOutput>;
+  departure: () => Promise<String>;
+  destination: () => Promise<String>;
+  fuel_type: () => Promise<String>;
+  reason: () => Promise<String>;
+  number_of_liter: () => Promise<Float>;
+  initial_number_of_liter: () => Promise<Float>;
+  status: () => Promise<Boolean>;
   user: <T = UserPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
+  holds: <T = FragmentableArray<HoldsOnBons>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
-export interface LogSubscription
-  extends Promise<AsyncIterator<Log>>,
+export interface BonSubscription
+  extends Promise<AsyncIterator<Bon>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  action: () => Promise<AsyncIterator<String>>;
+  consumed: () => Promise<AsyncIterator<Boolean>>;
+  coverage_when_consuming: () => Promise<AsyncIterator<Float>>;
+  consumed_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  emission_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  departure: () => Promise<AsyncIterator<String>>;
+  destination: () => Promise<AsyncIterator<String>>;
+  fuel_type: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<String>>;
+  number_of_liter: () => Promise<AsyncIterator<Float>>;
+  initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
+  status: () => Promise<AsyncIterator<Boolean>>;
   user: <T = UserSubscription>() => T;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  holds: <T = Promise<AsyncIterator<HoldsOnBonsSubscription>>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
-export interface LogNullablePromise extends Promise<Log | null>, Fragmentable {
+export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
   id: () => Promise<ID_Output>;
-  action: () => Promise<String>;
+  consumed: () => Promise<Boolean>;
+  coverage_when_consuming: () => Promise<Float>;
+  consumed_date: () => Promise<DateTimeOutput>;
+  emission_date: () => Promise<DateTimeOutput>;
+  departure: () => Promise<String>;
+  destination: () => Promise<String>;
+  fuel_type: () => Promise<String>;
+  reason: () => Promise<String>;
+  number_of_liter: () => Promise<Float>;
+  initial_number_of_liter: () => Promise<Float>;
+  status: () => Promise<Boolean>;
   user: <T = UserPromise>() => T;
-  createdAt: () => Promise<DateTimeOutput>;
+  holds: <T = FragmentableArray<HoldsOnBons>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
 export interface User {
@@ -621,10 +2348,10 @@ export interface User {
   username: String;
   fullname: String;
   phone: String;
-  reserve?: Float;
+  reserve: Float;
   role: String;
   password: String;
-  createdAt: DateTimeOutput;
+  created_at: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -638,7 +2365,6 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
   logs: <T = FragmentableArray<Log>>(args?: {
     where?: LogWhereInput;
     orderBy?: LogOrderByInput;
@@ -648,6 +2374,26 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  bons: <T = FragmentableArray<Bon>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = FragmentableArray<Dotation>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  hold: <T = HoldPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
 export interface UserSubscription
@@ -663,7 +2409,6 @@ export interface UserSubscription
   reserve: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   logs: <T = Promise<AsyncIterator<LogSubscription>>>(args?: {
     where?: LogWhereInput;
     orderBy?: LogOrderByInput;
@@ -673,6 +2418,26 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  bons: <T = Promise<AsyncIterator<BonSubscription>>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = Promise<AsyncIterator<DotationSubscription>>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  hold: <T = HoldSubscription>() => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserNullablePromise
@@ -688,7 +2453,6 @@ export interface UserNullablePromise
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
   logs: <T = FragmentableArray<Log>>(args?: {
     where?: LogWhereInput;
     orderBy?: LogOrderByInput;
@@ -698,27 +2462,269 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  bons: <T = FragmentableArray<Bon>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = FragmentableArray<Dotation>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  hold: <T = HoldPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
-export interface LogConnection {
+export interface Log {
+  id: ID_Output;
+  action: String;
+  created_at: DateTimeOutput;
+}
+
+export interface LogPromise extends Promise<Log>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  action: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface LogSubscription
+  extends Promise<AsyncIterator<Log>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  action: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LogNullablePromise extends Promise<Log | null>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  action: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface Dotation {
+  id: ID_Output;
+  comment: String;
+  start_date: DateTimeOutput;
+  end_date: DateTimeOutput;
+  number_of_liter_dotated: Float;
+  number_of_liter_received: Float;
+  created_at: DateTimeOutput;
+}
+
+export interface DotationPromise extends Promise<Dotation>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  comment: () => Promise<String>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_dotated: () => Promise<Float>;
+  number_of_liter_received: () => Promise<Float>;
+  user: <T = UserPromise>() => T;
+  hold: <T = HoldPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface DotationSubscription
+  extends Promise<AsyncIterator<Dotation>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  comment: () => Promise<AsyncIterator<String>>;
+  start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  number_of_liter_dotated: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received: () => Promise<AsyncIterator<Float>>;
+  user: <T = UserSubscription>() => T;
+  hold: <T = HoldSubscription>() => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface DotationNullablePromise
+  extends Promise<Dotation | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  comment: () => Promise<String>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_dotated: () => Promise<Float>;
+  number_of_liter_received: () => Promise<Float>;
+  user: <T = UserPromise>() => T;
+  hold: <T = HoldPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface Hold {
+  id: ID_Output;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  created_at: DateTimeOutput;
+}
+
+export interface HoldPromise extends Promise<Hold>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  super_capacity: () => Promise<Float>;
+  gazoil_capacity: () => Promise<Float>;
+  real_super_quantity: () => Promise<Float>;
+  real_gazoil_quantity: () => Promise<Float>;
+  theorical_super_quantity: () => Promise<Float>;
+  theorical_gazoil_quantity: () => Promise<Float>;
+  reserve_super_quantity: () => Promise<Float>;
+  reserve_gazoil_quantity: () => Promise<Float>;
+  user: <T = UserPromise>() => T;
+  bons: <T = FragmentableArray<HoldsOnBons>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = FragmentableArray<Dotation>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface HoldSubscription
+  extends Promise<AsyncIterator<Hold>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  super_capacity: () => Promise<AsyncIterator<Float>>;
+  gazoil_capacity: () => Promise<AsyncIterator<Float>>;
+  real_super_quantity: () => Promise<AsyncIterator<Float>>;
+  real_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_super_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
+  reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  user: <T = UserSubscription>() => T;
+  bons: <T = Promise<AsyncIterator<HoldsOnBonsSubscription>>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = Promise<AsyncIterator<DotationSubscription>>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface HoldNullablePromise
+  extends Promise<Hold | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  super_capacity: () => Promise<Float>;
+  gazoil_capacity: () => Promise<Float>;
+  real_super_quantity: () => Promise<Float>;
+  real_gazoil_quantity: () => Promise<Float>;
+  theorical_super_quantity: () => Promise<Float>;
+  theorical_gazoil_quantity: () => Promise<Float>;
+  reserve_super_quantity: () => Promise<Float>;
+  reserve_gazoil_quantity: () => Promise<Float>;
+  user: <T = UserPromise>() => T;
+  bons: <T = FragmentableArray<HoldsOnBons>>(args?: {
+    where?: HoldsOnBonsWhereInput;
+    orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotations: <T = FragmentableArray<Dotation>>(args?: {
+    where?: DotationWhereInput;
+    orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface HoldsOnBons {
+  id: ID_Output;
+  created_at: DateTimeOutput;
+}
+
+export interface HoldsOnBonsPromise extends Promise<HoldsOnBons>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  hold: <T = HoldPromise>() => T;
+  bon: <T = BonPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface HoldsOnBonsSubscription
+  extends Promise<AsyncIterator<HoldsOnBons>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  hold: <T = HoldSubscription>() => T;
+  bon: <T = BonSubscription>() => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface HoldsOnBonsNullablePromise
+  extends Promise<HoldsOnBons | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  hold: <T = HoldPromise>() => T;
+  bon: <T = BonPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface BonConnection {
   pageInfo: PageInfo;
-  edges: LogEdge[];
+  edges: BonEdge[];
 }
 
-export interface LogConnectionPromise
-  extends Promise<LogConnection>,
+export interface BonConnectionPromise
+  extends Promise<BonConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<LogEdge>>() => T;
-  aggregate: <T = AggregateLogPromise>() => T;
+  edges: <T = FragmentableArray<BonEdge>>() => T;
+  aggregate: <T = AggregateBonPromise>() => T;
 }
 
-export interface LogConnectionSubscription
-  extends Promise<AsyncIterator<LogConnection>>,
+export interface BonConnectionSubscription
+  extends Promise<AsyncIterator<BonConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<LogEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateLogSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BonEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBonSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -742,6 +2748,226 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface BonEdge {
+  node: Bon;
+  cursor: String;
+}
+
+export interface BonEdgePromise extends Promise<BonEdge>, Fragmentable {
+  node: <T = BonPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface BonEdgeSubscription
+  extends Promise<AsyncIterator<BonEdge>>,
+    Fragmentable {
+  node: <T = BonSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBon {
+  count: Int;
+}
+
+export interface AggregateBonPromise
+  extends Promise<AggregateBon>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBonSubscription
+  extends Promise<AsyncIterator<AggregateBon>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DotationConnection {
+  pageInfo: PageInfo;
+  edges: DotationEdge[];
+}
+
+export interface DotationConnectionPromise
+  extends Promise<DotationConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DotationEdge>>() => T;
+  aggregate: <T = AggregateDotationPromise>() => T;
+}
+
+export interface DotationConnectionSubscription
+  extends Promise<AsyncIterator<DotationConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DotationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDotationSubscription>() => T;
+}
+
+export interface DotationEdge {
+  node: Dotation;
+  cursor: String;
+}
+
+export interface DotationEdgePromise
+  extends Promise<DotationEdge>,
+    Fragmentable {
+  node: <T = DotationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DotationEdgeSubscription
+  extends Promise<AsyncIterator<DotationEdge>>,
+    Fragmentable {
+  node: <T = DotationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateDotation {
+  count: Int;
+}
+
+export interface AggregateDotationPromise
+  extends Promise<AggregateDotation>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateDotationSubscription
+  extends Promise<AsyncIterator<AggregateDotation>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface HoldConnection {
+  pageInfo: PageInfo;
+  edges: HoldEdge[];
+}
+
+export interface HoldConnectionPromise
+  extends Promise<HoldConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<HoldEdge>>() => T;
+  aggregate: <T = AggregateHoldPromise>() => T;
+}
+
+export interface HoldConnectionSubscription
+  extends Promise<AsyncIterator<HoldConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<HoldEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateHoldSubscription>() => T;
+}
+
+export interface HoldEdge {
+  node: Hold;
+  cursor: String;
+}
+
+export interface HoldEdgePromise extends Promise<HoldEdge>, Fragmentable {
+  node: <T = HoldPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface HoldEdgeSubscription
+  extends Promise<AsyncIterator<HoldEdge>>,
+    Fragmentable {
+  node: <T = HoldSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateHold {
+  count: Int;
+}
+
+export interface AggregateHoldPromise
+  extends Promise<AggregateHold>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateHoldSubscription
+  extends Promise<AsyncIterator<AggregateHold>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface HoldsOnBonsConnection {
+  pageInfo: PageInfo;
+  edges: HoldsOnBonsEdge[];
+}
+
+export interface HoldsOnBonsConnectionPromise
+  extends Promise<HoldsOnBonsConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<HoldsOnBonsEdge>>() => T;
+  aggregate: <T = AggregateHoldsOnBonsPromise>() => T;
+}
+
+export interface HoldsOnBonsConnectionSubscription
+  extends Promise<AsyncIterator<HoldsOnBonsConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<HoldsOnBonsEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateHoldsOnBonsSubscription>() => T;
+}
+
+export interface HoldsOnBonsEdge {
+  node: HoldsOnBons;
+  cursor: String;
+}
+
+export interface HoldsOnBonsEdgePromise
+  extends Promise<HoldsOnBonsEdge>,
+    Fragmentable {
+  node: <T = HoldsOnBonsPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface HoldsOnBonsEdgeSubscription
+  extends Promise<AsyncIterator<HoldsOnBonsEdge>>,
+    Fragmentable {
+  node: <T = HoldsOnBonsSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateHoldsOnBons {
+  count: Int;
+}
+
+export interface AggregateHoldsOnBonsPromise
+  extends Promise<AggregateHoldsOnBons>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateHoldsOnBonsSubscription
+  extends Promise<AsyncIterator<AggregateHoldsOnBons>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface LogConnection {
+  pageInfo: PageInfo;
+  edges: LogEdge[];
+}
+
+export interface LogConnectionPromise
+  extends Promise<LogConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LogEdge>>() => T;
+  aggregate: <T = AggregateLogPromise>() => T;
+}
+
+export interface LogConnectionSubscription
+  extends Promise<AsyncIterator<LogConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LogEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLogSubscription>() => T;
 }
 
 export interface LogEdge {
@@ -847,6 +3073,254 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface BonSubscriptionPayload {
+  mutation: MutationType;
+  node: Bon;
+  updatedFields: String[];
+  previousValues: BonPreviousValues;
+}
+
+export interface BonSubscriptionPayloadPromise
+  extends Promise<BonSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BonPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BonPreviousValuesPromise>() => T;
+}
+
+export interface BonSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BonSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BonSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BonPreviousValuesSubscription>() => T;
+}
+
+export interface BonPreviousValues {
+  id: ID_Output;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  consumed_date: DateTimeOutput;
+  emission_date: DateTimeOutput;
+  departure: String;
+  destination: String;
+  fuel_type: String;
+  reason: String;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  created_at: DateTimeOutput;
+}
+
+export interface BonPreviousValuesPromise
+  extends Promise<BonPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  consumed: () => Promise<Boolean>;
+  coverage_when_consuming: () => Promise<Float>;
+  consumed_date: () => Promise<DateTimeOutput>;
+  emission_date: () => Promise<DateTimeOutput>;
+  departure: () => Promise<String>;
+  destination: () => Promise<String>;
+  fuel_type: () => Promise<String>;
+  reason: () => Promise<String>;
+  number_of_liter: () => Promise<Float>;
+  initial_number_of_liter: () => Promise<Float>;
+  status: () => Promise<Boolean>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface BonPreviousValuesSubscription
+  extends Promise<AsyncIterator<BonPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  consumed: () => Promise<AsyncIterator<Boolean>>;
+  coverage_when_consuming: () => Promise<AsyncIterator<Float>>;
+  consumed_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  emission_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  departure: () => Promise<AsyncIterator<String>>;
+  destination: () => Promise<AsyncIterator<String>>;
+  fuel_type: () => Promise<AsyncIterator<String>>;
+  reason: () => Promise<AsyncIterator<String>>;
+  number_of_liter: () => Promise<AsyncIterator<Float>>;
+  initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
+  status: () => Promise<AsyncIterator<Boolean>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface DotationSubscriptionPayload {
+  mutation: MutationType;
+  node: Dotation;
+  updatedFields: String[];
+  previousValues: DotationPreviousValues;
+}
+
+export interface DotationSubscriptionPayloadPromise
+  extends Promise<DotationSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = DotationPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DotationPreviousValuesPromise>() => T;
+}
+
+export interface DotationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DotationSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DotationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DotationPreviousValuesSubscription>() => T;
+}
+
+export interface DotationPreviousValues {
+  id: ID_Output;
+  comment: String;
+  start_date: DateTimeOutput;
+  end_date: DateTimeOutput;
+  number_of_liter_dotated: Float;
+  number_of_liter_received: Float;
+  created_at: DateTimeOutput;
+}
+
+export interface DotationPreviousValuesPromise
+  extends Promise<DotationPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  comment: () => Promise<String>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_dotated: () => Promise<Float>;
+  number_of_liter_received: () => Promise<Float>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface DotationPreviousValuesSubscription
+  extends Promise<AsyncIterator<DotationPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  comment: () => Promise<AsyncIterator<String>>;
+  start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  number_of_liter_dotated: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received: () => Promise<AsyncIterator<Float>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface HoldSubscriptionPayload {
+  mutation: MutationType;
+  node: Hold;
+  updatedFields: String[];
+  previousValues: HoldPreviousValues;
+}
+
+export interface HoldSubscriptionPayloadPromise
+  extends Promise<HoldSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = HoldPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = HoldPreviousValuesPromise>() => T;
+}
+
+export interface HoldSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<HoldSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = HoldSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = HoldPreviousValuesSubscription>() => T;
+}
+
+export interface HoldPreviousValues {
+  id: ID_Output;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  real_super_quantity: Float;
+  real_gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  created_at: DateTimeOutput;
+}
+
+export interface HoldPreviousValuesPromise
+  extends Promise<HoldPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  super_capacity: () => Promise<Float>;
+  gazoil_capacity: () => Promise<Float>;
+  real_super_quantity: () => Promise<Float>;
+  real_gazoil_quantity: () => Promise<Float>;
+  theorical_super_quantity: () => Promise<Float>;
+  theorical_gazoil_quantity: () => Promise<Float>;
+  reserve_super_quantity: () => Promise<Float>;
+  reserve_gazoil_quantity: () => Promise<Float>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface HoldPreviousValuesSubscription
+  extends Promise<AsyncIterator<HoldPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  super_capacity: () => Promise<AsyncIterator<Float>>;
+  gazoil_capacity: () => Promise<AsyncIterator<Float>>;
+  real_super_quantity: () => Promise<AsyncIterator<Float>>;
+  real_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_super_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
+  reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface HoldsOnBonsSubscriptionPayload {
+  mutation: MutationType;
+  node: HoldsOnBons;
+  updatedFields: String[];
+  previousValues: HoldsOnBonsPreviousValues;
+}
+
+export interface HoldsOnBonsSubscriptionPayloadPromise
+  extends Promise<HoldsOnBonsSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = HoldsOnBonsPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = HoldsOnBonsPreviousValuesPromise>() => T;
+}
+
+export interface HoldsOnBonsSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<HoldsOnBonsSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = HoldsOnBonsSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = HoldsOnBonsPreviousValuesSubscription>() => T;
+}
+
+export interface HoldsOnBonsPreviousValues {
+  id: ID_Output;
+  created_at: DateTimeOutput;
+}
+
+export interface HoldsOnBonsPreviousValuesPromise
+  extends Promise<HoldsOnBonsPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface HoldsOnBonsPreviousValuesSubscription
+  extends Promise<AsyncIterator<HoldsOnBonsPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface LogSubscriptionPayload {
   mutation: MutationType;
   node: Log;
@@ -875,7 +3349,7 @@ export interface LogSubscriptionPayloadSubscription
 export interface LogPreviousValues {
   id: ID_Output;
   action: String;
-  createdAt: DateTimeOutput;
+  created_at: DateTimeOutput;
 }
 
 export interface LogPreviousValuesPromise
@@ -883,7 +3357,7 @@ export interface LogPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   action: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
 export interface LogPreviousValuesSubscription
@@ -891,7 +3365,7 @@ export interface LogPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   action: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserSubscriptionPayload {
@@ -927,10 +3401,10 @@ export interface UserPreviousValues {
   username: String;
   fullname: String;
   phone: String;
-  reserve?: Float;
+  reserve: Float;
   role: String;
   password: String;
-  createdAt: DateTimeOutput;
+  created_at: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -946,7 +3420,7 @@ export interface UserPreviousValuesPromise
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
-  createdAt: () => Promise<DateTimeOutput>;
+  created_at: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -962,7 +3436,7 @@ export interface UserPreviousValuesSubscription
   reserve: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 /*
@@ -970,11 +3444,6 @@ The `ID` scalar type represents a unique identifier, often used to refetch an ob
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
@@ -997,6 +3466,11 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
@@ -1013,7 +3487,23 @@ export const models: Model[] = [
     embedded: false
   },
   {
+    name: "Dotation",
+    embedded: false
+  },
+  {
     name: "Log",
+    embedded: false
+  },
+  {
+    name: "Hold",
+    embedded: false
+  },
+  {
+    name: "HoldsOnBons",
+    embedded: false
+  },
+  {
+    name: "Bon",
     embedded: false
   }
 ];
