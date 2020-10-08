@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateLog {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -11,9 +15,218 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
+type Log {
+  id: ID!
+  action: String!
+  user: User!
+  createdAt: DateTime!
+}
+
+type LogConnection {
+  pageInfo: PageInfo!
+  edges: [LogEdge]!
+  aggregate: AggregateLog!
+}
+
+input LogCreateInput {
+  id: ID
+  action: String!
+  user: UserCreateOneWithoutLogsInput!
+}
+
+input LogCreateManyWithoutUserInput {
+  create: [LogCreateWithoutUserInput!]
+  connect: [LogWhereUniqueInput!]
+}
+
+input LogCreateWithoutUserInput {
+  id: ID
+  action: String!
+}
+
+type LogEdge {
+  node: Log!
+  cursor: String!
+}
+
+enum LogOrderByInput {
+  id_ASC
+  id_DESC
+  action_ASC
+  action_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LogPreviousValues {
+  id: ID!
+  action: String!
+  createdAt: DateTime!
+}
+
+input LogScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  action: String
+  action_not: String
+  action_in: [String!]
+  action_not_in: [String!]
+  action_lt: String
+  action_lte: String
+  action_gt: String
+  action_gte: String
+  action_contains: String
+  action_not_contains: String
+  action_starts_with: String
+  action_not_starts_with: String
+  action_ends_with: String
+  action_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LogScalarWhereInput!]
+  OR: [LogScalarWhereInput!]
+  NOT: [LogScalarWhereInput!]
+}
+
+type LogSubscriptionPayload {
+  mutation: MutationType!
+  node: Log
+  updatedFields: [String!]
+  previousValues: LogPreviousValues
+}
+
+input LogSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LogWhereInput
+  AND: [LogSubscriptionWhereInput!]
+  OR: [LogSubscriptionWhereInput!]
+  NOT: [LogSubscriptionWhereInput!]
+}
+
+input LogUpdateInput {
+  action: String
+  user: UserUpdateOneRequiredWithoutLogsInput
+}
+
+input LogUpdateManyDataInput {
+  action: String
+}
+
+input LogUpdateManyMutationInput {
+  action: String
+}
+
+input LogUpdateManyWithoutUserInput {
+  create: [LogCreateWithoutUserInput!]
+  delete: [LogWhereUniqueInput!]
+  connect: [LogWhereUniqueInput!]
+  set: [LogWhereUniqueInput!]
+  disconnect: [LogWhereUniqueInput!]
+  update: [LogUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LogUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [LogScalarWhereInput!]
+  updateMany: [LogUpdateManyWithWhereNestedInput!]
+}
+
+input LogUpdateManyWithWhereNestedInput {
+  where: LogScalarWhereInput!
+  data: LogUpdateManyDataInput!
+}
+
+input LogUpdateWithoutUserDataInput {
+  action: String
+}
+
+input LogUpdateWithWhereUniqueWithoutUserInput {
+  where: LogWhereUniqueInput!
+  data: LogUpdateWithoutUserDataInput!
+}
+
+input LogUpsertWithWhereUniqueWithoutUserInput {
+  where: LogWhereUniqueInput!
+  update: LogUpdateWithoutUserDataInput!
+  create: LogCreateWithoutUserInput!
+}
+
+input LogWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  action: String
+  action_not: String
+  action_in: [String!]
+  action_not_in: [String!]
+  action_lt: String
+  action_lte: String
+  action_gt: String
+  action_gte: String
+  action_contains: String
+  action_not_contains: String
+  action_starts_with: String
+  action_not_starts_with: String
+  action_ends_with: String
+  action_not_ends_with: String
+  user: UserWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LogWhereInput!]
+  OR: [LogWhereInput!]
+  NOT: [LogWhereInput!]
+}
+
+input LogWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createLog(data: LogCreateInput!): Log!
+  updateLog(data: LogUpdateInput!, where: LogWhereUniqueInput!): Log
+  updateManyLogs(data: LogUpdateManyMutationInput!, where: LogWhereInput): BatchPayload!
+  upsertLog(where: LogWhereUniqueInput!, create: LogCreateInput!, update: LogUpdateInput!): Log!
+  deleteLog(where: LogWhereUniqueInput!): Log
+  deleteManyLogs(where: LogWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -40,6 +253,9 @@ type PageInfo {
 }
 
 type Query {
+  log(where: LogWhereUniqueInput!): Log
+  logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log]!
+  logsConnection(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LogConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -47,6 +263,7 @@ type Query {
 }
 
 type Subscription {
+  log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -61,6 +278,8 @@ type User {
   reserve: Float
   role: String!
   password: String!
+  createdAt: DateTime!
+  logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log!]
 }
 
 type UserConnection {
@@ -70,6 +289,25 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  reserve: Float
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutLogsInput {
+  create: UserCreateWithoutLogsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutLogsInput {
   id: ID
   active: Boolean!
   grade: String!
@@ -108,6 +346,8 @@ enum UserOrderByInput {
   role_DESC
   password_ASC
   password_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type UserPreviousValues {
@@ -121,6 +361,7 @@ type UserPreviousValues {
   reserve: Float
   role: String!
   password: String!
+  createdAt: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -151,6 +392,7 @@ input UserUpdateInput {
   reserve: Float
   role: String
   password: String
+  logs: LogUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -163,6 +405,30 @@ input UserUpdateManyMutationInput {
   reserve: Float
   role: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutLogsInput {
+  create: UserCreateWithoutLogsInput
+  update: UserUpdateWithoutLogsDataInput
+  upsert: UserUpsertWithoutLogsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutLogsDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+}
+
+input UserUpsertWithoutLogsInput {
+  update: UserUpdateWithoutLogsDataInput!
+  create: UserCreateWithoutLogsInput!
 }
 
 input UserWhereInput {
@@ -288,6 +554,17 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  logs_every: LogWhereInput
+  logs_some: LogWhereInput
+  logs_none: LogWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

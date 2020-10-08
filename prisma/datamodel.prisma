@@ -9,4 +9,13 @@ type User{
    reserve: Float
    role: String!
    password: String!
+   createdAt: DateTime! @createdAt
+   logs: [Log!]! @relation(name:"UserLogs")
+}
+
+type Log{
+    id: ID! @id
+    action: String!
+    user: User! @relation(name:"UserLogs")
+    createdAt: DateTime! @createdAt
 }

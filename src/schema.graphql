@@ -2,6 +2,7 @@ const typeDefs = `
 type Query{
     info: String!
     users: [User!]!
+    logs: [Log!]!
 }
 
 type Mutation{
@@ -24,6 +25,14 @@ type User{
    reserve: Float
    role: String!
    password: String!
+   createdAt: String!
+   logs: [Log!]!
+}
+type Log{
+    id: ID!
+    action: String!
+    user: User!
+    createdAt: String!
 }
 
 `

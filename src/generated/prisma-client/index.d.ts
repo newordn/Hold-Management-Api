@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  log: (where?: LogWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -38,6 +39,25 @@ export interface Prisma {
    * Queries
    */
 
+  log: (where: LogWhereUniqueInput) => LogNullablePromise;
+  logs: (args?: {
+    where?: LogWhereInput;
+    orderBy?: LogOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Log>;
+  logsConnection: (args?: {
+    where?: LogWhereInput;
+    orderBy?: LogOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => LogConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -63,6 +83,22 @@ export interface Prisma {
    * Mutations
    */
 
+  createLog: (data: LogCreateInput) => LogPromise;
+  updateLog: (args: {
+    data: LogUpdateInput;
+    where: LogWhereUniqueInput;
+  }) => LogPromise;
+  updateManyLogs: (args: {
+    data: LogUpdateManyMutationInput;
+    where?: LogWhereInput;
+  }) => BatchPayloadPromise;
+  upsertLog: (args: {
+    where: LogWhereUniqueInput;
+    create: LogCreateInput;
+    update: LogUpdateInput;
+  }) => LogPromise;
+  deleteLog: (where: LogWhereUniqueInput) => LogPromise;
+  deleteManyLogs: (where?: LogWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -88,6 +124,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  log: (
+    where?: LogSubscriptionWhereInput
+  ) => LogSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -100,6 +139,14 @@ export interface ClientConstructor<T> {
 /**
  * Types
  */
+
+export type LogOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "action_ASC"
+  | "action_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -121,15 +168,58 @@ export type UserOrderByInput =
   | "role_ASC"
   | "role_DESC"
   | "password_ASC"
-  | "password_DESC";
+  | "password_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export type LogWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  matricule?: Maybe<String>;
-  phone?: Maybe<String>;
 }>;
+
+export interface LogWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  action?: Maybe<String>;
+  action_not?: Maybe<String>;
+  action_in?: Maybe<String[] | String>;
+  action_not_in?: Maybe<String[] | String>;
+  action_lt?: Maybe<String>;
+  action_lte?: Maybe<String>;
+  action_gt?: Maybe<String>;
+  action_gte?: Maybe<String>;
+  action_contains?: Maybe<String>;
+  action_not_contains?: Maybe<String>;
+  action_starts_with?: Maybe<String>;
+  action_not_starts_with?: Maybe<String>;
+  action_ends_with?: Maybe<String>;
+  action_not_ends_with?: Maybe<String>;
+  user?: Maybe<UserWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LogWhereInput[] | LogWhereInput>;
+  OR?: Maybe<LogWhereInput[] | LogWhereInput>;
+  NOT?: Maybe<LogWhereInput[] | LogWhereInput>;
+}
 
 export interface UserWhereInput {
   id?: Maybe<ID_Input>;
@@ -254,9 +344,83 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  logs_every?: Maybe<LogWhereInput>;
+  logs_some?: Maybe<LogWhereInput>;
+  logs_none?: Maybe<LogWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  matricule?: Maybe<String>;
+  phone?: Maybe<String>;
+}>;
+
+export interface LogCreateInput {
+  id?: Maybe<ID_Input>;
+  action: String;
+  user: UserCreateOneWithoutLogsInput;
+}
+
+export interface UserCreateOneWithoutLogsInput {
+  create?: Maybe<UserCreateWithoutLogsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutLogsInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve?: Maybe<Float>;
+  role: String;
+  password: String;
+}
+
+export interface LogUpdateInput {
+  action?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutLogsInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutLogsInput {
+  create?: Maybe<UserCreateWithoutLogsInput>;
+  update?: Maybe<UserUpdateWithoutLogsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutLogsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutLogsDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutLogsInput {
+  update: UserUpdateWithoutLogsDataInput;
+  create: UserCreateWithoutLogsInput;
+}
+
+export interface LogUpdateManyMutationInput {
+  action?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -270,6 +434,17 @@ export interface UserCreateInput {
   reserve?: Maybe<Float>;
   role: String;
   password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+}
+
+export interface LogCreateManyWithoutUserInput {
+  create?: Maybe<LogCreateWithoutUserInput[] | LogCreateWithoutUserInput>;
+  connect?: Maybe<LogWhereUniqueInput[] | LogWhereUniqueInput>;
+}
+
+export interface LogCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  action: String;
 }
 
 export interface UserUpdateInput {
@@ -282,6 +457,93 @@ export interface UserUpdateInput {
   reserve?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+}
+
+export interface LogUpdateManyWithoutUserInput {
+  create?: Maybe<LogCreateWithoutUserInput[] | LogCreateWithoutUserInput>;
+  delete?: Maybe<LogWhereUniqueInput[] | LogWhereUniqueInput>;
+  connect?: Maybe<LogWhereUniqueInput[] | LogWhereUniqueInput>;
+  set?: Maybe<LogWhereUniqueInput[] | LogWhereUniqueInput>;
+  disconnect?: Maybe<LogWhereUniqueInput[] | LogWhereUniqueInput>;
+  update?: Maybe<
+    | LogUpdateWithWhereUniqueWithoutUserInput[]
+    | LogUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | LogUpsertWithWhereUniqueWithoutUserInput[]
+    | LogUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
+  updateMany?: Maybe<
+    LogUpdateManyWithWhereNestedInput[] | LogUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface LogUpdateWithWhereUniqueWithoutUserInput {
+  where: LogWhereUniqueInput;
+  data: LogUpdateWithoutUserDataInput;
+}
+
+export interface LogUpdateWithoutUserDataInput {
+  action?: Maybe<String>;
+}
+
+export interface LogUpsertWithWhereUniqueWithoutUserInput {
+  where: LogWhereUniqueInput;
+  update: LogUpdateWithoutUserDataInput;
+  create: LogCreateWithoutUserInput;
+}
+
+export interface LogScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  action?: Maybe<String>;
+  action_not?: Maybe<String>;
+  action_in?: Maybe<String[] | String>;
+  action_not_in?: Maybe<String[] | String>;
+  action_lt?: Maybe<String>;
+  action_lte?: Maybe<String>;
+  action_gt?: Maybe<String>;
+  action_gte?: Maybe<String>;
+  action_contains?: Maybe<String>;
+  action_not_contains?: Maybe<String>;
+  action_starts_with?: Maybe<String>;
+  action_not_starts_with?: Maybe<String>;
+  action_ends_with?: Maybe<String>;
+  action_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
+  OR?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
+  NOT?: Maybe<LogScalarWhereInput[] | LogScalarWhereInput>;
+}
+
+export interface LogUpdateManyWithWhereNestedInput {
+  where: LogScalarWhereInput;
+  data: LogUpdateManyDataInput;
+}
+
+export interface LogUpdateManyDataInput {
+  action?: Maybe<String>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -294,6 +556,17 @@ export interface UserUpdateManyMutationInput {
   reserve?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
+}
+
+export interface LogSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LogWhereInput>;
+  AND?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
+  OR?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
+  NOT?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -311,6 +584,35 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Log {
+  id: ID_Output;
+  action: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface LogPromise extends Promise<Log>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  action: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LogSubscription
+  extends Promise<AsyncIterator<Log>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  action: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LogNullablePromise extends Promise<Log | null>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  action: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
 export interface User {
   id: ID_Output;
   active: Boolean;
@@ -322,6 +624,7 @@ export interface User {
   reserve?: Float;
   role: String;
   password: String;
+  createdAt: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -335,6 +638,16 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  logs: <T = FragmentableArray<Log>>(args?: {
+    where?: LogWhereInput;
+    orderBy?: LogOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserSubscription
@@ -350,6 +663,16 @@ export interface UserSubscription
   reserve: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  logs: <T = Promise<AsyncIterator<LogSubscription>>>(args?: {
+    where?: LogWhereInput;
+    orderBy?: LogOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserNullablePromise
@@ -365,27 +688,37 @@ export interface UserNullablePromise
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  logs: <T = FragmentableArray<Log>>(args?: {
+    where?: LogWhereInput;
+    orderBy?: LogOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface UserConnection {
+export interface LogConnection {
   pageInfo: PageInfo;
-  edges: UserEdge[];
+  edges: LogEdge[];
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface LogConnectionPromise
+  extends Promise<LogConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  edges: <T = FragmentableArray<LogEdge>>() => T;
+  aggregate: <T = AggregateLogPromise>() => T;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface LogConnectionSubscription
+  extends Promise<AsyncIterator<LogConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LogEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLogSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -409,6 +742,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LogEdge {
+  node: Log;
+  cursor: String;
+}
+
+export interface LogEdgePromise extends Promise<LogEdge>, Fragmentable {
+  node: <T = LogPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LogEdgeSubscription
+  extends Promise<AsyncIterator<LogEdge>>,
+    Fragmentable {
+  node: <T = LogSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateLog {
+  count: Int;
+}
+
+export interface AggregateLogPromise
+  extends Promise<AggregateLog>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLogSubscription
+  extends Promise<AsyncIterator<AggregateLog>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface UserEdge {
@@ -460,6 +847,53 @@ export interface BatchPayloadSubscription
   count: () => Promise<AsyncIterator<Long>>;
 }
 
+export interface LogSubscriptionPayload {
+  mutation: MutationType;
+  node: Log;
+  updatedFields: String[];
+  previousValues: LogPreviousValues;
+}
+
+export interface LogSubscriptionPayloadPromise
+  extends Promise<LogSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LogPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LogPreviousValuesPromise>() => T;
+}
+
+export interface LogSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LogSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LogSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LogPreviousValuesSubscription>() => T;
+}
+
+export interface LogPreviousValues {
+  id: ID_Output;
+  action: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface LogPreviousValuesPromise
+  extends Promise<LogPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  action: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LogPreviousValuesSubscription
+  extends Promise<AsyncIterator<LogPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  action: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -496,6 +930,7 @@ export interface UserPreviousValues {
   reserve?: Float;
   role: String;
   password: String;
+  createdAt: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -511,6 +946,7 @@ export interface UserPreviousValuesPromise
   reserve: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -526,6 +962,7 @@ export interface UserPreviousValuesSubscription
   reserve: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 /*
@@ -550,6 +987,16 @@ The `Float` scalar type represents signed double-precision fractional values as 
 export type Float = number;
 
 /*
+DateTime scalar input type, allowing Date
+*/
+export type DateTimeInput = Date | string;
+
+/*
+DateTime scalar output type, which is always a string
+*/
+export type DateTimeOutput = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
@@ -563,6 +1010,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Log",
     embedded: false
   }
 ];
