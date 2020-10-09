@@ -7,6 +7,26 @@ var models = [
   {
     name: "User",
     embedded: false
+  },
+  {
+    name: "Dotation",
+    embedded: false
+  },
+  {
+    name: "Log",
+    embedded: false
+  },
+  {
+    name: "Hold",
+    embedded: false
+  },
+  {
+    name: "HoldsOnBons",
+    embedded: false
+  },
+  {
+    name: "Bon",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

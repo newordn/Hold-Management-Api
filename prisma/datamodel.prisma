@@ -6,7 +6,67 @@ type User{
    username: String!
    fullname: String!
    phone: String! @unique
-   reserve: Float
+   reserve: Float!
    role: String!
    password: String!
+   logs: [Log!] @relation(name:"UserLogs")
+   bons: [Bon!] @relation(name:"UserBons")
+   dotations: [Dotation!] @relation(name: "UserDotations")
+   hold: Hold @relation(link: INLINE)
+   created_at: DateTime! @createdAt
+}
+type Dotation{
+    id: ID! @id
+    comment: String!
+    start_date: DateTime!
+    end_date: DateTime!
+    number_of_liter_dotated: Float!
+    number_of_liter_received: Float!
+    user: User @relation(name: "UserDotations")
+    hold: Hold @relation(name: "HoldDotations") 
+    created_at: DateTime! @createdAt
+}
+type Log{
+    id: ID! @id
+    action: String!
+    user: User! @relation(name:"UserLogs")
+    created_at: DateTime! @createdAt
+}
+type Hold{
+    id: ID! @id
+    super_capacity: Float!
+    gazoil_capacity: Float!
+    real_super_quantity: Float!
+    real_gazoil_quantity: Float!
+    theorical_super_quantity: Float!
+    theorical_gazoil_quantity: Float!
+    reserve_super_quantity: Float!
+    reserve_gazoil_quantity: Float!
+    user: User!
+    bons: [HoldsOnBons!]
+    dotations: [Dotation!] @relation(name: "HoldDotations")
+    created_at: DateTime! @createdAt
+}
+type HoldsOnBons{
+    id: ID! @id
+    hold: Hold! @relation(fields:[holdId],references:[id])
+    bon: Bon! @relation(fields:[bonId],references:[id])
+    created_at: DateTime! @createdAt
+}
+type Bon{
+    id: ID! @id
+    consumed: Boolean!
+    coverage_when_consuming: Float!
+    consumed_date: DateTime!
+    emission_date: DateTime!
+    departure: String!
+    destination: String!
+    fuel_type: String!
+    reason: String!
+    number_of_liter: Float!
+    initial_number_of_liter: Float!
+    status: Boolean!
+    user: User! @relation(name:"UserBons")
+    holds: [HoldsOnBons!]!
+    created_at: DateTime! @createdAt
 }

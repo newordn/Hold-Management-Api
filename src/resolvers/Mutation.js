@@ -1,19 +1,25 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../helpers/user");
+const { MESSAGES } = require("../consts/messages");
 async function signUp(parent, args, context, info) {
-  let password = await bcrypt.hash(args.password, 10)
+  console.log(MESSAGES.signUp(args.matricule));
+  let password = await bcrypt.hash(args.password, 10);
   let user = await context.prisma.createUser({ ...args, password, reserve: 0 });
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
+    await context.prisma.createLog({
+      action: MESSAGES.signUp(args.matricule),
+      user: { connect: { id: user.id } }
+    });
     return {
       user,
-      token,
+      token
     };
   }
 }
 async function signIn(parent, args, context, info) {
-  console.log("user signIn mutation");
+  console.log(MESSAGES.signIn(args.matricule));
   let user = await context.prisma.user({ matricule: args.matricule });
   if (!user) {
     throw new Error("L'utilisateur n'existe pas.");
@@ -27,13 +33,12 @@ async function signIn(parent, args, context, info) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     return {
       user,
-      token,
+      token
     };
   }
 }
 
-
 module.exports = {
   signUp,
   signIn
-}
+};
