@@ -50,6 +50,8 @@ type Log{
 }
 type Hold{
     id: ID!
+    name: String!
+    localisation: String!
     super_capacity: Float!
     gazoil_capacity: Float!
     real_super_quantity: Float!
