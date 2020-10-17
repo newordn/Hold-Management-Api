@@ -2,9 +2,14 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
+var generator = require('generate-password');
 async function signUp(parent, args, context, info) {
-  console.log(MESSAGES.signUp(args.matricule));
-  let password = await bcrypt.hash(args.password, 10);
+  let generatePassword = generator.generate({
+    length: 10,
+    numbers: true
+})
+console.log(MESSAGES.signUp(args.matricule) + " with password " + generatePassword);
+  let password = await bcrypt.hash(generatePassword, 10);
   let user = await context.prisma.createUser({ ...args, password, reserve: 0 });
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);

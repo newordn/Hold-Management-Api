@@ -9,6 +9,7 @@
   "dependencies": {
     "apollo-server-koa": "^2.15.0",
     "bcryptjs": "^2.4.3",
+    "generate-password": "^1.5.1",
     "graphql": "^15.2.0",
     "graphql-tools": "^6.0.11",
     "graphql-yoga": "^1.18.3",
