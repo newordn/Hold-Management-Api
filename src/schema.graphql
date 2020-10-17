@@ -6,7 +6,7 @@ type Query{
 }
 
 type Mutation{
-    signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!,password:String!): AuthPayload!
+    signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!): AuthPayload!
     signIn(matricule:String!,password:String!): AuthPayload!
 }
 type AuthPayload{
