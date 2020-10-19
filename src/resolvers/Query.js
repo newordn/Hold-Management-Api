@@ -9,8 +9,14 @@ async function logs(parent, args, context, info) {
   const logs = await context.prisma.logs({ orderBy: "id_DESC" });
   return logs;
 }
+async function holds(parent, args, context, info) {
+  console.log("holds query");
+  const holds = await context.prisma.holds({ orderBy: "id_DESC" });
+  return holds;
+}
 module.exports = {
   info,
   users,
-  logs
+  logs,
+  holds
 };

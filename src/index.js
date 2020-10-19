@@ -2,13 +2,15 @@ const { GraphQLServer } = require("graphql-yoga");
 const Mutation = require("./resolvers/Mutation");
 const Query = require("./resolvers/Query");
 const Log = require("./resolvers/Log");
+const Hold = require("./resolvers/Hold");
 const { prisma } = require("./generated/prisma-client");
 const { typeDefs } = require("./schema.graphql");
 const { makeExecutableSchema } = require("graphql-tools");
 const resolvers = {
   Mutation,
   Query,
-  Log
+  Log,
+  Hold
 };
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new GraphQLServer({
