@@ -36,6 +36,10 @@ async function signIn(parent, args, context, info) {
 
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
+    await context.prisma.createLog({
+      action: MESSAGES.signIn(args.matricule),
+      user: { connect: { id: user.id } }
+    })
     return {
       user,
       token
@@ -43,7 +47,22 @@ async function signIn(parent, args, context, info) {
   }
 }
 
+async function hold(parent, args, context, info) {
+  console.log(MESSAGES.hold(args.name));
+  try{
+   
+    let hold = await context.prisma.createHold({...args, user: {connect: {id: args.user}}});
+    return hold;
+  }
+  catch(e){
+    console.log(e)
+    throw new Error(e.message);
+  }
+  
+}
+
 module.exports = {
   signUp,
-  signIn
+  signIn,
+  hold
 };

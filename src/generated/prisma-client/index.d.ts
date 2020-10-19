@@ -357,6 +357,10 @@ export type HoldsOnBonsOrderByInput =
 export type HoldOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "localisation_ASC"
+  | "localisation_DESC"
   | "super_capacity_ASC"
   | "super_capacity_DESC"
   | "gazoil_capacity_ASC"
@@ -772,6 +776,34 @@ export interface HoldWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  localisation?: Maybe<String>;
+  localisation_not?: Maybe<String>;
+  localisation_in?: Maybe<String[] | String>;
+  localisation_not_in?: Maybe<String[] | String>;
+  localisation_lt?: Maybe<String>;
+  localisation_lte?: Maybe<String>;
+  localisation_gt?: Maybe<String>;
+  localisation_gte?: Maybe<String>;
+  localisation_contains?: Maybe<String>;
+  localisation_not_contains?: Maybe<String>;
+  localisation_starts_with?: Maybe<String>;
+  localisation_not_starts_with?: Maybe<String>;
+  localisation_ends_with?: Maybe<String>;
+  localisation_not_ends_with?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   super_capacity_not?: Maybe<Float>;
   super_capacity_in?: Maybe<Float[] | Float>;
@@ -1026,6 +1058,8 @@ export interface HoldCreateOneWithoutDotationsInput {
 
 export interface HoldCreateWithoutDotationsInput {
   id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -1099,6 +1133,8 @@ export interface HoldCreateOneWithoutBonsInput {
 
 export interface HoldCreateWithoutBonsInput {
   id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -1156,6 +1192,8 @@ export interface HoldCreateOneWithoutUserInput {
 
 export interface HoldCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -1372,6 +1410,8 @@ export interface HoldUpdateOneWithoutDotationsInput {
 }
 
 export interface HoldUpdateWithoutDotationsDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
   real_super_quantity?: Maybe<Float>;
@@ -1486,6 +1526,8 @@ export interface HoldUpdateOneRequiredWithoutBonsInput {
 }
 
 export interface HoldUpdateWithoutBonsDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
   real_super_quantity?: Maybe<Float>;
@@ -1569,6 +1611,8 @@ export interface HoldUpdateOneWithoutUserInput {
 }
 
 export interface HoldUpdateWithoutUserDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
   real_super_quantity?: Maybe<Float>;
@@ -2007,6 +2051,8 @@ export interface DotationUpdateManyMutationInput {
 
 export interface HoldCreateInput {
   id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -2021,6 +2067,8 @@ export interface HoldCreateInput {
 }
 
 export interface HoldUpdateInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
   real_super_quantity?: Maybe<Float>;
@@ -2035,6 +2083,8 @@ export interface HoldUpdateInput {
 }
 
 export interface HoldUpdateManyMutationInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
   real_super_quantity?: Maybe<Float>;
@@ -2565,6 +2615,8 @@ export interface DotationNullablePromise
 
 export interface Hold {
   id: ID_Output;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -2578,6 +2630,8 @@ export interface Hold {
 
 export interface HoldPromise extends Promise<Hold>, Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
   real_super_quantity: () => Promise<Float>;
@@ -2612,6 +2666,8 @@ export interface HoldSubscription
   extends Promise<AsyncIterator<Hold>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  localisation: () => Promise<AsyncIterator<String>>;
   super_capacity: () => Promise<AsyncIterator<Float>>;
   gazoil_capacity: () => Promise<AsyncIterator<Float>>;
   real_super_quantity: () => Promise<AsyncIterator<Float>>;
@@ -2646,6 +2702,8 @@ export interface HoldNullablePromise
   extends Promise<Hold | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
   real_super_quantity: () => Promise<Float>;
@@ -3236,6 +3294,8 @@ export interface HoldSubscriptionPayloadSubscription
 
 export interface HoldPreviousValues {
   id: ID_Output;
+  name: String;
+  localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
   real_super_quantity: Float;
@@ -3251,6 +3311,8 @@ export interface HoldPreviousValuesPromise
   extends Promise<HoldPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
   real_super_quantity: () => Promise<Float>;
@@ -3266,6 +3328,8 @@ export interface HoldPreviousValuesSubscription
   extends Promise<AsyncIterator<HoldPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  localisation: () => Promise<AsyncIterator<String>>;
   super_capacity: () => Promise<AsyncIterator<Float>>;
   gazoil_capacity: () => Promise<AsyncIterator<Float>>;
   real_super_quantity: () => Promise<AsyncIterator<Float>>;

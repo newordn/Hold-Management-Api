@@ -922,6 +922,8 @@ input DotationWhereUniqueInput {
 
 type Hold {
   id: ID!
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -944,6 +946,8 @@ type HoldConnection {
 
 input HoldCreateInput {
   id: ID
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -974,6 +978,8 @@ input HoldCreateOneWithoutUserInput {
 
 input HoldCreateWithoutBonsInput {
   id: ID
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -988,6 +994,8 @@ input HoldCreateWithoutBonsInput {
 
 input HoldCreateWithoutDotationsInput {
   id: ID
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -1002,6 +1010,8 @@ input HoldCreateWithoutDotationsInput {
 
 input HoldCreateWithoutUserInput {
   id: ID
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -1022,6 +1032,10 @@ type HoldEdge {
 enum HoldOrderByInput {
   id_ASC
   id_DESC
+  name_ASC
+  name_DESC
+  localisation_ASC
+  localisation_DESC
   super_capacity_ASC
   super_capacity_DESC
   gazoil_capacity_ASC
@@ -1044,6 +1058,8 @@ enum HoldOrderByInput {
 
 type HoldPreviousValues {
   id: ID!
+  name: String!
+  localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
   real_super_quantity: Float!
@@ -1267,6 +1283,8 @@ input HoldSubscriptionWhereInput {
 }
 
 input HoldUpdateInput {
+  name: String
+  localisation: String
   super_capacity: Float
   gazoil_capacity: Float
   real_super_quantity: Float
@@ -1281,6 +1299,8 @@ input HoldUpdateInput {
 }
 
 input HoldUpdateManyMutationInput {
+  name: String
+  localisation: String
   super_capacity: Float
   gazoil_capacity: Float
   real_super_quantity: Float
@@ -1317,6 +1337,8 @@ input HoldUpdateOneWithoutUserInput {
 }
 
 input HoldUpdateWithoutBonsDataInput {
+  name: String
+  localisation: String
   super_capacity: Float
   gazoil_capacity: Float
   real_super_quantity: Float
@@ -1330,6 +1352,8 @@ input HoldUpdateWithoutBonsDataInput {
 }
 
 input HoldUpdateWithoutDotationsDataInput {
+  name: String
+  localisation: String
   super_capacity: Float
   gazoil_capacity: Float
   real_super_quantity: Float
@@ -1343,6 +1367,8 @@ input HoldUpdateWithoutDotationsDataInput {
 }
 
 input HoldUpdateWithoutUserDataInput {
+  name: String
+  localisation: String
   super_capacity: Float
   gazoil_capacity: Float
   real_super_quantity: Float
@@ -1385,6 +1411,34 @@ input HoldWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  localisation: String
+  localisation_not: String
+  localisation_in: [String!]
+  localisation_not_in: [String!]
+  localisation_lt: String
+  localisation_lte: String
+  localisation_gt: String
+  localisation_gte: String
+  localisation_contains: String
+  localisation_not_contains: String
+  localisation_starts_with: String
+  localisation_not_starts_with: String
+  localisation_ends_with: String
+  localisation_not_ends_with: String
   super_capacity: Float
   super_capacity_not: Float
   super_capacity_in: [Float!]
