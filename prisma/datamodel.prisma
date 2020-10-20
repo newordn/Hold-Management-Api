@@ -12,7 +12,7 @@ type User{
    logs: [Log!] @relation(name:"UserLogs")
    bons: [Bon!] @relation(name:"UserBons")
    dotations: [Dotation!] @relation(name: "UserDotations")
-   hold: Hold @relation(link: INLINE)
+   hold: Hold @relation(name: "UserHolds")
    created_at: DateTime! @createdAt
 }
 type Dotation{
@@ -44,7 +44,7 @@ type Hold{
     theorical_gazoil_quantity: Float!
     reserve_super_quantity: Float!
     reserve_gazoil_quantity: Float!
-    user: User!
+    user: [User!] @relation(name:"UserHolds")
     bons: [HoldsOnBons!]
     dotations: [Dotation!] @relation(name: "HoldDotations")
     created_at: DateTime! @createdAt
