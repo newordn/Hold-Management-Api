@@ -932,7 +932,7 @@ type Hold {
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
-  user: User!
+  user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
   created_at: DateTime!
@@ -956,7 +956,7 @@ input HoldCreateInput {
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
-  user: UserCreateOneWithoutHoldInput!
+  user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -988,7 +988,7 @@ input HoldCreateWithoutBonsInput {
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
-  user: UserCreateOneWithoutHoldInput!
+  user: UserCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
 
@@ -1004,7 +1004,7 @@ input HoldCreateWithoutDotationsInput {
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
-  user: UserCreateOneWithoutHoldInput!
+  user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
 }
 
@@ -1293,7 +1293,7 @@ input HoldUpdateInput {
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
-  user: UserUpdateOneRequiredWithoutHoldInput
+  user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -1347,7 +1347,7 @@ input HoldUpdateWithoutBonsDataInput {
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
-  user: UserUpdateOneRequiredWithoutHoldInput
+  user: UserUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
 
@@ -1362,7 +1362,7 @@ input HoldUpdateWithoutDotationsDataInput {
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
-  user: UserUpdateOneRequiredWithoutHoldInput
+  user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
 }
 
@@ -1503,7 +1503,9 @@ input HoldWhereInput {
   reserve_gazoil_quantity_lte: Float
   reserve_gazoil_quantity_gt: Float
   reserve_gazoil_quantity_gte: Float
-  user: UserWhereInput
+  user_every: UserWhereInput
+  user_some: UserWhereInput
+  user_none: UserWhereInput
   bons_every: HoldsOnBonsWhereInput
   bons_some: HoldsOnBonsWhereInput
   bons_none: HoldsOnBonsWhereInput
@@ -1857,6 +1859,11 @@ input UserCreateInput {
   hold: HoldCreateOneWithoutUserInput
 }
 
+input UserCreateManyWithoutHoldInput {
+  create: [UserCreateWithoutHoldInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
 input UserCreateOneWithoutBonsInput {
   create: UserCreateWithoutBonsInput
   connect: UserWhereUniqueInput
@@ -1864,11 +1871,6 @@ input UserCreateOneWithoutBonsInput {
 
 input UserCreateOneWithoutDotationsInput {
   create: UserCreateWithoutDotationsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserCreateOneWithoutHoldInput {
-  create: UserCreateWithoutHoldInput
   connect: UserWhereUniqueInput
 }
 
@@ -1985,6 +1987,142 @@ type UserPreviousValues {
   created_at: DateTime!
 }
 
+input UserScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  active: Boolean
+  active_not: Boolean
+  grade: String
+  grade_not: String
+  grade_in: [String!]
+  grade_not_in: [String!]
+  grade_lt: String
+  grade_lte: String
+  grade_gt: String
+  grade_gte: String
+  grade_contains: String
+  grade_not_contains: String
+  grade_starts_with: String
+  grade_not_starts_with: String
+  grade_ends_with: String
+  grade_not_ends_with: String
+  matricule: String
+  matricule_not: String
+  matricule_in: [String!]
+  matricule_not_in: [String!]
+  matricule_lt: String
+  matricule_lte: String
+  matricule_gt: String
+  matricule_gte: String
+  matricule_contains: String
+  matricule_not_contains: String
+  matricule_starts_with: String
+  matricule_not_starts_with: String
+  matricule_ends_with: String
+  matricule_not_ends_with: String
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  fullname: String
+  fullname_not: String
+  fullname_in: [String!]
+  fullname_not_in: [String!]
+  fullname_lt: String
+  fullname_lte: String
+  fullname_gt: String
+  fullname_gte: String
+  fullname_contains: String
+  fullname_not_contains: String
+  fullname_starts_with: String
+  fullname_not_starts_with: String
+  fullname_ends_with: String
+  fullname_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  reserve: Float
+  reserve_not: Float
+  reserve_in: [Float!]
+  reserve_not_in: [Float!]
+  reserve_lt: Float
+  reserve_lte: Float
+  reserve_gt: Float
+  reserve_gte: Float
+  role: String
+  role_not: String
+  role_in: [String!]
+  role_not_in: [String!]
+  role_lt: String
+  role_lte: String
+  role_gt: String
+  role_gte: String
+  role_contains: String
+  role_not_contains: String
+  role_starts_with: String
+  role_not_starts_with: String
+  role_ends_with: String
+  role_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [UserScalarWhereInput!]
+  OR: [UserScalarWhereInput!]
+  NOT: [UserScalarWhereInput!]
+}
+
 type UserSubscriptionPayload {
   mutation: MutationType!
   node: User
@@ -2019,6 +2157,18 @@ input UserUpdateInput {
   hold: HoldUpdateOneWithoutUserInput
 }
 
+input UserUpdateManyDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+}
+
 input UserUpdateManyMutationInput {
   active: Boolean
   grade: String
@@ -2031,17 +2181,27 @@ input UserUpdateManyMutationInput {
   password: String
 }
 
+input UserUpdateManyWithoutHoldInput {
+  create: [UserCreateWithoutHoldInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutHoldInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput!
+  data: UserUpdateManyDataInput!
+}
+
 input UserUpdateOneRequiredWithoutBonsInput {
   create: UserCreateWithoutBonsInput
   update: UserUpdateWithoutBonsDataInput
   upsert: UserUpsertWithoutBonsInput
-  connect: UserWhereUniqueInput
-}
-
-input UserUpdateOneRequiredWithoutHoldInput {
-  create: UserCreateWithoutHoldInput
-  update: UserUpdateWithoutHoldDataInput
-  upsert: UserUpsertWithoutHoldInput
   connect: UserWhereUniqueInput
 }
 
@@ -2121,6 +2281,11 @@ input UserUpdateWithoutLogsDataInput {
   hold: HoldUpdateOneWithoutUserInput
 }
 
+input UserUpdateWithWhereUniqueWithoutHoldInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutHoldDataInput!
+}
+
 input UserUpsertWithoutBonsInput {
   update: UserUpdateWithoutBonsDataInput!
   create: UserCreateWithoutBonsInput!
@@ -2131,14 +2296,15 @@ input UserUpsertWithoutDotationsInput {
   create: UserCreateWithoutDotationsInput!
 }
 
-input UserUpsertWithoutHoldInput {
-  update: UserUpdateWithoutHoldDataInput!
-  create: UserCreateWithoutHoldInput!
-}
-
 input UserUpsertWithoutLogsInput {
   update: UserUpdateWithoutLogsDataInput!
   create: UserCreateWithoutLogsInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutHoldInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutHoldDataInput!
+  create: UserCreateWithoutHoldInput!
 }
 
 input UserWhereInput {

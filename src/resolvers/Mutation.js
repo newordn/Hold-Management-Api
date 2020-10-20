@@ -51,7 +51,7 @@ async function hold(parent, args, context, info) {
   console.log(MESSAGES.hold(args.name));
   try{
    
-    let hold = await context.prisma.createHold({...args, user: {connect: {id: args.user}}});
+    let hold = await context.prisma.createHold(args);
     return hold;
   }
   catch(e){

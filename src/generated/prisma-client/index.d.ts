@@ -348,6 +348,30 @@ export type DotationOrderByInput =
   | "created_at_ASC"
   | "created_at_DESC";
 
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "active_ASC"
+  | "active_DESC"
+  | "grade_ASC"
+  | "grade_DESC"
+  | "matricule_ASC"
+  | "matricule_DESC"
+  | "username_ASC"
+  | "username_DESC"
+  | "fullname_ASC"
+  | "fullname_DESC"
+  | "phone_ASC"
+  | "phone_DESC"
+  | "reserve_ASC"
+  | "reserve_DESC"
+  | "role_ASC"
+  | "role_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
 export type HoldsOnBonsOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -377,30 +401,6 @@ export type HoldOrderByInput =
   | "reserve_super_quantity_DESC"
   | "reserve_gazoil_quantity_ASC"
   | "reserve_gazoil_quantity_DESC"
-  | "created_at_ASC"
-  | "created_at_DESC";
-
-export type UserOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
-  | "active_ASC"
-  | "active_DESC"
-  | "grade_ASC"
-  | "grade_DESC"
-  | "matricule_ASC"
-  | "matricule_DESC"
-  | "username_ASC"
-  | "username_DESC"
-  | "fullname_ASC"
-  | "fullname_DESC"
-  | "phone_ASC"
-  | "phone_DESC"
-  | "reserve_ASC"
-  | "reserve_DESC"
-  | "role_ASC"
-  | "role_DESC"
-  | "password_ASC"
-  | "password_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -868,7 +868,9 @@ export interface HoldWhereInput {
   reserve_gazoil_quantity_lte?: Maybe<Float>;
   reserve_gazoil_quantity_gt?: Maybe<Float>;
   reserve_gazoil_quantity_gte?: Maybe<Float>;
-  user?: Maybe<UserWhereInput>;
+  user_every?: Maybe<UserWhereInput>;
+  user_some?: Maybe<UserWhereInput>;
+  user_none?: Maybe<UserWhereInput>;
   bons_every?: Maybe<HoldsOnBonsWhereInput>;
   bons_some?: Maybe<HoldsOnBonsWhereInput>;
   bons_none?: Maybe<HoldsOnBonsWhereInput>;
@@ -1068,13 +1070,13 @@ export interface HoldCreateWithoutDotationsInput {
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
-  user: UserCreateOneWithoutHoldInput;
+  user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
 }
 
-export interface UserCreateOneWithoutHoldInput {
-  create?: Maybe<UserCreateWithoutHoldInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserCreateManyWithoutHoldInput {
+  create?: Maybe<UserCreateWithoutHoldInput[] | UserCreateWithoutHoldInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
 export interface UserCreateWithoutHoldInput {
@@ -1143,7 +1145,7 @@ export interface HoldCreateWithoutBonsInput {
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
-  user: UserCreateOneWithoutHoldInput;
+  user?: Maybe<UserCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
@@ -1420,15 +1422,33 @@ export interface HoldUpdateWithoutDotationsDataInput {
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
 }
 
-export interface UserUpdateOneRequiredWithoutHoldInput {
-  create?: Maybe<UserCreateWithoutHoldInput>;
-  update?: Maybe<UserUpdateWithoutHoldDataInput>;
-  upsert?: Maybe<UserUpsertWithoutHoldInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserUpdateManyWithoutHoldInput {
+  create?: Maybe<UserCreateWithoutHoldInput[] | UserCreateWithoutHoldInput>;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutHoldInput[]
+    | UserUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutHoldInput[]
+    | UserUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserUpdateWithWhereUniqueWithoutHoldInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutHoldDataInput;
 }
 
 export interface UserUpdateWithoutHoldDataInput {
@@ -1536,7 +1556,7 @@ export interface HoldUpdateWithoutBonsDataInput {
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  user?: Maybe<UserUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
@@ -1985,9 +2005,163 @@ export interface BonUpdateManyDataInput {
   status?: Maybe<Boolean>;
 }
 
-export interface UserUpsertWithoutHoldInput {
+export interface UserUpsertWithWhereUniqueWithoutHoldInput {
+  where: UserWhereUniqueInput;
   update: UserUpdateWithoutHoldDataInput;
   create: UserCreateWithoutHoldInput;
+}
+
+export interface UserScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  active?: Maybe<Boolean>;
+  active_not?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  grade_not?: Maybe<String>;
+  grade_in?: Maybe<String[] | String>;
+  grade_not_in?: Maybe<String[] | String>;
+  grade_lt?: Maybe<String>;
+  grade_lte?: Maybe<String>;
+  grade_gt?: Maybe<String>;
+  grade_gte?: Maybe<String>;
+  grade_contains?: Maybe<String>;
+  grade_not_contains?: Maybe<String>;
+  grade_starts_with?: Maybe<String>;
+  grade_not_starts_with?: Maybe<String>;
+  grade_ends_with?: Maybe<String>;
+  grade_not_ends_with?: Maybe<String>;
+  matricule?: Maybe<String>;
+  matricule_not?: Maybe<String>;
+  matricule_in?: Maybe<String[] | String>;
+  matricule_not_in?: Maybe<String[] | String>;
+  matricule_lt?: Maybe<String>;
+  matricule_lte?: Maybe<String>;
+  matricule_gt?: Maybe<String>;
+  matricule_gte?: Maybe<String>;
+  matricule_contains?: Maybe<String>;
+  matricule_not_contains?: Maybe<String>;
+  matricule_starts_with?: Maybe<String>;
+  matricule_not_starts_with?: Maybe<String>;
+  matricule_ends_with?: Maybe<String>;
+  matricule_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  fullname?: Maybe<String>;
+  fullname_not?: Maybe<String>;
+  fullname_in?: Maybe<String[] | String>;
+  fullname_not_in?: Maybe<String[] | String>;
+  fullname_lt?: Maybe<String>;
+  fullname_lte?: Maybe<String>;
+  fullname_gt?: Maybe<String>;
+  fullname_gte?: Maybe<String>;
+  fullname_contains?: Maybe<String>;
+  fullname_not_contains?: Maybe<String>;
+  fullname_starts_with?: Maybe<String>;
+  fullname_not_starts_with?: Maybe<String>;
+  fullname_ends_with?: Maybe<String>;
+  fullname_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  reserve_not?: Maybe<Float>;
+  reserve_in?: Maybe<Float[] | Float>;
+  reserve_not_in?: Maybe<Float[] | Float>;
+  reserve_lt?: Maybe<Float>;
+  reserve_lte?: Maybe<Float>;
+  reserve_gt?: Maybe<Float>;
+  reserve_gte?: Maybe<Float>;
+  role?: Maybe<String>;
+  role_not?: Maybe<String>;
+  role_in?: Maybe<String[] | String>;
+  role_not_in?: Maybe<String[] | String>;
+  role_lt?: Maybe<String>;
+  role_lte?: Maybe<String>;
+  role_gt?: Maybe<String>;
+  role_gte?: Maybe<String>;
+  role_contains?: Maybe<String>;
+  role_not_contains?: Maybe<String>;
+  role_starts_with?: Maybe<String>;
+  role_not_starts_with?: Maybe<String>;
+  role_ends_with?: Maybe<String>;
+  role_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+}
+
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
+}
+
+export interface UserUpdateManyDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
 export interface HoldUpsertWithoutDotationsInput {
@@ -2061,7 +2235,7 @@ export interface HoldCreateInput {
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
-  user: UserCreateOneWithoutHoldInput;
+  user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -2077,7 +2251,7 @@ export interface HoldUpdateInput {
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateOneRequiredWithoutHoldInput>;
+  user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -2640,7 +2814,15 @@ export interface HoldPromise extends Promise<Hold>, Fragmentable {
   theorical_gazoil_quantity: () => Promise<Float>;
   reserve_super_quantity: () => Promise<Float>;
   reserve_gazoil_quantity: () => Promise<Float>;
-  user: <T = UserPromise>() => T;
+  user: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   bons: <T = FragmentableArray<HoldsOnBons>>(args?: {
     where?: HoldsOnBonsWhereInput;
     orderBy?: HoldsOnBonsOrderByInput;
@@ -2676,7 +2858,15 @@ export interface HoldSubscription
   theorical_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
-  user: <T = UserSubscription>() => T;
+  user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   bons: <T = Promise<AsyncIterator<HoldsOnBonsSubscription>>>(args?: {
     where?: HoldsOnBonsWhereInput;
     orderBy?: HoldsOnBonsOrderByInput;
@@ -2712,7 +2902,15 @@ export interface HoldNullablePromise
   theorical_gazoil_quantity: () => Promise<Float>;
   reserve_super_quantity: () => Promise<Float>;
   reserve_gazoil_quantity: () => Promise<Float>;
-  user: <T = UserPromise>() => T;
+  user: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   bons: <T = FragmentableArray<HoldsOnBons>>(args?: {
     where?: HoldsOnBonsWhereInput;
     orderBy?: HoldsOnBonsOrderByInput;
