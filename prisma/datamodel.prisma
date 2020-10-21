@@ -13,6 +13,7 @@ type User{
    bons: [Bon!] @relation(name:"UserBons")
    dotations: [Dotation!] @relation(name: "UserDotations")
    hold: Hold @relation(name: "UserHolds")
+   notifications: [Notification!] @relation(name: "UserNotifications")
    created_at: DateTime! @createdAt
 }
 type Dotation{
@@ -71,4 +72,11 @@ type Bon{
     user: User! @relation(name:"UserBons")
     holds: [HoldsOnBons!]!
     created_at: DateTime! @createdAt
+}
+
+type Notification{
+id : ID! @id
+user: User!  @relation(name: "UserNotifications")
+message: String!
+created_at: DateTime! @createdAt
 }

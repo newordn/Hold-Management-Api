@@ -14,9 +14,15 @@ async function holds(parent, args, context, info) {
   const holds = await context.prisma.holds({ orderBy: "id_DESC" });
   return holds;
 }
+async function notifications(parent, args, context, info) {
+  console.log("notifications query");
+  const notifications = await context.prisma.notifications({ orderBy: "id_DESC" });
+  return notifications;
+}
 module.exports = {
   info,
   users,
   logs,
-  holds
+  holds,
+  notifications
 };

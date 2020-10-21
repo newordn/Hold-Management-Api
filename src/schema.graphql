@@ -4,6 +4,7 @@ type Query{
     users: [User!]!
     logs: [Log!]!
     holds: [Hold!]!
+    notifications(user: ID!): [Notification!]!
 }
 
 type Mutation{
@@ -93,6 +94,12 @@ type Bon{
     created_at: String!
 }
 
+type Notification{
+id : ID!
+user: User!
+message: String!
+created_at: String!
+}
 `
 module.exports ={
     typeDefs

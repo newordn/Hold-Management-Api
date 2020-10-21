@@ -21,6 +21,7 @@ export interface Exists {
   hold: (where?: HoldWhereInput) => Promise<boolean>;
   holdsOnBons: (where?: HoldsOnBonsWhereInput) => Promise<boolean>;
   log: (where?: LogWhereInput) => Promise<boolean>;
+  notification: (where?: NotificationWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -140,6 +141,27 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => LogConnectionPromise;
+  notification: (
+    where: NotificationWhereUniqueInput
+  ) => NotificationNullablePromise;
+  notifications: (args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Notification>;
+  notificationsConnection: (args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => NotificationConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -243,6 +265,26 @@ export interface Prisma {
   }) => LogPromise;
   deleteLog: (where: LogWhereUniqueInput) => LogPromise;
   deleteManyLogs: (where?: LogWhereInput) => BatchPayloadPromise;
+  createNotification: (data: NotificationCreateInput) => NotificationPromise;
+  updateNotification: (args: {
+    data: NotificationUpdateInput;
+    where: NotificationWhereUniqueInput;
+  }) => NotificationPromise;
+  updateManyNotifications: (args: {
+    data: NotificationUpdateManyMutationInput;
+    where?: NotificationWhereInput;
+  }) => BatchPayloadPromise;
+  upsertNotification: (args: {
+    where: NotificationWhereUniqueInput;
+    create: NotificationCreateInput;
+    update: NotificationUpdateInput;
+  }) => NotificationPromise;
+  deleteNotification: (
+    where: NotificationWhereUniqueInput
+  ) => NotificationPromise;
+  deleteManyNotifications: (
+    where?: NotificationWhereInput
+  ) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -283,6 +325,9 @@ export interface Subscription {
   log: (
     where?: LogSubscriptionWhereInput
   ) => LogSubscriptionPayloadSubscription;
+  notification: (
+    where?: NotificationSubscriptionWhereInput
+  ) => NotificationSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -375,6 +420,14 @@ export type UserOrderByInput =
 export type HoldsOnBonsOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type NotificationOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "message_ASC"
+  | "message_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -586,6 +639,9 @@ export interface UserWhereInput {
   dotations_some?: Maybe<DotationWhereInput>;
   dotations_none?: Maybe<DotationWhereInput>;
   hold?: Maybe<HoldWhereInput>;
+  notifications_every?: Maybe<NotificationWhereInput>;
+  notifications_some?: Maybe<NotificationWhereInput>;
+  notifications_none?: Maybe<NotificationWhereInput>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -966,6 +1022,49 @@ export interface DotationWhereInput {
   NOT?: Maybe<DotationWhereInput[] | DotationWhereInput>;
 }
 
+export interface NotificationWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  user?: Maybe<UserWhereInput>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<NotificationWhereInput[] | NotificationWhereInput>;
+  OR?: Maybe<NotificationWhereInput[] | NotificationWhereInput>;
+  NOT?: Maybe<NotificationWhereInput[] | NotificationWhereInput>;
+}
+
 export type DotationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -979,6 +1078,10 @@ export type HoldsOnBonsWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type LogWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type NotificationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1024,6 +1127,7 @@ export interface UserCreateWithoutBonsInput {
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
 export interface LogCreateManyWithoutUserInput {
@@ -1093,6 +1197,7 @@ export interface UserCreateWithoutHoldInput {
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
 export interface BonCreateManyWithoutUserInput {
@@ -1185,6 +1290,7 @@ export interface UserCreateWithoutDotationsInput {
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
 export interface HoldCreateOneWithoutUserInput {
@@ -1241,6 +1347,20 @@ export interface BonCreateWithoutHoldsInput {
   user: UserCreateOneWithoutBonsInput;
 }
 
+export interface NotificationCreateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  >;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+}
+
+export interface NotificationCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  message: String;
+}
+
 export interface BonUpdateInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
@@ -1277,6 +1397,7 @@ export interface UserUpdateWithoutBonsDataInput {
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
 export interface LogUpdateManyWithoutUserInput {
@@ -1464,6 +1585,7 @@ export interface UserUpdateWithoutHoldDataInput {
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
 export interface BonUpdateManyWithoutUserInput {
@@ -1619,6 +1741,7 @@ export interface UserUpdateWithoutDotationsDataInput {
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
 export interface HoldUpdateOneWithoutUserInput {
@@ -1741,6 +1864,101 @@ export interface HoldsOnBonsScalarWhereInput {
 export interface HoldUpsertWithoutUserInput {
   update: HoldUpdateWithoutUserDataInput;
   create: HoldCreateWithoutUserInput;
+}
+
+export interface NotificationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  >;
+  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  disconnect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    | NotificationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    | NotificationUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    NotificationScalarWhereInput[] | NotificationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | NotificationUpdateManyWithWhereNestedInput[]
+    | NotificationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  data: NotificationUpdateWithoutUserDataInput;
+}
+
+export interface NotificationUpdateWithoutUserDataInput {
+  message?: Maybe<String>;
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  update: NotificationUpdateWithoutUserDataInput;
+  create: NotificationCreateWithoutUserInput;
+}
+
+export interface NotificationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  OR?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  NOT?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+}
+
+export interface NotificationUpdateManyWithWhereNestedInput {
+  where: NotificationScalarWhereInput;
+  data: NotificationUpdateManyDataInput;
+}
+
+export interface NotificationUpdateManyDataInput {
+  message?: Maybe<String>;
 }
 
 export interface UserUpsertWithoutDotationsInput {
@@ -2305,6 +2523,7 @@ export interface UserCreateWithoutLogsInput {
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
 export interface LogUpdateInput {
@@ -2332,6 +2551,7 @@ export interface UserUpdateWithoutLogsDataInput {
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
 export interface UserUpsertWithoutLogsInput {
@@ -2341,6 +2561,71 @@ export interface UserUpsertWithoutLogsInput {
 
 export interface LogUpdateManyMutationInput {
   action?: Maybe<String>;
+}
+
+export interface NotificationCreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneWithoutNotificationsInput;
+  message: String;
+}
+
+export interface UserCreateOneWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutNotificationsInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  reserve: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+}
+
+export interface NotificationUpdateInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutNotificationsInput>;
+  message?: Maybe<String>;
+}
+
+export interface UserUpdateOneRequiredWithoutNotificationsInput {
+  create?: Maybe<UserCreateWithoutNotificationsInput>;
+  update?: Maybe<UserUpdateWithoutNotificationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutNotificationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutNotificationsDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  reserve?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput;
+  create: UserCreateWithoutNotificationsInput;
+}
+
+export interface NotificationUpdateManyMutationInput {
+  message?: Maybe<String>;
 }
 
 export interface UserCreateInput {
@@ -2358,6 +2643,7 @@ export interface UserCreateInput {
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
 export interface UserUpdateInput {
@@ -2374,6 +2660,7 @@ export interface UserUpdateInput {
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -2451,6 +2738,23 @@ export interface LogSubscriptionWhereInput {
   AND?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
   OR?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
   NOT?: Maybe<LogSubscriptionWhereInput[] | LogSubscriptionWhereInput>;
+}
+
+export interface NotificationSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<NotificationWhereInput>;
+  AND?: Maybe<
+    NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
+  >;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -2617,6 +2921,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     last?: Int;
   }) => T;
   hold: <T = HoldPromise>() => T;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -2661,6 +2974,15 @@ export interface UserSubscription
     last?: Int;
   }) => T;
   hold: <T = HoldSubscription>() => T;
+  notifications: <T = Promise<AsyncIterator<NotificationSubscription>>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -2705,6 +3027,15 @@ export interface UserNullablePromise
     last?: Int;
   }) => T;
   hold: <T = HoldPromise>() => T;
+  notifications: <T = FragmentableArray<Notification>>(args?: {
+    where?: NotificationWhereInput;
+    orderBy?: NotificationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -2959,6 +3290,39 @@ export interface HoldsOnBonsNullablePromise
   id: () => Promise<ID_Output>;
   hold: <T = HoldPromise>() => T;
   bon: <T = BonPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface Notification {
+  id: ID_Output;
+  message: String;
+  created_at: DateTimeOutput;
+}
+
+export interface NotificationPromise
+  extends Promise<Notification>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  message: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface NotificationSubscription
+  extends Promise<AsyncIterator<Notification>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  message: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface NotificationNullablePromise
+  extends Promise<Notification | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  message: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3255,6 +3619,62 @@ export interface AggregateLogPromise
 
 export interface AggregateLogSubscription
   extends Promise<AsyncIterator<AggregateLog>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface NotificationConnection {
+  pageInfo: PageInfo;
+  edges: NotificationEdge[];
+}
+
+export interface NotificationConnectionPromise
+  extends Promise<NotificationConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<NotificationEdge>>() => T;
+  aggregate: <T = AggregateNotificationPromise>() => T;
+}
+
+export interface NotificationConnectionSubscription
+  extends Promise<AsyncIterator<NotificationConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<NotificationEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateNotificationSubscription>() => T;
+}
+
+export interface NotificationEdge {
+  node: Notification;
+  cursor: String;
+}
+
+export interface NotificationEdgePromise
+  extends Promise<NotificationEdge>,
+    Fragmentable {
+  node: <T = NotificationPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface NotificationEdgeSubscription
+  extends Promise<AsyncIterator<NotificationEdge>>,
+    Fragmentable {
+  node: <T = NotificationSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateNotification {
+  count: Int;
+}
+
+export interface AggregateNotificationPromise
+  extends Promise<AggregateNotification>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateNotificationSubscription
+  extends Promise<AsyncIterator<AggregateNotification>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -3630,6 +4050,53 @@ export interface LogPreviousValuesSubscription
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface NotificationSubscriptionPayload {
+  mutation: MutationType;
+  node: Notification;
+  updatedFields: String[];
+  previousValues: NotificationPreviousValues;
+}
+
+export interface NotificationSubscriptionPayloadPromise
+  extends Promise<NotificationSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = NotificationPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = NotificationPreviousValuesPromise>() => T;
+}
+
+export interface NotificationSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<NotificationSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = NotificationSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = NotificationPreviousValuesSubscription>() => T;
+}
+
+export interface NotificationPreviousValues {
+  id: ID_Output;
+  message: String;
+  created_at: DateTimeOutput;
+}
+
+export interface NotificationPreviousValuesPromise
+  extends Promise<NotificationPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  message: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface NotificationPreviousValuesSubscription
+  extends Promise<AsyncIterator<NotificationPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  message: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -3766,6 +4233,10 @@ export const models: Model[] = [
   },
   {
     name: "Bon",
+    embedded: false
+  },
+  {
+    name: "Notification",
     embedded: false
   }
 ];

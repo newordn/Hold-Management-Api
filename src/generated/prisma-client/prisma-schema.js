@@ -23,6 +23,10 @@ type AggregateLog {
   count: Int!
 }
 
+type AggregateNotification {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -1762,6 +1766,12 @@ type Mutation {
   upsertLog(where: LogWhereUniqueInput!, create: LogCreateInput!, update: LogUpdateInput!): Log!
   deleteLog(where: LogWhereUniqueInput!): Log
   deleteManyLogs(where: LogWhereInput): BatchPayload!
+  createNotification(data: NotificationCreateInput!): Notification!
+  updateNotification(data: NotificationUpdateInput!, where: NotificationWhereUniqueInput!): Notification
+  updateManyNotifications(data: NotificationUpdateManyMutationInput!, where: NotificationWhereInput): BatchPayload!
+  upsertNotification(where: NotificationWhereUniqueInput!, create: NotificationCreateInput!, update: NotificationUpdateInput!): Notification!
+  deleteNotification(where: NotificationWhereUniqueInput!): Notification
+  deleteManyNotifications(where: NotificationWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -1778,6 +1788,207 @@ enum MutationType {
 
 interface Node {
   id: ID!
+}
+
+type Notification {
+  id: ID!
+  user: User!
+  message: String!
+  created_at: DateTime!
+}
+
+type NotificationConnection {
+  pageInfo: PageInfo!
+  edges: [NotificationEdge]!
+  aggregate: AggregateNotification!
+}
+
+input NotificationCreateInput {
+  id: ID
+  user: UserCreateOneWithoutNotificationsInput!
+  message: String!
+}
+
+input NotificationCreateManyWithoutUserInput {
+  create: [NotificationCreateWithoutUserInput!]
+  connect: [NotificationWhereUniqueInput!]
+}
+
+input NotificationCreateWithoutUserInput {
+  id: ID
+  message: String!
+}
+
+type NotificationEdge {
+  node: Notification!
+  cursor: String!
+}
+
+enum NotificationOrderByInput {
+  id_ASC
+  id_DESC
+  message_ASC
+  message_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type NotificationPreviousValues {
+  id: ID!
+  message: String!
+  created_at: DateTime!
+}
+
+input NotificationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [NotificationScalarWhereInput!]
+  OR: [NotificationScalarWhereInput!]
+  NOT: [NotificationScalarWhereInput!]
+}
+
+type NotificationSubscriptionPayload {
+  mutation: MutationType!
+  node: Notification
+  updatedFields: [String!]
+  previousValues: NotificationPreviousValues
+}
+
+input NotificationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: NotificationWhereInput
+  AND: [NotificationSubscriptionWhereInput!]
+  OR: [NotificationSubscriptionWhereInput!]
+  NOT: [NotificationSubscriptionWhereInput!]
+}
+
+input NotificationUpdateInput {
+  user: UserUpdateOneRequiredWithoutNotificationsInput
+  message: String
+}
+
+input NotificationUpdateManyDataInput {
+  message: String
+}
+
+input NotificationUpdateManyMutationInput {
+  message: String
+}
+
+input NotificationUpdateManyWithoutUserInput {
+  create: [NotificationCreateWithoutUserInput!]
+  delete: [NotificationWhereUniqueInput!]
+  connect: [NotificationWhereUniqueInput!]
+  set: [NotificationWhereUniqueInput!]
+  disconnect: [NotificationWhereUniqueInput!]
+  update: [NotificationUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [NotificationUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [NotificationScalarWhereInput!]
+  updateMany: [NotificationUpdateManyWithWhereNestedInput!]
+}
+
+input NotificationUpdateManyWithWhereNestedInput {
+  where: NotificationScalarWhereInput!
+  data: NotificationUpdateManyDataInput!
+}
+
+input NotificationUpdateWithoutUserDataInput {
+  message: String
+}
+
+input NotificationUpdateWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput!
+  data: NotificationUpdateWithoutUserDataInput!
+}
+
+input NotificationUpsertWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput!
+  update: NotificationUpdateWithoutUserDataInput!
+  create: NotificationCreateWithoutUserInput!
+}
+
+input NotificationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  message: String
+  message_not: String
+  message_in: [String!]
+  message_not_in: [String!]
+  message_lt: String
+  message_lte: String
+  message_gt: String
+  message_gte: String
+  message_contains: String
+  message_not_contains: String
+  message_starts_with: String
+  message_not_starts_with: String
+  message_ends_with: String
+  message_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [NotificationWhereInput!]
+  OR: [NotificationWhereInput!]
+  NOT: [NotificationWhereInput!]
+}
+
+input NotificationWhereUniqueInput {
+  id: ID
 }
 
 type PageInfo {
@@ -1803,6 +2014,9 @@ type Query {
   log(where: LogWhereUniqueInput!): Log
   logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log]!
   logsConnection(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LogConnection!
+  notification(where: NotificationWhereUniqueInput!): Notification
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
+  notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1815,6 +2029,7 @@ type Subscription {
   hold(where: HoldSubscriptionWhereInput): HoldSubscriptionPayload
   holdsOnBons(where: HoldsOnBonsSubscriptionWhereInput): HoldsOnBonsSubscriptionPayload
   log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
+  notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -1833,6 +2048,7 @@ type User {
   bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
   hold: Hold
+  notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   created_at: DateTime!
 }
 
@@ -1857,6 +2073,7 @@ input UserCreateInput {
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUserInput
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 input UserCreateManyWithoutHoldInput {
@@ -1879,6 +2096,11 @@ input UserCreateOneWithoutLogsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutNotificationsInput {
+  create: UserCreateWithoutNotificationsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutBonsInput {
   id: ID
   active: Boolean!
@@ -1893,6 +2115,7 @@ input UserCreateWithoutBonsInput {
   logs: LogCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUserInput
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutDotationsInput {
@@ -1909,6 +2132,7 @@ input UserCreateWithoutDotationsInput {
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUserInput
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutHoldInput {
@@ -1925,6 +2149,7 @@ input UserCreateWithoutHoldInput {
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutLogsInput {
@@ -1938,6 +2163,24 @@ input UserCreateWithoutLogsInput {
   reserve: Float!
   role: String!
   password: String!
+  bons: BonCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUserInput
+  notifications: NotificationCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutNotificationsInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  reserve: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUserInput
@@ -2155,6 +2398,7 @@ input UserUpdateInput {
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUserInput
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyDataInput {
@@ -2212,6 +2456,13 @@ input UserUpdateOneRequiredWithoutLogsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutNotificationsInput {
+  create: UserCreateWithoutNotificationsInput
+  update: UserUpdateWithoutNotificationsDataInput
+  upsert: UserUpsertWithoutNotificationsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateOneWithoutDotationsInput {
   create: UserCreateWithoutDotationsInput
   update: UserUpdateWithoutDotationsDataInput
@@ -2234,6 +2485,7 @@ input UserUpdateWithoutBonsDataInput {
   logs: LogUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUserInput
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutDotationsDataInput {
@@ -2249,6 +2501,7 @@ input UserUpdateWithoutDotationsDataInput {
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUserInput
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutHoldDataInput {
@@ -2264,6 +2517,7 @@ input UserUpdateWithoutHoldDataInput {
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutLogsDataInput {
@@ -2276,6 +2530,23 @@ input UserUpdateWithoutLogsDataInput {
   reserve: Float
   role: String
   password: String
+  bons: BonUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUserInput
+  notifications: NotificationUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutNotificationsDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  reserve: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUserInput
@@ -2299,6 +2570,11 @@ input UserUpsertWithoutDotationsInput {
 input UserUpsertWithoutLogsInput {
   update: UserUpdateWithoutLogsDataInput!
   create: UserCreateWithoutLogsInput!
+}
+
+input UserUpsertWithoutNotificationsInput {
+  update: UserUpdateWithoutNotificationsDataInput!
+  create: UserCreateWithoutNotificationsInput!
 }
 
 input UserUpsertWithWhereUniqueWithoutHoldInput {
@@ -2440,6 +2716,9 @@ input UserWhereInput {
   dotations_some: DotationWhereInput
   dotations_none: DotationWhereInput
   hold: HoldWhereInput
+  notifications_every: NotificationWhereInput
+  notifications_some: NotificationWhereInput
+  notifications_none: NotificationWhereInput
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
