@@ -70,10 +70,24 @@ async function updateUsersHoldRole(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+async function removeUserFromHold(parent, args, context, info) {
+  console.log(MESSAGES.removeUserFromHold(args.user));
+  try {
+    const user = await context.prisma.updateUser({
+      data: { role: args.role, hold: { connect: { id: args.hold } } },
+      where: { id: args.user }
+    });
+    return user;
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 
 module.exports = {
   signUp,
   signIn,
   hold,
-  updateUsersHoldRole
+  updateUsersHoldRole,
+  removeUserFromHold
 };

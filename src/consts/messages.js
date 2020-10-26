@@ -3,6 +3,7 @@ const MESSAGES = {
   signIn: (name) => `Connexion de l'utilisateur immatriculé ${name}`,
   hold: (name)=>  `Création de la soute de ${name}`,
   updateUsersHoldRole: (user, hold, role) => `Mise a jour de l'utilisateur immatriculé ${user}, assignation a la soute ${hold} avec pour role ${role}`,
+  removeUserFromHold: (matricule) => `Suppression de l'utilisateur immatriculé ${matricule} de sa soute`
 };
 module.exports = {
   MESSAGES
