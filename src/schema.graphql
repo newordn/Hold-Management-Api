@@ -1,6 +1,6 @@
 const typeDefs = `
 type Query{
-    info: String!
+    info(message: String!): String!
     users: [User!]!
     logs: [Log!]!
     holds: [Hold!]!
