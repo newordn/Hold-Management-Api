@@ -1,6 +1,6 @@
-const info = (message) => {
-  console.log(message)
-  return message;
+async function info(parent, args, context, info) {
+  console.log(args.message)
+  return args.message;
 }
 async function users(parent, args, context, info) {
   console.log("users query");
