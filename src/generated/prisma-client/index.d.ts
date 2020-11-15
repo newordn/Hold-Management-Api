@@ -442,10 +442,10 @@ export type HoldOrderByInput =
   | "super_capacity_DESC"
   | "gazoil_capacity_ASC"
   | "gazoil_capacity_DESC"
-  | "real_super_quantity_ASC"
-  | "real_super_quantity_DESC"
-  | "real_gazoil_quantity_ASC"
-  | "real_gazoil_quantity_DESC"
+  | "super_quantity_ASC"
+  | "super_quantity_DESC"
+  | "gazoil_quantity_ASC"
+  | "gazoil_quantity_DESC"
   | "theorical_super_quantity_ASC"
   | "theorical_super_quantity_DESC"
   | "theorical_gazoil_quantity_ASC"
@@ -454,6 +454,10 @@ export type HoldOrderByInput =
   | "reserve_super_quantity_DESC"
   | "reserve_gazoil_quantity_ASC"
   | "reserve_gazoil_quantity_DESC"
+  | "theorical_reserve_super_quantity_ASC"
+  | "theorical_reserve_super_quantity_DESC"
+  | "theorical_reserve_gazoil_quantity_ASC"
+  | "theorical_reserve_gazoil_quantity_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -876,22 +880,22 @@ export interface HoldWhereInput {
   gazoil_capacity_lte?: Maybe<Float>;
   gazoil_capacity_gt?: Maybe<Float>;
   gazoil_capacity_gte?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_super_quantity_not?: Maybe<Float>;
-  real_super_quantity_in?: Maybe<Float[] | Float>;
-  real_super_quantity_not_in?: Maybe<Float[] | Float>;
-  real_super_quantity_lt?: Maybe<Float>;
-  real_super_quantity_lte?: Maybe<Float>;
-  real_super_quantity_gt?: Maybe<Float>;
-  real_super_quantity_gte?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
-  real_gazoil_quantity_not?: Maybe<Float>;
-  real_gazoil_quantity_in?: Maybe<Float[] | Float>;
-  real_gazoil_quantity_not_in?: Maybe<Float[] | Float>;
-  real_gazoil_quantity_lt?: Maybe<Float>;
-  real_gazoil_quantity_lte?: Maybe<Float>;
-  real_gazoil_quantity_gt?: Maybe<Float>;
-  real_gazoil_quantity_gte?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  super_quantity_not?: Maybe<Float>;
+  super_quantity_in?: Maybe<Float[] | Float>;
+  super_quantity_not_in?: Maybe<Float[] | Float>;
+  super_quantity_lt?: Maybe<Float>;
+  super_quantity_lte?: Maybe<Float>;
+  super_quantity_gt?: Maybe<Float>;
+  super_quantity_gte?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
+  gazoil_quantity_not?: Maybe<Float>;
+  gazoil_quantity_in?: Maybe<Float[] | Float>;
+  gazoil_quantity_not_in?: Maybe<Float[] | Float>;
+  gazoil_quantity_lt?: Maybe<Float>;
+  gazoil_quantity_lte?: Maybe<Float>;
+  gazoil_quantity_gt?: Maybe<Float>;
+  gazoil_quantity_gte?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_super_quantity_not?: Maybe<Float>;
   theorical_super_quantity_in?: Maybe<Float[] | Float>;
@@ -924,6 +928,22 @@ export interface HoldWhereInput {
   reserve_gazoil_quantity_lte?: Maybe<Float>;
   reserve_gazoil_quantity_gt?: Maybe<Float>;
   reserve_gazoil_quantity_gte?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity_not?: Maybe<Float>;
+  theorical_reserve_super_quantity_in?: Maybe<Float[] | Float>;
+  theorical_reserve_super_quantity_not_in?: Maybe<Float[] | Float>;
+  theorical_reserve_super_quantity_lt?: Maybe<Float>;
+  theorical_reserve_super_quantity_lte?: Maybe<Float>;
+  theorical_reserve_super_quantity_gt?: Maybe<Float>;
+  theorical_reserve_super_quantity_gte?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity_not?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity_in?: Maybe<Float[] | Float>;
+  theorical_reserve_gazoil_quantity_not_in?: Maybe<Float[] | Float>;
+  theorical_reserve_gazoil_quantity_lt?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity_lte?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity_gt?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity_gte?: Maybe<Float>;
   user_every?: Maybe<UserWhereInput>;
   user_some?: Maybe<UserWhereInput>;
   user_none?: Maybe<UserWhereInput>;
@@ -1168,12 +1188,14 @@ export interface HoldCreateWithoutDotationsInput {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
 }
@@ -1244,12 +1266,14 @@ export interface HoldCreateWithoutBonsInput {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -1304,12 +1328,14 @@ export interface HoldCreateWithoutUserInput {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -1537,12 +1563,14 @@ export interface HoldUpdateWithoutDotationsDataInput {
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
 }
@@ -1672,12 +1700,14 @@ export interface HoldUpdateWithoutBonsDataInput {
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -1758,12 +1788,14 @@ export interface HoldUpdateWithoutUserDataInput {
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -2447,12 +2479,14 @@ export interface HoldCreateInput {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
@@ -2463,12 +2497,14 @@ export interface HoldUpdateInput {
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
@@ -2479,12 +2515,14 @@ export interface HoldUpdateManyMutationInput {
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
   gazoil_capacity?: Maybe<Float>;
-  real_super_quantity?: Maybe<Float>;
-  real_gazoil_quantity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
   theorical_super_quantity?: Maybe<Float>;
   theorical_gazoil_quantity?: Maybe<Float>;
   reserve_super_quantity?: Maybe<Float>;
   reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
 }
 
 export interface HoldsOnBonsCreateInput {
@@ -3124,12 +3162,14 @@ export interface Hold {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   created_at: DateTimeOutput;
 }
 
@@ -3139,12 +3179,14 @@ export interface HoldPromise extends Promise<Hold>, Fragmentable {
   localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
-  real_super_quantity: () => Promise<Float>;
-  real_gazoil_quantity: () => Promise<Float>;
+  super_quantity: () => Promise<Float>;
+  gazoil_quantity: () => Promise<Float>;
   theorical_super_quantity: () => Promise<Float>;
   theorical_gazoil_quantity: () => Promise<Float>;
   reserve_super_quantity: () => Promise<Float>;
   reserve_gazoil_quantity: () => Promise<Float>;
+  theorical_reserve_super_quantity: () => Promise<Float>;
+  theorical_reserve_gazoil_quantity: () => Promise<Float>;
   user: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -3183,12 +3225,14 @@ export interface HoldSubscription
   localisation: () => Promise<AsyncIterator<String>>;
   super_capacity: () => Promise<AsyncIterator<Float>>;
   gazoil_capacity: () => Promise<AsyncIterator<Float>>;
-  real_super_quantity: () => Promise<AsyncIterator<Float>>;
-  real_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  super_quantity: () => Promise<AsyncIterator<Float>>;
+  gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_super_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -3227,12 +3271,14 @@ export interface HoldNullablePromise
   localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
-  real_super_quantity: () => Promise<Float>;
-  real_gazoil_quantity: () => Promise<Float>;
+  super_quantity: () => Promise<Float>;
+  gazoil_quantity: () => Promise<Float>;
   theorical_super_quantity: () => Promise<Float>;
   theorical_gazoil_quantity: () => Promise<Float>;
   reserve_super_quantity: () => Promise<Float>;
   reserve_gazoil_quantity: () => Promise<Float>;
+  theorical_reserve_super_quantity: () => Promise<Float>;
+  theorical_reserve_gazoil_quantity: () => Promise<Float>;
   user: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
@@ -3916,12 +3962,14 @@ export interface HoldPreviousValues {
   localisation: String;
   super_capacity: Float;
   gazoil_capacity: Float;
-  real_super_quantity: Float;
-  real_gazoil_quantity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
   theorical_super_quantity: Float;
   theorical_gazoil_quantity: Float;
   reserve_super_quantity: Float;
   reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
   created_at: DateTimeOutput;
 }
 
@@ -3933,12 +3981,14 @@ export interface HoldPreviousValuesPromise
   localisation: () => Promise<String>;
   super_capacity: () => Promise<Float>;
   gazoil_capacity: () => Promise<Float>;
-  real_super_quantity: () => Promise<Float>;
-  real_gazoil_quantity: () => Promise<Float>;
+  super_quantity: () => Promise<Float>;
+  gazoil_quantity: () => Promise<Float>;
   theorical_super_quantity: () => Promise<Float>;
   theorical_gazoil_quantity: () => Promise<Float>;
   reserve_super_quantity: () => Promise<Float>;
   reserve_gazoil_quantity: () => Promise<Float>;
+  theorical_reserve_super_quantity: () => Promise<Float>;
+  theorical_reserve_gazoil_quantity: () => Promise<Float>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3950,12 +4000,14 @@ export interface HoldPreviousValuesSubscription
   localisation: () => Promise<AsyncIterator<String>>;
   super_capacity: () => Promise<AsyncIterator<Float>>;
   gazoil_capacity: () => Promise<AsyncIterator<Float>>;
-  real_super_quantity: () => Promise<AsyncIterator<Float>>;
-  real_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  super_quantity: () => Promise<AsyncIterator<Float>>;
+  gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_super_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
   reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
+  theorical_reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 

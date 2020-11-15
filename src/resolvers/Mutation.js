@@ -69,10 +69,29 @@ async function updateUsersHoldRole(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+async function dotateHold(parent, args, context, info){
+  const {user, hold, theorical_super_quantity, theorical_gazoil_quantity, theorical_reserve_super_quantity, theorical_reserve_gazoil_quantity} = args
+  console.log(MESSAGES.dotateHold(user, hold, theorical_super_quantity, theorical_gazoil_quantity, theorical_reserve_super_quantity, theorical_reserve_gazoil_quantity));
+  try{
+    const hold1 = await context.prisma.hold({id: hold})
+    const updateHold = await context.prisma.updateHold({
+      data: {theorical_super_quantity: hold1.theorical_super_quantity + theorical_super_quantity, theorical_gazoil_quantity: hold1.theorical_gazoil_quantity + theorical_gazoil_quantity, 
+        theorical_reserve_super_quantity: hold1.theorical_reserve_super_quantity + theorical_reserve_super_quantity,
+         theorical_reserve_gazoil_quantity: hold1.theorical_reserve_gazoil_quantity + theorical_reserve_gazoil_quantity},
+      where: {id: hold}
+    })
+    return updateHold
+  }
+  catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 
 module.exports = {
   signUp,
   signIn,
   hold,
-  updateUsersHoldRole
+  updateUsersHoldRole,
+  dotateHold
 };

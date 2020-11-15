@@ -930,12 +930,14 @@ type Hold {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
@@ -954,12 +956,14 @@ input HoldCreateInput {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
@@ -986,12 +990,14 @@ input HoldCreateWithoutBonsInput {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -1002,12 +1008,14 @@ input HoldCreateWithoutDotationsInput {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
 }
@@ -1018,12 +1026,14 @@ input HoldCreateWithoutUserInput {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -1044,10 +1054,10 @@ enum HoldOrderByInput {
   super_capacity_DESC
   gazoil_capacity_ASC
   gazoil_capacity_DESC
-  real_super_quantity_ASC
-  real_super_quantity_DESC
-  real_gazoil_quantity_ASC
-  real_gazoil_quantity_DESC
+  super_quantity_ASC
+  super_quantity_DESC
+  gazoil_quantity_ASC
+  gazoil_quantity_DESC
   theorical_super_quantity_ASC
   theorical_super_quantity_DESC
   theorical_gazoil_quantity_ASC
@@ -1056,6 +1066,10 @@ enum HoldOrderByInput {
   reserve_super_quantity_DESC
   reserve_gazoil_quantity_ASC
   reserve_gazoil_quantity_DESC
+  theorical_reserve_super_quantity_ASC
+  theorical_reserve_super_quantity_DESC
+  theorical_reserve_gazoil_quantity_ASC
+  theorical_reserve_gazoil_quantity_DESC
   created_at_ASC
   created_at_DESC
 }
@@ -1066,12 +1080,14 @@ type HoldPreviousValues {
   localisation: String!
   super_capacity: Float!
   gazoil_capacity: Float!
-  real_super_quantity: Float!
-  real_gazoil_quantity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
   reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
   created_at: DateTime!
 }
 
@@ -1291,12 +1307,14 @@ input HoldUpdateInput {
   localisation: String
   super_capacity: Float
   gazoil_capacity: Float
-  real_super_quantity: Float
-  real_gazoil_quantity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
@@ -1307,12 +1325,14 @@ input HoldUpdateManyMutationInput {
   localisation: String
   super_capacity: Float
   gazoil_capacity: Float
-  real_super_quantity: Float
-  real_gazoil_quantity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
 }
 
 input HoldUpdateOneRequiredWithoutBonsInput {
@@ -1345,12 +1365,14 @@ input HoldUpdateWithoutBonsDataInput {
   localisation: String
   super_capacity: Float
   gazoil_capacity: Float
-  real_super_quantity: Float
-  real_gazoil_quantity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -1360,12 +1382,14 @@ input HoldUpdateWithoutDotationsDataInput {
   localisation: String
   super_capacity: Float
   gazoil_capacity: Float
-  real_super_quantity: Float
-  real_gazoil_quantity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
 }
@@ -1375,12 +1399,14 @@ input HoldUpdateWithoutUserDataInput {
   localisation: String
   super_capacity: Float
   gazoil_capacity: Float
-  real_super_quantity: Float
-  real_gazoil_quantity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
   reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -1459,22 +1485,22 @@ input HoldWhereInput {
   gazoil_capacity_lte: Float
   gazoil_capacity_gt: Float
   gazoil_capacity_gte: Float
-  real_super_quantity: Float
-  real_super_quantity_not: Float
-  real_super_quantity_in: [Float!]
-  real_super_quantity_not_in: [Float!]
-  real_super_quantity_lt: Float
-  real_super_quantity_lte: Float
-  real_super_quantity_gt: Float
-  real_super_quantity_gte: Float
-  real_gazoil_quantity: Float
-  real_gazoil_quantity_not: Float
-  real_gazoil_quantity_in: [Float!]
-  real_gazoil_quantity_not_in: [Float!]
-  real_gazoil_quantity_lt: Float
-  real_gazoil_quantity_lte: Float
-  real_gazoil_quantity_gt: Float
-  real_gazoil_quantity_gte: Float
+  super_quantity: Float
+  super_quantity_not: Float
+  super_quantity_in: [Float!]
+  super_quantity_not_in: [Float!]
+  super_quantity_lt: Float
+  super_quantity_lte: Float
+  super_quantity_gt: Float
+  super_quantity_gte: Float
+  gazoil_quantity: Float
+  gazoil_quantity_not: Float
+  gazoil_quantity_in: [Float!]
+  gazoil_quantity_not_in: [Float!]
+  gazoil_quantity_lt: Float
+  gazoil_quantity_lte: Float
+  gazoil_quantity_gt: Float
+  gazoil_quantity_gte: Float
   theorical_super_quantity: Float
   theorical_super_quantity_not: Float
   theorical_super_quantity_in: [Float!]
@@ -1507,6 +1533,22 @@ input HoldWhereInput {
   reserve_gazoil_quantity_lte: Float
   reserve_gazoil_quantity_gt: Float
   reserve_gazoil_quantity_gte: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_super_quantity_not: Float
+  theorical_reserve_super_quantity_in: [Float!]
+  theorical_reserve_super_quantity_not_in: [Float!]
+  theorical_reserve_super_quantity_lt: Float
+  theorical_reserve_super_quantity_lte: Float
+  theorical_reserve_super_quantity_gt: Float
+  theorical_reserve_super_quantity_gte: Float
+  theorical_reserve_gazoil_quantity: Float
+  theorical_reserve_gazoil_quantity_not: Float
+  theorical_reserve_gazoil_quantity_in: [Float!]
+  theorical_reserve_gazoil_quantity_not_in: [Float!]
+  theorical_reserve_gazoil_quantity_lt: Float
+  theorical_reserve_gazoil_quantity_lte: Float
+  theorical_reserve_gazoil_quantity_gt: Float
+  theorical_reserve_gazoil_quantity_gte: Float
   user_every: UserWhereInput
   user_some: UserWhereInput
   user_none: UserWhereInput
