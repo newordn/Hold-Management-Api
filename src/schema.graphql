@@ -12,7 +12,7 @@ type Mutation{
     signIn(matricule:String!,password:String!): AuthPayload!
     hold(name:String!, localisation: String!, super_capacity: Float!, gazoil_capacity: Float!, real_super_quantity: Float!, real_gazoil_quantity: Float!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, reserve_super_quantity: Float!, reserve_gazoil_quantity: Float!): Hold!
     updateUsersHoldRole(user:ID!, hold: ID!, role: String!): User!
-    dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!): Hold!
+    dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
 }
     
 
@@ -40,7 +40,7 @@ type User{
 }
 type Dotation{
     id: ID!
-    comment: String!
+    motif: String!
     start_date: String!
     end_date: String!
     number_of_liter_dotated: Float!

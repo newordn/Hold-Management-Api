@@ -380,16 +380,28 @@ export type BonOrderByInput =
 export type DotationOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "comment_ASC"
-  | "comment_DESC"
+  | "motif_ASC"
+  | "motif_DESC"
   | "start_date_ASC"
   | "start_date_DESC"
   | "end_date_ASC"
   | "end_date_DESC"
-  | "number_of_liter_dotated_ASC"
-  | "number_of_liter_dotated_DESC"
-  | "number_of_liter_received_ASC"
-  | "number_of_liter_received_DESC"
+  | "number_of_liter_dotated_super_ASC"
+  | "number_of_liter_dotated_super_DESC"
+  | "number_of_liter_received_super_ASC"
+  | "number_of_liter_received_super_DESC"
+  | "number_of_liter_dotated_gazoil_ASC"
+  | "number_of_liter_dotated_gazoil_DESC"
+  | "number_of_liter_received_gazoil_ASC"
+  | "number_of_liter_received_gazoil_DESC"
+  | "number_of_liter_dotated_reserve_super_ASC"
+  | "number_of_liter_dotated_reserve_super_DESC"
+  | "number_of_liter_received_reserve_super_ASC"
+  | "number_of_liter_received_reserve_super_DESC"
+  | "number_of_liter_dotated_reserve_gazoil_ASC"
+  | "number_of_liter_dotated_reserve_gazoil_DESC"
+  | "number_of_liter_received_reserve_gazoil_ASC"
+  | "number_of_liter_received_reserve_gazoil_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -981,20 +993,20 @@ export interface DotationWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  comment?: Maybe<String>;
-  comment_not?: Maybe<String>;
-  comment_in?: Maybe<String[] | String>;
-  comment_not_in?: Maybe<String[] | String>;
-  comment_lt?: Maybe<String>;
-  comment_lte?: Maybe<String>;
-  comment_gt?: Maybe<String>;
-  comment_gte?: Maybe<String>;
-  comment_contains?: Maybe<String>;
-  comment_not_contains?: Maybe<String>;
-  comment_starts_with?: Maybe<String>;
-  comment_not_starts_with?: Maybe<String>;
-  comment_ends_with?: Maybe<String>;
-  comment_not_ends_with?: Maybe<String>;
+  motif?: Maybe<String>;
+  motif_not?: Maybe<String>;
+  motif_in?: Maybe<String[] | String>;
+  motif_not_in?: Maybe<String[] | String>;
+  motif_lt?: Maybe<String>;
+  motif_lte?: Maybe<String>;
+  motif_gt?: Maybe<String>;
+  motif_gte?: Maybe<String>;
+  motif_contains?: Maybe<String>;
+  motif_not_contains?: Maybe<String>;
+  motif_starts_with?: Maybe<String>;
+  motif_not_starts_with?: Maybe<String>;
+  motif_ends_with?: Maybe<String>;
+  motif_not_ends_with?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   start_date_not?: Maybe<DateTimeInput>;
   start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1011,22 +1023,70 @@ export interface DotationWhereInput {
   end_date_lte?: Maybe<DateTimeInput>;
   end_date_gt?: Maybe<DateTimeInput>;
   end_date_gte?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_dotated_not?: Maybe<Float>;
-  number_of_liter_dotated_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_lt?: Maybe<Float>;
-  number_of_liter_dotated_lte?: Maybe<Float>;
-  number_of_liter_dotated_gt?: Maybe<Float>;
-  number_of_liter_dotated_gte?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
-  number_of_liter_received_not?: Maybe<Float>;
-  number_of_liter_received_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_lt?: Maybe<Float>;
-  number_of_liter_received_lte?: Maybe<Float>;
-  number_of_liter_received_gt?: Maybe<Float>;
-  number_of_liter_received_gte?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_dotated_super_not?: Maybe<Float>;
+  number_of_liter_dotated_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_super_gte?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_received_super_not?: Maybe<Float>;
+  number_of_liter_received_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_lt?: Maybe<Float>;
+  number_of_liter_received_super_lte?: Maybe<Float>;
+  number_of_liter_received_super_gt?: Maybe<Float>;
+  number_of_liter_received_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_gazoil_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super_not?: Maybe<Float>;
+  number_of_liter_received_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gte?: Maybe<Float>;
   user?: Maybe<UserWhereInput>;
   hold?: Maybe<HoldWhereInput>;
   created_at?: Maybe<DateTimeInput>;
@@ -1169,11 +1229,17 @@ export interface DotationCreateManyWithoutUserInput {
 
 export interface DotationCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
-  comment: String;
+  motif: String;
   start_date: DateTimeInput;
   end_date: DateTimeInput;
-  number_of_liter_dotated: Float;
-  number_of_liter_received: Float;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
   hold?: Maybe<HoldCreateOneWithoutDotationsInput>;
 }
 
@@ -1287,11 +1353,17 @@ export interface DotationCreateManyWithoutHoldInput {
 
 export interface DotationCreateWithoutHoldInput {
   id?: Maybe<ID_Input>;
-  comment: String;
+  motif: String;
   start_date: DateTimeInput;
   end_date: DateTimeInput;
-  number_of_liter_dotated: Float;
-  number_of_liter_received: Float;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
   user?: Maybe<UserCreateOneWithoutDotationsInput>;
 }
 
@@ -1541,11 +1613,17 @@ export interface DotationUpdateWithWhereUniqueWithoutUserInput {
 }
 
 export interface DotationUpdateWithoutUserDataInput {
-  comment?: Maybe<String>;
+  motif?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
   hold?: Maybe<HoldUpdateOneWithoutDotationsInput>;
 }
 
@@ -1741,11 +1819,17 @@ export interface DotationUpdateWithWhereUniqueWithoutHoldInput {
 }
 
 export interface DotationUpdateWithoutHoldDataInput {
-  comment?: Maybe<String>;
+  motif?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
   user?: Maybe<UserUpdateOneWithoutDotationsInput>;
 }
 
@@ -2019,20 +2103,20 @@ export interface DotationScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  comment?: Maybe<String>;
-  comment_not?: Maybe<String>;
-  comment_in?: Maybe<String[] | String>;
-  comment_not_in?: Maybe<String[] | String>;
-  comment_lt?: Maybe<String>;
-  comment_lte?: Maybe<String>;
-  comment_gt?: Maybe<String>;
-  comment_gte?: Maybe<String>;
-  comment_contains?: Maybe<String>;
-  comment_not_contains?: Maybe<String>;
-  comment_starts_with?: Maybe<String>;
-  comment_not_starts_with?: Maybe<String>;
-  comment_ends_with?: Maybe<String>;
-  comment_not_ends_with?: Maybe<String>;
+  motif?: Maybe<String>;
+  motif_not?: Maybe<String>;
+  motif_in?: Maybe<String[] | String>;
+  motif_not_in?: Maybe<String[] | String>;
+  motif_lt?: Maybe<String>;
+  motif_lte?: Maybe<String>;
+  motif_gt?: Maybe<String>;
+  motif_gte?: Maybe<String>;
+  motif_contains?: Maybe<String>;
+  motif_not_contains?: Maybe<String>;
+  motif_starts_with?: Maybe<String>;
+  motif_not_starts_with?: Maybe<String>;
+  motif_ends_with?: Maybe<String>;
+  motif_not_ends_with?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   start_date_not?: Maybe<DateTimeInput>;
   start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2049,22 +2133,70 @@ export interface DotationScalarWhereInput {
   end_date_lte?: Maybe<DateTimeInput>;
   end_date_gt?: Maybe<DateTimeInput>;
   end_date_gte?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_dotated_not?: Maybe<Float>;
-  number_of_liter_dotated_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_lt?: Maybe<Float>;
-  number_of_liter_dotated_lte?: Maybe<Float>;
-  number_of_liter_dotated_gt?: Maybe<Float>;
-  number_of_liter_dotated_gte?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
-  number_of_liter_received_not?: Maybe<Float>;
-  number_of_liter_received_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_lt?: Maybe<Float>;
-  number_of_liter_received_lte?: Maybe<Float>;
-  number_of_liter_received_gt?: Maybe<Float>;
-  number_of_liter_received_gte?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_dotated_super_not?: Maybe<Float>;
+  number_of_liter_dotated_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_super_gte?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_received_super_not?: Maybe<Float>;
+  number_of_liter_received_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_lt?: Maybe<Float>;
+  number_of_liter_received_super_lte?: Maybe<Float>;
+  number_of_liter_received_super_gt?: Maybe<Float>;
+  number_of_liter_received_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_gazoil_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super_not?: Maybe<Float>;
+  number_of_liter_received_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gte?: Maybe<Float>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2084,11 +2216,17 @@ export interface DotationUpdateManyWithWhereNestedInput {
 }
 
 export interface DotationUpdateManyDataInput {
-  comment?: Maybe<String>;
+  motif?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
 }
 
 export interface HoldUpsertWithoutBonsInput {
@@ -2446,31 +2584,49 @@ export interface BonUpdateManyMutationInput {
 
 export interface DotationCreateInput {
   id?: Maybe<ID_Input>;
-  comment: String;
+  motif: String;
   start_date: DateTimeInput;
   end_date: DateTimeInput;
-  number_of_liter_dotated: Float;
-  number_of_liter_received: Float;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
   user?: Maybe<UserCreateOneWithoutDotationsInput>;
   hold?: Maybe<HoldCreateOneWithoutDotationsInput>;
 }
 
 export interface DotationUpdateInput {
-  comment?: Maybe<String>;
+  motif?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
   user?: Maybe<UserUpdateOneWithoutDotationsInput>;
   hold?: Maybe<HoldUpdateOneWithoutDotationsInput>;
 }
 
 export interface DotationUpdateManyMutationInput {
-  comment?: Maybe<String>;
+  motif?: Maybe<String>;
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated?: Maybe<Float>;
-  number_of_liter_received?: Maybe<Float>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
 }
 
 export interface HoldCreateInput {
@@ -3108,21 +3264,33 @@ export interface LogNullablePromise extends Promise<Log | null>, Fragmentable {
 
 export interface Dotation {
   id: ID_Output;
-  comment: String;
+  motif: String;
   start_date: DateTimeOutput;
   end_date: DateTimeOutput;
-  number_of_liter_dotated: Float;
-  number_of_liter_received: Float;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
   created_at: DateTimeOutput;
 }
 
 export interface DotationPromise extends Promise<Dotation>, Fragmentable {
   id: () => Promise<ID_Output>;
-  comment: () => Promise<String>;
+  motif: () => Promise<String>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_dotated: () => Promise<Float>;
-  number_of_liter_received: () => Promise<Float>;
+  number_of_liter_dotated_super: () => Promise<Float>;
+  number_of_liter_received_super: () => Promise<Float>;
+  number_of_liter_dotated_gazoil: () => Promise<Float>;
+  number_of_liter_received_gazoil: () => Promise<Float>;
+  number_of_liter_dotated_reserve_super: () => Promise<Float>;
+  number_of_liter_received_reserve_super: () => Promise<Float>;
+  number_of_liter_dotated_reserve_gazoil: () => Promise<Float>;
+  number_of_liter_received_reserve_gazoil: () => Promise<Float>;
   user: <T = UserPromise>() => T;
   hold: <T = HoldPromise>() => T;
   created_at: () => Promise<DateTimeOutput>;
@@ -3132,11 +3300,17 @@ export interface DotationSubscription
   extends Promise<AsyncIterator<Dotation>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  comment: () => Promise<AsyncIterator<String>>;
+  motif: () => Promise<AsyncIterator<String>>;
   start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  number_of_liter_dotated: () => Promise<AsyncIterator<Float>>;
-  number_of_liter_received: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_reserve_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_reserve_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_reserve_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_reserve_gazoil: () => Promise<AsyncIterator<Float>>;
   user: <T = UserSubscription>() => T;
   hold: <T = HoldSubscription>() => T;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -3146,11 +3320,17 @@ export interface DotationNullablePromise
   extends Promise<Dotation | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  comment: () => Promise<String>;
+  motif: () => Promise<String>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_dotated: () => Promise<Float>;
-  number_of_liter_received: () => Promise<Float>;
+  number_of_liter_dotated_super: () => Promise<Float>;
+  number_of_liter_received_super: () => Promise<Float>;
+  number_of_liter_dotated_gazoil: () => Promise<Float>;
+  number_of_liter_received_gazoil: () => Promise<Float>;
+  number_of_liter_dotated_reserve_super: () => Promise<Float>;
+  number_of_liter_received_reserve_super: () => Promise<Float>;
+  number_of_liter_dotated_reserve_gazoil: () => Promise<Float>;
+  number_of_liter_received_reserve_gazoil: () => Promise<Float>;
   user: <T = UserPromise>() => T;
   hold: <T = HoldPromise>() => T;
   created_at: () => Promise<DateTimeOutput>;
@@ -3899,11 +4079,17 @@ export interface DotationSubscriptionPayloadSubscription
 
 export interface DotationPreviousValues {
   id: ID_Output;
-  comment: String;
+  motif: String;
   start_date: DateTimeOutput;
   end_date: DateTimeOutput;
-  number_of_liter_dotated: Float;
-  number_of_liter_received: Float;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
   created_at: DateTimeOutput;
 }
 
@@ -3911,11 +4097,17 @@ export interface DotationPreviousValuesPromise
   extends Promise<DotationPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  comment: () => Promise<String>;
+  motif: () => Promise<String>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_dotated: () => Promise<Float>;
-  number_of_liter_received: () => Promise<Float>;
+  number_of_liter_dotated_super: () => Promise<Float>;
+  number_of_liter_received_super: () => Promise<Float>;
+  number_of_liter_dotated_gazoil: () => Promise<Float>;
+  number_of_liter_received_gazoil: () => Promise<Float>;
+  number_of_liter_dotated_reserve_super: () => Promise<Float>;
+  number_of_liter_received_reserve_super: () => Promise<Float>;
+  number_of_liter_dotated_reserve_gazoil: () => Promise<Float>;
+  number_of_liter_received_reserve_gazoil: () => Promise<Float>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3923,11 +4115,17 @@ export interface DotationPreviousValuesSubscription
   extends Promise<AsyncIterator<DotationPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  comment: () => Promise<AsyncIterator<String>>;
+  motif: () => Promise<AsyncIterator<String>>;
   start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  number_of_liter_dotated: () => Promise<AsyncIterator<Float>>;
-  number_of_liter_received: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_reserve_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_reserve_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_dotated_reserve_gazoil: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_received_reserve_gazoil: () => Promise<AsyncIterator<Float>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 

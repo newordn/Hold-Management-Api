@@ -18,11 +18,17 @@ type User{
 }
 type Dotation{
     id: ID! @id
-    comment: String!
+    motif: String!
     start_date: DateTime!
     end_date: DateTime!
-    number_of_liter_dotated: Float!
-    number_of_liter_received: Float!
+    number_of_liter_dotated_super: Float!
+    number_of_liter_received_super: Float!
+    number_of_liter_dotated_gazoil: Float!
+    number_of_liter_received_gazoil: Float!
+    number_of_liter_dotated_reserve_super: Float!
+    number_of_liter_received_reserve_super: Float!
+    number_of_liter_dotated_reserve_gazoil: Float!
+    number_of_liter_received_reserve_gazoil: Float!
     user: User @relation(name: "UserDotations")
     hold: Hold @relation(name: "HoldDotations") 
     created_at: DateTime! @createdAt

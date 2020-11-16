@@ -568,11 +568,17 @@ scalar DateTime
 
 type Dotation {
   id: ID!
-  comment: String!
+  motif: String!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_dotated: Float!
-  number_of_liter_received: Float!
+  number_of_liter_dotated_super: Float!
+  number_of_liter_received_super: Float!
+  number_of_liter_dotated_gazoil: Float!
+  number_of_liter_received_gazoil: Float!
+  number_of_liter_dotated_reserve_super: Float!
+  number_of_liter_received_reserve_super: Float!
+  number_of_liter_dotated_reserve_gazoil: Float!
+  number_of_liter_received_reserve_gazoil: Float!
   user: User
   hold: Hold
   created_at: DateTime!
@@ -586,11 +592,17 @@ type DotationConnection {
 
 input DotationCreateInput {
   id: ID
-  comment: String!
+  motif: String!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_dotated: Float!
-  number_of_liter_received: Float!
+  number_of_liter_dotated_super: Float!
+  number_of_liter_received_super: Float!
+  number_of_liter_dotated_gazoil: Float!
+  number_of_liter_received_gazoil: Float!
+  number_of_liter_dotated_reserve_super: Float!
+  number_of_liter_received_reserve_super: Float!
+  number_of_liter_dotated_reserve_gazoil: Float!
+  number_of_liter_received_reserve_gazoil: Float!
   user: UserCreateOneWithoutDotationsInput
   hold: HoldCreateOneWithoutDotationsInput
 }
@@ -607,21 +619,33 @@ input DotationCreateManyWithoutUserInput {
 
 input DotationCreateWithoutHoldInput {
   id: ID
-  comment: String!
+  motif: String!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_dotated: Float!
-  number_of_liter_received: Float!
+  number_of_liter_dotated_super: Float!
+  number_of_liter_received_super: Float!
+  number_of_liter_dotated_gazoil: Float!
+  number_of_liter_received_gazoil: Float!
+  number_of_liter_dotated_reserve_super: Float!
+  number_of_liter_received_reserve_super: Float!
+  number_of_liter_dotated_reserve_gazoil: Float!
+  number_of_liter_received_reserve_gazoil: Float!
   user: UserCreateOneWithoutDotationsInput
 }
 
 input DotationCreateWithoutUserInput {
   id: ID
-  comment: String!
+  motif: String!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_dotated: Float!
-  number_of_liter_received: Float!
+  number_of_liter_dotated_super: Float!
+  number_of_liter_received_super: Float!
+  number_of_liter_dotated_gazoil: Float!
+  number_of_liter_received_gazoil: Float!
+  number_of_liter_dotated_reserve_super: Float!
+  number_of_liter_received_reserve_super: Float!
+  number_of_liter_dotated_reserve_gazoil: Float!
+  number_of_liter_received_reserve_gazoil: Float!
   hold: HoldCreateOneWithoutDotationsInput
 }
 
@@ -633,27 +657,45 @@ type DotationEdge {
 enum DotationOrderByInput {
   id_ASC
   id_DESC
-  comment_ASC
-  comment_DESC
+  motif_ASC
+  motif_DESC
   start_date_ASC
   start_date_DESC
   end_date_ASC
   end_date_DESC
-  number_of_liter_dotated_ASC
-  number_of_liter_dotated_DESC
-  number_of_liter_received_ASC
-  number_of_liter_received_DESC
+  number_of_liter_dotated_super_ASC
+  number_of_liter_dotated_super_DESC
+  number_of_liter_received_super_ASC
+  number_of_liter_received_super_DESC
+  number_of_liter_dotated_gazoil_ASC
+  number_of_liter_dotated_gazoil_DESC
+  number_of_liter_received_gazoil_ASC
+  number_of_liter_received_gazoil_DESC
+  number_of_liter_dotated_reserve_super_ASC
+  number_of_liter_dotated_reserve_super_DESC
+  number_of_liter_received_reserve_super_ASC
+  number_of_liter_received_reserve_super_DESC
+  number_of_liter_dotated_reserve_gazoil_ASC
+  number_of_liter_dotated_reserve_gazoil_DESC
+  number_of_liter_received_reserve_gazoil_ASC
+  number_of_liter_received_reserve_gazoil_DESC
   created_at_ASC
   created_at_DESC
 }
 
 type DotationPreviousValues {
   id: ID!
-  comment: String!
+  motif: String!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_dotated: Float!
-  number_of_liter_received: Float!
+  number_of_liter_dotated_super: Float!
+  number_of_liter_received_super: Float!
+  number_of_liter_dotated_gazoil: Float!
+  number_of_liter_received_gazoil: Float!
+  number_of_liter_dotated_reserve_super: Float!
+  number_of_liter_received_reserve_super: Float!
+  number_of_liter_dotated_reserve_gazoil: Float!
+  number_of_liter_received_reserve_gazoil: Float!
   created_at: DateTime!
 }
 
@@ -672,20 +714,20 @@ input DotationScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  comment: String
-  comment_not: String
-  comment_in: [String!]
-  comment_not_in: [String!]
-  comment_lt: String
-  comment_lte: String
-  comment_gt: String
-  comment_gte: String
-  comment_contains: String
-  comment_not_contains: String
-  comment_starts_with: String
-  comment_not_starts_with: String
-  comment_ends_with: String
-  comment_not_ends_with: String
+  motif: String
+  motif_not: String
+  motif_in: [String!]
+  motif_not_in: [String!]
+  motif_lt: String
+  motif_lte: String
+  motif_gt: String
+  motif_gte: String
+  motif_contains: String
+  motif_not_contains: String
+  motif_starts_with: String
+  motif_not_starts_with: String
+  motif_ends_with: String
+  motif_not_ends_with: String
   start_date: DateTime
   start_date_not: DateTime
   start_date_in: [DateTime!]
@@ -702,22 +744,70 @@ input DotationScalarWhereInput {
   end_date_lte: DateTime
   end_date_gt: DateTime
   end_date_gte: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_dotated_not: Float
-  number_of_liter_dotated_in: [Float!]
-  number_of_liter_dotated_not_in: [Float!]
-  number_of_liter_dotated_lt: Float
-  number_of_liter_dotated_lte: Float
-  number_of_liter_dotated_gt: Float
-  number_of_liter_dotated_gte: Float
-  number_of_liter_received: Float
-  number_of_liter_received_not: Float
-  number_of_liter_received_in: [Float!]
-  number_of_liter_received_not_in: [Float!]
-  number_of_liter_received_lt: Float
-  number_of_liter_received_lte: Float
-  number_of_liter_received_gt: Float
-  number_of_liter_received_gte: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_dotated_super_not: Float
+  number_of_liter_dotated_super_in: [Float!]
+  number_of_liter_dotated_super_not_in: [Float!]
+  number_of_liter_dotated_super_lt: Float
+  number_of_liter_dotated_super_lte: Float
+  number_of_liter_dotated_super_gt: Float
+  number_of_liter_dotated_super_gte: Float
+  number_of_liter_received_super: Float
+  number_of_liter_received_super_not: Float
+  number_of_liter_received_super_in: [Float!]
+  number_of_liter_received_super_not_in: [Float!]
+  number_of_liter_received_super_lt: Float
+  number_of_liter_received_super_lte: Float
+  number_of_liter_received_super_gt: Float
+  number_of_liter_received_super_gte: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_dotated_gazoil_not: Float
+  number_of_liter_dotated_gazoil_in: [Float!]
+  number_of_liter_dotated_gazoil_not_in: [Float!]
+  number_of_liter_dotated_gazoil_lt: Float
+  number_of_liter_dotated_gazoil_lte: Float
+  number_of_liter_dotated_gazoil_gt: Float
+  number_of_liter_dotated_gazoil_gte: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_received_gazoil_not: Float
+  number_of_liter_received_gazoil_in: [Float!]
+  number_of_liter_received_gazoil_not_in: [Float!]
+  number_of_liter_received_gazoil_lt: Float
+  number_of_liter_received_gazoil_lte: Float
+  number_of_liter_received_gazoil_gt: Float
+  number_of_liter_received_gazoil_gte: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_dotated_reserve_super_not: Float
+  number_of_liter_dotated_reserve_super_in: [Float!]
+  number_of_liter_dotated_reserve_super_not_in: [Float!]
+  number_of_liter_dotated_reserve_super_lt: Float
+  number_of_liter_dotated_reserve_super_lte: Float
+  number_of_liter_dotated_reserve_super_gt: Float
+  number_of_liter_dotated_reserve_super_gte: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_received_reserve_super_not: Float
+  number_of_liter_received_reserve_super_in: [Float!]
+  number_of_liter_received_reserve_super_not_in: [Float!]
+  number_of_liter_received_reserve_super_lt: Float
+  number_of_liter_received_reserve_super_lte: Float
+  number_of_liter_received_reserve_super_gt: Float
+  number_of_liter_received_reserve_super_gte: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_dotated_reserve_gazoil_not: Float
+  number_of_liter_dotated_reserve_gazoil_in: [Float!]
+  number_of_liter_dotated_reserve_gazoil_not_in: [Float!]
+  number_of_liter_dotated_reserve_gazoil_lt: Float
+  number_of_liter_dotated_reserve_gazoil_lte: Float
+  number_of_liter_dotated_reserve_gazoil_gt: Float
+  number_of_liter_dotated_reserve_gazoil_gte: Float
+  number_of_liter_received_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil_not: Float
+  number_of_liter_received_reserve_gazoil_in: [Float!]
+  number_of_liter_received_reserve_gazoil_not_in: [Float!]
+  number_of_liter_received_reserve_gazoil_lt: Float
+  number_of_liter_received_reserve_gazoil_lte: Float
+  number_of_liter_received_reserve_gazoil_gt: Float
+  number_of_liter_received_reserve_gazoil_gte: Float
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
@@ -750,29 +840,47 @@ input DotationSubscriptionWhereInput {
 }
 
 input DotationUpdateInput {
-  comment: String
+  motif: String
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_received: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_received_super: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil: Float
   user: UserUpdateOneWithoutDotationsInput
   hold: HoldUpdateOneWithoutDotationsInput
 }
 
 input DotationUpdateManyDataInput {
-  comment: String
+  motif: String
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_received: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_received_super: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil: Float
 }
 
 input DotationUpdateManyMutationInput {
-  comment: String
+  motif: String
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_received: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_received_super: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil: Float
 }
 
 input DotationUpdateManyWithoutHoldInput {
@@ -805,20 +913,32 @@ input DotationUpdateManyWithWhereNestedInput {
 }
 
 input DotationUpdateWithoutHoldDataInput {
-  comment: String
+  motif: String
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_received: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_received_super: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil: Float
   user: UserUpdateOneWithoutDotationsInput
 }
 
 input DotationUpdateWithoutUserDataInput {
-  comment: String
+  motif: String
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_received: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_received_super: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil: Float
   hold: HoldUpdateOneWithoutDotationsInput
 }
 
@@ -859,20 +979,20 @@ input DotationWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  comment: String
-  comment_not: String
-  comment_in: [String!]
-  comment_not_in: [String!]
-  comment_lt: String
-  comment_lte: String
-  comment_gt: String
-  comment_gte: String
-  comment_contains: String
-  comment_not_contains: String
-  comment_starts_with: String
-  comment_not_starts_with: String
-  comment_ends_with: String
-  comment_not_ends_with: String
+  motif: String
+  motif_not: String
+  motif_in: [String!]
+  motif_not_in: [String!]
+  motif_lt: String
+  motif_lte: String
+  motif_gt: String
+  motif_gte: String
+  motif_contains: String
+  motif_not_contains: String
+  motif_starts_with: String
+  motif_not_starts_with: String
+  motif_ends_with: String
+  motif_not_ends_with: String
   start_date: DateTime
   start_date_not: DateTime
   start_date_in: [DateTime!]
@@ -889,22 +1009,70 @@ input DotationWhereInput {
   end_date_lte: DateTime
   end_date_gt: DateTime
   end_date_gte: DateTime
-  number_of_liter_dotated: Float
-  number_of_liter_dotated_not: Float
-  number_of_liter_dotated_in: [Float!]
-  number_of_liter_dotated_not_in: [Float!]
-  number_of_liter_dotated_lt: Float
-  number_of_liter_dotated_lte: Float
-  number_of_liter_dotated_gt: Float
-  number_of_liter_dotated_gte: Float
-  number_of_liter_received: Float
-  number_of_liter_received_not: Float
-  number_of_liter_received_in: [Float!]
-  number_of_liter_received_not_in: [Float!]
-  number_of_liter_received_lt: Float
-  number_of_liter_received_lte: Float
-  number_of_liter_received_gt: Float
-  number_of_liter_received_gte: Float
+  number_of_liter_dotated_super: Float
+  number_of_liter_dotated_super_not: Float
+  number_of_liter_dotated_super_in: [Float!]
+  number_of_liter_dotated_super_not_in: [Float!]
+  number_of_liter_dotated_super_lt: Float
+  number_of_liter_dotated_super_lte: Float
+  number_of_liter_dotated_super_gt: Float
+  number_of_liter_dotated_super_gte: Float
+  number_of_liter_received_super: Float
+  number_of_liter_received_super_not: Float
+  number_of_liter_received_super_in: [Float!]
+  number_of_liter_received_super_not_in: [Float!]
+  number_of_liter_received_super_lt: Float
+  number_of_liter_received_super_lte: Float
+  number_of_liter_received_super_gt: Float
+  number_of_liter_received_super_gte: Float
+  number_of_liter_dotated_gazoil: Float
+  number_of_liter_dotated_gazoil_not: Float
+  number_of_liter_dotated_gazoil_in: [Float!]
+  number_of_liter_dotated_gazoil_not_in: [Float!]
+  number_of_liter_dotated_gazoil_lt: Float
+  number_of_liter_dotated_gazoil_lte: Float
+  number_of_liter_dotated_gazoil_gt: Float
+  number_of_liter_dotated_gazoil_gte: Float
+  number_of_liter_received_gazoil: Float
+  number_of_liter_received_gazoil_not: Float
+  number_of_liter_received_gazoil_in: [Float!]
+  number_of_liter_received_gazoil_not_in: [Float!]
+  number_of_liter_received_gazoil_lt: Float
+  number_of_liter_received_gazoil_lte: Float
+  number_of_liter_received_gazoil_gt: Float
+  number_of_liter_received_gazoil_gte: Float
+  number_of_liter_dotated_reserve_super: Float
+  number_of_liter_dotated_reserve_super_not: Float
+  number_of_liter_dotated_reserve_super_in: [Float!]
+  number_of_liter_dotated_reserve_super_not_in: [Float!]
+  number_of_liter_dotated_reserve_super_lt: Float
+  number_of_liter_dotated_reserve_super_lte: Float
+  number_of_liter_dotated_reserve_super_gt: Float
+  number_of_liter_dotated_reserve_super_gte: Float
+  number_of_liter_received_reserve_super: Float
+  number_of_liter_received_reserve_super_not: Float
+  number_of_liter_received_reserve_super_in: [Float!]
+  number_of_liter_received_reserve_super_not_in: [Float!]
+  number_of_liter_received_reserve_super_lt: Float
+  number_of_liter_received_reserve_super_lte: Float
+  number_of_liter_received_reserve_super_gt: Float
+  number_of_liter_received_reserve_super_gte: Float
+  number_of_liter_dotated_reserve_gazoil: Float
+  number_of_liter_dotated_reserve_gazoil_not: Float
+  number_of_liter_dotated_reserve_gazoil_in: [Float!]
+  number_of_liter_dotated_reserve_gazoil_not_in: [Float!]
+  number_of_liter_dotated_reserve_gazoil_lt: Float
+  number_of_liter_dotated_reserve_gazoil_lte: Float
+  number_of_liter_dotated_reserve_gazoil_gt: Float
+  number_of_liter_dotated_reserve_gazoil_gte: Float
+  number_of_liter_received_reserve_gazoil: Float
+  number_of_liter_received_reserve_gazoil_not: Float
+  number_of_liter_received_reserve_gazoil_in: [Float!]
+  number_of_liter_received_reserve_gazoil_not_in: [Float!]
+  number_of_liter_received_reserve_gazoil_lt: Float
+  number_of_liter_received_reserve_gazoil_lte: Float
+  number_of_liter_received_reserve_gazoil_gt: Float
+  number_of_liter_received_reserve_gazoil_gte: Float
   user: UserWhereInput
   hold: HoldWhereInput
   created_at: DateTime
