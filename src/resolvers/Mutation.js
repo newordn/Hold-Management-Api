@@ -69,6 +69,32 @@ async function updateUsersHoldRole(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+async function resetPassword(parent, args, context, info) {
+  let generatePassword = generator.generate({
+    length: 10,
+    numbers: true
+  });
+  console.log(MESSAGES.resetPassword(args.matricule, args.password, generatePassword));
+  let password1 = await bcrypt.hash(generatePassword, 10);
+  try {
+    const user = await context.prisma.updateUser({
+      data: {password: password1 },
+      where: { matricule: args.matricule}
+    });
+    await context.prisma.createLog({
+      action: MESSAGES.resetPassword(
+        args.matricule,
+        args.password,
+        generatePassword
+      ),
+      user: { connect: { matricule: args.matricule} }
+    })
+    return user;
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 async function dotateHold(parent, args, context, info) {
   const {
     start_date,
@@ -140,5 +166,6 @@ module.exports = {
   signIn,
   hold,
   updateUsersHoldRole,
-  dotateHold
+  dotateHold,
+  resetPassword
 };
