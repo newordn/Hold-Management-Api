@@ -173,7 +173,7 @@ const car = async (parent, args, context, info) => {
     });
     await context.prisma.createLog({
       action: MESSAGES.car(hold, marque, capacity, type, immatriculation),
-      user: { connect: { matricule: user} }
+      user: { connect: { id: user} }
     });
   } catch (e) {
     console.log(e);
