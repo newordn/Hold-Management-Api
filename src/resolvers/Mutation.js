@@ -175,11 +175,12 @@ const car = async (parent, args, context, info) => {
       action: MESSAGES.car(hold, marque, capacity, type, immatriculation),
       user: { connect: { id: user} }
     });
+    return data;
   } catch (e) {
     console.log(e);
     throw new Error(e.message);
   }
-  return data;
+  
 };
 
 module.exports = {
