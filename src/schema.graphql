@@ -1,12 +1,15 @@
+const {GraphQLUpload} = require('graphql-upload')
 const typeDefs = `
+scalar Upload
 type Query{
     info(message: String!): String!
     users: [User!]!
     logs: [Log!]!
     holds: [Hold!]!
     notifications(user: ID!): [Notification!]!
+    cars: [Car!]!
 }
-
+    
 type Mutation{
     signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!): AuthPayload!
     signIn(matricule:String!,password:String!): AuthPayload!
@@ -14,6 +17,7 @@ type Mutation{
     updateUsersHoldRole(user:ID!, hold: ID!, role: String!): User!
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
     resetPassword(matricule: String!, password: String!): User!
+    car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!): Car!
 }
     
 
@@ -72,6 +76,7 @@ type Hold{
     theorical_reserve_gazoil_quantity: Float!
     user: [User!]
     bons: [HoldsOnBons!]
+    cars: [Car!]
     dotations: [Dotation!]
     created_at: String!
 }
@@ -98,7 +103,16 @@ type Bon{
     holds: [HoldsOnBons!]!
     created_at: String!
 }
-
+type Car {
+    id: ID!
+    hold: Hold!
+    image: String!
+    marque: String!
+    capacity: Float!
+    type: String!
+    immatriculation: String!
+    created_at: String
+}
 type Notification{
 id : ID!
 user: User!

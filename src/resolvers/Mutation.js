@@ -78,17 +78,13 @@ async function resetPassword(parent, args, context, info) {
   let password1 = await bcrypt.hash(generatePassword, 10);
   try {
     const user = await context.prisma.updateUser({
-      data: {password: password1 },
-      where: { matricule: args.matricule}
+      data: { password: password1 },
+      where: { matricule: args.matricule }
     });
     await context.prisma.createLog({
-      action: MESSAGES.resetPassword(
-        args.matricule,
-        args.password,
-        generatePassword
-      ),
-      user: { connect: { matricule: args.matricule} }
-    })
+      action: MESSAGES.resetPassword(args.matricule, args.password, generatePassword),
+      user: { connect: { matricule: args.matricule } }
+    });
     return user;
   } catch (e) {
     console.log(e);
@@ -142,7 +138,9 @@ async function dotateHold(parent, args, context, info) {
       number_of_liter_received_gazoil: 0,
       start_date: new Date(start_date),
       end_date: new Date(end_date),
-      user: { connect: { id: user }}, hold: { connect: { id: hold } } });
+      user: { connect: { id: user } },
+      hold: { connect: { id: hold } }
+    });
     await context.prisma.createLog({
       action: MESSAGES.dotateHold(
         user,
@@ -160,6 +158,26 @@ async function dotateHold(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+const car = async (parent, args, context, info) => {
+  const { user, hold, marque, capacity, type, immatriculation, image } = args;
+  console.log(MESSAGES.car(user, hold, marque, capacity, type, immatriculation));
+  try {
+    const imageUploaded = await context.storeUpload(image);
+    const data = await context.prisma.createCar({
+      ...args,
+      image: imageUploaded,
+      hold: { connect: { id: hold } }
+    });
+    await context.prisma.createLog({
+      action: MESSAGES.car(hold, marque, capacity, type, immatriculation),
+      user: { connect: { matricule: args.matricule } }
+    });
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+  return data;
+};
 
 module.exports = {
   signUp,
@@ -167,5 +185,6 @@ module.exports = {
   hold,
   updateUsersHoldRole,
   dotateHold,
-  resetPassword
+  resetPassword,
+  car
 };

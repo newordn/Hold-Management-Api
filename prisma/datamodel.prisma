@@ -55,6 +55,7 @@ type Hold{
     theorical_reserve_gazoil_quantity: Float!
     user: [User!] @relation(name:"UserHolds")
     bons: [HoldsOnBons!]
+    cars: [Car!] @relation(name: "HoldCars")
     dotations: [Dotation!] @relation(name: "HoldDotations")
     created_at: DateTime! @createdAt
 }
@@ -87,4 +88,15 @@ id : ID! @id
 user: User!  @relation(name: "UserNotifications")
 message: String!
 created_at: DateTime! @createdAt
+}
+
+type Car {
+    id: ID! @id
+    hold: Hold! @relation(name: "HoldCars")
+    image: String!
+    marque: String!
+    capacity: Float!
+    type: String!
+    immatriculation: String! @unique
+    created_at: DateTime! @createdAt
 }

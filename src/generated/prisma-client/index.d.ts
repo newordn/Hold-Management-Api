@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   bon: (where?: BonWhereInput) => Promise<boolean>;
+  car: (where?: CarWhereInput) => Promise<boolean>;
   dotation: (where?: DotationWhereInput) => Promise<boolean>;
   hold: (where?: HoldWhereInput) => Promise<boolean>;
   holdsOnBons: (where?: HoldsOnBonsWhereInput) => Promise<boolean>;
@@ -63,6 +64,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => BonConnectionPromise;
+  car: (where: CarWhereUniqueInput) => CarNullablePromise;
+  cars: (args?: {
+    where?: CarWhereInput;
+    orderBy?: CarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Car>;
+  carsConnection: (args?: {
+    where?: CarWhereInput;
+    orderBy?: CarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => CarConnectionPromise;
   dotation: (where: DotationWhereUniqueInput) => DotationNullablePromise;
   dotations: (args?: {
     where?: DotationWhereInput;
@@ -203,6 +223,22 @@ export interface Prisma {
   }) => BonPromise;
   deleteBon: (where: BonWhereUniqueInput) => BonPromise;
   deleteManyBons: (where?: BonWhereInput) => BatchPayloadPromise;
+  createCar: (data: CarCreateInput) => CarPromise;
+  updateCar: (args: {
+    data: CarUpdateInput;
+    where: CarWhereUniqueInput;
+  }) => CarPromise;
+  updateManyCars: (args: {
+    data: CarUpdateManyMutationInput;
+    where?: CarWhereInput;
+  }) => BatchPayloadPromise;
+  upsertCar: (args: {
+    where: CarWhereUniqueInput;
+    create: CarCreateInput;
+    update: CarUpdateInput;
+  }) => CarPromise;
+  deleteCar: (where: CarWhereUniqueInput) => CarPromise;
+  deleteManyCars: (where?: CarWhereInput) => BatchPayloadPromise;
   createDotation: (data: DotationCreateInput) => DotationPromise;
   updateDotation: (args: {
     data: DotationUpdateInput;
@@ -313,6 +349,9 @@ export interface Subscription {
   bon: (
     where?: BonSubscriptionWhereInput
   ) => BonSubscriptionPayloadSubscription;
+  car: (
+    where?: CarSubscriptionWhereInput
+  ) => CarSubscriptionPayloadSubscription;
   dotation: (
     where?: DotationSubscriptionWhereInput
   ) => DotationSubscriptionPayloadSubscription;
@@ -432,6 +471,22 @@ export type UserOrderByInput =
 export type HoldsOnBonsOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type CarOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "marque_ASC"
+  | "marque_DESC"
+  | "capacity_ASC"
+  | "capacity_DESC"
+  | "type_ASC"
+  | "type_DESC"
+  | "immatriculation_ASC"
+  | "immatriculation_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -962,6 +1017,9 @@ export interface HoldWhereInput {
   bons_every?: Maybe<HoldsOnBonsWhereInput>;
   bons_some?: Maybe<HoldsOnBonsWhereInput>;
   bons_none?: Maybe<HoldsOnBonsWhereInput>;
+  cars_every?: Maybe<CarWhereInput>;
+  cars_some?: Maybe<CarWhereInput>;
+  cars_none?: Maybe<CarWhereInput>;
   dotations_every?: Maybe<DotationWhereInput>;
   dotations_some?: Maybe<DotationWhereInput>;
   dotations_none?: Maybe<DotationWhereInput>;
@@ -976,6 +1034,99 @@ export interface HoldWhereInput {
   AND?: Maybe<HoldWhereInput[] | HoldWhereInput>;
   OR?: Maybe<HoldWhereInput[] | HoldWhereInput>;
   NOT?: Maybe<HoldWhereInput[] | HoldWhereInput>;
+}
+
+export interface CarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  hold?: Maybe<HoldWhereInput>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  marque?: Maybe<String>;
+  marque_not?: Maybe<String>;
+  marque_in?: Maybe<String[] | String>;
+  marque_not_in?: Maybe<String[] | String>;
+  marque_lt?: Maybe<String>;
+  marque_lte?: Maybe<String>;
+  marque_gt?: Maybe<String>;
+  marque_gte?: Maybe<String>;
+  marque_contains?: Maybe<String>;
+  marque_not_contains?: Maybe<String>;
+  marque_starts_with?: Maybe<String>;
+  marque_not_starts_with?: Maybe<String>;
+  marque_ends_with?: Maybe<String>;
+  marque_not_ends_with?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  capacity_not?: Maybe<Float>;
+  capacity_in?: Maybe<Float[] | Float>;
+  capacity_not_in?: Maybe<Float[] | Float>;
+  capacity_lt?: Maybe<Float>;
+  capacity_lte?: Maybe<Float>;
+  capacity_gt?: Maybe<Float>;
+  capacity_gte?: Maybe<Float>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+  immatriculation_not?: Maybe<String>;
+  immatriculation_in?: Maybe<String[] | String>;
+  immatriculation_not_in?: Maybe<String[] | String>;
+  immatriculation_lt?: Maybe<String>;
+  immatriculation_lte?: Maybe<String>;
+  immatriculation_gt?: Maybe<String>;
+  immatriculation_gte?: Maybe<String>;
+  immatriculation_contains?: Maybe<String>;
+  immatriculation_not_contains?: Maybe<String>;
+  immatriculation_starts_with?: Maybe<String>;
+  immatriculation_not_starts_with?: Maybe<String>;
+  immatriculation_ends_with?: Maybe<String>;
+  immatriculation_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CarWhereInput[] | CarWhereInput>;
+  OR?: Maybe<CarWhereInput[] | CarWhereInput>;
+  NOT?: Maybe<CarWhereInput[] | CarWhereInput>;
 }
 
 export interface DotationWhereInput {
@@ -1145,6 +1296,11 @@ export interface NotificationWhereInput {
   NOT?: Maybe<NotificationWhereInput[] | NotificationWhereInput>;
 }
 
+export type CarWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  immatriculation?: Maybe<String>;
+}>;
+
 export type DotationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1264,6 +1420,7 @@ export interface HoldCreateWithoutDotationsInput {
   theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
 }
 
 export interface UserCreateManyWithoutHoldInput {
@@ -1341,7 +1498,22 @@ export interface HoldCreateWithoutBonsInput {
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface CarCreateManyWithoutHoldInput {
+  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
+  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+}
+
+export interface CarCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  image: String;
+  marque: String;
+  capacity: Float;
+  type: String;
+  immatriculation: String;
 }
 
 export interface DotationCreateManyWithoutHoldInput {
@@ -1409,6 +1581,7 @@ export interface HoldCreateWithoutUserInput {
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
@@ -1651,6 +1824,7 @@ export interface HoldUpdateWithoutDotationsDataInput {
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
 }
 
 export interface UserUpdateManyWithoutHoldInput {
@@ -1787,7 +1961,152 @@ export interface HoldUpdateWithoutBonsDataInput {
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface CarUpdateManyWithoutHoldInput {
+  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
+  delete?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  set?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  disconnect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  update?: Maybe<
+    | CarUpdateWithWhereUniqueWithoutHoldInput[]
+    | CarUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | CarUpsertWithWhereUniqueWithoutHoldInput[]
+    | CarUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
+  updateMany?: Maybe<
+    CarUpdateManyWithWhereNestedInput[] | CarUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CarUpdateWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput;
+  data: CarUpdateWithoutHoldDataInput;
+}
+
+export interface CarUpdateWithoutHoldDataInput {
+  image?: Maybe<String>;
+  marque?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  type?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+}
+
+export interface CarUpsertWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput;
+  update: CarUpdateWithoutHoldDataInput;
+  create: CarCreateWithoutHoldInput;
+}
+
+export interface CarScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  marque?: Maybe<String>;
+  marque_not?: Maybe<String>;
+  marque_in?: Maybe<String[] | String>;
+  marque_not_in?: Maybe<String[] | String>;
+  marque_lt?: Maybe<String>;
+  marque_lte?: Maybe<String>;
+  marque_gt?: Maybe<String>;
+  marque_gte?: Maybe<String>;
+  marque_contains?: Maybe<String>;
+  marque_not_contains?: Maybe<String>;
+  marque_starts_with?: Maybe<String>;
+  marque_not_starts_with?: Maybe<String>;
+  marque_ends_with?: Maybe<String>;
+  marque_not_ends_with?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  capacity_not?: Maybe<Float>;
+  capacity_in?: Maybe<Float[] | Float>;
+  capacity_not_in?: Maybe<Float[] | Float>;
+  capacity_lt?: Maybe<Float>;
+  capacity_lte?: Maybe<Float>;
+  capacity_gt?: Maybe<Float>;
+  capacity_gte?: Maybe<Float>;
+  type?: Maybe<String>;
+  type_not?: Maybe<String>;
+  type_in?: Maybe<String[] | String>;
+  type_not_in?: Maybe<String[] | String>;
+  type_lt?: Maybe<String>;
+  type_lte?: Maybe<String>;
+  type_gt?: Maybe<String>;
+  type_gte?: Maybe<String>;
+  type_contains?: Maybe<String>;
+  type_not_contains?: Maybe<String>;
+  type_starts_with?: Maybe<String>;
+  type_not_starts_with?: Maybe<String>;
+  type_ends_with?: Maybe<String>;
+  type_not_ends_with?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+  immatriculation_not?: Maybe<String>;
+  immatriculation_in?: Maybe<String[] | String>;
+  immatriculation_not_in?: Maybe<String[] | String>;
+  immatriculation_lt?: Maybe<String>;
+  immatriculation_lte?: Maybe<String>;
+  immatriculation_gt?: Maybe<String>;
+  immatriculation_gte?: Maybe<String>;
+  immatriculation_contains?: Maybe<String>;
+  immatriculation_not_contains?: Maybe<String>;
+  immatriculation_starts_with?: Maybe<String>;
+  immatriculation_not_starts_with?: Maybe<String>;
+  immatriculation_ends_with?: Maybe<String>;
+  immatriculation_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
+  OR?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
+  NOT?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
+}
+
+export interface CarUpdateManyWithWhereNestedInput {
+  where: CarScalarWhereInput;
+  data: CarUpdateManyDataInput;
+}
+
+export interface CarUpdateManyDataInput {
+  image?: Maybe<String>;
+  marque?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  type?: Maybe<String>;
+  immatriculation?: Maybe<String>;
 }
 
 export interface DotationUpdateManyWithoutHoldInput {
@@ -1881,6 +2200,7 @@ export interface HoldUpdateWithoutUserDataInput {
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
@@ -2582,6 +2902,87 @@ export interface BonUpdateManyMutationInput {
   status?: Maybe<Boolean>;
 }
 
+export interface CarCreateInput {
+  id?: Maybe<ID_Input>;
+  hold: HoldCreateOneWithoutCarsInput;
+  image: String;
+  marque: String;
+  capacity: Float;
+  type: String;
+  immatriculation: String;
+}
+
+export interface HoldCreateOneWithoutCarsInput {
+  create?: Maybe<HoldCreateWithoutCarsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutCarsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
+  user?: Maybe<UserCreateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface CarUpdateInput {
+  hold?: Maybe<HoldUpdateOneRequiredWithoutCarsInput>;
+  image?: Maybe<String>;
+  marque?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  type?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+}
+
+export interface HoldUpdateOneRequiredWithoutCarsInput {
+  create?: Maybe<HoldCreateWithoutCarsInput>;
+  update?: Maybe<HoldUpdateWithoutCarsDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutCarsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutCarsDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
+  user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface HoldUpsertWithoutCarsInput {
+  update: HoldUpdateWithoutCarsDataInput;
+  create: HoldCreateWithoutCarsInput;
+}
+
+export interface CarUpdateManyMutationInput {
+  image?: Maybe<String>;
+  marque?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  type?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+}
+
 export interface DotationCreateInput {
   id?: Maybe<ID_Input>;
   motif: String;
@@ -2645,6 +3046,7 @@ export interface HoldCreateInput {
   theorical_reserve_gazoil_quantity: Float;
   user?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
@@ -2663,6 +3065,7 @@ export interface HoldUpdateInput {
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   user?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
@@ -2878,6 +3281,17 @@ export interface BonSubscriptionWhereInput {
   AND?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
   OR?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
   NOT?: Maybe<BonSubscriptionWhereInput[] | BonSubscriptionWhereInput>;
+}
+
+export interface CarSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<CarWhereInput>;
+  AND?: Maybe<CarSubscriptionWhereInput[] | CarSubscriptionWhereInput>;
+  OR?: Maybe<CarSubscriptionWhereInput[] | CarSubscriptionWhereInput>;
+  NOT?: Maybe<CarSubscriptionWhereInput[] | CarSubscriptionWhereInput>;
 }
 
 export interface DotationSubscriptionWhereInput {
@@ -3385,6 +3799,15 @@ export interface HoldPromise extends Promise<Hold>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  cars: <T = FragmentableArray<Car>>(args?: {
+    where?: CarWhereInput;
+    orderBy?: CarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   dotations: <T = FragmentableArray<Dotation>>(args?: {
     where?: DotationWhereInput;
     orderBy?: DotationOrderByInput;
@@ -3425,6 +3848,15 @@ export interface HoldSubscription
   bons: <T = Promise<AsyncIterator<HoldsOnBonsSubscription>>>(args?: {
     where?: HoldsOnBonsWhereInput;
     orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  cars: <T = Promise<AsyncIterator<CarSubscription>>>(args?: {
+    where?: CarWhereInput;
+    orderBy?: CarOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3477,6 +3909,15 @@ export interface HoldNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  cars: <T = FragmentableArray<Car>>(args?: {
+    where?: CarWhereInput;
+    orderBy?: CarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   dotations: <T = FragmentableArray<Dotation>>(args?: {
     where?: DotationWhereInput;
     orderBy?: DotationOrderByInput;
@@ -3516,6 +3957,51 @@ export interface HoldsOnBonsNullablePromise
   id: () => Promise<ID_Output>;
   hold: <T = HoldPromise>() => T;
   bon: <T = BonPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface Car {
+  id: ID_Output;
+  image: String;
+  marque: String;
+  capacity: Float;
+  type: String;
+  immatriculation: String;
+  created_at: DateTimeOutput;
+}
+
+export interface CarPromise extends Promise<Car>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  hold: <T = HoldPromise>() => T;
+  image: () => Promise<String>;
+  marque: () => Promise<String>;
+  capacity: () => Promise<Float>;
+  type: () => Promise<String>;
+  immatriculation: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface CarSubscription
+  extends Promise<AsyncIterator<Car>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  hold: <T = HoldSubscription>() => T;
+  image: () => Promise<AsyncIterator<String>>;
+  marque: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Float>>;
+  type: () => Promise<AsyncIterator<String>>;
+  immatriculation: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CarNullablePromise extends Promise<Car | null>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  hold: <T = HoldPromise>() => T;
+  image: () => Promise<String>;
+  marque: () => Promise<String>;
+  capacity: () => Promise<Float>;
+  type: () => Promise<String>;
+  immatriculation: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3625,6 +4111,60 @@ export interface AggregateBonPromise
 
 export interface AggregateBonSubscription
   extends Promise<AsyncIterator<AggregateBon>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface CarConnection {
+  pageInfo: PageInfo;
+  edges: CarEdge[];
+}
+
+export interface CarConnectionPromise
+  extends Promise<CarConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<CarEdge>>() => T;
+  aggregate: <T = AggregateCarPromise>() => T;
+}
+
+export interface CarConnectionSubscription
+  extends Promise<AsyncIterator<CarConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<CarEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateCarSubscription>() => T;
+}
+
+export interface CarEdge {
+  node: Car;
+  cursor: String;
+}
+
+export interface CarEdgePromise extends Promise<CarEdge>, Fragmentable {
+  node: <T = CarPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CarEdgeSubscription
+  extends Promise<AsyncIterator<CarEdge>>,
+    Fragmentable {
+  node: <T = CarSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateCar {
+  count: Int;
+}
+
+export interface AggregateCarPromise
+  extends Promise<AggregateCar>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateCarSubscription
+  extends Promise<AsyncIterator<AggregateCar>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4049,6 +4589,65 @@ export interface BonPreviousValuesSubscription
   number_of_liter: () => Promise<AsyncIterator<Float>>;
   initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
   status: () => Promise<AsyncIterator<Boolean>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface CarSubscriptionPayload {
+  mutation: MutationType;
+  node: Car;
+  updatedFields: String[];
+  previousValues: CarPreviousValues;
+}
+
+export interface CarSubscriptionPayloadPromise
+  extends Promise<CarSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = CarPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = CarPreviousValuesPromise>() => T;
+}
+
+export interface CarSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<CarSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = CarSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = CarPreviousValuesSubscription>() => T;
+}
+
+export interface CarPreviousValues {
+  id: ID_Output;
+  image: String;
+  marque: String;
+  capacity: Float;
+  type: String;
+  immatriculation: String;
+  created_at: DateTimeOutput;
+}
+
+export interface CarPreviousValuesPromise
+  extends Promise<CarPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  image: () => Promise<String>;
+  marque: () => Promise<String>;
+  capacity: () => Promise<Float>;
+  type: () => Promise<String>;
+  immatriculation: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface CarPreviousValuesSubscription
+  extends Promise<AsyncIterator<CarPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  image: () => Promise<AsyncIterator<String>>;
+  marque: () => Promise<AsyncIterator<String>>;
+  capacity: () => Promise<AsyncIterator<Float>>;
+  type: () => Promise<AsyncIterator<String>>;
+  immatriculation: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -4487,6 +5086,10 @@ export const models: Model[] = [
   },
   {
     name: "Notification",
+    embedded: false
+  },
+  {
+    name: "Car",
     embedded: false
   }
 ];

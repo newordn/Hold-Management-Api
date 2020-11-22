@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateCar {
+  count: Int!
+}
+
 type AggregateDotation {
   count: Int!
 }
@@ -564,6 +568,348 @@ input BonWhereUniqueInput {
   id: ID
 }
 
+type Car {
+  id: ID!
+  hold: Hold!
+  image: String!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+  created_at: DateTime!
+}
+
+type CarConnection {
+  pageInfo: PageInfo!
+  edges: [CarEdge]!
+  aggregate: AggregateCar!
+}
+
+input CarCreateInput {
+  id: ID
+  hold: HoldCreateOneWithoutCarsInput!
+  image: String!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+}
+
+input CarCreateManyWithoutHoldInput {
+  create: [CarCreateWithoutHoldInput!]
+  connect: [CarWhereUniqueInput!]
+}
+
+input CarCreateWithoutHoldInput {
+  id: ID
+  image: String!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+}
+
+type CarEdge {
+  node: Car!
+  cursor: String!
+}
+
+enum CarOrderByInput {
+  id_ASC
+  id_DESC
+  image_ASC
+  image_DESC
+  marque_ASC
+  marque_DESC
+  capacity_ASC
+  capacity_DESC
+  type_ASC
+  type_DESC
+  immatriculation_ASC
+  immatriculation_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type CarPreviousValues {
+  id: ID!
+  image: String!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+  created_at: DateTime!
+}
+
+input CarScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  marque: String
+  marque_not: String
+  marque_in: [String!]
+  marque_not_in: [String!]
+  marque_lt: String
+  marque_lte: String
+  marque_gt: String
+  marque_gte: String
+  marque_contains: String
+  marque_not_contains: String
+  marque_starts_with: String
+  marque_not_starts_with: String
+  marque_ends_with: String
+  marque_not_ends_with: String
+  capacity: Float
+  capacity_not: Float
+  capacity_in: [Float!]
+  capacity_not_in: [Float!]
+  capacity_lt: Float
+  capacity_lte: Float
+  capacity_gt: Float
+  capacity_gte: Float
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  immatriculation: String
+  immatriculation_not: String
+  immatriculation_in: [String!]
+  immatriculation_not_in: [String!]
+  immatriculation_lt: String
+  immatriculation_lte: String
+  immatriculation_gt: String
+  immatriculation_gte: String
+  immatriculation_contains: String
+  immatriculation_not_contains: String
+  immatriculation_starts_with: String
+  immatriculation_not_starts_with: String
+  immatriculation_ends_with: String
+  immatriculation_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [CarScalarWhereInput!]
+  OR: [CarScalarWhereInput!]
+  NOT: [CarScalarWhereInput!]
+}
+
+type CarSubscriptionPayload {
+  mutation: MutationType!
+  node: Car
+  updatedFields: [String!]
+  previousValues: CarPreviousValues
+}
+
+input CarSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: CarWhereInput
+  AND: [CarSubscriptionWhereInput!]
+  OR: [CarSubscriptionWhereInput!]
+  NOT: [CarSubscriptionWhereInput!]
+}
+
+input CarUpdateInput {
+  hold: HoldUpdateOneRequiredWithoutCarsInput
+  image: String
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+}
+
+input CarUpdateManyDataInput {
+  image: String
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+}
+
+input CarUpdateManyMutationInput {
+  image: String
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+}
+
+input CarUpdateManyWithoutHoldInput {
+  create: [CarCreateWithoutHoldInput!]
+  delete: [CarWhereUniqueInput!]
+  connect: [CarWhereUniqueInput!]
+  set: [CarWhereUniqueInput!]
+  disconnect: [CarWhereUniqueInput!]
+  update: [CarUpdateWithWhereUniqueWithoutHoldInput!]
+  upsert: [CarUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [CarScalarWhereInput!]
+  updateMany: [CarUpdateManyWithWhereNestedInput!]
+}
+
+input CarUpdateManyWithWhereNestedInput {
+  where: CarScalarWhereInput!
+  data: CarUpdateManyDataInput!
+}
+
+input CarUpdateWithoutHoldDataInput {
+  image: String
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+}
+
+input CarUpdateWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput!
+  data: CarUpdateWithoutHoldDataInput!
+}
+
+input CarUpsertWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput!
+  update: CarUpdateWithoutHoldDataInput!
+  create: CarCreateWithoutHoldInput!
+}
+
+input CarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  hold: HoldWhereInput
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  marque: String
+  marque_not: String
+  marque_in: [String!]
+  marque_not_in: [String!]
+  marque_lt: String
+  marque_lte: String
+  marque_gt: String
+  marque_gte: String
+  marque_contains: String
+  marque_not_contains: String
+  marque_starts_with: String
+  marque_not_starts_with: String
+  marque_ends_with: String
+  marque_not_ends_with: String
+  capacity: Float
+  capacity_not: Float
+  capacity_in: [Float!]
+  capacity_not_in: [Float!]
+  capacity_lt: Float
+  capacity_lte: Float
+  capacity_gt: Float
+  capacity_gte: Float
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  immatriculation: String
+  immatriculation_not: String
+  immatriculation_in: [String!]
+  immatriculation_not_in: [String!]
+  immatriculation_lt: String
+  immatriculation_lte: String
+  immatriculation_gt: String
+  immatriculation_gte: String
+  immatriculation_contains: String
+  immatriculation_not_contains: String
+  immatriculation_starts_with: String
+  immatriculation_not_starts_with: String
+  immatriculation_ends_with: String
+  immatriculation_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [CarWhereInput!]
+  OR: [CarWhereInput!]
+  NOT: [CarWhereInput!]
+}
+
+input CarWhereUniqueInput {
+  id: ID
+  immatriculation: String
+}
+
 scalar DateTime
 
 type Dotation {
@@ -1108,6 +1454,7 @@ type Hold {
   theorical_reserve_gazoil_quantity: Float!
   user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
   created_at: DateTime!
 }
@@ -1134,11 +1481,17 @@ input HoldCreateInput {
   theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
 
 input HoldCreateOneWithoutBonsInput {
   create: HoldCreateWithoutBonsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldCreateOneWithoutCarsInput {
+  create: HoldCreateWithoutCarsInput
   connect: HoldWhereUniqueInput
 }
 
@@ -1167,6 +1520,26 @@ input HoldCreateWithoutBonsInput {
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
+  cars: CarCreateManyWithoutHoldInput
+  dotations: DotationCreateManyWithoutHoldInput
+}
+
+input HoldCreateWithoutCarsInput {
+  id: ID
+  name: String!
+  localisation: String!
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
+  user: UserCreateManyWithoutHoldInput
+  bons: HoldsOnBonsCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
 
@@ -1186,6 +1559,7 @@ input HoldCreateWithoutDotationsInput {
   theorical_reserve_gazoil_quantity: Float!
   user: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  cars: CarCreateManyWithoutHoldInput
 }
 
 input HoldCreateWithoutUserInput {
@@ -1203,6 +1577,7 @@ input HoldCreateWithoutUserInput {
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
 
@@ -1485,6 +1860,7 @@ input HoldUpdateInput {
   theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
 
@@ -1507,6 +1883,13 @@ input HoldUpdateOneRequiredWithoutBonsInput {
   create: HoldCreateWithoutBonsInput
   update: HoldUpdateWithoutBonsDataInput
   upsert: HoldUpsertWithoutBonsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldUpdateOneRequiredWithoutCarsInput {
+  create: HoldCreateWithoutCarsInput
+  update: HoldUpdateWithoutCarsDataInput
+  upsert: HoldUpsertWithoutCarsInput
   connect: HoldWhereUniqueInput
 }
 
@@ -1542,6 +1925,25 @@ input HoldUpdateWithoutBonsDataInput {
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
+  cars: CarUpdateManyWithoutHoldInput
+  dotations: DotationUpdateManyWithoutHoldInput
+}
+
+input HoldUpdateWithoutCarsDataInput {
+  name: String
+  localisation: String
+  super_capacity: Float
+  gazoil_capacity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
+  user: UserUpdateManyWithoutHoldInput
+  bons: HoldsOnBonsUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
 
@@ -1560,6 +1962,7 @@ input HoldUpdateWithoutDotationsDataInput {
   theorical_reserve_gazoil_quantity: Float
   user: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  cars: CarUpdateManyWithoutHoldInput
 }
 
 input HoldUpdateWithoutUserDataInput {
@@ -1576,12 +1979,18 @@ input HoldUpdateWithoutUserDataInput {
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
 
 input HoldUpsertWithoutBonsInput {
   update: HoldUpdateWithoutBonsDataInput!
   create: HoldCreateWithoutBonsInput!
+}
+
+input HoldUpsertWithoutCarsInput {
+  update: HoldUpdateWithoutCarsDataInput!
+  create: HoldCreateWithoutCarsInput!
 }
 
 input HoldUpsertWithoutDotationsInput {
@@ -1723,6 +2132,9 @@ input HoldWhereInput {
   bons_every: HoldsOnBonsWhereInput
   bons_some: HoldsOnBonsWhereInput
   bons_none: HoldsOnBonsWhereInput
+  cars_every: CarWhereInput
+  cars_some: CarWhereInput
+  cars_none: CarWhereInput
   dotations_every: DotationWhereInput
   dotations_some: DotationWhereInput
   dotations_none: DotationWhereInput
@@ -1953,6 +2365,12 @@ type Mutation {
   upsertBon(where: BonWhereUniqueInput!, create: BonCreateInput!, update: BonUpdateInput!): Bon!
   deleteBon(where: BonWhereUniqueInput!): Bon
   deleteManyBons(where: BonWhereInput): BatchPayload!
+  createCar(data: CarCreateInput!): Car!
+  updateCar(data: CarUpdateInput!, where: CarWhereUniqueInput!): Car
+  updateManyCars(data: CarUpdateManyMutationInput!, where: CarWhereInput): BatchPayload!
+  upsertCar(where: CarWhereUniqueInput!, create: CarCreateInput!, update: CarUpdateInput!): Car!
+  deleteCar(where: CarWhereUniqueInput!): Car
+  deleteManyCars(where: CarWhereInput): BatchPayload!
   createDotation(data: DotationCreateInput!): Dotation!
   updateDotation(data: DotationUpdateInput!, where: DotationWhereUniqueInput!): Dotation
   updateManyDotations(data: DotationUpdateManyMutationInput!, where: DotationWhereInput): BatchPayload!
@@ -2212,6 +2630,9 @@ type Query {
   bon(where: BonWhereUniqueInput!): Bon
   bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon]!
   bonsConnection(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BonConnection!
+  car(where: CarWhereUniqueInput!): Car
+  cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car]!
+  carsConnection(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CarConnection!
   dotation(where: DotationWhereUniqueInput!): Dotation
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation]!
   dotationsConnection(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DotationConnection!
@@ -2235,6 +2656,7 @@ type Query {
 
 type Subscription {
   bon(where: BonSubscriptionWhereInput): BonSubscriptionPayload
+  car(where: CarSubscriptionWhereInput): CarSubscriptionPayload
   dotation(where: DotationSubscriptionWhereInput): DotationSubscriptionPayload
   hold(where: HoldSubscriptionWhereInput): HoldSubscriptionPayload
   holdsOnBons(where: HoldsOnBonsSubscriptionWhereInput): HoldsOnBonsSubscriptionPayload

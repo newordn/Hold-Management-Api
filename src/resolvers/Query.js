@@ -22,10 +22,16 @@ async function notifications(parent, args, context, info) {
   const notifications = await context.prisma.notifications({ orderBy: "id_DESC" });
   return notifications;
 }
+async function cars(parent, args, context, info) {
+  console.log("cars query");
+  const data = await context.prisma.cars({ orderBy: "id_DESC" });
+  return data;
+}
 module.exports = {
   info,
   users,
   logs,
   holds,
-  notifications
+  notifications, 
+  cars
 };
