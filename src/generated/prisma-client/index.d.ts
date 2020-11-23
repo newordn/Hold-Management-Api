@@ -487,6 +487,8 @@ export type CarOrderByInput =
   | "type_DESC"
   | "immatriculation_ASC"
   | "immatriculation_DESC"
+  | "kilometrage_ASC"
+  | "kilometrage_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -1116,6 +1118,14 @@ export interface CarWhereInput {
   immatriculation_not_starts_with?: Maybe<String>;
   immatriculation_ends_with?: Maybe<String>;
   immatriculation_not_ends_with?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
+  kilometrage_not?: Maybe<Float>;
+  kilometrage_in?: Maybe<Float[] | Float>;
+  kilometrage_not_in?: Maybe<Float[] | Float>;
+  kilometrage_lt?: Maybe<Float>;
+  kilometrage_lte?: Maybe<Float>;
+  kilometrage_gt?: Maybe<Float>;
+  kilometrage_gte?: Maybe<Float>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1514,6 +1524,7 @@ export interface CarCreateWithoutHoldInput {
   capacity: Float;
   type: String;
   immatriculation: String;
+  kilometrage: Float;
 }
 
 export interface DotationCreateManyWithoutHoldInput {
@@ -1996,6 +2007,7 @@ export interface CarUpdateWithoutHoldDataInput {
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
   immatriculation?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
 }
 
 export interface CarUpsertWithWhereUniqueWithoutHoldInput {
@@ -2083,6 +2095,14 @@ export interface CarScalarWhereInput {
   immatriculation_not_starts_with?: Maybe<String>;
   immatriculation_ends_with?: Maybe<String>;
   immatriculation_not_ends_with?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
+  kilometrage_not?: Maybe<Float>;
+  kilometrage_in?: Maybe<Float[] | Float>;
+  kilometrage_not_in?: Maybe<Float[] | Float>;
+  kilometrage_lt?: Maybe<Float>;
+  kilometrage_lte?: Maybe<Float>;
+  kilometrage_gt?: Maybe<Float>;
+  kilometrage_gte?: Maybe<Float>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2107,6 +2127,7 @@ export interface CarUpdateManyDataInput {
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
   immatriculation?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
 }
 
 export interface DotationUpdateManyWithoutHoldInput {
@@ -2910,6 +2931,7 @@ export interface CarCreateInput {
   capacity: Float;
   type: String;
   immatriculation: String;
+  kilometrage: Float;
 }
 
 export interface HoldCreateOneWithoutCarsInput {
@@ -2943,6 +2965,7 @@ export interface CarUpdateInput {
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
   immatriculation?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
 }
 
 export interface HoldUpdateOneRequiredWithoutCarsInput {
@@ -2981,6 +3004,7 @@ export interface CarUpdateManyMutationInput {
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
   immatriculation?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
 }
 
 export interface DotationCreateInput {
@@ -3967,6 +3991,7 @@ export interface Car {
   capacity: Float;
   type: String;
   immatriculation: String;
+  kilometrage: Float;
   created_at: DateTimeOutput;
 }
 
@@ -3978,6 +4003,7 @@ export interface CarPromise extends Promise<Car>, Fragmentable {
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
   immatriculation: () => Promise<String>;
+  kilometrage: () => Promise<Float>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3991,6 +4017,7 @@ export interface CarSubscription
   capacity: () => Promise<AsyncIterator<Float>>;
   type: () => Promise<AsyncIterator<String>>;
   immatriculation: () => Promise<AsyncIterator<String>>;
+  kilometrage: () => Promise<AsyncIterator<Float>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -4002,6 +4029,7 @@ export interface CarNullablePromise extends Promise<Car | null>, Fragmentable {
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
   immatriculation: () => Promise<String>;
+  kilometrage: () => Promise<Float>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4624,6 +4652,7 @@ export interface CarPreviousValues {
   capacity: Float;
   type: String;
   immatriculation: String;
+  kilometrage: Float;
   created_at: DateTimeOutput;
 }
 
@@ -4636,6 +4665,7 @@ export interface CarPreviousValuesPromise
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
   immatriculation: () => Promise<String>;
+  kilometrage: () => Promise<Float>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4648,6 +4678,7 @@ export interface CarPreviousValuesSubscription
   capacity: () => Promise<AsyncIterator<Float>>;
   type: () => Promise<AsyncIterator<String>>;
   immatriculation: () => Promise<AsyncIterator<String>>;
+  kilometrage: () => Promise<AsyncIterator<Float>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 

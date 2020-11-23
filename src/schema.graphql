@@ -17,7 +17,7 @@ type Mutation{
     updateUsersHoldRole(user:ID!, hold: ID!, role: String!): User!
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
     resetPassword(matricule: String!, password: String!): User!
-    car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!): Car!
+    car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!, kilometrage: Float!): Car!
 }
     
 
@@ -111,6 +111,7 @@ type Car {
     capacity: Float!
     type: String!
     immatriculation: String!
+    kilometrage: Float!
     created_at: String
 }
 type Notification{

@@ -98,5 +98,6 @@ type Car {
     capacity: Float!
     type: String!
     immatriculation: String! @unique
+    kilometrage: Float!
     created_at: DateTime! @createdAt
 }

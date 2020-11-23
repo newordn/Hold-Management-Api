@@ -576,6 +576,7 @@ type Car {
   capacity: Float!
   type: String!
   immatriculation: String!
+  kilometrage: Float!
   created_at: DateTime!
 }
 
@@ -593,6 +594,7 @@ input CarCreateInput {
   capacity: Float!
   type: String!
   immatriculation: String!
+  kilometrage: Float!
 }
 
 input CarCreateManyWithoutHoldInput {
@@ -607,6 +609,7 @@ input CarCreateWithoutHoldInput {
   capacity: Float!
   type: String!
   immatriculation: String!
+  kilometrage: Float!
 }
 
 type CarEdge {
@@ -627,6 +630,8 @@ enum CarOrderByInput {
   type_DESC
   immatriculation_ASC
   immatriculation_DESC
+  kilometrage_ASC
+  kilometrage_DESC
   created_at_ASC
   created_at_DESC
 }
@@ -638,6 +643,7 @@ type CarPreviousValues {
   capacity: Float!
   type: String!
   immatriculation: String!
+  kilometrage: Float!
   created_at: DateTime!
 }
 
@@ -720,6 +726,14 @@ input CarScalarWhereInput {
   immatriculation_not_starts_with: String
   immatriculation_ends_with: String
   immatriculation_not_ends_with: String
+  kilometrage: Float
+  kilometrage_not: Float
+  kilometrage_in: [Float!]
+  kilometrage_not_in: [Float!]
+  kilometrage_lt: Float
+  kilometrage_lte: Float
+  kilometrage_gt: Float
+  kilometrage_gte: Float
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
@@ -758,6 +772,7 @@ input CarUpdateInput {
   capacity: Float
   type: String
   immatriculation: String
+  kilometrage: Float
 }
 
 input CarUpdateManyDataInput {
@@ -766,6 +781,7 @@ input CarUpdateManyDataInput {
   capacity: Float
   type: String
   immatriculation: String
+  kilometrage: Float
 }
 
 input CarUpdateManyMutationInput {
@@ -774,6 +790,7 @@ input CarUpdateManyMutationInput {
   capacity: Float
   type: String
   immatriculation: String
+  kilometrage: Float
 }
 
 input CarUpdateManyWithoutHoldInput {
@@ -799,6 +816,7 @@ input CarUpdateWithoutHoldDataInput {
   capacity: Float
   type: String
   immatriculation: String
+  kilometrage: Float
 }
 
 input CarUpdateWithWhereUniqueWithoutHoldInput {
@@ -892,6 +910,14 @@ input CarWhereInput {
   immatriculation_not_starts_with: String
   immatriculation_ends_with: String
   immatriculation_not_ends_with: String
+  kilometrage: Float
+  kilometrage_not: Float
+  kilometrage_in: [Float!]
+  kilometrage_not_in: [Float!]
+  kilometrage_lt: Float
+  kilometrage_lte: Float
+  kilometrage_gt: Float
+  kilometrage_gte: Float
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
