@@ -174,14 +174,86 @@ const car = async (parent, args, context, info) => {
     });
     await context.prisma.createLog({
       action: MESSAGES.car(hold, marque, capacity, type, immatriculation, kilometrage),
-      user: { connect: { id: user} }
+      user: { connect: { id: user } }
     });
     return data;
   } catch (e) {
     console.log(e);
     throw new Error(e.message);
   }
-  
+};
+const bon = async (parent, args, context, info) => {
+  const {
+    coverage_when_consuming,
+    expiration_date,
+    departure,
+    destination,
+    fuel_type,
+    reason,
+    initial_number_of_liter,
+    user,
+    holds,
+    driver
+  } = args;
+  console.log(
+    MESSAGES.bon(
+      coverage_when_consuming,
+      expiration_date,
+      departure,
+      destination,
+      fuel_type,
+      reason,
+      initial_number_of_liter,
+      user,
+      holds,
+      driver
+    )
+  );
+
+  try {
+    const data = await context.prisma.createBon({
+      coverage_when_consuming,
+      expiration_date,
+      driver,
+      fuel_type,
+      destination,
+      departure,
+      reason,
+      initial_number_of_liter,
+      user: { connect: { id: user } },
+      status: true,
+      consumed: false,
+      consumed_date: null,
+      emission_date: new Date(),
+      initial_number_of_liter,
+      number_of_liter: initial_number_of_liter
+    });
+    holds.map(async hold=>{
+      await context.prisma.createHoldsOnBons({
+        hold: {connect: {id: hold}},
+        bon: { connect: {id: data.id}}
+      })
+    })
+    await context.prisma.createLog({
+      action: MESSAGES.bon(
+        coverage_when_consuming,
+        expiration_date,
+        departure,
+        destination,
+        fuel_type,
+        reason,
+        initial_number_of_liter,
+        user,
+        holds,
+        driver
+      ),
+      user: { connect: { id: user } }
+    });
+    return data;
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
 };
 
 module.exports = {
@@ -191,5 +263,6 @@ module.exports = {
   updateUsersHoldRole,
   dotateHold,
   resetPassword,
-  car
+  car,
+  bon
 };

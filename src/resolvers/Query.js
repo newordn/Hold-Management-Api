@@ -27,11 +27,17 @@ async function cars(parent, args, context, info) {
   const data = await context.prisma.cars({ orderBy: "id_DESC" });
   return data;
 }
+async function bons(parent, args, context, info) {
+  console.log("bons query");
+  const data = await context.prisma.bons({ orderBy: "id_DESC" });
+  return data;
+}
 module.exports = {
   info,
   users,
   logs,
   holds,
   notifications, 
-  cars
+  cars,
+  bons
 };

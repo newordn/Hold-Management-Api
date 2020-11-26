@@ -69,7 +69,8 @@ type Bon{
     id: ID! @id
     consumed: Boolean!
     coverage_when_consuming: Float!
-    consumed_date: DateTime!
+    expiration_date: String!
+    consumed_date: DateTime
     emission_date: DateTime!
     departure: String!
     destination: String!
@@ -79,7 +80,8 @@ type Bon{
     initial_number_of_liter: Float!
     status: Boolean!
     user: User! @relation(name:"UserBons")
-    holds: [HoldsOnBons!]!
+    holds: [HoldsOnBons!]
+    driver: String!
     created_at: DateTime! @createdAt
 }
 

@@ -6,6 +6,8 @@ const Notification = require("./resolvers/Notification");
 const Hold = require("./resolvers/Hold");
 const User = require("./resolvers/User");
 const Car = require("./resolvers/Car");
+const Bon = require("./resolvers/Bon");
+const HoldsOnBons = require("./resolvers/HoldsOnBons");
 const { prisma } = require("./generated/prisma-client");
 const { typeDefs } = require("./schema.graphql");
 const { makeExecutableSchema } = require("graphql-tools");
@@ -17,7 +19,9 @@ const resolvers = {
   Hold,
   Notification,
   User,
-  Car
+  Car,
+  Bon,
+  HoldsOnBons
 };
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new GraphQLServer({

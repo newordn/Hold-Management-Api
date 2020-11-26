@@ -6,10 +6,11 @@ type Query{
     users: [User!]!
     logs: [Log!]!
     holds: [Hold!]!
+    bons: [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
 }
-    
+   
 type Mutation{
     signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!): AuthPayload!
     signIn(matricule:String!,password:String!): AuthPayload!
@@ -18,6 +19,7 @@ type Mutation{
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
     resetPassword(matricule: String!, password: String!): User!
     car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!, kilometrage: Float!): Car!
+    bon(user: ID!,expiration_date: String!, driver: String!, coverage_when_consuming: Float!,  departure: String!, destination: String!, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,holds: [ID!]!): Bon!
 }
     
 
@@ -88,9 +90,11 @@ type HoldsOnBons{
 }
 type Bon{
     id: ID!
+    driver: String!
+    expiration_date: String!
     consumed: Boolean!
     coverage_when_consuming: Float!
-    consumed_date: String!
+    consumed_date: String
     emission_date: String!
     departure: String!
     destination: String!
@@ -100,7 +104,7 @@ type Bon{
     initial_number_of_liter: Float!
     status: Boolean!
     user: User!
-    holds: [HoldsOnBons!]!
+    holds: [HoldsOnBons!]
     created_at: String!
 }
 type Car {

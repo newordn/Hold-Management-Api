@@ -43,7 +43,8 @@ type Bon {
   id: ID!
   consumed: Boolean!
   coverage_when_consuming: Float!
-  consumed_date: DateTime!
+  expiration_date: String!
+  consumed_date: DateTime
   emission_date: DateTime!
   departure: String!
   destination: String!
@@ -54,6 +55,7 @@ type Bon {
   status: Boolean!
   user: User!
   holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  driver: String!
   created_at: DateTime!
 }
 
@@ -67,7 +69,8 @@ input BonCreateInput {
   id: ID
   consumed: Boolean!
   coverage_when_consuming: Float!
-  consumed_date: DateTime!
+  expiration_date: String!
+  consumed_date: DateTime
   emission_date: DateTime!
   departure: String!
   destination: String!
@@ -78,6 +81,7 @@ input BonCreateInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   holds: HoldsOnBonsCreateManyWithoutBonInput
+  driver: String!
 }
 
 input BonCreateManyWithoutUserInput {
@@ -94,7 +98,8 @@ input BonCreateWithoutHoldsInput {
   id: ID
   consumed: Boolean!
   coverage_when_consuming: Float!
-  consumed_date: DateTime!
+  expiration_date: String!
+  consumed_date: DateTime
   emission_date: DateTime!
   departure: String!
   destination: String!
@@ -104,13 +109,15 @@ input BonCreateWithoutHoldsInput {
   initial_number_of_liter: Float!
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
+  driver: String!
 }
 
 input BonCreateWithoutUserInput {
   id: ID
   consumed: Boolean!
   coverage_when_consuming: Float!
-  consumed_date: DateTime!
+  expiration_date: String!
+  consumed_date: DateTime
   emission_date: DateTime!
   departure: String!
   destination: String!
@@ -120,6 +127,7 @@ input BonCreateWithoutUserInput {
   initial_number_of_liter: Float!
   status: Boolean!
   holds: HoldsOnBonsCreateManyWithoutBonInput
+  driver: String!
 }
 
 type BonEdge {
@@ -134,6 +142,8 @@ enum BonOrderByInput {
   consumed_DESC
   coverage_when_consuming_ASC
   coverage_when_consuming_DESC
+  expiration_date_ASC
+  expiration_date_DESC
   consumed_date_ASC
   consumed_date_DESC
   emission_date_ASC
@@ -152,6 +162,8 @@ enum BonOrderByInput {
   initial_number_of_liter_DESC
   status_ASC
   status_DESC
+  driver_ASC
+  driver_DESC
   created_at_ASC
   created_at_DESC
 }
@@ -160,7 +172,8 @@ type BonPreviousValues {
   id: ID!
   consumed: Boolean!
   coverage_when_consuming: Float!
-  consumed_date: DateTime!
+  expiration_date: String!
+  consumed_date: DateTime
   emission_date: DateTime!
   departure: String!
   destination: String!
@@ -169,6 +182,7 @@ type BonPreviousValues {
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
+  driver: String!
   created_at: DateTime!
 }
 
@@ -197,6 +211,20 @@ input BonScalarWhereInput {
   coverage_when_consuming_lte: Float
   coverage_when_consuming_gt: Float
   coverage_when_consuming_gte: Float
+  expiration_date: String
+  expiration_date_not: String
+  expiration_date_in: [String!]
+  expiration_date_not_in: [String!]
+  expiration_date_lt: String
+  expiration_date_lte: String
+  expiration_date_gt: String
+  expiration_date_gte: String
+  expiration_date_contains: String
+  expiration_date_not_contains: String
+  expiration_date_starts_with: String
+  expiration_date_not_starts_with: String
+  expiration_date_ends_with: String
+  expiration_date_not_ends_with: String
   consumed_date: DateTime
   consumed_date_not: DateTime
   consumed_date_in: [DateTime!]
@@ -287,6 +315,20 @@ input BonScalarWhereInput {
   initial_number_of_liter_gte: Float
   status: Boolean
   status_not: Boolean
+  driver: String
+  driver_not: String
+  driver_in: [String!]
+  driver_not_in: [String!]
+  driver_lt: String
+  driver_lte: String
+  driver_gt: String
+  driver_gte: String
+  driver_contains: String
+  driver_not_contains: String
+  driver_starts_with: String
+  driver_not_starts_with: String
+  driver_ends_with: String
+  driver_not_ends_with: String
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
@@ -321,6 +363,7 @@ input BonSubscriptionWhereInput {
 input BonUpdateInput {
   consumed: Boolean
   coverage_when_consuming: Float
+  expiration_date: String
   consumed_date: DateTime
   emission_date: DateTime
   departure: String
@@ -332,11 +375,13 @@ input BonUpdateInput {
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
+  driver: String
 }
 
 input BonUpdateManyDataInput {
   consumed: Boolean
   coverage_when_consuming: Float
+  expiration_date: String
   consumed_date: DateTime
   emission_date: DateTime
   departure: String
@@ -346,11 +391,13 @@ input BonUpdateManyDataInput {
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
+  driver: String
 }
 
 input BonUpdateManyMutationInput {
   consumed: Boolean
   coverage_when_consuming: Float
+  expiration_date: String
   consumed_date: DateTime
   emission_date: DateTime
   departure: String
@@ -360,6 +407,7 @@ input BonUpdateManyMutationInput {
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
+  driver: String
 }
 
 input BonUpdateManyWithoutUserInput {
@@ -389,6 +437,7 @@ input BonUpdateOneRequiredWithoutHoldsInput {
 input BonUpdateWithoutHoldsDataInput {
   consumed: Boolean
   coverage_when_consuming: Float
+  expiration_date: String
   consumed_date: DateTime
   emission_date: DateTime
   departure: String
@@ -399,11 +448,13 @@ input BonUpdateWithoutHoldsDataInput {
   initial_number_of_liter: Float
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
+  driver: String
 }
 
 input BonUpdateWithoutUserDataInput {
   consumed: Boolean
   coverage_when_consuming: Float
+  expiration_date: String
   consumed_date: DateTime
   emission_date: DateTime
   departure: String
@@ -414,6 +465,7 @@ input BonUpdateWithoutUserDataInput {
   initial_number_of_liter: Float
   status: Boolean
   holds: HoldsOnBonsUpdateManyWithoutBonInput
+  driver: String
 }
 
 input BonUpdateWithWhereUniqueWithoutUserInput {
@@ -457,6 +509,20 @@ input BonWhereInput {
   coverage_when_consuming_lte: Float
   coverage_when_consuming_gt: Float
   coverage_when_consuming_gte: Float
+  expiration_date: String
+  expiration_date_not: String
+  expiration_date_in: [String!]
+  expiration_date_not_in: [String!]
+  expiration_date_lt: String
+  expiration_date_lte: String
+  expiration_date_gt: String
+  expiration_date_gte: String
+  expiration_date_contains: String
+  expiration_date_not_contains: String
+  expiration_date_starts_with: String
+  expiration_date_not_starts_with: String
+  expiration_date_ends_with: String
+  expiration_date_not_ends_with: String
   consumed_date: DateTime
   consumed_date_not: DateTime
   consumed_date_in: [DateTime!]
@@ -551,6 +617,20 @@ input BonWhereInput {
   holds_every: HoldsOnBonsWhereInput
   holds_some: HoldsOnBonsWhereInput
   holds_none: HoldsOnBonsWhereInput
+  driver: String
+  driver_not: String
+  driver_in: [String!]
+  driver_not_in: [String!]
+  driver_lt: String
+  driver_lte: String
+  driver_gt: String
+  driver_gte: String
+  driver_contains: String
+  driver_not_contains: String
+  driver_starts_with: String
+  driver_not_starts_with: String
+  driver_ends_with: String
+  driver_not_ends_with: String
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]

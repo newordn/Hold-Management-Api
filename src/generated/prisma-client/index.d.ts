@@ -395,6 +395,8 @@ export type BonOrderByInput =
   | "consumed_DESC"
   | "coverage_when_consuming_ASC"
   | "coverage_when_consuming_DESC"
+  | "expiration_date_ASC"
+  | "expiration_date_DESC"
   | "consumed_date_ASC"
   | "consumed_date_DESC"
   | "emission_date_ASC"
@@ -413,6 +415,8 @@ export type BonOrderByInput =
   | "initial_number_of_liter_DESC"
   | "status_ASC"
   | "status_DESC"
+  | "driver_ASC"
+  | "driver_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -753,6 +757,20 @@ export interface BonWhereInput {
   coverage_when_consuming_lte?: Maybe<Float>;
   coverage_when_consuming_gt?: Maybe<Float>;
   coverage_when_consuming_gte?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  expiration_date_not?: Maybe<String>;
+  expiration_date_in?: Maybe<String[] | String>;
+  expiration_date_not_in?: Maybe<String[] | String>;
+  expiration_date_lt?: Maybe<String>;
+  expiration_date_lte?: Maybe<String>;
+  expiration_date_gt?: Maybe<String>;
+  expiration_date_gte?: Maybe<String>;
+  expiration_date_contains?: Maybe<String>;
+  expiration_date_not_contains?: Maybe<String>;
+  expiration_date_starts_with?: Maybe<String>;
+  expiration_date_not_starts_with?: Maybe<String>;
+  expiration_date_ends_with?: Maybe<String>;
+  expiration_date_not_ends_with?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   consumed_date_not?: Maybe<DateTimeInput>;
   consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -847,6 +865,20 @@ export interface BonWhereInput {
   holds_every?: Maybe<HoldsOnBonsWhereInput>;
   holds_some?: Maybe<HoldsOnBonsWhereInput>;
   holds_none?: Maybe<HoldsOnBonsWhereInput>;
+  driver?: Maybe<String>;
+  driver_not?: Maybe<String>;
+  driver_in?: Maybe<String[] | String>;
+  driver_not_in?: Maybe<String[] | String>;
+  driver_lt?: Maybe<String>;
+  driver_lte?: Maybe<String>;
+  driver_gt?: Maybe<String>;
+  driver_gte?: Maybe<String>;
+  driver_contains?: Maybe<String>;
+  driver_not_contains?: Maybe<String>;
+  driver_starts_with?: Maybe<String>;
+  driver_not_starts_with?: Maybe<String>;
+  driver_ends_with?: Maybe<String>;
+  driver_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1341,7 +1373,8 @@ export interface BonCreateInput {
   id?: Maybe<ID_Input>;
   consumed: Boolean;
   coverage_when_consuming: Float;
-  consumed_date: DateTimeInput;
+  expiration_date: String;
+  consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
   departure: String;
   destination: String;
@@ -1352,6 +1385,7 @@ export interface BonCreateInput {
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  driver: String;
 }
 
 export interface UserCreateOneWithoutBonsInput {
@@ -1464,7 +1498,8 @@ export interface BonCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   consumed: Boolean;
   coverage_when_consuming: Float;
-  consumed_date: DateTimeInput;
+  expiration_date: String;
+  consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
   departure: String;
   destination: String;
@@ -1474,6 +1509,7 @@ export interface BonCreateWithoutUserInput {
   initial_number_of_liter: Float;
   status: Boolean;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  driver: String;
 }
 
 export interface HoldsOnBonsCreateManyWithoutBonInput {
@@ -1617,7 +1653,8 @@ export interface BonCreateWithoutHoldsInput {
   id?: Maybe<ID_Input>;
   consumed: Boolean;
   coverage_when_consuming: Float;
-  consumed_date: DateTimeInput;
+  expiration_date: String;
+  consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
   departure: String;
   destination: String;
@@ -1627,6 +1664,7 @@ export interface BonCreateWithoutHoldsInput {
   initial_number_of_liter: Float;
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
+  driver: String;
 }
 
 export interface NotificationCreateManyWithoutUserInput {
@@ -1646,6 +1684,7 @@ export interface NotificationCreateWithoutUserInput {
 export interface BonUpdateInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date?: Maybe<DateTimeInput>;
   departure?: Maybe<String>;
@@ -1657,6 +1696,7 @@ export interface BonUpdateInput {
   status?: Maybe<Boolean>;
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  driver?: Maybe<String>;
 }
 
 export interface UserUpdateOneRequiredWithoutBonsInput {
@@ -1907,6 +1947,7 @@ export interface BonUpdateWithWhereUniqueWithoutUserInput {
 export interface BonUpdateWithoutUserDataInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date?: Maybe<DateTimeInput>;
   departure?: Maybe<String>;
@@ -1917,6 +1958,7 @@ export interface BonUpdateWithoutUserDataInput {
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  driver?: Maybe<String>;
 }
 
 export interface HoldsOnBonsUpdateManyWithoutBonInput {
@@ -2267,6 +2309,7 @@ export interface BonUpdateOneRequiredWithoutHoldsInput {
 export interface BonUpdateWithoutHoldsDataInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date?: Maybe<DateTimeInput>;
   departure?: Maybe<String>;
@@ -2277,6 +2320,7 @@ export interface BonUpdateWithoutHoldsDataInput {
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
+  driver?: Maybe<String>;
 }
 
 export interface BonUpsertWithoutHoldsInput {
@@ -2612,6 +2656,20 @@ export interface BonScalarWhereInput {
   coverage_when_consuming_lte?: Maybe<Float>;
   coverage_when_consuming_gt?: Maybe<Float>;
   coverage_when_consuming_gte?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  expiration_date_not?: Maybe<String>;
+  expiration_date_in?: Maybe<String[] | String>;
+  expiration_date_not_in?: Maybe<String[] | String>;
+  expiration_date_lt?: Maybe<String>;
+  expiration_date_lte?: Maybe<String>;
+  expiration_date_gt?: Maybe<String>;
+  expiration_date_gte?: Maybe<String>;
+  expiration_date_contains?: Maybe<String>;
+  expiration_date_not_contains?: Maybe<String>;
+  expiration_date_starts_with?: Maybe<String>;
+  expiration_date_not_starts_with?: Maybe<String>;
+  expiration_date_ends_with?: Maybe<String>;
+  expiration_date_not_ends_with?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   consumed_date_not?: Maybe<DateTimeInput>;
   consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2702,6 +2760,20 @@ export interface BonScalarWhereInput {
   initial_number_of_liter_gte?: Maybe<Float>;
   status?: Maybe<Boolean>;
   status_not?: Maybe<Boolean>;
+  driver?: Maybe<String>;
+  driver_not?: Maybe<String>;
+  driver_in?: Maybe<String[] | String>;
+  driver_not_in?: Maybe<String[] | String>;
+  driver_lt?: Maybe<String>;
+  driver_lte?: Maybe<String>;
+  driver_gt?: Maybe<String>;
+  driver_gte?: Maybe<String>;
+  driver_contains?: Maybe<String>;
+  driver_not_contains?: Maybe<String>;
+  driver_starts_with?: Maybe<String>;
+  driver_not_starts_with?: Maybe<String>;
+  driver_ends_with?: Maybe<String>;
+  driver_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2723,6 +2795,7 @@ export interface BonUpdateManyWithWhereNestedInput {
 export interface BonUpdateManyDataInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date?: Maybe<DateTimeInput>;
   departure?: Maybe<String>;
@@ -2732,6 +2805,7 @@ export interface BonUpdateManyDataInput {
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
+  driver?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutHoldInput {
@@ -2912,6 +2986,7 @@ export interface UserUpsertWithoutBonsInput {
 export interface BonUpdateManyMutationInput {
   consumed?: Maybe<Boolean>;
   coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date?: Maybe<DateTimeInput>;
   departure?: Maybe<String>;
@@ -2921,6 +2996,7 @@ export interface BonUpdateManyMutationInput {
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
+  driver?: Maybe<String>;
 }
 
 export interface CarCreateInput {
@@ -3408,7 +3484,8 @@ export interface Bon {
   id: ID_Output;
   consumed: Boolean;
   coverage_when_consuming: Float;
-  consumed_date: DateTimeOutput;
+  expiration_date: String;
+  consumed_date?: DateTimeOutput;
   emission_date: DateTimeOutput;
   departure: String;
   destination: String;
@@ -3417,6 +3494,7 @@ export interface Bon {
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
+  driver: String;
   created_at: DateTimeOutput;
 }
 
@@ -3424,6 +3502,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
   id: () => Promise<ID_Output>;
   consumed: () => Promise<Boolean>;
   coverage_when_consuming: () => Promise<Float>;
+  expiration_date: () => Promise<String>;
   consumed_date: () => Promise<DateTimeOutput>;
   emission_date: () => Promise<DateTimeOutput>;
   departure: () => Promise<String>;
@@ -3443,6 +3522,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  driver: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3452,6 +3532,7 @@ export interface BonSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   consumed: () => Promise<AsyncIterator<Boolean>>;
   coverage_when_consuming: () => Promise<AsyncIterator<Float>>;
+  expiration_date: () => Promise<AsyncIterator<String>>;
   consumed_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   emission_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   departure: () => Promise<AsyncIterator<String>>;
@@ -3471,6 +3552,7 @@ export interface BonSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  driver: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -3478,6 +3560,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
   id: () => Promise<ID_Output>;
   consumed: () => Promise<Boolean>;
   coverage_when_consuming: () => Promise<Float>;
+  expiration_date: () => Promise<String>;
   consumed_date: () => Promise<DateTimeOutput>;
   emission_date: () => Promise<DateTimeOutput>;
   departure: () => Promise<String>;
@@ -3497,6 +3580,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  driver: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4572,7 +4656,8 @@ export interface BonPreviousValues {
   id: ID_Output;
   consumed: Boolean;
   coverage_when_consuming: Float;
-  consumed_date: DateTimeOutput;
+  expiration_date: String;
+  consumed_date?: DateTimeOutput;
   emission_date: DateTimeOutput;
   departure: String;
   destination: String;
@@ -4581,6 +4666,7 @@ export interface BonPreviousValues {
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
+  driver: String;
   created_at: DateTimeOutput;
 }
 
@@ -4590,6 +4676,7 @@ export interface BonPreviousValuesPromise
   id: () => Promise<ID_Output>;
   consumed: () => Promise<Boolean>;
   coverage_when_consuming: () => Promise<Float>;
+  expiration_date: () => Promise<String>;
   consumed_date: () => Promise<DateTimeOutput>;
   emission_date: () => Promise<DateTimeOutput>;
   departure: () => Promise<String>;
@@ -4599,6 +4686,7 @@ export interface BonPreviousValuesPromise
   number_of_liter: () => Promise<Float>;
   initial_number_of_liter: () => Promise<Float>;
   status: () => Promise<Boolean>;
+  driver: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4608,6 +4696,7 @@ export interface BonPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   consumed: () => Promise<AsyncIterator<Boolean>>;
   coverage_when_consuming: () => Promise<AsyncIterator<Float>>;
+  expiration_date: () => Promise<AsyncIterator<String>>;
   consumed_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   emission_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   departure: () => Promise<AsyncIterator<String>>;
@@ -4617,6 +4706,7 @@ export interface BonPreviousValuesSubscription
   number_of_liter: () => Promise<AsyncIterator<Float>>;
   initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
   status: () => Promise<AsyncIterator<Boolean>>;
+  driver: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -5065,6 +5155,11 @@ The `Float` scalar type represents signed double-precision fractional values as 
 export type Float = number;
 
 /*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -5073,11 +5168,6 @@ export type DateTimeInput = Date | string;
 DateTime scalar output type, which is always a string
 */
 export type DateTimeOutput = string;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
