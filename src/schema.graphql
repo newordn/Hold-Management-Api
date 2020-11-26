@@ -6,7 +6,7 @@ type Query{
     users: [User!]!
     logs: [Log!]!
     holds: [Hold!]!
-    bons: [Bon!]!
+    bons(consumed:Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
 }
