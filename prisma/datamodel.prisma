@@ -82,6 +82,7 @@ type Bon{
     user: User! @relation(name:"UserBons")
     holds: [HoldsOnBons!]
     driver: String!
+    code: String!
     created_at: DateTime! @createdAt
 }
 

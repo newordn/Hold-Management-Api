@@ -417,6 +417,8 @@ export type BonOrderByInput =
   | "status_DESC"
   | "driver_ASC"
   | "driver_DESC"
+  | "code_ASC"
+  | "code_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -879,6 +881,20 @@ export interface BonWhereInput {
   driver_not_starts_with?: Maybe<String>;
   driver_ends_with?: Maybe<String>;
   driver_not_ends_with?: Maybe<String>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1386,6 +1402,7 @@ export interface BonCreateInput {
   user: UserCreateOneWithoutBonsInput;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
   driver: String;
+  code: String;
 }
 
 export interface UserCreateOneWithoutBonsInput {
@@ -1510,6 +1527,7 @@ export interface BonCreateWithoutUserInput {
   status: Boolean;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
   driver: String;
+  code: String;
 }
 
 export interface HoldsOnBonsCreateManyWithoutBonInput {
@@ -1665,6 +1683,7 @@ export interface BonCreateWithoutHoldsInput {
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
   driver: String;
+  code: String;
 }
 
 export interface NotificationCreateManyWithoutUserInput {
@@ -1697,6 +1716,7 @@ export interface BonUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
   driver?: Maybe<String>;
+  code?: Maybe<String>;
 }
 
 export interface UserUpdateOneRequiredWithoutBonsInput {
@@ -1959,6 +1979,7 @@ export interface BonUpdateWithoutUserDataInput {
   status?: Maybe<Boolean>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
   driver?: Maybe<String>;
+  code?: Maybe<String>;
 }
 
 export interface HoldsOnBonsUpdateManyWithoutBonInput {
@@ -2321,6 +2342,7 @@ export interface BonUpdateWithoutHoldsDataInput {
   status?: Maybe<Boolean>;
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
   driver?: Maybe<String>;
+  code?: Maybe<String>;
 }
 
 export interface BonUpsertWithoutHoldsInput {
@@ -2774,6 +2796,20 @@ export interface BonScalarWhereInput {
   driver_not_starts_with?: Maybe<String>;
   driver_ends_with?: Maybe<String>;
   driver_not_ends_with?: Maybe<String>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -2806,6 +2842,7 @@ export interface BonUpdateManyDataInput {
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
   driver?: Maybe<String>;
+  code?: Maybe<String>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutHoldInput {
@@ -2997,6 +3034,7 @@ export interface BonUpdateManyMutationInput {
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
   driver?: Maybe<String>;
+  code?: Maybe<String>;
 }
 
 export interface CarCreateInput {
@@ -3495,6 +3533,7 @@ export interface Bon {
   initial_number_of_liter: Float;
   status: Boolean;
   driver: String;
+  code: String;
   created_at: DateTimeOutput;
 }
 
@@ -3523,6 +3562,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
     last?: Int;
   }) => T;
   driver: () => Promise<String>;
+  code: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -3553,6 +3593,7 @@ export interface BonSubscription
     last?: Int;
   }) => T;
   driver: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -3581,6 +3622,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
     last?: Int;
   }) => T;
   driver: () => Promise<String>;
+  code: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4667,6 +4709,7 @@ export interface BonPreviousValues {
   initial_number_of_liter: Float;
   status: Boolean;
   driver: String;
+  code: String;
   created_at: DateTimeOutput;
 }
 
@@ -4687,6 +4730,7 @@ export interface BonPreviousValuesPromise
   initial_number_of_liter: () => Promise<Float>;
   status: () => Promise<Boolean>;
   driver: () => Promise<String>;
+  code: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4707,6 +4751,7 @@ export interface BonPreviousValuesSubscription
   initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
   status: () => Promise<AsyncIterator<Boolean>>;
   driver: () => Promise<AsyncIterator<String>>;
+  code: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 

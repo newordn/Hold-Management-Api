@@ -219,6 +219,10 @@ const bon = async (parent, args, context, info) => {
       destination,
       departure,
       reason,
+      code: generator.generate({
+    length: 10,
+    numbers: true
+  }),
       initial_number_of_liter,
       user: { connect: { id: user } },
       status: true,

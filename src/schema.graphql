@@ -101,6 +101,7 @@ type Bon{
     fuel_type: String!
     reason: String!
     number_of_liter: Float!
+    code: String!
     initial_number_of_liter: Float!
     status: Boolean!
     user: User!

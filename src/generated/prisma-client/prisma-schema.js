@@ -56,6 +56,7 @@ type Bon {
   user: User!
   holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
   driver: String!
+  code: String!
   created_at: DateTime!
 }
 
@@ -82,6 +83,7 @@ input BonCreateInput {
   user: UserCreateOneWithoutBonsInput!
   holds: HoldsOnBonsCreateManyWithoutBonInput
   driver: String!
+  code: String!
 }
 
 input BonCreateManyWithoutUserInput {
@@ -110,6 +112,7 @@ input BonCreateWithoutHoldsInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   driver: String!
+  code: String!
 }
 
 input BonCreateWithoutUserInput {
@@ -128,6 +131,7 @@ input BonCreateWithoutUserInput {
   status: Boolean!
   holds: HoldsOnBonsCreateManyWithoutBonInput
   driver: String!
+  code: String!
 }
 
 type BonEdge {
@@ -164,6 +168,8 @@ enum BonOrderByInput {
   status_DESC
   driver_ASC
   driver_DESC
+  code_ASC
+  code_DESC
   created_at_ASC
   created_at_DESC
 }
@@ -183,6 +189,7 @@ type BonPreviousValues {
   initial_number_of_liter: Float!
   status: Boolean!
   driver: String!
+  code: String!
   created_at: DateTime!
 }
 
@@ -329,6 +336,20 @@ input BonScalarWhereInput {
   driver_not_starts_with: String
   driver_ends_with: String
   driver_not_ends_with: String
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
@@ -376,6 +397,7 @@ input BonUpdateInput {
   user: UserUpdateOneRequiredWithoutBonsInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
+  code: String
 }
 
 input BonUpdateManyDataInput {
@@ -392,6 +414,7 @@ input BonUpdateManyDataInput {
   initial_number_of_liter: Float
   status: Boolean
   driver: String
+  code: String
 }
 
 input BonUpdateManyMutationInput {
@@ -408,6 +431,7 @@ input BonUpdateManyMutationInput {
   initial_number_of_liter: Float
   status: Boolean
   driver: String
+  code: String
 }
 
 input BonUpdateManyWithoutUserInput {
@@ -449,6 +473,7 @@ input BonUpdateWithoutHoldsDataInput {
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
   driver: String
+  code: String
 }
 
 input BonUpdateWithoutUserDataInput {
@@ -466,6 +491,7 @@ input BonUpdateWithoutUserDataInput {
   status: Boolean
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
+  code: String
 }
 
 input BonUpdateWithWhereUniqueWithoutUserInput {
@@ -631,6 +657,20 @@ input BonWhereInput {
   driver_not_starts_with: String
   driver_ends_with: String
   driver_not_ends_with: String
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
