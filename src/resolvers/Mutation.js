@@ -184,7 +184,6 @@ const car = async (parent, args, context, info) => {
 };
 const bon = async (parent, args, context, info) => {
   const {
-    coverage_when_consuming,
     expiration_date,
     departure,
     destination,
@@ -197,7 +196,6 @@ const bon = async (parent, args, context, info) => {
   } = args;
   console.log(
     MESSAGES.bon(
-      coverage_when_consuming,
       expiration_date,
       departure,
       destination,
@@ -212,7 +210,7 @@ const bon = async (parent, args, context, info) => {
 
   try {
     const data = await context.prisma.createBon({
-      coverage_when_consuming,
+      coverage_when_consuming:0,
       expiration_date,
       driver,
       fuel_type,
@@ -240,7 +238,6 @@ const bon = async (parent, args, context, info) => {
     })
     await context.prisma.createLog({
       action: MESSAGES.bon(
-        coverage_when_consuming,
         expiration_date,
         departure,
         destination,

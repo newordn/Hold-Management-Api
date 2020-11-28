@@ -18,7 +18,6 @@ const MESSAGES = {
   car: (user, hold, marque, capacity, type, immatriculation, kilometrage) =>
     `L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} consommant du ${type} qui a kilometrage de ${kilometrage} qui réside a la soute immatriculé ${hold}`,
   bon: (
-    coverage_when_consuming,
     expiration_date,
     departure,
     destination,
@@ -29,8 +28,7 @@ const MESSAGES = {
     holds,
     driver
   ) => `L'utilisateur immatriculé ${user} emet le bon pour du ${fuel_type} quittant de ${departure} pour ${destination} de ${initial_number_of_liter} litres 
-  qui expire le ${expiration_date} avec pour motif/service ${reason} conduit par ${driver}, kilométrage lors de la consommation ${coverage_when_consuming}
-  a consommé dans les soutes immatriculées ${holds}
+  qui expire le ${expiration_date} avec pour motif/service ${reason} conduit par ${driver} a consommé dans les soutes immatriculées ${holds}
   `
 };
 module.exports = {
