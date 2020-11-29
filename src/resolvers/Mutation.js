@@ -182,6 +182,35 @@ const car = async (parent, args, context, info) => {
     throw new Error(e.message);
   }
 };
+const consumedBon = async (parent, args, context, info) => {
+  const {user, bon, coverage_when_consuming, code} = args
+   try {
+     const getBon = await context.prisma.bon({id:bon})
+     const status = getBon.code===code
+     if(status){
+    const data = await context.prisma.updateBon({
+      data: {
+        coverage_when_consuming,
+        consumed_date: new Date()
+      },
+      where:{
+        id: bon
+      }
+    })
+    await context.prisma.createLog({
+      action: MESSAGES.consumedBon(user, bon, coverage_when_consuming,status),
+      user: { connect: { id: user } }
+    });
+    return true
+  }
+    console.log(MESSAGES.consumedBon(user, bon, coverage_when_consuming, status))
+    return false
+   }
+   catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 const bon = async (parent, args, context, info) => {
   const {
     expiration_date,
@@ -265,5 +294,6 @@ module.exports = {
   dotateHold,
   resetPassword,
   car,
-  bon
+  bon,
+  consumedBon
 };
