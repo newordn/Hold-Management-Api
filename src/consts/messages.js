@@ -30,7 +30,7 @@ const MESSAGES = {
   ) => `L'utilisateur immatriculé ${user} emet le bon pour du ${fuel_type} quittant de ${departure} pour ${destination} de ${initial_number_of_liter} litres 
   qui expire le ${expiration_date} avec pour motif/service ${reason} conduit par ${driver} a consommé dans les soutes immatriculées ${holds}
   `,
-  consumedBon: (user, bon, coverage_when_consuming, status)=>`Consommation du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${status ? "reussie": "échec"}`
+  consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume)=>`Consommation de ${number_of_liter_to_consume} L du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${status ? "reussie": "échec" }`
 };
 module.exports = {
   MESSAGES

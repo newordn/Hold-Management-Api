@@ -183,7 +183,7 @@ const car = async (parent, args, context, info) => {
   }
 };
 const consumedBon = async (parent, args, context, info) => {
-  const {user, bon, coverage_when_consuming, code} = args
+  const {user, bon, coverage_when_consuming, code, number_of_liter_to_consume} = args
    try {
      const getBon = await context.prisma.bon({id:bon})
      const status = getBon.code===code
@@ -191,19 +191,20 @@ const consumedBon = async (parent, args, context, info) => {
     const data = await context.prisma.updateBon({
       data: {
         coverage_when_consuming,
-        consumed_date: new Date()
+        consumed_date: new Date(),
+        number_of_liter: getBon.number_of_liter - number_of_liter_to_consume
       },
       where:{
         id: bon
       }
     })
     await context.prisma.createLog({
-      action: MESSAGES.consumedBon(user, bon, coverage_when_consuming,status),
+      action: MESSAGES.consumedBon(user, bon, coverage_when_consuming,status, number_of_liter_to_consume),
       user: { connect: { id: user } }
     });
     return true
   }
-    console.log(MESSAGES.consumedBon(user, bon, coverage_when_consuming, status))
+    console.log(MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume))
     return false
    }
    catch (e) {
