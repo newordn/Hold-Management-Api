@@ -188,11 +188,13 @@ const consumedBon = async (parent, args, context, info) => {
      const getBon = await context.prisma.bon({id:bon})
      const status = getBon.code===code
      if(status){
+       const litre_restant = getBon.number_of_liter - number_of_liter_to_consume
     const data = await context.prisma.updateBon({
       data: {
+        consumed: litre_restant===0? true: false,
         coverage_when_consuming,
         consumed_date: new Date(),
-        number_of_liter: getBon.number_of_liter - number_of_liter_to_consume
+        number_of_liter: litre_restant
       },
       where:{
         id: bon
