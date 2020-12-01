@@ -202,10 +202,10 @@ const consumedBon = async (parent, args, context, info) => {
       action: MESSAGES.consumedBon(user, bon, coverage_when_consuming,status, number_of_liter_to_consume),
       user: { connect: { id: user } }
     });
-    return true
+    return "Code de confirmation correct"
   }
     console.log(MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume))
-   throw new Error("Code de confirmation incorrect")
+   return "Code de confirmation incorrect"
    }
    catch (e) {
     console.log(e);

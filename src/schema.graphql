@@ -20,7 +20,7 @@ type Mutation{
     resetPassword(matricule: String!, password: String!): User!
     car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!, kilometrage: Float!): Car!
     bon(user: ID!,expiration_date: String!, driver: String!,  departure: String!, destination: String!, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,holds: [ID!]!): Bon!
-    consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): Boolean!
+    consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): String!
 }
     
 
