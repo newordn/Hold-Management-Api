@@ -49,7 +49,17 @@ async function signIn(parent, args, context, info) {
 async function hold(parent, args, context, info) {
   console.log(MESSAGES.hold(args.name));
   try {
-    let hold = await context.prisma.createHold(args);
+    let hold = await context.prisma.createHold({
+      ...args,
+      super_quantity: 0,
+      gazoil_quantity: 0,
+      theorical_super_quantity: 0,
+      theorical_gazoil_quantity: 0,
+      reserve_super_quantity: 0,
+      reserve_gazoil_quantity: 0,
+      theorical_reserve_super_quantity: 0,
+      theorical_reserve_gazoil_quantity: 0
+    });
     return hold;
   } catch (e) {
     console.log(e);
@@ -183,37 +193,44 @@ const car = async (parent, args, context, info) => {
   }
 };
 const consumedBon = async (parent, args, context, info) => {
-  const {user, bon, coverage_when_consuming, code, number_of_liter_to_consume} = args
-   try {
-     const getBon = await context.prisma.bon({id:bon})
-     const status = getBon.code===code
-     if(status){
-       const litre_restant = getBon.number_of_liter - number_of_liter_to_consume
-    const data = await context.prisma.updateBon({
-      data: {
-        consumed: litre_restant===0? true: false,
-        coverage_when_consuming,
-        consumed_date: new Date(),
-        number_of_liter: litre_restant
-      },
-      where:{
-        id: bon
-      }
-    })
-    await context.prisma.createLog({
-      action: MESSAGES.consumedBon(user, bon, coverage_when_consuming,status, number_of_liter_to_consume),
-      user: { connect: { id: user } }
-    });
-    return {message:" Bon consommé avec succès", status: true}
-  }
-    console.log(MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume))
-   return {message:"Code de confirmation incorrect", status: false}
-   }
-   catch (e) {
+  const { user, bon, coverage_when_consuming, code, number_of_liter_to_consume } = args;
+  try {
+    const getBon = await context.prisma.bon({ id: bon });
+    const status = getBon.code === code;
+    if (status) {
+      const litre_restant = getBon.number_of_liter - number_of_liter_to_consume;
+      const data = await context.prisma.updateBon({
+        data: {
+          consumed: litre_restant === 0 ? true : false,
+          coverage_when_consuming,
+          consumed_date: new Date(),
+          number_of_liter: litre_restant
+        },
+        where: {
+          id: bon
+        }
+      });
+      await context.prisma.createLog({
+        action: MESSAGES.consumedBon(
+          user,
+          bon,
+          coverage_when_consuming,
+          status,
+          number_of_liter_to_consume
+        ),
+        user: { connect: { id: user } }
+      });
+      return { message: " Bon consommé avec succès", status: true };
+    }
+    console.log(
+      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
+    );
+    return { message: "Code de confirmation incorrect", status: false };
+  } catch (e) {
     console.log(e);
     throw new Error(e.message);
   }
-}
+};
 const bon = async (parent, args, context, info) => {
   const {
     expiration_date,
@@ -242,7 +259,7 @@ const bon = async (parent, args, context, info) => {
 
   try {
     const data = await context.prisma.createBon({
-      coverage_when_consuming:0,
+      coverage_when_consuming: 0,
       expiration_date,
       driver,
       fuel_type,
@@ -250,9 +267,9 @@ const bon = async (parent, args, context, info) => {
       departure,
       reason,
       code: generator.generate({
-    length: 10,
-    numbers: true
-  }),
+        length: 10,
+        numbers: true
+      }),
       initial_number_of_liter,
       user: { connect: { id: user } },
       status: true,
@@ -262,12 +279,12 @@ const bon = async (parent, args, context, info) => {
       initial_number_of_liter,
       number_of_liter: initial_number_of_liter
     });
-    holds.map(async hold=>{
+    holds.map(async (hold) => {
       await context.prisma.createHoldsOnBons({
-        hold: {connect: {id: hold}},
-        bon: { connect: {id: data.id}}
-      })
-    })
+        hold: { connect: { id: hold } },
+        bon: { connect: { id: data.id } }
+      });
+    });
     await context.prisma.createLog({
       action: MESSAGES.bon(
         expiration_date,
