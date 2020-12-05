@@ -41,44 +41,39 @@ async function statistique(parent, args, context, info){
     let labels = []
     let data = []
     holds.map(hold=>{
-      labels.push(hold.name + " (Super capacité) ")
+      
+      labels.push(hold.name)
       data.push(hold.super_capacity)
     })
-    datas.push({labels,data})
+    datas.push({labels,data, label: "Super capacité"})
     labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name + " (Gazoil capacité) ")
+      labels.push(hold.name)
       data.push(hold.gazoil_capacity)
     })
-    datas.push({labels,data})
+    datas.push({labels,data, label:"Gazoil capacité"})
     labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name + " (Contenance Super Ordinaire) ")
+      labels.push(hold.name)
       data.push(hold.super_quantity)
     })
-    datas.push({labels,data})
+    datas.push({labels,data, label: "Contenance Super Ordinaire"})
     labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name + " (Contenance Gasoil Ordinaire) ")
+      labels.push(hold.name)
       data.push(hold.gazoil_quantity)
     })
-    datas.push({labels,data})
+    datas.push({labels,data, label: "Contenance Gasoil Ordinaire"})
     labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name + " (Contenance Super Réserve) ")
+      labels.push(hold.name)
       data.push(hold.reserve_super_quantity)
     })
-    datas.push({labels,data})
-    labels = []
-    data = []
-    holds.map(hold=>{
-      labels.push(hold.name + " (Contenance Gasoil Réserve) ")
-      data.push(hold.reserve_gazoil_quantity)
-    })
+    datas.push({labels,data, label: "Contenance Super Réserve"})
     return datas
   }
 }

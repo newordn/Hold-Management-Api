@@ -24,6 +24,7 @@ type Mutation{
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
 }
 type Statistique{
+    label: String!
     labels: [String!]!
     data: [Float!]!
 }   
