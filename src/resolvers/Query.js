@@ -1,3 +1,4 @@
+const {STATISTIQUES} = require('../consts/statistique')
 async function info(parent, args, context, info) {
   console.log(args.message)
   return args.message;
@@ -32,6 +33,55 @@ async function bons(parent, args, context, info) {
   const data = await context.prisma.bons({ orderBy: "id_DESC", where: {consumed: args.consumed} });
   return data;
 }
+async function statistique(parent, args, context, info){
+  console.log("statistique query " + args.type);
+  const datas= []
+  if(args.type===STATISTIQUES.hold){
+    const holds = await context.prisma.holds({orderBy: "id_DESC"})
+    let labels = []
+    let data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Super capacité) ")
+      data.push(hold.super_capacity)
+    })
+    datas.push({labels,data})
+    labels = []
+    data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Gazoil capacité) ")
+      data.push(hold.gazoil_capacity)
+    })
+    datas.push({labels,data})
+    labels = []
+    data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Contenance Super Ordinaire) ")
+      data.push(hold.super_quantity)
+    })
+    datas.push({labels,data})
+    labels = []
+    data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Contenance Gasoil Ordinaire) ")
+      data.push(hold.gazoil_quantity)
+    })
+    datas.push({labels,data})
+    labels = []
+    data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Contenance Super Réserve) ")
+      data.push(hold.reserve_super_quantity)
+    })
+    datas.push({labels,data})
+    labels = []
+    data = []
+    holds.map(hold=>{
+      labels.push(hold.name + " (Contenance Gasoil Réserve) ")
+      data.push(hold.reserve_gazoil_quantity)
+    })
+    return datas
+  }
+}
 module.exports = {
   info,
   users,
@@ -39,5 +89,6 @@ module.exports = {
   holds,
   notifications, 
   cars,
-  bons
+  bons,
+  statistique
 };

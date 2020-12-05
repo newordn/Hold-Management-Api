@@ -9,9 +9,10 @@ type Query{
     bons(consumed:Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
+    statistique(type: String): [Statistique!]!
 }
    
-type Mutation{
+type Mutation{  
     signUp(active:Boolean!,grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!): AuthPayload!
     signIn(matricule:String!,password:String!): AuthPayload!
     hold(name:String!, localisation: String!, super_capacity: Float!, gazoil_capacity: Float!): Hold!
@@ -22,7 +23,10 @@ type Mutation{
     bon(user: ID!,expiration_date: String!, driver: String!,  departure: String!, destination: String!, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,holds: [ID!]!): Bon!
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
 }
-    
+type Statistique{
+    labels: [String!]!
+    data: [Float!]!
+}   
 type ConsumedBon{
 message: String!
 status: Boolean!
