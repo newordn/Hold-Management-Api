@@ -1,5 +1,6 @@
  const STATISTIQUES = {
-  hold: "hold"
+  hold: "hold",
+  emetteur: "emetteur"
 }
 module.exports = {
   STATISTIQUES

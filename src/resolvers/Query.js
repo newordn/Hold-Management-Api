@@ -1,4 +1,5 @@
 const {STATISTIQUES} = require('../consts/statistique')
+const {FUEL} = require('../consts/fuels')
 async function info(parent, args, context, info) {
   console.log(args.message)
   return args.message;
@@ -36,46 +37,63 @@ async function bons(parent, args, context, info) {
 async function statistique(parent, args, context, info){
   console.log("statistique query " + args.type);
   const datas= []
-  if(args.type===STATISTIQUES.hold){
+  let labels = []
+  let data = []
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  switch(args.type)
+  {
+    case STATISTIQUES.hold: 
     const holds = await context.prisma.holds({orderBy: "id_DESC"})
-    let labels = []
-    let data = []
     holds.map(hold=>{
-      
       labels.push(hold.name)
       data.push(hold.super_capacity)
     })
     datas.push({labels,data, label: "Super capacité"})
-    labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name)
       data.push(hold.gazoil_capacity)
     })
     datas.push({labels,data, label:"Gazoil capacité"})
-    labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name)
       data.push(hold.super_quantity)
     })
     datas.push({labels,data, label: "Contenance Super Ordinaire"})
-    labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name)
       data.push(hold.gazoil_quantity)
     })
     datas.push({labels,data, label: "Contenance Gasoil Ordinaire"})
-    labels = []
     data = []
     holds.map(hold=>{
-      labels.push(hold.name)
       data.push(hold.reserve_super_quantity)
     })
     datas.push({labels,data, label: "Contenance Super Réserve"})
-    return datas
+    break;
+    case STATISTIQUES.emetteur: 
+    const bons = await context.prisma.user({id: args.user}).bons()
+    labels.push("Bon émis", "Bon consommés", "Bon semi consommés")
+    const superBons = bons.filter(bon=>bon.fuel_type===FUEL.super)
+    // for bon emis
+    data.push(superBons.filter(bon=>bon.consumed===false).map(bon=>bon.number_of_liter).reduce(reducer, 0.0))
+    // for bon consumes
+    data.push(superBons.filter(bon=>bon.consumed===true).map(bon=>bon.initial_number_of_liter).reduce(reducer, 0.0)) 
+    // for bon semi consumes
+    data.push(superBons.filter(bon=>bon.number_of_liter!=bon.initial_number_of_liter).map(bon=>(bon.initial_number_of_liter-bon.number_of_liter)).reduce(reducer, 0.0))
+    datas.push({labels, data, label: "Super"})
+    data= []
+    const gazoilBons = bons.filter(bon=>bon.fuel_type===FUEL.gazoil)
+    // for bon emis
+    data.push(gazoilBons.filter(bon=>bon.consumed===false).map(bon=>bon.number_of_liter).reduce(reducer, 0.0))
+    // for bon consumes
+    data.push(gazoilBons.filter(bon=>bon.consumed===true).map(bon=>bon.initial_number_of_liter).reduce(reducer, 0.0))
+     // for bon semi consumes
+    data.push(gazoilBons.filter(bon=>bon.number_of_liter!=bon.initial_number_of_liter).map(bon=>(bon.initial_number_of_liter-bon.number_of_liter)).reduce(reducer, 0.0))
+  
+    datas.push({labels, data, label: "Gazoil"})
+    break;
   }
+  return datas;
 }
 module.exports = {
   info,

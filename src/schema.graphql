@@ -9,7 +9,7 @@ type Query{
     bons(consumed:Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
-    statistique(type: String): [Statistique!]!
+    statistique(user:ID!, type: String!): [Statistique!]!
 }
    
 type Mutation{  
