@@ -89,9 +89,16 @@ async function statistique(parent, args, context, info){
     data.push(gazoilBons.filter(bon=>bon.consumed===true).map(bon=>bon.initial_number_of_liter).reduce(reducer, 0.0))
      // for bon semi consumes
     data.push(gazoilBons.filter(bon=>bon.number_of_liter!=bon.initial_number_of_liter).map(bon=>(bon.initial_number_of_liter-bon.number_of_liter)).reduce(reducer, 0.0))
-  
     datas.push({labels, data, label: "Gazoil"})
+    labels = []
+    data = []
+    labels.push("Super Ordinaire","Gasoil Ordinaire", "Super Réserve", "Super Gasoil")
+    const hold = await context.prisma.user({id: args.user}).hold()
+    console.log(hold)
+    data.push(hold.super_quantity, hold.gazoil_quantity, hold.reserve_super_quantity, hold.reserve_gazoil_quantity)
+    datas.push({labels, data, label: "Quantité restante dans les cuves"})
     break;
+  
   }
   return datas;
 }
