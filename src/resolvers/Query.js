@@ -38,7 +38,6 @@ async function bons(parent, args, context, info) {
 async function emetteurs(parent, args, context, info) {
   console.log("emetteurs by hold query");
   const users = await context.prisma.hold({id: args.hold}).users()
-  console.log(users)
   return users.filter(user=>user.role===ROLES.emetteur);
 }
 async function statistique(parent, args, context, info){
