@@ -72,7 +72,7 @@ async function statistique(parent, args, context, info){
     break;
     case STATISTIQUES.emetteur: 
     const bons = await context.prisma.user({id: args.user}).bons()
-    labels.push("Bon émis", "Bon consommés", "Bon semi consommés")
+    labels.push("Émis", "Consommés", "Semi consommés")
     const superBons = bons.filter(bon=>bon.fuel_type===FUEL.super)
     // for bon emis
     data.push(superBons.filter(bon=>bon.consumed===false).map(bon=>bon.number_of_liter).reduce(reducer, 0.0))
