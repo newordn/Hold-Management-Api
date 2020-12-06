@@ -92,7 +92,7 @@ async function statistique(parent, args, context, info){
     datas.push({labels, data, label: "Gazoil"})
     labels = []
     data = []
-    labels.push("Super Ordinaire","Gasoil Ordinaire", "Super Réserve", "Super Gasoil")
+    labels.push("Super O","Gasoil O", "Super R", "Gasoil R")
     const hold = await context.prisma.user({id: args.user}).hold()
     console.log(hold)
     data.push(hold.super_quantity, hold.gazoil_quantity, hold.reserve_super_quantity, hold.reserve_gazoil_quantity)
