@@ -1,4 +1,4 @@
-export const ROLES = {
+const ROLES = {
   administrateur: "administrateur",
   soutier: "soutier",
   donateur: "donateur",
@@ -6,3 +6,6 @@ export const ROLES = {
   superviseur: "superviseur",
   emetteur: "emetteur",
 };
+module.exports = {
+  ROLES
+}

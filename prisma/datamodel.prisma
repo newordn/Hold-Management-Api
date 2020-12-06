@@ -53,7 +53,7 @@ type Hold{
     reserve_gazoil_quantity: Float!
     theorical_reserve_super_quantity: Float!
     theorical_reserve_gazoil_quantity: Float!
-    user: [User!] @relation(name:"UserHolds")
+    users: [User!] @relation(name:"UserHolds")
     bons: [HoldsOnBons!]
     cars: [Car!] @relation(name: "HoldCars")
     dotations: [Dotation!] @relation(name: "HoldDotations")

@@ -1598,7 +1598,7 @@ type Hold {
   reserve_gazoil_quantity: Float!
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
-  user(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
   cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
@@ -1625,7 +1625,7 @@ input HoldCreateInput {
   reserve_gazoil_quantity: Float!
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
-  user: UserCreateManyWithoutHoldInput
+  users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
@@ -1646,8 +1646,8 @@ input HoldCreateOneWithoutDotationsInput {
   connect: HoldWhereUniqueInput
 }
 
-input HoldCreateOneWithoutUserInput {
-  create: HoldCreateWithoutUserInput
+input HoldCreateOneWithoutUsersInput {
+  create: HoldCreateWithoutUsersInput
   connect: HoldWhereUniqueInput
 }
 
@@ -1665,7 +1665,7 @@ input HoldCreateWithoutBonsInput {
   reserve_gazoil_quantity: Float!
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
-  user: UserCreateManyWithoutHoldInput
+  users: UserCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -1684,7 +1684,7 @@ input HoldCreateWithoutCarsInput {
   reserve_gazoil_quantity: Float!
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
-  user: UserCreateManyWithoutHoldInput
+  users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -1703,12 +1703,12 @@ input HoldCreateWithoutDotationsInput {
   reserve_gazoil_quantity: Float!
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
-  user: UserCreateManyWithoutHoldInput
+  users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
 }
 
-input HoldCreateWithoutUserInput {
+input HoldCreateWithoutUsersInput {
   id: ID
   name: String!
   localisation: String!
@@ -2004,7 +2004,7 @@ input HoldUpdateInput {
   reserve_gazoil_quantity: Float
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
-  user: UserUpdateManyWithoutHoldInput
+  users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
@@ -2048,10 +2048,10 @@ input HoldUpdateOneWithoutDotationsInput {
   connect: HoldWhereUniqueInput
 }
 
-input HoldUpdateOneWithoutUserInput {
-  create: HoldCreateWithoutUserInput
-  update: HoldUpdateWithoutUserDataInput
-  upsert: HoldUpsertWithoutUserInput
+input HoldUpdateOneWithoutUsersInput {
+  create: HoldCreateWithoutUsersInput
+  update: HoldUpdateWithoutUsersDataInput
+  upsert: HoldUpsertWithoutUsersInput
   delete: Boolean
   disconnect: Boolean
   connect: HoldWhereUniqueInput
@@ -2070,7 +2070,7 @@ input HoldUpdateWithoutBonsDataInput {
   reserve_gazoil_quantity: Float
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
-  user: UserUpdateManyWithoutHoldInput
+  users: UserUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -2088,7 +2088,7 @@ input HoldUpdateWithoutCarsDataInput {
   reserve_gazoil_quantity: Float
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
-  user: UserUpdateManyWithoutHoldInput
+  users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -2106,12 +2106,12 @@ input HoldUpdateWithoutDotationsDataInput {
   reserve_gazoil_quantity: Float
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
-  user: UserUpdateManyWithoutHoldInput
+  users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
 }
 
-input HoldUpdateWithoutUserDataInput {
+input HoldUpdateWithoutUsersDataInput {
   name: String
   localisation: String
   super_capacity: Float
@@ -2144,9 +2144,9 @@ input HoldUpsertWithoutDotationsInput {
   create: HoldCreateWithoutDotationsInput!
 }
 
-input HoldUpsertWithoutUserInput {
-  update: HoldUpdateWithoutUserDataInput!
-  create: HoldCreateWithoutUserInput!
+input HoldUpsertWithoutUsersInput {
+  update: HoldUpdateWithoutUsersDataInput!
+  create: HoldCreateWithoutUsersInput!
 }
 
 input HoldWhereInput {
@@ -2272,9 +2272,9 @@ input HoldWhereInput {
   theorical_reserve_gazoil_quantity_lte: Float
   theorical_reserve_gazoil_quantity_gt: Float
   theorical_reserve_gazoil_quantity_gte: Float
-  user_every: UserWhereInput
-  user_some: UserWhereInput
-  user_none: UserWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
   bons_every: HoldsOnBonsWhereInput
   bons_some: HoldsOnBonsWhereInput
   bons_none: HoldsOnBonsWhereInput
@@ -2850,7 +2850,7 @@ input UserCreateInput {
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
-  hold: HoldCreateOneWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
 
@@ -2892,7 +2892,7 @@ input UserCreateWithoutBonsInput {
   password: String!
   logs: LogCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
-  hold: HoldCreateOneWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
 
@@ -2909,7 +2909,7 @@ input UserCreateWithoutDotationsInput {
   password: String!
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
-  hold: HoldCreateOneWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
 
@@ -2943,7 +2943,7 @@ input UserCreateWithoutLogsInput {
   password: String!
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
-  hold: HoldCreateOneWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
 
@@ -2961,7 +2961,7 @@ input UserCreateWithoutNotificationsInput {
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
-  hold: HoldCreateOneWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
 }
 
 type UserEdge {
@@ -3175,7 +3175,7 @@ input UserUpdateInput {
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
-  hold: HoldUpdateOneWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
 
@@ -3262,7 +3262,7 @@ input UserUpdateWithoutBonsDataInput {
   password: String
   logs: LogUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
-  hold: HoldUpdateOneWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
 
@@ -3278,7 +3278,7 @@ input UserUpdateWithoutDotationsDataInput {
   password: String
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
-  hold: HoldUpdateOneWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
 
@@ -3310,7 +3310,7 @@ input UserUpdateWithoutLogsDataInput {
   password: String
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
-  hold: HoldUpdateOneWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
 
@@ -3327,7 +3327,7 @@ input UserUpdateWithoutNotificationsDataInput {
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
-  hold: HoldUpdateOneWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithWhereUniqueWithoutHoldInput {

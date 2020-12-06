@@ -1061,9 +1061,9 @@ export interface HoldWhereInput {
   theorical_reserve_gazoil_quantity_lte?: Maybe<Float>;
   theorical_reserve_gazoil_quantity_gt?: Maybe<Float>;
   theorical_reserve_gazoil_quantity_gte?: Maybe<Float>;
-  user_every?: Maybe<UserWhereInput>;
-  user_some?: Maybe<UserWhereInput>;
-  user_none?: Maybe<UserWhereInput>;
+  users_every?: Maybe<UserWhereInput>;
+  users_some?: Maybe<UserWhereInput>;
+  users_none?: Maybe<UserWhereInput>;
   bons_every?: Maybe<HoldsOnBonsWhereInput>;
   bons_some?: Maybe<HoldsOnBonsWhereInput>;
   bons_none?: Maybe<HoldsOnBonsWhereInput>;
@@ -1423,7 +1423,7 @@ export interface UserCreateWithoutBonsInput {
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
-  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
@@ -1479,7 +1479,7 @@ export interface HoldCreateWithoutDotationsInput {
   reserve_gazoil_quantity: Float;
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
-  user?: Maybe<UserCreateManyWithoutHoldInput>;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
 }
@@ -1561,7 +1561,7 @@ export interface HoldCreateWithoutBonsInput {
   reserve_gazoil_quantity: Float;
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
-  user?: Maybe<UserCreateManyWithoutHoldInput>;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -1622,16 +1622,16 @@ export interface UserCreateWithoutDotationsInput {
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
-  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
-export interface HoldCreateOneWithoutUserInput {
-  create?: Maybe<HoldCreateWithoutUserInput>;
+export interface HoldCreateOneWithoutUsersInput {
+  create?: Maybe<HoldCreateWithoutUsersInput>;
   connect?: Maybe<HoldWhereUniqueInput>;
 }
 
-export interface HoldCreateWithoutUserInput {
+export interface HoldCreateWithoutUsersInput {
   id?: Maybe<ID_Input>;
   name: String;
   localisation: String;
@@ -1738,7 +1738,7 @@ export interface UserUpdateWithoutBonsDataInput {
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
-  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
@@ -1893,7 +1893,7 @@ export interface HoldUpdateWithoutDotationsDataInput {
   reserve_gazoil_quantity?: Maybe<Float>;
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
 }
@@ -2034,7 +2034,7 @@ export interface HoldUpdateWithoutBonsDataInput {
   reserve_gazoil_quantity?: Maybe<Float>;
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -2257,20 +2257,20 @@ export interface UserUpdateWithoutDotationsDataInput {
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
-  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
-export interface HoldUpdateOneWithoutUserInput {
-  create?: Maybe<HoldCreateWithoutUserInput>;
-  update?: Maybe<HoldUpdateWithoutUserDataInput>;
-  upsert?: Maybe<HoldUpsertWithoutUserInput>;
+export interface HoldUpdateOneWithoutUsersInput {
+  create?: Maybe<HoldCreateWithoutUsersInput>;
+  update?: Maybe<HoldUpdateWithoutUsersDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutUsersInput>;
   delete?: Maybe<Boolean>;
   disconnect?: Maybe<Boolean>;
   connect?: Maybe<HoldWhereUniqueInput>;
 }
 
-export interface HoldUpdateWithoutUserDataInput {
+export interface HoldUpdateWithoutUsersDataInput {
   name?: Maybe<String>;
   localisation?: Maybe<String>;
   super_capacity?: Maybe<Float>;
@@ -2384,9 +2384,9 @@ export interface HoldsOnBonsScalarWhereInput {
   NOT?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
 }
 
-export interface HoldUpsertWithoutUserInput {
-  update: HoldUpdateWithoutUserDataInput;
-  create: HoldCreateWithoutUserInput;
+export interface HoldUpsertWithoutUsersInput {
+  update: HoldUpdateWithoutUsersDataInput;
+  create: HoldCreateWithoutUsersInput;
 }
 
 export interface NotificationUpdateManyWithoutUserInput {
@@ -3067,7 +3067,7 @@ export interface HoldCreateWithoutCarsInput {
   reserve_gazoil_quantity: Float;
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
-  user?: Maybe<UserCreateManyWithoutHoldInput>;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -3102,7 +3102,7 @@ export interface HoldUpdateWithoutCarsDataInput {
   reserve_gazoil_quantity?: Maybe<Float>;
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -3182,7 +3182,7 @@ export interface HoldCreateInput {
   reserve_gazoil_quantity: Float;
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
-  user?: Maybe<UserCreateManyWithoutHoldInput>;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
@@ -3201,7 +3201,7 @@ export interface HoldUpdateInput {
   reserve_gazoil_quantity?: Maybe<Float>;
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  user?: Maybe<UserUpdateManyWithoutHoldInput>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
@@ -3257,7 +3257,7 @@ export interface UserCreateWithoutLogsInput {
   password: String;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
-  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
@@ -3285,7 +3285,7 @@ export interface UserUpdateWithoutLogsDataInput {
   password?: Maybe<String>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
-  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
@@ -3323,7 +3323,7 @@ export interface UserCreateWithoutNotificationsInput {
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
-  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
 }
 
 export interface NotificationUpdateInput {
@@ -3351,7 +3351,7 @@ export interface UserUpdateWithoutNotificationsDataInput {
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
-  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
 }
 
 export interface UserUpsertWithoutNotificationsInput {
@@ -3377,7 +3377,7 @@ export interface UserCreateInput {
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
-  hold?: Maybe<HoldCreateOneWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
@@ -3394,7 +3394,7 @@ export interface UserUpdateInput {
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
-  hold?: Maybe<HoldUpdateOneWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
@@ -3931,7 +3931,7 @@ export interface HoldPromise extends Promise<Hold>, Fragmentable {
   reserve_gazoil_quantity: () => Promise<Float>;
   theorical_reserve_super_quantity: () => Promise<Float>;
   theorical_reserve_gazoil_quantity: () => Promise<Float>;
-  user: <T = FragmentableArray<User>>(args?: {
+  users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
     skip?: Int;
@@ -3986,7 +3986,7 @@ export interface HoldSubscription
   reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_reserve_super_quantity: () => Promise<AsyncIterator<Float>>;
   theorical_reserve_gazoil_quantity: () => Promise<AsyncIterator<Float>>;
-  user: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
     skip?: Int;
@@ -4041,7 +4041,7 @@ export interface HoldNullablePromise
   reserve_gazoil_quantity: () => Promise<Float>;
   theorical_reserve_super_quantity: () => Promise<Float>;
   theorical_reserve_gazoil_quantity: () => Promise<Float>;
-  user: <T = FragmentableArray<User>>(args?: {
+  users: <T = FragmentableArray<User>>(args?: {
     where?: UserWhereInput;
     orderBy?: UserOrderByInput;
     skip?: Int;

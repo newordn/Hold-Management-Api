@@ -10,6 +10,7 @@ type Query{
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
     statistique(user:ID!, type: String!): [Statistique!]!
+    emetteurs(hold:ID!): [User!]!
 }
    
 type Mutation{  
@@ -85,7 +86,7 @@ type Hold{
     reserve_gazoil_quantity: Float!
     theorical_reserve_super_quantity: Float!
     theorical_reserve_gazoil_quantity: Float!
-    user: [User!]
+    users: [User!]
     bons: [HoldsOnBons!]
     cars: [Car!]
     dotations: [Dotation!]

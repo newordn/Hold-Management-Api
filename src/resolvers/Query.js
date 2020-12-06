@@ -1,5 +1,6 @@
 const {STATISTIQUES} = require('../consts/statistique')
 const {FUEL} = require('../consts/fuels')
+const { ROLES } = require("../consts/roles");
 async function info(parent, args, context, info) {
   console.log(args.message)
   return args.message;
@@ -33,6 +34,12 @@ async function bons(parent, args, context, info) {
   console.log("bons query");
   const data = await context.prisma.bons({ orderBy: "id_DESC", where: {consumed: args.consumed} });
   return data;
+}
+async function emetteurs(parent, args, context, info) {
+  console.log("emetteurs by hold query");
+  const users = await context.prisma.hold({id: args.hold}).users()
+  console.log(users)
+  return users.filter(user=>user.role===ROLES.emetteur);
 }
 async function statistique(parent, args, context, info){
   console.log("statistique query " + args.type);
@@ -110,5 +117,6 @@ module.exports = {
   notifications, 
   cars,
   bons,
-  statistique
+  statistique,
+  emetteurs
 };
