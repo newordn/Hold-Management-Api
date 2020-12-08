@@ -15,6 +15,10 @@ type AggregateDotation {
   count: Int!
 }
 
+type AggregateDotationEmetteur {
+  count: Int!
+}
+
 type AggregateHold {
   count: Int!
 }
@@ -1144,6 +1148,311 @@ input DotationCreateWithoutUserInput {
 type DotationEdge {
   node: Dotation!
   cursor: String!
+}
+
+type DotationEmetteur {
+  id: ID!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_super: Float!
+  number_of_liter_gazoil: Float!
+  motif: String!
+  user: User!
+  created_at: DateTime!
+}
+
+type DotationEmetteurConnection {
+  pageInfo: PageInfo!
+  edges: [DotationEmetteurEdge]!
+  aggregate: AggregateDotationEmetteur!
+}
+
+input DotationEmetteurCreateInput {
+  id: ID
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_super: Float!
+  number_of_liter_gazoil: Float!
+  motif: String!
+  user: UserCreateOneWithoutDotationEmetteursInput!
+}
+
+input DotationEmetteurCreateManyWithoutUserInput {
+  create: [DotationEmetteurCreateWithoutUserInput!]
+  connect: [DotationEmetteurWhereUniqueInput!]
+}
+
+input DotationEmetteurCreateWithoutUserInput {
+  id: ID
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_super: Float!
+  number_of_liter_gazoil: Float!
+  motif: String!
+}
+
+type DotationEmetteurEdge {
+  node: DotationEmetteur!
+  cursor: String!
+}
+
+enum DotationEmetteurOrderByInput {
+  id_ASC
+  id_DESC
+  start_date_ASC
+  start_date_DESC
+  end_date_ASC
+  end_date_DESC
+  number_of_liter_super_ASC
+  number_of_liter_super_DESC
+  number_of_liter_gazoil_ASC
+  number_of_liter_gazoil_DESC
+  motif_ASC
+  motif_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type DotationEmetteurPreviousValues {
+  id: ID!
+  start_date: DateTime!
+  end_date: DateTime!
+  number_of_liter_super: Float!
+  number_of_liter_gazoil: Float!
+  motif: String!
+  created_at: DateTime!
+}
+
+input DotationEmetteurScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  start_date: DateTime
+  start_date_not: DateTime
+  start_date_in: [DateTime!]
+  start_date_not_in: [DateTime!]
+  start_date_lt: DateTime
+  start_date_lte: DateTime
+  start_date_gt: DateTime
+  start_date_gte: DateTime
+  end_date: DateTime
+  end_date_not: DateTime
+  end_date_in: [DateTime!]
+  end_date_not_in: [DateTime!]
+  end_date_lt: DateTime
+  end_date_lte: DateTime
+  end_date_gt: DateTime
+  end_date_gte: DateTime
+  number_of_liter_super: Float
+  number_of_liter_super_not: Float
+  number_of_liter_super_in: [Float!]
+  number_of_liter_super_not_in: [Float!]
+  number_of_liter_super_lt: Float
+  number_of_liter_super_lte: Float
+  number_of_liter_super_gt: Float
+  number_of_liter_super_gte: Float
+  number_of_liter_gazoil: Float
+  number_of_liter_gazoil_not: Float
+  number_of_liter_gazoil_in: [Float!]
+  number_of_liter_gazoil_not_in: [Float!]
+  number_of_liter_gazoil_lt: Float
+  number_of_liter_gazoil_lte: Float
+  number_of_liter_gazoil_gt: Float
+  number_of_liter_gazoil_gte: Float
+  motif: String
+  motif_not: String
+  motif_in: [String!]
+  motif_not_in: [String!]
+  motif_lt: String
+  motif_lte: String
+  motif_gt: String
+  motif_gte: String
+  motif_contains: String
+  motif_not_contains: String
+  motif_starts_with: String
+  motif_not_starts_with: String
+  motif_ends_with: String
+  motif_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [DotationEmetteurScalarWhereInput!]
+  OR: [DotationEmetteurScalarWhereInput!]
+  NOT: [DotationEmetteurScalarWhereInput!]
+}
+
+type DotationEmetteurSubscriptionPayload {
+  mutation: MutationType!
+  node: DotationEmetteur
+  updatedFields: [String!]
+  previousValues: DotationEmetteurPreviousValues
+}
+
+input DotationEmetteurSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DotationEmetteurWhereInput
+  AND: [DotationEmetteurSubscriptionWhereInput!]
+  OR: [DotationEmetteurSubscriptionWhereInput!]
+  NOT: [DotationEmetteurSubscriptionWhereInput!]
+}
+
+input DotationEmetteurUpdateInput {
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_super: Float
+  number_of_liter_gazoil: Float
+  motif: String
+  user: UserUpdateOneRequiredWithoutDotationEmetteursInput
+}
+
+input DotationEmetteurUpdateManyDataInput {
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_super: Float
+  number_of_liter_gazoil: Float
+  motif: String
+}
+
+input DotationEmetteurUpdateManyMutationInput {
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_super: Float
+  number_of_liter_gazoil: Float
+  motif: String
+}
+
+input DotationEmetteurUpdateManyWithoutUserInput {
+  create: [DotationEmetteurCreateWithoutUserInput!]
+  delete: [DotationEmetteurWhereUniqueInput!]
+  connect: [DotationEmetteurWhereUniqueInput!]
+  set: [DotationEmetteurWhereUniqueInput!]
+  disconnect: [DotationEmetteurWhereUniqueInput!]
+  update: [DotationEmetteurUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [DotationEmetteurUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [DotationEmetteurScalarWhereInput!]
+  updateMany: [DotationEmetteurUpdateManyWithWhereNestedInput!]
+}
+
+input DotationEmetteurUpdateManyWithWhereNestedInput {
+  where: DotationEmetteurScalarWhereInput!
+  data: DotationEmetteurUpdateManyDataInput!
+}
+
+input DotationEmetteurUpdateWithoutUserDataInput {
+  start_date: DateTime
+  end_date: DateTime
+  number_of_liter_super: Float
+  number_of_liter_gazoil: Float
+  motif: String
+}
+
+input DotationEmetteurUpdateWithWhereUniqueWithoutUserInput {
+  where: DotationEmetteurWhereUniqueInput!
+  data: DotationEmetteurUpdateWithoutUserDataInput!
+}
+
+input DotationEmetteurUpsertWithWhereUniqueWithoutUserInput {
+  where: DotationEmetteurWhereUniqueInput!
+  update: DotationEmetteurUpdateWithoutUserDataInput!
+  create: DotationEmetteurCreateWithoutUserInput!
+}
+
+input DotationEmetteurWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  start_date: DateTime
+  start_date_not: DateTime
+  start_date_in: [DateTime!]
+  start_date_not_in: [DateTime!]
+  start_date_lt: DateTime
+  start_date_lte: DateTime
+  start_date_gt: DateTime
+  start_date_gte: DateTime
+  end_date: DateTime
+  end_date_not: DateTime
+  end_date_in: [DateTime!]
+  end_date_not_in: [DateTime!]
+  end_date_lt: DateTime
+  end_date_lte: DateTime
+  end_date_gt: DateTime
+  end_date_gte: DateTime
+  number_of_liter_super: Float
+  number_of_liter_super_not: Float
+  number_of_liter_super_in: [Float!]
+  number_of_liter_super_not_in: [Float!]
+  number_of_liter_super_lt: Float
+  number_of_liter_super_lte: Float
+  number_of_liter_super_gt: Float
+  number_of_liter_super_gte: Float
+  number_of_liter_gazoil: Float
+  number_of_liter_gazoil_not: Float
+  number_of_liter_gazoil_in: [Float!]
+  number_of_liter_gazoil_not_in: [Float!]
+  number_of_liter_gazoil_lt: Float
+  number_of_liter_gazoil_lte: Float
+  number_of_liter_gazoil_gt: Float
+  number_of_liter_gazoil_gte: Float
+  motif: String
+  motif_not: String
+  motif_in: [String!]
+  motif_not_in: [String!]
+  motif_lt: String
+  motif_lte: String
+  motif_gt: String
+  motif_gte: String
+  motif_contains: String
+  motif_not_contains: String
+  motif_starts_with: String
+  motif_not_starts_with: String
+  motif_ends_with: String
+  motif_not_ends_with: String
+  user: UserWhereInput
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [DotationEmetteurWhereInput!]
+  OR: [DotationEmetteurWhereInput!]
+  NOT: [DotationEmetteurWhereInput!]
+}
+
+input DotationEmetteurWhereUniqueInput {
+  id: ID
 }
 
 enum DotationOrderByInput {
@@ -2523,6 +2832,12 @@ type Mutation {
   upsertDotation(where: DotationWhereUniqueInput!, create: DotationCreateInput!, update: DotationUpdateInput!): Dotation!
   deleteDotation(where: DotationWhereUniqueInput!): Dotation
   deleteManyDotations(where: DotationWhereInput): BatchPayload!
+  createDotationEmetteur(data: DotationEmetteurCreateInput!): DotationEmetteur!
+  updateDotationEmetteur(data: DotationEmetteurUpdateInput!, where: DotationEmetteurWhereUniqueInput!): DotationEmetteur
+  updateManyDotationEmetteurs(data: DotationEmetteurUpdateManyMutationInput!, where: DotationEmetteurWhereInput): BatchPayload!
+  upsertDotationEmetteur(where: DotationEmetteurWhereUniqueInput!, create: DotationEmetteurCreateInput!, update: DotationEmetteurUpdateInput!): DotationEmetteur!
+  deleteDotationEmetteur(where: DotationEmetteurWhereUniqueInput!): DotationEmetteur
+  deleteManyDotationEmetteurs(where: DotationEmetteurWhereInput): BatchPayload!
   createHold(data: HoldCreateInput!): Hold!
   updateHold(data: HoldUpdateInput!, where: HoldWhereUniqueInput!): Hold
   updateManyHolds(data: HoldUpdateManyMutationInput!, where: HoldWhereInput): BatchPayload!
@@ -2782,6 +3097,9 @@ type Query {
   dotation(where: DotationWhereUniqueInput!): Dotation
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation]!
   dotationsConnection(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DotationConnection!
+  dotationEmetteur(where: DotationEmetteurWhereUniqueInput!): DotationEmetteur
+  dotationEmetteurs(where: DotationEmetteurWhereInput, orderBy: DotationEmetteurOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DotationEmetteur]!
+  dotationEmetteursConnection(where: DotationEmetteurWhereInput, orderBy: DotationEmetteurOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DotationEmetteurConnection!
   hold(where: HoldWhereUniqueInput!): Hold
   holds(where: HoldWhereInput, orderBy: HoldOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Hold]!
   holdsConnection(where: HoldWhereInput, orderBy: HoldOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HoldConnection!
@@ -2804,6 +3122,7 @@ type Subscription {
   bon(where: BonSubscriptionWhereInput): BonSubscriptionPayload
   car(where: CarSubscriptionWhereInput): CarSubscriptionPayload
   dotation(where: DotationSubscriptionWhereInput): DotationSubscriptionPayload
+  dotationEmetteur(where: DotationEmetteurSubscriptionWhereInput): DotationEmetteurSubscriptionPayload
   hold(where: HoldSubscriptionWhereInput): HoldSubscriptionPayload
   holdsOnBons(where: HoldsOnBonsSubscriptionWhereInput): HoldsOnBonsSubscriptionPayload
   log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
@@ -2819,12 +3138,14 @@ type User {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs(where: LogWhereInput, orderBy: LogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Log!]
   bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
+  dotationEmetteurs(where: DotationEmetteurWhereInput, orderBy: DotationEmetteurOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [DotationEmetteur!]
   hold: Hold
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   created_at: DateTime!
@@ -2844,12 +3165,14 @@ input UserCreateInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
@@ -2861,6 +3184,11 @@ input UserCreateManyWithoutHoldInput {
 
 input UserCreateOneWithoutBonsInput {
   create: UserCreateWithoutBonsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutDotationEmetteursInput {
+  create: UserCreateWithoutDotationEmetteursInput
   connect: UserWhereUniqueInput
 }
 
@@ -2887,10 +3215,31 @@ input UserCreateWithoutBonsInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
+  notifications: NotificationCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutDotationEmetteursInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  super: Float!
+  gazoil: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+  bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
@@ -2904,11 +3253,13 @@ input UserCreateWithoutDotationsInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
@@ -2921,12 +3272,14 @@ input UserCreateWithoutHoldInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   notifications: NotificationCreateManyWithoutUserInput
 }
 
@@ -2938,11 +3291,13 @@ input UserCreateWithoutLogsInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
 }
@@ -2955,12 +3310,14 @@ input UserCreateWithoutNotificationsInput {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   logs: LogCreateManyWithoutUserInput
   bons: BonCreateManyWithoutUserInput
   dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
 }
 
@@ -2984,8 +3341,10 @@ enum UserOrderByInput {
   fullname_DESC
   phone_ASC
   phone_DESC
-  reserve_ASC
-  reserve_DESC
+  super_ASC
+  super_DESC
+  gazoil_ASC
+  gazoil_DESC
   role_ASC
   role_DESC
   password_ASC
@@ -3002,7 +3361,8 @@ type UserPreviousValues {
   username: String!
   fullname: String!
   phone: String!
-  reserve: Float!
+  super: Float!
+  gazoil: Float!
   role: String!
   password: String!
   created_at: DateTime!
@@ -3095,14 +3455,22 @@ input UserScalarWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  reserve: Float
-  reserve_not: Float
-  reserve_in: [Float!]
-  reserve_not_in: [Float!]
-  reserve_lt: Float
-  reserve_lte: Float
-  reserve_gt: Float
-  reserve_gte: Float
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
   role: String
   role_not: String
   role_in: [String!]
@@ -3169,12 +3537,14 @@ input UserUpdateInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
@@ -3186,7 +3556,8 @@ input UserUpdateManyDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
 }
@@ -3198,7 +3569,8 @@ input UserUpdateManyMutationInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
 }
@@ -3224,6 +3596,13 @@ input UserUpdateOneRequiredWithoutBonsInput {
   create: UserCreateWithoutBonsInput
   update: UserUpdateWithoutBonsDataInput
   upsert: UserUpsertWithoutBonsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateOneRequiredWithoutDotationEmetteursInput {
+  create: UserCreateWithoutDotationEmetteursInput
+  update: UserUpdateWithoutDotationEmetteursDataInput
+  upsert: UserUpsertWithoutDotationEmetteursInput
   connect: UserWhereUniqueInput
 }
 
@@ -3257,10 +3636,30 @@ input UserUpdateWithoutBonsDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
+  notifications: NotificationUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutDotationEmetteursDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  super: Float
+  gazoil: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
+  bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
@@ -3273,11 +3672,13 @@ input UserUpdateWithoutDotationsDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
@@ -3289,12 +3690,14 @@ input UserUpdateWithoutHoldDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
 
@@ -3305,11 +3708,13 @@ input UserUpdateWithoutLogsDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
 }
@@ -3321,12 +3726,14 @@ input UserUpdateWithoutNotificationsDataInput {
   username: String
   fullname: String
   phone: String
-  reserve: Float
+  super: Float
+  gazoil: Float
   role: String
   password: String
   logs: LogUpdateManyWithoutUserInput
   bons: BonUpdateManyWithoutUserInput
   dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
 }
 
@@ -3338,6 +3745,11 @@ input UserUpdateWithWhereUniqueWithoutHoldInput {
 input UserUpsertWithoutBonsInput {
   update: UserUpdateWithoutBonsDataInput!
   create: UserCreateWithoutBonsInput!
+}
+
+input UserUpsertWithoutDotationEmetteursInput {
+  update: UserUpdateWithoutDotationEmetteursDataInput!
+  create: UserCreateWithoutDotationEmetteursInput!
 }
 
 input UserUpsertWithoutDotationsInput {
@@ -3448,14 +3860,22 @@ input UserWhereInput {
   phone_not_starts_with: String
   phone_ends_with: String
   phone_not_ends_with: String
-  reserve: Float
-  reserve_not: Float
-  reserve_in: [Float!]
-  reserve_not_in: [Float!]
-  reserve_lt: Float
-  reserve_lte: Float
-  reserve_gt: Float
-  reserve_gte: Float
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
   role: String
   role_not: String
   role_in: [String!]
@@ -3493,6 +3913,9 @@ input UserWhereInput {
   dotations_every: DotationWhereInput
   dotations_some: DotationWhereInput
   dotations_none: DotationWhereInput
+  dotationEmetteurs_every: DotationEmetteurWhereInput
+  dotationEmetteurs_some: DotationEmetteurWhereInput
+  dotationEmetteurs_none: DotationEmetteurWhereInput
   hold: HoldWhereInput
   notifications_every: NotificationWhereInput
   notifications_some: NotificationWhereInput

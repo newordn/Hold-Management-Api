@@ -6,15 +6,27 @@ type User{
    username: String!
    fullname: String!
    phone: String! @unique
-   reserve: Float!
+   super: Float!
+   gazoil: Float!
    role: String!
    password: String!
    logs: [Log!] @relation(name:"UserLogs")
    bons: [Bon!] @relation(name:"UserBons")
    dotations: [Dotation!] @relation(name: "UserDotations")
+   dotationEmetteurs: [DotationEmetteur!]! @relation(name: "UserDotationEmetteurs")
    hold: Hold @relation(name: "UserHolds")
    notifications: [Notification!] @relation(name: "UserNotifications")
    created_at: DateTime! @createdAt
+}
+type DotationEmetteur{
+    id: ID! @id
+    start_date: DateTime!
+    end_date: DateTime!
+    number_of_liter_super: Float!
+    number_of_liter_gazoil: Float!
+    motif: String!
+    user: User! @relation(name: "UserDotationEmetteurs")
+    created_at: DateTime! @createdAt
 }
 type Dotation{
     id: ID! @id

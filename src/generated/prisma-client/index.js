@@ -9,6 +9,10 @@ var models = [
     embedded: false
   },
   {
+    name: "DotationEmetteur",
+    embedded: false
+  },
+  {
     name: "Dotation",
     embedded: false
   },

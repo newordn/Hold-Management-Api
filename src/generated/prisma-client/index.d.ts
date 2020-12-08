@@ -19,6 +19,7 @@ export interface Exists {
   bon: (where?: BonWhereInput) => Promise<boolean>;
   car: (where?: CarWhereInput) => Promise<boolean>;
   dotation: (where?: DotationWhereInput) => Promise<boolean>;
+  dotationEmetteur: (where?: DotationEmetteurWhereInput) => Promise<boolean>;
   hold: (where?: HoldWhereInput) => Promise<boolean>;
   holdsOnBons: (where?: HoldsOnBonsWhereInput) => Promise<boolean>;
   log: (where?: LogWhereInput) => Promise<boolean>;
@@ -102,6 +103,27 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => DotationConnectionPromise;
+  dotationEmetteur: (
+    where: DotationEmetteurWhereUniqueInput
+  ) => DotationEmetteurNullablePromise;
+  dotationEmetteurs: (args?: {
+    where?: DotationEmetteurWhereInput;
+    orderBy?: DotationEmetteurOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<DotationEmetteur>;
+  dotationEmetteursConnection: (args?: {
+    where?: DotationEmetteurWhereInput;
+    orderBy?: DotationEmetteurOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => DotationEmetteurConnectionPromise;
   hold: (where: HoldWhereUniqueInput) => HoldNullablePromise;
   holds: (args?: {
     where?: HoldWhereInput;
@@ -255,6 +277,28 @@ export interface Prisma {
   }) => DotationPromise;
   deleteDotation: (where: DotationWhereUniqueInput) => DotationPromise;
   deleteManyDotations: (where?: DotationWhereInput) => BatchPayloadPromise;
+  createDotationEmetteur: (
+    data: DotationEmetteurCreateInput
+  ) => DotationEmetteurPromise;
+  updateDotationEmetteur: (args: {
+    data: DotationEmetteurUpdateInput;
+    where: DotationEmetteurWhereUniqueInput;
+  }) => DotationEmetteurPromise;
+  updateManyDotationEmetteurs: (args: {
+    data: DotationEmetteurUpdateManyMutationInput;
+    where?: DotationEmetteurWhereInput;
+  }) => BatchPayloadPromise;
+  upsertDotationEmetteur: (args: {
+    where: DotationEmetteurWhereUniqueInput;
+    create: DotationEmetteurCreateInput;
+    update: DotationEmetteurUpdateInput;
+  }) => DotationEmetteurPromise;
+  deleteDotationEmetteur: (
+    where: DotationEmetteurWhereUniqueInput
+  ) => DotationEmetteurPromise;
+  deleteManyDotationEmetteurs: (
+    where?: DotationEmetteurWhereInput
+  ) => BatchPayloadPromise;
   createHold: (data: HoldCreateInput) => HoldPromise;
   updateHold: (args: {
     data: HoldUpdateInput;
@@ -355,6 +399,9 @@ export interface Subscription {
   dotation: (
     where?: DotationSubscriptionWhereInput
   ) => DotationSubscriptionPayloadSubscription;
+  dotationEmetteur: (
+    where?: DotationEmetteurSubscriptionWhereInput
+  ) => DotationEmetteurSubscriptionPayloadSubscription;
   hold: (
     where?: HoldSubscriptionWhereInput
   ) => HoldSubscriptionPayloadSubscription;
@@ -465,8 +512,10 @@ export type UserOrderByInput =
   | "fullname_DESC"
   | "phone_ASC"
   | "phone_DESC"
-  | "reserve_ASC"
-  | "reserve_DESC"
+  | "super_ASC"
+  | "super_DESC"
+  | "gazoil_ASC"
+  | "gazoil_DESC"
   | "role_ASC"
   | "role_DESC"
   | "password_ASC"
@@ -495,6 +544,22 @@ export type CarOrderByInput =
   | "immatriculation_DESC"
   | "kilometrage_ASC"
   | "kilometrage_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type DotationEmetteurOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "start_date_ASC"
+  | "start_date_DESC"
+  | "end_date_ASC"
+  | "end_date_DESC"
+  | "number_of_liter_super_ASC"
+  | "number_of_liter_super_DESC"
+  | "number_of_liter_gazoil_ASC"
+  | "number_of_liter_gazoil_DESC"
+  | "motif_ASC"
+  | "motif_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -672,14 +737,22 @@ export interface UserWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
-  reserve?: Maybe<Float>;
-  reserve_not?: Maybe<Float>;
-  reserve_in?: Maybe<Float[] | Float>;
-  reserve_not_in?: Maybe<Float[] | Float>;
-  reserve_lt?: Maybe<Float>;
-  reserve_lte?: Maybe<Float>;
-  reserve_gt?: Maybe<Float>;
-  reserve_gte?: Maybe<Float>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
   role?: Maybe<String>;
   role_not?: Maybe<String>;
   role_in?: Maybe<String[] | String>;
@@ -717,6 +790,9 @@ export interface UserWhereInput {
   dotations_every?: Maybe<DotationWhereInput>;
   dotations_some?: Maybe<DotationWhereInput>;
   dotations_none?: Maybe<DotationWhereInput>;
+  dotationEmetteurs_every?: Maybe<DotationEmetteurWhereInput>;
+  dotationEmetteurs_some?: Maybe<DotationEmetteurWhereInput>;
+  dotationEmetteurs_none?: Maybe<DotationEmetteurWhereInput>;
   hold?: Maybe<HoldWhereInput>;
   notifications_every?: Maybe<NotificationWhereInput>;
   notifications_some?: Maybe<NotificationWhereInput>;
@@ -1311,6 +1387,81 @@ export interface DotationWhereInput {
   NOT?: Maybe<DotationWhereInput[] | DotationWhereInput>;
 }
 
+export interface DotationEmetteurWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  start_date?: Maybe<DateTimeInput>;
+  start_date_not?: Maybe<DateTimeInput>;
+  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_lt?: Maybe<DateTimeInput>;
+  start_date_lte?: Maybe<DateTimeInput>;
+  start_date_gt?: Maybe<DateTimeInput>;
+  start_date_gte?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  end_date_not?: Maybe<DateTimeInput>;
+  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_lt?: Maybe<DateTimeInput>;
+  end_date_lte?: Maybe<DateTimeInput>;
+  end_date_gt?: Maybe<DateTimeInput>;
+  end_date_gte?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_super_not?: Maybe<Float>;
+  number_of_liter_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_super_lt?: Maybe<Float>;
+  number_of_liter_super_lte?: Maybe<Float>;
+  number_of_liter_super_gt?: Maybe<Float>;
+  number_of_liter_super_gte?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  number_of_liter_gazoil_not?: Maybe<Float>;
+  number_of_liter_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_gazoil_lt?: Maybe<Float>;
+  number_of_liter_gazoil_lte?: Maybe<Float>;
+  number_of_liter_gazoil_gt?: Maybe<Float>;
+  number_of_liter_gazoil_gte?: Maybe<Float>;
+  motif?: Maybe<String>;
+  motif_not?: Maybe<String>;
+  motif_in?: Maybe<String[] | String>;
+  motif_not_in?: Maybe<String[] | String>;
+  motif_lt?: Maybe<String>;
+  motif_lte?: Maybe<String>;
+  motif_gt?: Maybe<String>;
+  motif_gte?: Maybe<String>;
+  motif_contains?: Maybe<String>;
+  motif_not_contains?: Maybe<String>;
+  motif_starts_with?: Maybe<String>;
+  motif_not_starts_with?: Maybe<String>;
+  motif_ends_with?: Maybe<String>;
+  motif_not_ends_with?: Maybe<String>;
+  user?: Maybe<UserWhereInput>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<DotationEmetteurWhereInput[] | DotationEmetteurWhereInput>;
+  OR?: Maybe<DotationEmetteurWhereInput[] | DotationEmetteurWhereInput>;
+  NOT?: Maybe<DotationEmetteurWhereInput[] | DotationEmetteurWhereInput>;
+}
+
 export interface NotificationWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
@@ -1360,6 +1511,10 @@ export type CarWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type DotationWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type DotationEmetteurWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -1418,11 +1573,13 @@ export interface UserCreateWithoutBonsInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
@@ -1497,12 +1654,14 @@ export interface UserCreateWithoutHoldInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
 
@@ -1617,13 +1776,34 @@ export interface UserCreateWithoutDotationsInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+}
+
+export interface DotationEmetteurCreateManyWithoutUserInput {
+  create?: Maybe<
+    | DotationEmetteurCreateWithoutUserInput[]
+    | DotationEmetteurCreateWithoutUserInput
+  >;
+  connect?: Maybe<
+    DotationEmetteurWhereUniqueInput[] | DotationEmetteurWhereUniqueInput
+  >;
+}
+
+export interface DotationEmetteurCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_super: Float;
+  number_of_liter_gazoil: Float;
+  motif: String;
 }
 
 export interface HoldCreateOneWithoutUsersInput {
@@ -1733,11 +1913,13 @@ export interface UserUpdateWithoutBonsDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
@@ -1930,12 +2112,14 @@ export interface UserUpdateWithoutHoldDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
 
@@ -2252,13 +2436,161 @@ export interface UserUpdateWithoutDotationsDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+}
+
+export interface DotationEmetteurUpdateManyWithoutUserInput {
+  create?: Maybe<
+    | DotationEmetteurCreateWithoutUserInput[]
+    | DotationEmetteurCreateWithoutUserInput
+  >;
+  delete?: Maybe<
+    DotationEmetteurWhereUniqueInput[] | DotationEmetteurWhereUniqueInput
+  >;
+  connect?: Maybe<
+    DotationEmetteurWhereUniqueInput[] | DotationEmetteurWhereUniqueInput
+  >;
+  set?: Maybe<
+    DotationEmetteurWhereUniqueInput[] | DotationEmetteurWhereUniqueInput
+  >;
+  disconnect?: Maybe<
+    DotationEmetteurWhereUniqueInput[] | DotationEmetteurWhereUniqueInput
+  >;
+  update?: Maybe<
+    | DotationEmetteurUpdateWithWhereUniqueWithoutUserInput[]
+    | DotationEmetteurUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | DotationEmetteurUpsertWithWhereUniqueWithoutUserInput[]
+    | DotationEmetteurUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    DotationEmetteurScalarWhereInput[] | DotationEmetteurScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | DotationEmetteurUpdateManyWithWhereNestedInput[]
+    | DotationEmetteurUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface DotationEmetteurUpdateWithWhereUniqueWithoutUserInput {
+  where: DotationEmetteurWhereUniqueInput;
+  data: DotationEmetteurUpdateWithoutUserDataInput;
+}
+
+export interface DotationEmetteurUpdateWithoutUserDataInput {
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  motif?: Maybe<String>;
+}
+
+export interface DotationEmetteurUpsertWithWhereUniqueWithoutUserInput {
+  where: DotationEmetteurWhereUniqueInput;
+  update: DotationEmetteurUpdateWithoutUserDataInput;
+  create: DotationEmetteurCreateWithoutUserInput;
+}
+
+export interface DotationEmetteurScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  start_date?: Maybe<DateTimeInput>;
+  start_date_not?: Maybe<DateTimeInput>;
+  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_lt?: Maybe<DateTimeInput>;
+  start_date_lte?: Maybe<DateTimeInput>;
+  start_date_gt?: Maybe<DateTimeInput>;
+  start_date_gte?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  end_date_not?: Maybe<DateTimeInput>;
+  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_lt?: Maybe<DateTimeInput>;
+  end_date_lte?: Maybe<DateTimeInput>;
+  end_date_gt?: Maybe<DateTimeInput>;
+  end_date_gte?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_super_not?: Maybe<Float>;
+  number_of_liter_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_super_lt?: Maybe<Float>;
+  number_of_liter_super_lte?: Maybe<Float>;
+  number_of_liter_super_gt?: Maybe<Float>;
+  number_of_liter_super_gte?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  number_of_liter_gazoil_not?: Maybe<Float>;
+  number_of_liter_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_gazoil_lt?: Maybe<Float>;
+  number_of_liter_gazoil_lte?: Maybe<Float>;
+  number_of_liter_gazoil_gt?: Maybe<Float>;
+  number_of_liter_gazoil_gte?: Maybe<Float>;
+  motif?: Maybe<String>;
+  motif_not?: Maybe<String>;
+  motif_in?: Maybe<String[] | String>;
+  motif_not_in?: Maybe<String[] | String>;
+  motif_lt?: Maybe<String>;
+  motif_lte?: Maybe<String>;
+  motif_gt?: Maybe<String>;
+  motif_gte?: Maybe<String>;
+  motif_contains?: Maybe<String>;
+  motif_not_contains?: Maybe<String>;
+  motif_starts_with?: Maybe<String>;
+  motif_not_starts_with?: Maybe<String>;
+  motif_ends_with?: Maybe<String>;
+  motif_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<
+    DotationEmetteurScalarWhereInput[] | DotationEmetteurScalarWhereInput
+  >;
+  OR?: Maybe<
+    DotationEmetteurScalarWhereInput[] | DotationEmetteurScalarWhereInput
+  >;
+  NOT?: Maybe<
+    DotationEmetteurScalarWhereInput[] | DotationEmetteurScalarWhereInput
+  >;
+}
+
+export interface DotationEmetteurUpdateManyWithWhereNestedInput {
+  where: DotationEmetteurScalarWhereInput;
+  data: DotationEmetteurUpdateManyDataInput;
+}
+
+export interface DotationEmetteurUpdateManyDataInput {
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  motif?: Maybe<String>;
 }
 
 export interface HoldUpdateOneWithoutUsersInput {
@@ -2938,14 +3270,22 @@ export interface UserScalarWhereInput {
   phone_not_starts_with?: Maybe<String>;
   phone_ends_with?: Maybe<String>;
   phone_not_ends_with?: Maybe<String>;
-  reserve?: Maybe<Float>;
-  reserve_not?: Maybe<Float>;
-  reserve_in?: Maybe<Float[] | Float>;
-  reserve_not_in?: Maybe<Float[] | Float>;
-  reserve_lt?: Maybe<Float>;
-  reserve_lte?: Maybe<Float>;
-  reserve_gt?: Maybe<Float>;
-  reserve_gte?: Maybe<Float>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
   role?: Maybe<String>;
   role_not?: Maybe<String>;
   role_in?: Maybe<String[] | String>;
@@ -2999,7 +3339,8 @@ export interface UserUpdateManyDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
 }
@@ -3168,6 +3509,87 @@ export interface DotationUpdateManyMutationInput {
   number_of_liter_received_reserve_gazoil?: Maybe<Float>;
 }
 
+export interface DotationEmetteurCreateInput {
+  id?: Maybe<ID_Input>;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_super: Float;
+  number_of_liter_gazoil: Float;
+  motif: String;
+  user: UserCreateOneWithoutDotationEmetteursInput;
+}
+
+export interface UserCreateOneWithoutDotationEmetteursInput {
+  create?: Maybe<UserCreateWithoutDotationEmetteursInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutDotationEmetteursInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  super: Float;
+  gazoil: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+}
+
+export interface DotationEmetteurUpdateInput {
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  motif?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutDotationEmetteursInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutDotationEmetteursInput {
+  create?: Maybe<UserCreateWithoutDotationEmetteursInput>;
+  update?: Maybe<UserUpdateWithoutDotationEmetteursDataInput>;
+  upsert?: Maybe<UserUpsertWithoutDotationEmetteursInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutDotationEmetteursDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutDotationEmetteursInput {
+  update: UserUpdateWithoutDotationEmetteursDataInput;
+  create: UserCreateWithoutDotationEmetteursInput;
+}
+
+export interface DotationEmetteurUpdateManyMutationInput {
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_super?: Maybe<Float>;
+  number_of_liter_gazoil?: Maybe<Float>;
+  motif?: Maybe<String>;
+}
+
 export interface HoldCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
@@ -3252,11 +3674,13 @@ export interface UserCreateWithoutLogsInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
@@ -3280,11 +3704,13 @@ export interface UserUpdateWithoutLogsDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
@@ -3317,12 +3743,14 @@ export interface UserCreateWithoutNotificationsInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
 }
 
@@ -3345,12 +3773,14 @@ export interface UserUpdateWithoutNotificationsDataInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
 }
 
@@ -3371,12 +3801,14 @@ export interface UserCreateInput {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
 }
@@ -3388,12 +3820,14 @@ export interface UserUpdateInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
 }
@@ -3405,7 +3839,8 @@ export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
-  reserve?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
 }
@@ -3444,6 +3879,26 @@ export interface DotationSubscriptionWhereInput {
   OR?: Maybe<DotationSubscriptionWhereInput[] | DotationSubscriptionWhereInput>;
   NOT?: Maybe<
     DotationSubscriptionWhereInput[] | DotationSubscriptionWhereInput
+  >;
+}
+
+export interface DotationEmetteurSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<DotationEmetteurWhereInput>;
+  AND?: Maybe<
+    | DotationEmetteurSubscriptionWhereInput[]
+    | DotationEmetteurSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    | DotationEmetteurSubscriptionWhereInput[]
+    | DotationEmetteurSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    | DotationEmetteurSubscriptionWhereInput[]
+    | DotationEmetteurSubscriptionWhereInput
   >;
 }
 
@@ -3634,7 +4089,8 @@ export interface User {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   created_at: DateTimeOutput;
@@ -3648,7 +4104,8 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   username: () => Promise<String>;
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
-  reserve: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
   logs: <T = FragmentableArray<Log>>(args?: {
@@ -3672,6 +4129,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   dotations: <T = FragmentableArray<Dotation>>(args?: {
     where?: DotationWhereInput;
     orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotationEmetteurs: <T = FragmentableArray<DotationEmetteur>>(args?: {
+    where?: DotationEmetteurWhereInput;
+    orderBy?: DotationEmetteurOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -3701,7 +4167,8 @@ export interface UserSubscription
   username: () => Promise<AsyncIterator<String>>;
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
-  reserve: () => Promise<AsyncIterator<Float>>;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   logs: <T = Promise<AsyncIterator<LogSubscription>>>(args?: {
@@ -3731,6 +4198,17 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  dotationEmetteurs: <
+    T = Promise<AsyncIterator<DotationEmetteurSubscription>>
+  >(args?: {
+    where?: DotationEmetteurWhereInput;
+    orderBy?: DotationEmetteurOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   hold: <T = HoldSubscription>() => T;
   notifications: <T = Promise<AsyncIterator<NotificationSubscription>>>(args?: {
     where?: NotificationWhereInput;
@@ -3754,7 +4232,8 @@ export interface UserNullablePromise
   username: () => Promise<String>;
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
-  reserve: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
   logs: <T = FragmentableArray<Log>>(args?: {
@@ -3778,6 +4257,15 @@ export interface UserNullablePromise
   dotations: <T = FragmentableArray<Dotation>>(args?: {
     where?: DotationWhereInput;
     orderBy?: DotationOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  dotationEmetteurs: <T = FragmentableArray<DotationEmetteur>>(args?: {
+    where?: DotationEmetteurWhereInput;
+    orderBy?: DotationEmetteurOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -4159,6 +4647,55 @@ export interface CarNullablePromise extends Promise<Car | null>, Fragmentable {
   created_at: () => Promise<DateTimeOutput>;
 }
 
+export interface DotationEmetteur {
+  id: ID_Output;
+  start_date: DateTimeOutput;
+  end_date: DateTimeOutput;
+  number_of_liter_super: Float;
+  number_of_liter_gazoil: Float;
+  motif: String;
+  created_at: DateTimeOutput;
+}
+
+export interface DotationEmetteurPromise
+  extends Promise<DotationEmetteur>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_super: () => Promise<Float>;
+  number_of_liter_gazoil: () => Promise<Float>;
+  motif: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface DotationEmetteurSubscription
+  extends Promise<AsyncIterator<DotationEmetteur>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  number_of_liter_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_gazoil: () => Promise<AsyncIterator<Float>>;
+  motif: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface DotationEmetteurNullablePromise
+  extends Promise<DotationEmetteur | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_super: () => Promise<Float>;
+  number_of_liter_gazoil: () => Promise<Float>;
+  motif: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
 export interface Notification {
   id: ID_Output;
   message: String;
@@ -4375,6 +4912,62 @@ export interface AggregateDotationPromise
 
 export interface AggregateDotationSubscription
   extends Promise<AsyncIterator<AggregateDotation>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface DotationEmetteurConnection {
+  pageInfo: PageInfo;
+  edges: DotationEmetteurEdge[];
+}
+
+export interface DotationEmetteurConnectionPromise
+  extends Promise<DotationEmetteurConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<DotationEmetteurEdge>>() => T;
+  aggregate: <T = AggregateDotationEmetteurPromise>() => T;
+}
+
+export interface DotationEmetteurConnectionSubscription
+  extends Promise<AsyncIterator<DotationEmetteurConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<DotationEmetteurEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateDotationEmetteurSubscription>() => T;
+}
+
+export interface DotationEmetteurEdge {
+  node: DotationEmetteur;
+  cursor: String;
+}
+
+export interface DotationEmetteurEdgePromise
+  extends Promise<DotationEmetteurEdge>,
+    Fragmentable {
+  node: <T = DotationEmetteurPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface DotationEmetteurEdgeSubscription
+  extends Promise<AsyncIterator<DotationEmetteurEdge>>,
+    Fragmentable {
+  node: <T = DotationEmetteurSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateDotationEmetteur {
+  count: Int;
+}
+
+export interface AggregateDotationEmetteurPromise
+  extends Promise<AggregateDotationEmetteur>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateDotationEmetteurSubscription
+  extends Promise<AsyncIterator<AggregateDotationEmetteur>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -4894,6 +5487,65 @@ export interface DotationPreviousValuesSubscription
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface DotationEmetteurSubscriptionPayload {
+  mutation: MutationType;
+  node: DotationEmetteur;
+  updatedFields: String[];
+  previousValues: DotationEmetteurPreviousValues;
+}
+
+export interface DotationEmetteurSubscriptionPayloadPromise
+  extends Promise<DotationEmetteurSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = DotationEmetteurPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = DotationEmetteurPreviousValuesPromise>() => T;
+}
+
+export interface DotationEmetteurSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<DotationEmetteurSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = DotationEmetteurSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = DotationEmetteurPreviousValuesSubscription>() => T;
+}
+
+export interface DotationEmetteurPreviousValues {
+  id: ID_Output;
+  start_date: DateTimeOutput;
+  end_date: DateTimeOutput;
+  number_of_liter_super: Float;
+  number_of_liter_gazoil: Float;
+  motif: String;
+  created_at: DateTimeOutput;
+}
+
+export interface DotationEmetteurPreviousValuesPromise
+  extends Promise<DotationEmetteurPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  start_date: () => Promise<DateTimeOutput>;
+  end_date: () => Promise<DateTimeOutput>;
+  number_of_liter_super: () => Promise<Float>;
+  number_of_liter_gazoil: () => Promise<Float>;
+  motif: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface DotationEmetteurPreviousValuesSubscription
+  extends Promise<AsyncIterator<DotationEmetteurPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
+  number_of_liter_super: () => Promise<AsyncIterator<Float>>;
+  number_of_liter_gazoil: () => Promise<AsyncIterator<Float>>;
+  motif: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface HoldSubscriptionPayload {
   mutation: MutationType;
   node: Hold;
@@ -5145,7 +5797,8 @@ export interface UserPreviousValues {
   username: String;
   fullname: String;
   phone: String;
-  reserve: Float;
+  super: Float;
+  gazoil: Float;
   role: String;
   password: String;
   created_at: DateTimeOutput;
@@ -5161,7 +5814,8 @@ export interface UserPreviousValuesPromise
   username: () => Promise<String>;
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
-  reserve: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
@@ -5177,7 +5831,8 @@ export interface UserPreviousValuesSubscription
   username: () => Promise<AsyncIterator<String>>;
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
-  reserve: () => Promise<AsyncIterator<Float>>;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -5228,6 +5883,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "DotationEmetteur",
     embedded: false
   },
   {

@@ -2,9 +2,21 @@ const MESSAGES = {
   signUp: (name) => `Inscription de l'utilisateur immatriculé ${name}`,
   signIn: (name) => `Connexion de l'utilisateur immatriculé ${name}`,
   hold: (name) => `Création de la soute de ${name}`,
+  dotateEmetteur: (
+    responsableSoute,
+    start_date,
+    end_date,
+    user,
+    motif,
+    number_of_liter_super,
+    number_of_liter_gazoil
+  ) =>
+    `Dotation de l'utilisateur immatriculé ${responsableSoute} a l'utilisateur immatriculé ${user} avec les quantités super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`,
   updateUsersHoldRole: (user, hold, role) =>
     `Mise a jour de l'utilisateur immatriculé ${user}, assignation a la soute immatriculée ${hold} avec pour role ${role}`,
   dotateHold: (
+    start_date,
+    end_date,
     user,
     hold,
     super_quantity,
@@ -30,7 +42,10 @@ const MESSAGES = {
   ) => `L'utilisateur immatriculé ${user} emet le bon pour du ${fuel_type} quittant de ${departure} pour ${destination} de ${initial_number_of_liter} litres 
   qui expire le ${expiration_date} avec pour motif/service ${reason} conduit par ${driver} a consommé dans les soutes immatriculées ${holds}
   `,
-  consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume)=>`Consommation de ${number_of_liter_to_consume} L du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${status ? "reussie": "échec" }`
+  consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume) =>
+    `Consommation de ${number_of_liter_to_consume} L du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${
+      status ? "reussie" : "échec"
+    }`
 };
 module.exports = {
   MESSAGES

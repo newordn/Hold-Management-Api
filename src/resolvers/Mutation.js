@@ -115,6 +115,8 @@ async function dotateHold(parent, args, context, info) {
   } = args;
   console.log(
     MESSAGES.dotateHold(
+      new Date(start_date),
+      new Date(end_date),
       user,
       hold,
       theorical_super_quantity,
@@ -125,18 +127,7 @@ async function dotateHold(parent, args, context, info) {
   );
   try {
     const hold1 = await context.prisma.hold({ id: hold });
-    const updateHold = await context.prisma.updateHold({
-      data: {
-        theorical_super_quantity: hold1.theorical_super_quantity + theorical_super_quantity,
-        theorical_gazoil_quantity: hold1.theorical_gazoil_quantity + theorical_gazoil_quantity,
-        theorical_reserve_super_quantity:
-          hold1.theorical_reserve_super_quantity + theorical_reserve_super_quantity,
-        theorical_reserve_gazoil_quantity:
-          hold1.theorical_reserve_gazoil_quantity + theorical_reserve_gazoil_quantity
-      },
-      where: { id: hold }
-    });
-    await context.prisma.createDotation({
+        await context.prisma.createDotation({
       motif,
       number_of_liter_dotated_super: theorical_super_quantity,
       number_of_liter_received_super: 0,
@@ -151,8 +142,22 @@ async function dotateHold(parent, args, context, info) {
       user: { connect: { id: user } },
       hold: { connect: { id: hold } }
     });
+    const updateHold = await context.prisma.updateHold({
+      data: {
+        theorical_super_quantity: hold1.theorical_super_quantity + theorical_super_quantity,
+        theorical_gazoil_quantity: hold1.theorical_gazoil_quantity + theorical_gazoil_quantity,
+        theorical_reserve_super_quantity:
+          hold1.theorical_reserve_super_quantity + theorical_reserve_super_quantity,
+        theorical_reserve_gazoil_quantity:
+          hold1.theorical_reserve_gazoil_quantity + theorical_reserve_gazoil_quantity
+      },
+      where: { id: hold }
+    });
+
     await context.prisma.createLog({
       action: MESSAGES.dotateHold(
+        start_date,
+        end_date,
         user,
         hold,
         theorical_super_quantity,
@@ -305,7 +310,63 @@ const bon = async (parent, args, context, info) => {
     throw new Error(e.message);
   }
 };
-
+async function dotateEmetteur(parent, args, context, info) {
+  const {
+    responsableSoute,
+    start_date,
+    end_date,
+    user,
+    motif,
+    number_of_liter_super,
+    number_of_liter_gazoil
+  } = args;
+  console.log(
+    MESSAGES.dotateEmetteur(
+      responsableSoute,
+      user,
+      start_date,
+      end_date,
+      motif,
+      number_of_liter_super,
+      number_of_liter_gazoil
+    )
+  );
+  try {
+    const user1 = await context.prisma.user({ id: user });
+    await context.prisma.createDotationEmetteur({
+      motif,
+      start_date: new Date(start_date),
+      end_date: new Date(end_date),
+      number_of_liter_super,
+      number_of_liter_gazoil,
+      user: { connect: { id: user } },
+    });
+    const updateUser = await context.prisma.updateUser({
+      data: {
+        super: user1.super + number_of_liter_super,
+        gazoil: user1.gazoil + number_of_liter_gazoil
+      },
+      where: { id: user }
+    });
+    
+    await context.prisma.createLog({
+      action: MESSAGES.dotateEmetteur(
+        responsableSoute,
+      user,
+      start_date,
+      end_date,
+      motif,
+      number_of_liter_super,
+      number_of_liter_gazoil
+      ),
+      user: { connect: { id: responsableSoute } }
+    });
+    return updateUser;
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 module.exports = {
   signUp,
   signIn,
@@ -315,5 +376,6 @@ module.exports = {
   resetPassword,
   car,
   bon,
-  consumedBon
+  consumedBon,
+  dotateEmetteur
 };
