@@ -1,6 +1,9 @@
 const {STATISTIQUES} = require('../consts/statistique')
 const {FUEL} = require('../consts/fuels')
 const { ROLES } = require("../consts/roles");
+const excel = require("exceljs");
+const {storeStreamUpload} = require("../helpers/upload");
+const Stream = require('stream')
 async function info(parent, args, context, info) {
   console.log(args.message)
   return args.message;
@@ -19,6 +22,21 @@ async function holds(parent, args, context, info) {
   console.log("holds query");
   const holds = await context.prisma.holds({ orderBy: "id_DESC" });
   return holds;
+}
+async function exporting(parent, args, context, info) {
+  console.log("exporting query");
+  let workbook = new excel.Workbook();
+  let worksheet = workbook.addWorksheet(`BHM-${args.name}`); 
+  try{
+  const stream = new Stream.PassThrough()
+  workbook.xlsx.write(stream)
+  const file = await storeStreamUpload(stream,`BHM-${args.name}`)
+  return file
+  }
+  catch(e){
+    throw e
+  }
+  
 }
 async function notifications(parent, args, context, info) {
   console.log("notifications query");
@@ -117,5 +135,6 @@ module.exports = {
   cars,
   bons,
   statistique,
-  emetteurs
+  emetteurs,
+  exporting
 };

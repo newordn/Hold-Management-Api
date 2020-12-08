@@ -9,6 +9,7 @@
   "dependencies": {
     "apollo-server-koa": "^2.15.0",
     "bcryptjs": "^2.4.3",
+    "exceljs": "^4.2.0",
     "fs": "^0.0.1-security",
     "fs-capacitor": "^6.2.0",
     "generate-password": "^1.5.1",

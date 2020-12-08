@@ -11,6 +11,7 @@ type Query{
     cars: [Car!]!
     statistique(user:ID!, type: String!): [Statistique!]!
     emetteurs(hold:ID!): [User!]!
+    exporting(name: String!): String!
 }
    
 type Mutation{  

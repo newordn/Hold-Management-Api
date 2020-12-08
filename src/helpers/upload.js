@@ -48,6 +48,37 @@ const storeUpload = async upload => {
   const file = { id, filename, mimetype, path }
     return file
   }
+
+  const storeStreamUpload = async (stream,filename, mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") => {
+    const id = shortid.generate()
+    let docId=""
+    let path = `https://drive.google.com/uc?export=view&id=${docId}`
+  
+    // Store the file in google
+    try{
+    const res = await drive.files.create({
+      auth:auth,
+      requestBody:{
+        name: filename,
+        mimeType: mimetype,
+        parents:[folder]
+      },
+      media:{
+        mimeType:mimetype,
+        body: stream
+      }
+    })
+    docId= res.data.id
+    path = `https://drive.google.com/uc?export=view&id=${docId}`
+    console.log("success uploading",id)
+  }
+  catch(e){
+    console.log("error uploading",e)
+  }
+  
+    return path
+  }
   module.exports={
-      storeUpload
+      storeUpload,
+      storeStreamUpload
   }
