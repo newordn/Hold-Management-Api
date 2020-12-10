@@ -1,11 +1,10 @@
 const ROLES = {
   administrateur: "administrateur",
   soutier: "soutier",
-  donateur: "donateur",
-  responsable: "responsable",
-  superviseur: "superviseur",
-  emetteur: "emetteur",
+  acheteur: "acheteur",
+  responsableSoute: "responsableSoute",
+  emetteur: "emetteur"
 };
 module.exports = {
   ROLES
-}
+};

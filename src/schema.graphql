@@ -11,7 +11,7 @@ type Query{
     cars: [Car!]!
     statistique(user:ID!, type: String!): [Statistique!]!
     emetteurs(hold:ID!): [User!]!
-    exporting(name: String!): String!
+    exporting(type: String!): [Exporting!]!
 }
    
 type Mutation{  
@@ -40,7 +40,13 @@ type Statistique{
     label: String!
     labels: [String!]!
     data: [Float!]!
-}   
+}
+type Exporting {
+label: String!
+start_date: String!
+end_date: String!
+link: String!
+}
 type ConsumedBon{
 message: String!
 status: Boolean!

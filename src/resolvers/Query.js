@@ -1,11 +1,11 @@
-const {STATISTIQUES} = require('../consts/statistique')
-const {FUEL} = require('../consts/fuels')
+const { STATISTIQUES } = require("../consts/statistique");
+const { FUEL } = require("../consts/fuels");
 const { ROLES } = require("../consts/roles");
 const excel = require("exceljs");
-const {storeStreamUpload} = require("../helpers/upload");
-const Stream = require('stream')
+const { storeStreamUpload } = require("../helpers/upload");
+const Stream = require("stream");
 async function info(parent, args, context, info) {
-  console.log(args.message)
+  console.log(args.message);
   return args.message;
 }
 async function users(parent, args, context, info) {
@@ -25,18 +25,60 @@ async function holds(parent, args, context, info) {
 }
 async function exporting(parent, args, context, info) {
   console.log("exporting query");
+  const datas = [];
+  let label = "";
+  let start_date = "01/11/2020 06:00:00";
+  let end_date = "01/12/2020 06:00:00";
+  let link = "";
   let workbook = new excel.Workbook();
-  let worksheet = workbook.addWorksheet(`BHM-${args.name}`); 
-  try{
-  const stream = new Stream.PassThrough()
-  workbook.xlsx.write(stream)
-  const file = await storeStreamUpload(stream,`BHM-${args.name}`)
-  return file
+  let worksheet = workbook.addWorksheet(`BHM`);
+  try {
+    const stream = new Stream.PassThrough();
+    workbook.xlsx.write(stream);
+
+    switch (args.type) {
+      case ROLES.administrateur:
+        label = "Soutes";
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ label, link, start_date, end_date });
+        label = "Utilisateurs";
+        datas.push({ label, link, start_date, end_date });
+        label = "Véhicules";
+        datas.push({ label, link, start_date, end_date });
+        break;
+      case ROLES.acheteur:
+        label = "Statistiques Soutes";
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ label, link, start_date, end_date });
+        break;
+      case ROLES.responsableSoute:
+        label = "Statistiques Emetteurs";
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ label, link, start_date, end_date });
+        label = "Statistiques Soutiers";
+        datas.push({ label, link, start_date, end_date });
+        label = "Statistiques Niveaux Cuves";
+        datas.push({ label, link, start_date, end_date });
+        break;
+      case ROLES.emetteur:
+        label = "Statistiques Bons";
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ label, link, start_date, end_date });
+        label = "Statistiques Niveaux Cuves";
+        datas.push({ label, link, start_date, end_date });
+        break;
+      case ROLES.soutier:
+        label = "Statistiques Bons";
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ label, link, start_date, end_date });
+        label = "Statistiques Niveaux Cuves";
+        datas.push({ label, link, start_date, end_date });
+        break;
+    }
+  } catch (e) {
+    throw e;
   }
-  catch(e){
-    throw e
-  }
-  
+  return datas;
 }
 async function notifications(parent, args, context, info) {
   console.log("notifications query");
@@ -50,79 +92,115 @@ async function cars(parent, args, context, info) {
 }
 async function bons(parent, args, context, info) {
   console.log("bons query");
-  const data = await context.prisma.bons({ orderBy: "id_DESC", where: {consumed: args.consumed} });
+  const data = await context.prisma.bons({
+    orderBy: "id_DESC",
+    where: { consumed: args.consumed }
+  });
   return data;
 }
 async function emetteurs(parent, args, context, info) {
   console.log("emetteurs by hold query");
-  const users = await context.prisma.hold({id: args.hold}).users()
-  return users.filter(user=>user.role===ROLES.emetteur);
+  const users = await context.prisma.hold({ id: args.hold }).users();
+  return users.filter((user) => user.role === ROLES.emetteur);
 }
-async function statistique(parent, args, context, info){
+async function statistique(parent, args, context, info) {
   console.log("statistique query " + args.type);
-  const datas= []
-  let labels = []
-  let data = []
+  const datas = [];
+  let labels = [];
+  let data = [];
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  switch(args.type)
-  {
-    case STATISTIQUES.hold: 
-    const holds = await context.prisma.holds({orderBy: "id_DESC"})
-    holds.map(hold=>{
-      labels.push(hold.name)
-      data.push(hold.super_capacity)
-    })
-    datas.push({labels,data, label: "Super capacité"})
-    data = []
-    holds.map(hold=>{
-      data.push(hold.gazoil_capacity)
-    })
-    datas.push({labels,data, label:"Gazoil capacité"})
-    data = []
-    holds.map(hold=>{
-      data.push(hold.super_quantity)
-    })
-    datas.push({labels,data, label: "Contenance Super Ordinaire"})
-    data = []
-    holds.map(hold=>{
-      data.push(hold.gazoil_quantity)
-    })
-    datas.push({labels,data, label: "Contenance Gasoil Ordinaire"})
-    data = []
-    holds.map(hold=>{
-      data.push(hold.reserve_super_quantity)
-    })
-    datas.push({labels,data, label: "Contenance Super Réserve"})
-    break;
-    case STATISTIQUES.emetteur: 
-    const bons = await context.prisma.user({id: args.user}).bons()
-    labels.push("Émis", "Consommés", "Semi consommés")
-    const superBons = bons.filter(bon=>bon.fuel_type===FUEL.super)
-    // for bon emis
-    data.push(superBons.filter(bon=>bon.consumed===false).map(bon=>bon.number_of_liter).reduce(reducer, 0.0))
-    // for bon consumes
-    data.push(superBons.filter(bon=>bon.consumed===true).map(bon=>bon.initial_number_of_liter).reduce(reducer, 0.0)) 
-    // for bon semi consumes
-    data.push(superBons.filter(bon=>bon.number_of_liter!=bon.initial_number_of_liter).map(bon=>(bon.initial_number_of_liter-bon.number_of_liter)).reduce(reducer, 0.0))
-    datas.push({labels, data, label: "Super"})
-    data= []
-    const gazoilBons = bons.filter(bon=>bon.fuel_type===FUEL.gazoil)
-    // for bon emis
-    data.push(gazoilBons.filter(bon=>bon.consumed===false).map(bon=>bon.number_of_liter).reduce(reducer, 0.0))
-    // for bon consumes
-    data.push(gazoilBons.filter(bon=>bon.consumed===true).map(bon=>bon.initial_number_of_liter).reduce(reducer, 0.0))
-     // for bon semi consumes
-    data.push(gazoilBons.filter(bon=>bon.number_of_liter!=bon.initial_number_of_liter).map(bon=>(bon.initial_number_of_liter-bon.number_of_liter)).reduce(reducer, 0.0))
-    datas.push({labels, data, label: "Gazoil"})
-    labels = []
-    data = []
-    labels.push("Super O","Gasoil O", "Super R", "Gasoil R")
-    const hold = await context.prisma.user({id: args.user}).hold()
-    console.log(hold)
-    data.push(hold.super_quantity, hold.gazoil_quantity, hold.reserve_super_quantity, hold.reserve_gazoil_quantity)
-    datas.push({labels, data, label: "Quantité restante dans les cuves"})
-    break;
-  
+  switch (args.type) {
+    case STATISTIQUES.hold:
+      const holds = await context.prisma.holds({ orderBy: "id_DESC" });
+      holds.map((hold) => {
+        labels.push(hold.name);
+        data.push(hold.super_capacity);
+      });
+      datas.push({ labels, data, label: "Super capacité" });
+      data = [];
+      holds.map((hold) => {
+        data.push(hold.gazoil_capacity);
+      });
+      datas.push({ labels, data, label: "Gazoil capacité" });
+      data = [];
+      holds.map((hold) => {
+        data.push(hold.super_quantity);
+      });
+      datas.push({ labels, data, label: "Contenance Super Ordinaire" });
+      data = [];
+      holds.map((hold) => {
+        data.push(hold.gazoil_quantity);
+      });
+      datas.push({ labels, data, label: "Contenance Gasoil Ordinaire" });
+      data = [];
+      holds.map((hold) => {
+        data.push(hold.reserve_super_quantity);
+      });
+      datas.push({ labels, data, label: "Contenance Super Réserve" });
+      break;
+    case STATISTIQUES.emetteur:
+      const bons = await context.prisma.user({ id: args.user }).bons();
+      labels.push("Émis", "Consommés", "Semi consommés");
+      const superBons = bons.filter((bon) => bon.fuel_type === FUEL.super);
+      // for bon emis
+      data.push(
+        superBons
+          .filter((bon) => bon.consumed === false)
+          .map((bon) => bon.number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      // for bon consumes
+      data.push(
+        superBons
+          .filter((bon) => bon.consumed === true)
+          .map((bon) => bon.initial_number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      // for bon semi consumes
+      data.push(
+        superBons
+          .filter((bon) => bon.number_of_liter != bon.initial_number_of_liter)
+          .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      datas.push({ labels, data, label: "Super" });
+      data = [];
+      const gazoilBons = bons.filter((bon) => bon.fuel_type === FUEL.gazoil);
+      // for bon emis
+      data.push(
+        gazoilBons
+          .filter((bon) => bon.consumed === false)
+          .map((bon) => bon.number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      // for bon consumes
+      data.push(
+        gazoilBons
+          .filter((bon) => bon.consumed === true)
+          .map((bon) => bon.initial_number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      // for bon semi consumes
+      data.push(
+        gazoilBons
+          .filter((bon) => bon.number_of_liter != bon.initial_number_of_liter)
+          .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
+          .reduce(reducer, 0.0)
+      );
+      datas.push({ labels, data, label: "Gazoil" });
+      labels = [];
+      data = [];
+      labels.push("Super O", "Gasoil O", "Super R", "Gasoil R");
+      const hold = await context.prisma.user({ id: args.user }).hold();
+      console.log(hold);
+      data.push(
+        hold.super_quantity,
+        hold.gazoil_quantity,
+        hold.reserve_super_quantity,
+        hold.reserve_gazoil_quantity
+      );
+      datas.push({ labels, data, label: "Quantité restante dans les cuves" });
+      break;
   }
   return datas;
 }
@@ -131,7 +209,7 @@ module.exports = {
   users,
   logs,
   holds,
-  notifications, 
+  notifications,
   cars,
   bons,
   statistique,
