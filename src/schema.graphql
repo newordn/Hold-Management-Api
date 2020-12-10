@@ -37,11 +37,13 @@ type DotationEmetteur{
     created_at: String!
 }
 type Statistique{
+    id: String!
     label: String!
     labels: [String!]!
     data: [Float!]!
 }
 type Exporting {
+id: String!
 label: String!
 start_date: String!
 end_date: String!

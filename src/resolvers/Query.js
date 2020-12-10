@@ -40,39 +40,39 @@ async function exporting(parent, args, context, info) {
       case ROLES.administrateur:
         label = "Soutes";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ label, link, start_date, end_date });
+        datas.push({id:"1", label, link, start_date, end_date });
         label = "Utilisateurs";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"2", label, link, start_date, end_date });
         label = "Véhicules";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"3",label, link, start_date, end_date });
         break;
       case ROLES.acheteur:
         label = "Statistiques Soutes";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ label, link, start_date, end_date });
+        datas.push({id:"1", label, link, start_date, end_date });
         break;
       case ROLES.responsableSoute:
         label = "Statistiques Emetteurs";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"1",label, link, start_date, end_date });
         label = "Statistiques Soutiers";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"2",label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"3",label, link, start_date, end_date });
         break;
       case ROLES.emetteur:
         label = "Statistiques Bons";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"1",label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"2",label, link, start_date, end_date });
         break;
       case ROLES.soutier:
         label = "Statistiques Bons";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"1",label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ label, link, start_date, end_date });
+        datas.push({ id:"2",label, link, start_date, end_date });
         break;
     }
   } catch (e) {
@@ -116,27 +116,27 @@ async function statistique(parent, args, context, info) {
         labels.push(hold.name);
         data.push(hold.super_capacity);
       });
-      datas.push({ labels, data, label: "Super capacité" });
+      datas.push({ id:"1",labels, data, label: "Super capacité" });
       data = [];
       holds.map((hold) => {
         data.push(hold.gazoil_capacity);
       });
-      datas.push({ labels, data, label: "Gazoil capacité" });
+      datas.push({ id:"2",labels, data, label: "Gazoil capacité" });
       data = [];
       holds.map((hold) => {
         data.push(hold.super_quantity);
       });
-      datas.push({ labels, data, label: "Contenance Super Ordinaire" });
+      datas.push({ id:"3",labels, data, label: "Contenance Super Ordinaire" });
       data = [];
       holds.map((hold) => {
         data.push(hold.gazoil_quantity);
       });
-      datas.push({ labels, data, label: "Contenance Gasoil Ordinaire" });
+      datas.push({ id:"4",labels, data, label: "Contenance Gasoil Ordinaire" });
       data = [];
       holds.map((hold) => {
         data.push(hold.reserve_super_quantity);
       });
-      datas.push({ labels, data, label: "Contenance Super Réserve" });
+      datas.push({ id:"5",labels, data, label: "Contenance Super Réserve" });
       break;
     case STATISTIQUES.emetteur:
       const bons = await context.prisma.user({ id: args.user }).bons();
@@ -163,7 +163,7 @@ async function statistique(parent, args, context, info) {
           .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
           .reduce(reducer, 0.0)
       );
-      datas.push({ labels, data, label: "Super" });
+      datas.push({ id:"1",labels, data, label: "Super" });
       data = [];
       const gazoilBons = bons.filter((bon) => bon.fuel_type === FUEL.gazoil);
       // for bon emis
@@ -187,7 +187,7 @@ async function statistique(parent, args, context, info) {
           .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
           .reduce(reducer, 0.0)
       );
-      datas.push({ labels, data, label: "Gazoil" });
+      datas.push({ id:"2",labels, data, label: "Gazoil" });
       labels = [];
       data = [];
       labels.push("Super O", "Gasoil O", "Super R", "Gasoil R");
@@ -199,7 +199,7 @@ async function statistique(parent, args, context, info) {
         hold.reserve_super_quantity,
         hold.reserve_gazoil_quantity
       );
-      datas.push({ labels, data, label: "Quantité restante dans les cuves" });
+      datas.push({ id:"3",labels, data, label: "Quantité restante dans les cuves" });
       break;
   }
   return datas;
