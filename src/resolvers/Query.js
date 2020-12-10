@@ -110,6 +110,17 @@ async function statistique(parent, args, context, info) {
   let data = [];
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   switch (args.type) {
+    case STATISTIQUES.responsableSoute:
+    const hold1 = await context.prisma.user({ id: args.user }).hold();
+    data.push(hold1.super_capacity, hold1.super_quantity, hold1.reserve_super_quantity)
+    labels.push("Capacité", "Contenance Ordinaire", "Réserve")
+    datas.push({id:"1",labels,data, label: "Statistiques Super"})
+    data=[]
+    labels=[]
+    data.push(hold1.gazoil_capacity, hold1.gazoil_quantity, hold1.reserve_gazoil_quantity)
+    labels.push("Capacité", "Contenance Ordinaire", "Réserve")
+    datas.push({id:"1",labels,data, label: "Statistiques Gasoil"})
+      break;
     case STATISTIQUES.hold:
       const holds = await context.prisma.holds({ orderBy: "id_DESC" });
       holds.map((hold) => {
