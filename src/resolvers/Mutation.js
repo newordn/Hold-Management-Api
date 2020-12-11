@@ -9,7 +9,7 @@ async function signUp(parent, args, context, info) {
     length: 10,
     numbers: true
   });
-  console.log(MESSAGES.signUp(args.matricule) + " with password " + generatePassword);
+  console.log(MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword);
   let password = await bcrypt.hash(generatePassword, 10);
   let user = await context.prisma.createUser({ ...args, password, reserve: 0 });
   if (user) {
@@ -18,6 +18,7 @@ async function signUp(parent, args, context, info) {
       action: MESSAGES.signUp(args.matricule),
       user: { connect: { id: user.id } }
     });
+    sendSms(user.phone,MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword)
     return {
       user,
       token
