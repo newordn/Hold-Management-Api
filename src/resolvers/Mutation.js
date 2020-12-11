@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
+const {sendSms} = require("../helpers/notification");
 var generator = require("generate-password");
 async function signUp(parent, args, context, info) {
   let generatePassword = generator.generate({
@@ -95,6 +96,7 @@ async function resetPassword(parent, args, context, info) {
       action: MESSAGES.resetPassword(args.matricule, args.password, generatePassword),
       user: { connect: { matricule: args.matricule } }
     });
+    sendSms(user.phone,MESSAGES.resetPassword(args.matricule, args.password, generatePassword))
     return user;
   } catch (e) {
     console.log(e);
