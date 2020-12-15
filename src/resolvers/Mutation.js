@@ -170,6 +170,16 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
+    sendSms(user.phone,MESSAGES.dotateHold(
+        start_date,
+        end_date,
+        user,
+        hold,
+        theorical_super_quantity,
+        theorical_gazoil_quantity,
+        theorical_reserve_super_quantity,
+        theorical_reserve_gazoil_quantity
+      ))
     return updateHold;
   } catch (e) {
     console.log(e);
@@ -364,6 +374,15 @@ async function dotateEmetteur(parent, args, context, info) {
       ),
       user: { connect: { id: responsableSoute } }
     });
+    sendSms(user.phone,MESSAGES.dotateEmetteur(
+        responsableSoute,
+      user,
+      start_date,
+      end_date,
+      motif,
+      number_of_liter_super,
+      number_of_liter_gazoil
+      ))
     return updateUser;
   } catch (e) {
     console.log(e);
