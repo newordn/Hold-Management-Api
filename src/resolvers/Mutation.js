@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
-const {sendSms} = require("../helpers/notification");
+const { sendSms } = require("../helpers/notification");
 var generator = require("generate-password");
 async function signUp(parent, args, context, info) {
   let generatePassword = generator.generate({
@@ -18,7 +18,10 @@ async function signUp(parent, args, context, info) {
       action: MESSAGES.signUp(args.matricule),
       user: { connect: { id: user.id } }
     });
-    sendSms(user.phone,MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword)
+    sendSms(
+      user.phone,
+      MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword
+    );
     return {
       user,
       token
@@ -97,7 +100,7 @@ async function resetPassword(parent, args, context, info) {
       action: MESSAGES.resetPassword(args.matricule, args.password, generatePassword),
       user: { connect: { matricule: args.matricule } }
     });
-    sendSms(user.phone,MESSAGES.resetPassword(args.matricule, args.password, generatePassword))
+    sendSms(user.phone, MESSAGES.resetPassword(args.matricule, args.password, generatePassword));
     return user;
   } catch (e) {
     console.log(e);
@@ -130,7 +133,7 @@ async function dotateHold(parent, args, context, info) {
   );
   try {
     const hold1 = await context.prisma.hold({ id: hold });
-        await context.prisma.createDotation({
+    await context.prisma.createDotation({
       motif,
       number_of_liter_dotated_super: theorical_super_quantity,
       number_of_liter_received_super: 0,
@@ -170,7 +173,9 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
-    sendSms(user.phone,MESSAGES.dotateHold(
+    sendSms(
+      user.phone,
+      MESSAGES.dotateHold(
         start_date,
         end_date,
         user,
@@ -179,7 +184,8 @@ async function dotateHold(parent, args, context, info) {
         theorical_gazoil_quantity,
         theorical_reserve_super_quantity,
         theorical_reserve_gazoil_quantity
-      ))
+      )
+    );
     return updateHold;
   } catch (e) {
     console.log(e);
@@ -352,7 +358,7 @@ async function dotateEmetteur(parent, args, context, info) {
       end_date: new Date(end_date),
       number_of_liter_super,
       number_of_liter_gazoil,
-      user: { connect: { id: user } },
+      user: { connect: { id: user } }
     });
     const updateUser = await context.prisma.updateUser({
       data: {
@@ -361,28 +367,47 @@ async function dotateEmetteur(parent, args, context, info) {
       },
       where: { id: user }
     });
-    
+    let responsableUser = await context.prisma.user({id: responsableSoute})
+    let holdId = await context.prisma.user({id: responsableSoute}).hold()
+    holdId = holdId.id
+    const hold = await context.prisma.hold({ id: holdId });
+    let reste_super_quantity = hold.theorical_super_quantity - number_of_liter_super
+    let reste_gazoil_quantity = hold.theorical_gazoil_quantity - number_of_liter_gazoil
+    if(reste_super_quantity<3000) 
+    sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name,"super",reste_super_quantity))
+    if(reste_gazoil_quantity<3000)
+    sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name,"gazoil",reste_gazoil_quantity))
+      await context.prisma.updateHold({
+        data: {
+          theorical_super_quantity: reste_super_quantity,
+          theorical_gazoil_quantity: reste_gazoil_quantity
+        },
+        where: { id: holdId }
+      });
     await context.prisma.createLog({
       action: MESSAGES.dotateEmetteur(
         responsableSoute,
-      user,
-      start_date,
-      end_date,
-      motif,
-      number_of_liter_super,
-      number_of_liter_gazoil
+        user,
+        start_date,
+        end_date,
+        motif,
+        number_of_liter_super,
+        number_of_liter_gazoil
       ),
       user: { connect: { id: responsableSoute } }
     });
-    sendSms(user.phone,MESSAGES.dotateEmetteur(
+    sendSms(
+      user.phone,
+      MESSAGES.dotateEmetteur(
         responsableSoute,
-      user,
-      start_date,
-      end_date,
-      motif,
-      number_of_liter_super,
-      number_of_liter_gazoil
-      ))
+        user,
+        start_date,
+        end_date,
+        motif,
+        number_of_liter_super,
+        number_of_liter_gazoil
+      )
+    );
     return updateUser;
   } catch (e) {
     console.log(e);

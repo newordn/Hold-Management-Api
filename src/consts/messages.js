@@ -2,6 +2,7 @@ const MESSAGES = {
   signUp: (name) => `BHM-Inscription de l'utilisateur immatriculé ${name}`,
   signIn: (name) => `BHM-Connexion de l'utilisateur immatriculé ${name}`,
   hold: (name) => `BHM-Création de la soute de ${name}`,
+  holdLevel: (name,type,quantity)=> `BHM-Niveau critique des cuves, nous vous informons que la soute de ${name}, a atteint un seuil critique de ${quantity} litres en contenance ${type} `,
   dotateEmetteur: (
     responsableSoute,
     start_date,
