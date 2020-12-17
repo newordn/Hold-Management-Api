@@ -269,8 +269,8 @@ const bon = async (parent, args, context, info) => {
     car,
     driver
   } = args;
-  const getCar = await context.prisma.car({id: car})
-  const emetteur = await context.prisma.user({id: user})
+  const getCar = await context.prisma.car({ id: car });
+  const emetteur = await context.prisma.user({ id: user });
   console.log(
     MESSAGES.bon(
       expiration_date,
@@ -285,75 +285,79 @@ const bon = async (parent, args, context, info) => {
       driver
     )
   );
-  let restant = fuel_type=== FUEL.super ? emetteur.super - initial_number_of_liter : emetteur.gazoil - initial_number_of_liter
+  let restant =
+    fuel_type === FUEL.super
+      ? emetteur.super - initial_number_of_liter
+      : emetteur.gazoil - initial_number_of_liter;
   try {
-    if(restant>0){
-      if(fuel_type===FUEL.super)
-    await context.prisma.updateUser({
-      data:{
-        super: restant,
-      },
-      where:{
-        id: user
+    if (restant > 0) {
+      if (fuel_type === FUEL.super) {
+        await context.prisma.updateUser({
+          data: {
+            super: restant
+          },
+          where: {
+            id: user
+          }
+        });
       }
-    })
-    if(fuel_type===FUEL.gazoil)
-    await context.prisma.updateUser({
-      data:{
-        gazoil: restant,
-      },
-      where:{
-        id: user
+      if (fuel_type === FUEL.gazoil) {
+        await context.prisma.updateUser({
+          data: {
+            gazoil: restant
+          },
+          where: {
+            id: user
+          }
+        });
       }
-    })
-    const data = await context.prisma.createBon({
-      coverage_when_consuming: 0,
-      expiration_date,
-      driver,
-      fuel_type,
-      destination,
-      departure,
-      reason,
-      code: generator.generate({
-        length: 10,
-        numbers: true
-      }),
-      initial_number_of_liter,
-      user: { connect: { id: user } },
-      car: {connect: {id: car}},
-      status: true,
-      consumed: false,
-      consumed_date: null,
-      emission_date: new Date(),
-      initial_number_of_liter,
-      number_of_liter: initial_number_of_liter
-    });
-    holds.map(async (hold) => {
-      await context.prisma.createHoldsOnBons({
-        hold: { connect: { id: hold } },
-        bon: { connect: { id: data.id } }
-      });
-    });
-    await context.prisma.createLog({
-      action: MESSAGES.bon(
+      const data = await context.prisma.createBon({
+        coverage_when_consuming: 0,
         expiration_date,
-        departure,
-        destination,
+        driver,
         fuel_type,
+        destination,
+        departure,
         reason,
+        code: generator.generate({
+          length: 10,
+          numbers: true
+        }),
         initial_number_of_liter,
-        user,
-        getCar.immatriculation,
-        holds,
-        driver
-      ),
-      user: { connect: { id: user } }
-    });
-    return data;
-  }
-  else{
-    throw new Error("Vous n'avez plus suffisament de bons")
-  }
+        user: { connect: { id: user } },
+        car: { connect: { id: car } },
+        status: true,
+        consumed: false,
+        consumed_date: null,
+        emission_date: new Date(),
+        initial_number_of_liter,
+        number_of_liter: initial_number_of_liter
+      });
+      holds.map(async (hold) => {
+        await context.prisma.createHoldsOnBons({
+          hold: { connect: { id: hold } },
+          bon: { connect: { id: data.id } }
+        });
+      });
+      await context.prisma.createLog({
+        action: MESSAGES.bon(
+          expiration_date,
+          departure,
+          destination,
+          fuel_type,
+          reason,
+          initial_number_of_liter,
+          user,
+          getCar.immatriculation,
+          holds,
+          driver
+        ),
+        user: { connect: { id: user } }
+      });
+      return data;
+    } else {
+      throw new Error("Vous n'avez plus suffisament de bons");
+    }
   } catch (e) {
     console.log(e);
     throw new Error(e.message);
@@ -397,23 +401,26 @@ async function dotateEmetteur(parent, args, context, info) {
       },
       where: { id: user }
     });
-    let responsableUser = await context.prisma.user({id: responsableSoute})
-    let holdId = await context.prisma.user({id: responsableSoute}).hold()
-    holdId = holdId.id
+    let responsableUser = await context.prisma.user({ id: responsableSoute });
+    let holdId = await context.prisma.user({ id: responsableSoute }).hold();
+    holdId = holdId.id;
     const hold = await context.prisma.hold({ id: holdId });
-    let reste_super_quantity = hold.theorical_super_quantity - number_of_liter_super
-    let reste_gazoil_quantity = hold.theorical_gazoil_quantity - number_of_liter_gazoil
-    if(reste_super_quantity<3000) 
-    sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name,"super",reste_super_quantity))
-    if(reste_gazoil_quantity<3000)
-    sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name,"gazoil",reste_gazoil_quantity))
-      await context.prisma.updateHold({
-        data: {
-          theorical_super_quantity: reste_super_quantity,
-          theorical_gazoil_quantity: reste_gazoil_quantity
-        },
-        where: { id: holdId }
-      });
+    let reste_super_quantity = hold.theorical_super_quantity - number_of_liter_super;
+    let reste_gazoil_quantity = hold.theorical_gazoil_quantity - number_of_liter_gazoil;
+    if (reste_super_quantity < 3000)
+      sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name, "super", reste_super_quantity));
+    if (reste_gazoil_quantity < 3000)
+      sendSms(
+        responsableUser.phone,
+        MESSAGES.holdLevel(hold.name, "gazoil", reste_gazoil_quantity)
+      );
+    await context.prisma.updateHold({
+      data: {
+        theorical_super_quantity: reste_super_quantity,
+        theorical_gazoil_quantity: reste_gazoil_quantity
+      },
+      where: { id: holdId }
+    });
     await context.prisma.createLog({
       action: MESSAGES.dotateEmetteur(
         responsableSoute,
