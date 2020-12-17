@@ -301,7 +301,7 @@ const bon = async (parent, args, context, info) => {
           }
         });
       }
-      if (fuel_type === FUEL.gazoil) {
+      else {
         await context.prisma.updateUser({
           data: {
             gazoil: restant
