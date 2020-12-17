@@ -92,6 +92,7 @@ type Bon{
     initial_number_of_liter: Float!
     status: Boolean!
     user: User! @relation(name:"UserBons")
+    car: Car
     holds: [HoldsOnBons!]
     driver: String!
     code: String!
@@ -107,6 +108,7 @@ created_at: DateTime! @createdAt
 
 type Car {
     id: ID! @id
+    bon: Bon @relation(link: INLINE)
     hold: Hold! @relation(name: "HoldCars")
     image: String!
     marque: String!

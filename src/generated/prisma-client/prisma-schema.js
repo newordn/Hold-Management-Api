@@ -58,6 +58,7 @@ type Bon {
   initial_number_of_liter: Float!
   status: Boolean!
   user: User!
+  car: Car
   holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
   driver: String!
   code: String!
@@ -85,6 +86,7 @@ input BonCreateInput {
   initial_number_of_liter: Float!
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
+  car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
   driver: String!
   code: String!
@@ -95,9 +97,34 @@ input BonCreateManyWithoutUserInput {
   connect: [BonWhereUniqueInput!]
 }
 
+input BonCreateOneWithoutCarInput {
+  create: BonCreateWithoutCarInput
+  connect: BonWhereUniqueInput
+}
+
 input BonCreateOneWithoutHoldsInput {
   create: BonCreateWithoutHoldsInput
   connect: BonWhereUniqueInput
+}
+
+input BonCreateWithoutCarInput {
+  id: ID
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  expiration_date: String!
+  consumed_date: DateTime
+  emission_date: DateTime!
+  departure: String!
+  destination: String!
+  fuel_type: String!
+  reason: String!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  user: UserCreateOneWithoutBonsInput!
+  holds: HoldsOnBonsCreateManyWithoutBonInput
+  driver: String!
+  code: String!
 }
 
 input BonCreateWithoutHoldsInput {
@@ -115,6 +142,7 @@ input BonCreateWithoutHoldsInput {
   initial_number_of_liter: Float!
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
+  car: CarCreateOneWithoutBonInput
   driver: String!
   code: String!
 }
@@ -133,6 +161,7 @@ input BonCreateWithoutUserInput {
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
+  car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
   driver: String!
   code: String!
@@ -399,6 +428,7 @@ input BonUpdateInput {
   initial_number_of_liter: Float
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
+  car: CarUpdateOneWithoutBonInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
@@ -462,6 +492,34 @@ input BonUpdateOneRequiredWithoutHoldsInput {
   connect: BonWhereUniqueInput
 }
 
+input BonUpdateOneWithoutCarInput {
+  create: BonCreateWithoutCarInput
+  update: BonUpdateWithoutCarDataInput
+  upsert: BonUpsertWithoutCarInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: BonWhereUniqueInput
+}
+
+input BonUpdateWithoutCarDataInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  expiration_date: String
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+  user: UserUpdateOneRequiredWithoutBonsInput
+  holds: HoldsOnBonsUpdateManyWithoutBonInput
+  driver: String
+  code: String
+}
+
 input BonUpdateWithoutHoldsDataInput {
   consumed: Boolean
   coverage_when_consuming: Float
@@ -476,6 +534,7 @@ input BonUpdateWithoutHoldsDataInput {
   initial_number_of_liter: Float
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
+  car: CarUpdateOneWithoutBonInput
   driver: String
   code: String
 }
@@ -493,6 +552,7 @@ input BonUpdateWithoutUserDataInput {
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
+  car: CarUpdateOneWithoutBonInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
@@ -501,6 +561,11 @@ input BonUpdateWithoutUserDataInput {
 input BonUpdateWithWhereUniqueWithoutUserInput {
   where: BonWhereUniqueInput!
   data: BonUpdateWithoutUserDataInput!
+}
+
+input BonUpsertWithoutCarInput {
+  update: BonUpdateWithoutCarDataInput!
+  create: BonCreateWithoutCarInput!
 }
 
 input BonUpsertWithoutHoldsInput {
@@ -644,6 +709,7 @@ input BonWhereInput {
   status: Boolean
   status_not: Boolean
   user: UserWhereInput
+  car: CarWhereInput
   holds_every: HoldsOnBonsWhereInput
   holds_some: HoldsOnBonsWhereInput
   holds_none: HoldsOnBonsWhereInput
@@ -694,6 +760,7 @@ input BonWhereUniqueInput {
 
 type Car {
   id: ID!
+  bon: Bon
   hold: Hold!
   image: String!
   marque: String!
@@ -712,6 +779,7 @@ type CarConnection {
 
 input CarCreateInput {
   id: ID
+  bon: BonCreateOneWithoutCarInput
   hold: HoldCreateOneWithoutCarsInput!
   image: String!
   marque: String!
@@ -726,8 +794,25 @@ input CarCreateManyWithoutHoldInput {
   connect: [CarWhereUniqueInput!]
 }
 
+input CarCreateOneWithoutBonInput {
+  create: CarCreateWithoutBonInput
+  connect: CarWhereUniqueInput
+}
+
+input CarCreateWithoutBonInput {
+  id: ID
+  hold: HoldCreateOneWithoutCarsInput!
+  image: String!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+  kilometrage: Float!
+}
+
 input CarCreateWithoutHoldInput {
   id: ID
+  bon: BonCreateOneWithoutCarInput
   image: String!
   marque: String!
   capacity: Float!
@@ -890,6 +975,7 @@ input CarSubscriptionWhereInput {
 }
 
 input CarUpdateInput {
+  bon: BonUpdateOneWithoutCarInput
   hold: HoldUpdateOneRequiredWithoutCarsInput
   image: String
   marque: String
@@ -934,7 +1020,27 @@ input CarUpdateManyWithWhereNestedInput {
   data: CarUpdateManyDataInput!
 }
 
+input CarUpdateOneWithoutBonInput {
+  create: CarCreateWithoutBonInput
+  update: CarUpdateWithoutBonDataInput
+  upsert: CarUpsertWithoutBonInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: CarWhereUniqueInput
+}
+
+input CarUpdateWithoutBonDataInput {
+  hold: HoldUpdateOneRequiredWithoutCarsInput
+  image: String
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+  kilometrage: Float
+}
+
 input CarUpdateWithoutHoldDataInput {
+  bon: BonUpdateOneWithoutCarInput
   image: String
   marque: String
   capacity: Float
@@ -946,6 +1052,11 @@ input CarUpdateWithoutHoldDataInput {
 input CarUpdateWithWhereUniqueWithoutHoldInput {
   where: CarWhereUniqueInput!
   data: CarUpdateWithoutHoldDataInput!
+}
+
+input CarUpsertWithoutBonInput {
+  update: CarUpdateWithoutBonDataInput!
+  create: CarCreateWithoutBonInput!
 }
 
 input CarUpsertWithWhereUniqueWithoutHoldInput {
@@ -969,6 +1080,7 @@ input CarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  bon: BonWhereInput
   hold: HoldWhereInput
   image: String
   image_not: String

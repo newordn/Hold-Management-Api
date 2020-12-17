@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
+const { FUEL } = require("../consts/fuels");
 const { sendSms } = require("../helpers/notification");
 var generator = require("generate-password");
 async function signUp(parent, args, context, info) {
@@ -265,8 +266,11 @@ const bon = async (parent, args, context, info) => {
     initial_number_of_liter,
     user,
     holds,
+    car,
     driver
   } = args;
+  const getCar = await context.prisma.car({id: car})
+  const emetteur = await context.prisma.user({id: user})
   console.log(
     MESSAGES.bon(
       expiration_date,
@@ -277,11 +281,31 @@ const bon = async (parent, args, context, info) => {
       initial_number_of_liter,
       user,
       holds,
+      getCar.immatriculation,
       driver
     )
   );
-
+  let restant = fuel_type=== FUEL.super ? emetteur.super - initial_number_of_liter : emetteur.gazoil - initial_number_of_liter
   try {
+    if(restant>0){
+      if(fuel_type===FUEL.super)
+    await context.prisma.updateUser({
+      data:{
+        super: restant,
+      },
+      where:{
+        id: user
+      }
+    })
+    else
+    await context.prisma.updateUser({
+      data:{
+        gazoil: restant,
+      },
+      where:{
+        id: user
+      }
+    })
     const data = await context.prisma.createBon({
       coverage_when_consuming: 0,
       expiration_date,
@@ -296,6 +320,7 @@ const bon = async (parent, args, context, info) => {
       }),
       initial_number_of_liter,
       user: { connect: { id: user } },
+      car: {connect: {id: car}},
       status: true,
       consumed: false,
       consumed_date: null,
@@ -318,12 +343,17 @@ const bon = async (parent, args, context, info) => {
         reason,
         initial_number_of_liter,
         user,
+        getCar.immatriculation,
         holds,
         driver
       ),
       user: { connect: { id: user } }
     });
     return data;
+  }
+  else{
+    throw new Error("Vous n'avez plus suffisament de bons")
+  }
   } catch (e) {
     console.log(e);
     throw new Error(e.message);

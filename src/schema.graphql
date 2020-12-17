@@ -22,7 +22,7 @@ type Mutation{
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
     resetPassword(matricule: String!, password: String!): User!
     car(user: ID!, hold: ID!, image: Upload!, marque: String!, capacity: Float!, type: String!, immatriculation: String!, kilometrage: Float!): Car!
-    bon(user: ID!,expiration_date: String!, driver: String!,  departure: String!, destination: String!, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,holds: [ID!]!): Bon!
+    bon(user: ID!,expiration_date: String!, driver: String!,  departure: String!, destination: String!, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,car: ID!,holds: [ID!]!): Bon!
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
     dotateEmetteur(responsableSoute: ID!, user:ID!,start_date: Float!, end_date: Float!, number_of_liter_super: Float!, number_of_liter_gazoil: Float!, motif: String!): DotationEmetteur!
 }
@@ -137,6 +137,7 @@ type Bon{
     initial_number_of_liter: Float!
     status: Boolean!
     user: User!
+    car: Car
     holds: [HoldsOnBons!]
     created_at: String!
 }
@@ -147,6 +148,7 @@ type Car {
     marque: String!
     capacity: Float!
     type: String!
+    bon: Bon
     immatriculation: String!
     kilometrage: Float!
     created_at: String
