@@ -297,7 +297,7 @@ const bon = async (parent, args, context, info) => {
         id: user
       }
     })
-    else
+    if(fuel_type===FUEL.gazoil)
     await context.prisma.updateUser({
       data:{
         gazoil: restant,
