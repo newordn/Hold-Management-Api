@@ -1,5 +1,5 @@
 const MESSAGES = {
-  signUp: (name) => `BHM-Inscription de l'utilisateur immatriculé ${name}`,
+  signUp: (name) => `BHM-Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme`,
   signIn: (name) => `BHM-Connexion de l'utilisateur immatriculé ${name}`,
   hold: (name) => `BHM-Création de la soute de ${name}`,
   holdLevel: (name,type,quantity)=> `BHM-Niveau critique des cuves, nous vous informons que la soute de ${name}, a atteint un seuil critique de ${quantity} litres en contenance ${type} `,
