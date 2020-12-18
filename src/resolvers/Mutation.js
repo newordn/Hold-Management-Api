@@ -12,7 +12,7 @@ async function signUp(parent, args, context, info) {
   });
   console.log(MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword);
   let password = await bcrypt.hash(generatePassword, 10);
-  let user = await context.prisma.createUser({ ...args, password, reserve: 0 });
+  let user = await context.prisma.createUser({ ...args, password, super: 0,gazoil:0, active: true });
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
