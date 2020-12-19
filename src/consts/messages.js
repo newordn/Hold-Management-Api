@@ -13,8 +13,8 @@ const MESSAGES = {
     number_of_liter_gazoil
   ) =>
     `BHM-Dotation de l'utilisateur immatriculé ${responsableSoute} a l'utilisateur immatriculé ${user} avec les quantités super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`,
-  updateUsersHoldRole: (user, hold, role) =>
-    `BHM-Mise a jour de l'utilisateur immatriculé ${user}, assignation a la soute immatriculée ${hold} avec pour role ${role}`,
+  updateUsersHoldRole: (user, hold, role,name) =>
+    `BHM-Mise a jour de l'utilisateur immatriculé ${user}, assignation a la soute de ${name} immatriculée ${hold} avec pour role ${role}`,
   dotateHold: (
     start_date,
     end_date,
