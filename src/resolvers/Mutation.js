@@ -78,12 +78,13 @@ async function updateUsersHoldRole(parent, args, context, info) {
       data: { role: args.role, hold: { connect: { id: args.hold } } },
       where: { id: args.user }
     });
+    const hold = await context.prisma.hold({id: args.hold})
+    
     await context.prisma.createLog({
       action: MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name ),
       user: { connect: { id: args.user } }
     })
   console.log(MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
-    const hold = await context.prisma.hold({id: args.hold})
     sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name ))
     return user;
   } catch (e) {
