@@ -21,7 +21,7 @@ async function signUp(parent, args, context, info) {
     });
     sendSms(
       user.phone,
-      MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword
+      MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword + " avec le role " + args.role
     );
     return {
       user,
