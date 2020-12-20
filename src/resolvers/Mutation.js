@@ -4,7 +4,7 @@ const { APP_SECRET, getUserByHoldAndRole } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
 const { FUEL } = require("../consts/fuels");
 const { sendSms } = require("../helpers/notification");
-const {parseDate} = require("../helpers/parse");
+const { parseDate } = require("../helpers/parse");
 var generator = require("generate-password");
 
 const { ROLES } = require("../consts/roles");
@@ -15,7 +15,13 @@ async function signUp(parent, args, context, info) {
   });
   console.log(MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword);
   let password = await bcrypt.hash(generatePassword, 10);
-  let user = await context.prisma.createUser({ ...args, password, super: 0,gazoil:0, active: true });
+  let user = await context.prisma.createUser({
+    ...args,
+    password,
+    super: 0,
+    gazoil: 0,
+    active: true
+  });
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
@@ -24,7 +30,11 @@ async function signUp(parent, args, context, info) {
     });
     sendSms(
       user.phone,
-      MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword + " avec le role " + args.role
+      MESSAGES.signUp(args.matricule) +
+        " avec le mot de passe " +
+        generatePassword +
+        " avec le role " +
+        args.role
     );
     return {
       user,
@@ -80,15 +90,16 @@ async function updateUsersHoldRole(parent, args, context, info) {
     const user = await context.prisma.updateUser({
       data: { role: args.role, hold: { connect: { id: args.hold } } },
       where: { id: args.user }
-    });10
-    const hold = await context.prisma.hold({id: args.hold})
-    
+    });
+    10;
+    const hold = await context.prisma.hold({ id: args.hold });
+
     await context.prisma.createLog({
-      action: MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name ),
+      action: MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name),
       user: { connect: { id: args.user } }
-    })
-  console.log(MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
-    sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name ))
+    });
+    console.log(MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
+    sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
     return user;
   } catch (e) {
     console.log(e);
@@ -184,7 +195,7 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
-    let responsableSoute = await getUserByHoldAndRole(context, hold, ROLES.responsableSoute) 
+    let responsableSoute = await getUserByHoldAndRole(context, hold, ROLES.responsableSoute);
     sendSms(
       responsableSoute.phone,
       MESSAGES.dotateHold(
@@ -256,12 +267,18 @@ const consumedBon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
-      return { message: " Bon consommé avec succès", status: true };
+      const getUser = await context.prisma.user({ id: user });
+      return { message: " Bon consommé avec succès", status };
     }
     console.log(
       MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
     );
-    return { message: "Code de confirmation incorrect", status: false };
+
+    await sendSms(
+      getUser.phone,
+      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
+    );
+    return { message: "Code de confirmation incorrect", status };
   } catch (e) {
     console.log(e);
     throw new Error(e.message);
@@ -311,8 +328,7 @@ const bon = async (parent, args, context, info) => {
             id: user
           }
         });
-      }
-      else {
+      } else {
         await context.prisma.updateUser({
           data: {
             gazoil: restant
@@ -349,19 +365,22 @@ const bon = async (parent, args, context, info) => {
           hold: { connect: { id: hold } },
           bon: { connect: { id: data.id } }
         });
-        let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier) 
-      sendSms(soutierSoute.phone, MESSAGES.bon(
-          expiration_date,
-          departure,
-          destination,
-          fuel_type,
-          reason,
-          initial_number_of_liter,
-          user,
-          getCar.immatriculation,
-          hold,
-          driver
-        ))
+        let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier);
+        sendSms(
+          soutierSoute.phone,
+          MESSAGES.bon(
+            expiration_date,
+            departure,
+            destination,
+            fuel_type,
+            reason,
+            initial_number_of_liter,
+            user,
+            getCar.immatriculation,
+            hold,
+            driver
+          )
+        );
       });
       await context.prisma.createLog({
         action: MESSAGES.bon(
@@ -378,7 +397,7 @@ const bon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
-      
+
       return data;
     } else {
       throw new Error("Vous n'avez plus suffisament de bons");
