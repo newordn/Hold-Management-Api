@@ -449,9 +449,9 @@ async function dotateEmetteur(parent, args, context, info) {
       user1.phone,
       MESSAGES.dotateEmetteur(
         responsableSoute,
-        user,
         parseDate(new Date(start_date).toDateString()),
         parseDate(new Date(end_date).toDateString()),
+        user,
         motif,
         number_of_liter_super,
         number_of_liter_gazoil
