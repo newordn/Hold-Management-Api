@@ -400,8 +400,8 @@ async function dotateEmetteur(parent, args, context, info) {
     const user1 = await context.prisma.user({ id: user });
     await context.prisma.createDotationEmetteur({
       motif,
-      start_date: parseDate(new Date(start_date).toDateString()),
-      end_date: parseDate(new Date(end_date).toDateString()),
+      start_date: new Date(start_date),
+      end_date: new Date(end_date),
       number_of_liter_super,
       number_of_liter_gazoil,
       user: { connect: { id: user } }
