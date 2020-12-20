@@ -445,7 +445,7 @@ async function dotateEmetteur(parent, args, context, info) {
       user: { connect: { id: responsableSoute } }
     });
     sendSms(
-      user.phone,
+      user1.phone,
       MESSAGES.dotateEmetteur(
         responsableSoute,
         user,
