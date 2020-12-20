@@ -17,5 +17,6 @@ const users = await context.prisma.hold({ id: hold }).users()
 
 module.exports = {
   getUserId,
-  APP_SECRET
+  APP_SECRET,
+  getUserByHoldAndRole
 }
