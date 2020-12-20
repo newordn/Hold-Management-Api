@@ -10,6 +10,11 @@ function getUserId(context) {
   }
   throw new Error('Veuillez vous authentifiez')
 }
+const getUserByHoldAndRole = async (context, hold, role)=>{
+const users = await context.prisma.hold({ id: hold }).users()
+    return users.filter(user=>user.role===role)[0]
+}
+
 module.exports = {
   getUserId,
   APP_SECRET

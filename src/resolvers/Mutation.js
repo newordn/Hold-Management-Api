@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { APP_SECRET } = require("../helpers/user");
+const { APP_SECRET, getUserByHoldAndRole } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
 const { FUEL } = require("../consts/fuels");
 const { sendSms } = require("../helpers/notification");
@@ -184,8 +184,7 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
-    const users = await context.prisma.hold({ id: hold }).users()
-    let responsableSoute = users.filter(user=>user.role===ROLES.responsableSoute)[0]
+    let responsableSoute = await getUserByHoldAndRole(context, hold, ROLES.responsableSoute) 
     sendSms(
       responsableSoute.phone,
       MESSAGES.dotateHold(
@@ -366,6 +365,19 @@ const bon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
+      let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier) 
+      sendSms(soutierSoute.phone, MESSAGES.bon(
+          expiration_date,
+          departure,
+          destination,
+          fuel_type,
+          reason,
+          initial_number_of_liter,
+          user,
+          getCar.immatriculation,
+          holds,
+          driver
+        ))
       return data;
     } else {
       throw new Error("Vous n'avez plus suffisament de bons");
