@@ -349,6 +349,19 @@ const bon = async (parent, args, context, info) => {
           hold: { connect: { id: hold } },
           bon: { connect: { id: data.id } }
         });
+        let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier) 
+      sendSms(soutierSoute.phone, MESSAGES.bon(
+          expiration_date,
+          departure,
+          destination,
+          fuel_type,
+          reason,
+          initial_number_of_liter,
+          user,
+          getCar.immatriculation,
+          hold,
+          driver
+        ))
       });
       await context.prisma.createLog({
         action: MESSAGES.bon(
@@ -365,19 +378,7 @@ const bon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
-      let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier) 
-      sendSms(soutierSoute.phone, MESSAGES.bon(
-          expiration_date,
-          departure,
-          destination,
-          fuel_type,
-          reason,
-          initial_number_of_liter,
-          user,
-          getCar.immatriculation,
-          holds,
-          driver
-        ))
+      
       return data;
     } else {
       throw new Error("Vous n'avez plus suffisament de bons");
