@@ -5,6 +5,8 @@ const { MESSAGES } = require("../consts/messages");
 const { FUEL } = require("../consts/fuels");
 const { sendSms } = require("../helpers/notification");
 var generator = require("generate-password");
+
+const { ROLES } = require("../consts/roles");
 async function signUp(parent, args, context, info) {
   let generatePassword = generator.generate({
     length: 10,
@@ -77,7 +79,7 @@ async function updateUsersHoldRole(parent, args, context, info) {
     const user = await context.prisma.updateUser({
       data: { role: args.role, hold: { connect: { id: args.hold } } },
       where: { id: args.user }
-    });
+    });10
     const hold = await context.prisma.hold({id: args.hold})
     
     await context.prisma.createLog({
@@ -181,11 +183,13 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
+    const users = await context.prisma.hold({ id: hold }).users()
+    let responsableSoute = users.filter(user=>user.role===ROLES.responsableSoute)[0]
     sendSms(
-      user.phone,
+      responsableSoute.phone,
       MESSAGES.dotateHold(
-        start_date,
-        end_date,
+        new Date(start_date),
+        new Date(end_date),
         user,
         hold,
         theorical_super_quantity,
