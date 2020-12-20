@@ -4,6 +4,7 @@ const { APP_SECRET } = require("../helpers/user");
 const { MESSAGES } = require("../consts/messages");
 const { FUEL } = require("../consts/fuels");
 const { sendSms } = require("../helpers/notification");
+const {parseDate} = require("../helpers/parse");
 var generator = require("generate-password");
 
 const { ROLES } = require("../consts/roles");
@@ -399,8 +400,8 @@ async function dotateEmetteur(parent, args, context, info) {
     const user1 = await context.prisma.user({ id: user });
     await context.prisma.createDotationEmetteur({
       motif,
-      start_date: new Date(start_date),
-      end_date: new Date(end_date),
+      start_date: parseDate(new Date(start_date).toDateString()),
+      end_date: parseDate(new Date(end_date).toDateString()),
       number_of_liter_super,
       number_of_liter_gazoil,
       user: { connect: { id: user } }
@@ -449,8 +450,8 @@ async function dotateEmetteur(parent, args, context, info) {
       MESSAGES.dotateEmetteur(
         responsableSoute,
         user,
-        start_date,
-        end_date,
+        parseDate(new Date(start_date).toDateString()),
+        parseDate(new Date(end_date).toDateString()),
         motif,
         number_of_liter_super,
         number_of_liter_gazoil
