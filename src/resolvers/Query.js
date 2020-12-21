@@ -31,48 +31,160 @@ async function exporting(parent, args, context, info) {
   let end_date = "01/12/2020 06:00:00";
   let link = "";
   let workbook = new excel.Workbook();
-  let worksheet = workbook.addWorksheet(`BHM`);
+  let stream = new Stream.PassThrough();
   try {
-    const stream = new Stream.PassThrough();
-    workbook.xlsx.write(stream);
-
     switch (args.type) {
       case ROLES.administrateur:
         label = "Soutes";
+        const soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        const holds = await context.prisma.holds();
+        const holdNames = [
+          { header: "Soutes", key: "Soutes", width: 15, },
+          {
+            header: "Localisation",
+            key: "Soutes",
+            width: 20
+          },
+          { header: "Super Capacité", key: "super_capacity", width: 20 },
+          { header: "Gasoil Capacité", key: "gazoil_capacity", width: 20 },
+          { header: "Quantité Super Ordinaire", key: "super_quantity", width: 25 },
+          { header: "Quantité Gasoil Ordinaire", key: "gazoil_quantity", width: 25 },
+          {
+            header: "Quantité Théorique Super Ordinaire",
+            key: "theorical_super_quantity",
+            width: 30
+          },
+          {
+            header: "Quantité Théorique Gasoil Ordinaire",
+            key: "theorical_gazoil_quantity",
+            width: 30
+          },
+          { header: "Quantité Super Réserve", key: "reserve_super_quantity", width: 25 },
+          { header: "Quantité Gasoil Réserve", key: "reserve_gazoil_quantity", width: 25 },
+          {
+            header: "Quantité Théorique Super Réserve",
+            key: "theorical_reserve_super_quantity",
+            width: 30
+          },
+          {
+            header: "Quantité Théorique Gasoil Réserve",
+            key: "theorical_reserve_gazoil_quantity",
+            width: 30
+          }
+        ];
+        soutesSheet.columns = holdNames;
+        holds.map((hold, i) => {
+          let row = soutesSheet.getRow(i + 2);
+          row.getCell(1).value = hold.name;
+          row.getCell(2).value = hold.localisation;
+          row.getCell(3).value = hold.super_capacity;
+          row.getCell(4).value = hold.gazoil_capacity;
+          row.getCell(5).value = hold.super_quantity;
+          row.getCell(6).value = hold.gazoil_quantity;
+          row.getCell(7).value = hold.theorical_super_quantity;
+          row.getCell(8).value = hold.theorical_gazoil_quantity;
+          row.getCell(9).value = hold.reserve_super_quantity;
+          row.getCell(10).value = hold.reserve_gazoil_quantity;
+          row.getCell(11).value = hold.theorical_reserve_super_quantity;
+          row.getCell(12).value = hold.theorical_reserve_gazoil_quantity;
+        });
+        workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({id:"1", label, link, start_date, end_date });
+        datas.push({ id: "1", label, link, start_date, end_date });
         label = "Utilisateurs";
-        datas.push({ id:"2", label, link, start_date, end_date });
+        workbook = new excel.Workbook();
+        stream = new Stream.PassThrough();
+        const usersSheet = workbook.addWorksheet(`BHM-${label}`);
+        const users = await context.prisma.users();
+        const usersName = [
+          { header: "Matricule", key: "matricule", width: 15 },
+          {
+            header: "Noms et Prénoms",
+            key: "name",
+            width: 20
+          },
+          { header: "Login", key: "login", width: 20 },
+          { header: "Grade", key: "grade", width: 20 },
+          { header: "Téléphone", key: "phone", width: 20 },
+          {
+            header: "Rôle",
+            key: "role",
+            width: 20
+          },
+          { header: "Dotation Super (litres)", key: "super", width: 20 },
+          { header: "Dotation Gazoil (litres)", key: "gazoil", width: 20 }
+        ];
+        usersSheet.columns = usersName;
+        users.map((user, i) => {
+          let row = usersSheet.getRow(i + 2);
+          row.getCell(1).value = user.matricule;
+          row.getCell(2).value = user.fullname;
+          row.getCell(3).value = user.username;
+          row.getCell(4).value = user.grade;
+          row.getCell(5).value = user.phone;
+          row.getCell(6).value = user.role;
+          row.getCell(7).value = user.super;
+          row.getCell(8).value = user.gazoil;
+        });
+        workbook.xlsx.write(stream);
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ id: "2", label, link, start_date, end_date });
         label = "Véhicules";
-        datas.push({ id:"3",label, link, start_date, end_date });
+        workbook = new excel.Workbook();
+        stream = new Stream.PassThrough();
+        const carsSheet = workbook.addWorksheet(`BHM-${label}`);
+        const cars = await context.prisma.cars();
+        const carsName = [
+          { header: "Immatriculation", key: "immatriculation", width: 15 },
+          {
+            header: "Marque",
+            key: "marque",
+            width: 20
+          },
+          { header: "Contenance (litres)", key: "capacity", width: 20 },
+          { header: "Kilométrage", key: "kilometrage", width: 20 },
+          { header: "Type", key: "type", width: 10 }
+        ];
+        carsSheet.columns = carsName;
+        cars.map((car, i) => {
+          let row = carsSheet.getRow(i + 2);
+          row.getCell(1).value = car.immatriculation;
+          row.getCell(2).value = car.marque;
+          row.getCell(3).value = car.capacity;
+          row.getCell(4).value = car.kilometrage;
+          row.getCell(5).value = car.type;
+        });
+        workbook.xlsx.write(stream);
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ id: "3", label, link, start_date, end_date });
         break;
       case ROLES.acheteur:
         label = "Statistiques Soutes";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({id:"1", label, link, start_date, end_date });
+        datas.push({ id: "1", label, link, start_date, end_date });
         break;
       case ROLES.responsableSoute:
         label = "Statistiques Emetteurs";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ id:"1",label, link, start_date, end_date });
+        datas.push({ id: "1", label, link, start_date, end_date });
         label = "Statistiques Soutiers";
-        datas.push({ id:"2",label, link, start_date, end_date });
+        datas.push({ id: "2", label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ id:"3",label, link, start_date, end_date });
+        datas.push({ id: "3", label, link, start_date, end_date });
         break;
       case ROLES.emetteur:
         label = "Statistiques Bons";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ id:"1",label, link, start_date, end_date });
+        datas.push({ id: "1", label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ id:"2",label, link, start_date, end_date });
+        datas.push({ id: "2", label, link, start_date, end_date });
         break;
       case ROLES.soutier:
         label = "Statistiques Bons";
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ id:"1",label, link, start_date, end_date });
+        datas.push({ id: "1", label, link, start_date, end_date });
         label = "Statistiques Niveaux Cuves";
-        datas.push({ id:"2",label, link, start_date, end_date });
+        datas.push({ id: "2", label, link, start_date, end_date });
         break;
     }
   } catch (e) {
@@ -111,15 +223,15 @@ async function statistique(parent, args, context, info) {
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
   switch (args.type) {
     case STATISTIQUES.responsableSoute:
-    const hold1 = await context.prisma.user({ id: args.user }).hold();
-    data.push(hold1.super_capacity, hold1.super_quantity, hold1.reserve_super_quantity)
-    labels.push("Capacité", "Contenance Ordinaire", "Réserve")
-    datas.push({id:"1",labels,data, label: "Statistiques Super"})
-    data=[]
-    labels=[]
-    data.push(hold1.gazoil_capacity, hold1.gazoil_quantity, hold1.reserve_gazoil_quantity)
-    labels.push("Capacité", "Contenance Ordinaire", "Réserve")
-    datas.push({id:"1",labels,data, label: "Statistiques Gasoil"})
+      const hold1 = await context.prisma.user({ id: args.user }).hold();
+      data.push(hold1.super_capacity, hold1.super_quantity, hold1.reserve_super_quantity);
+      labels.push("Capacité", "Contenance Ordinaire", "Réserve");
+      datas.push({ id: "1", labels, data, label: "Statistiques Super" });
+      data = [];
+      labels = [];
+      data.push(hold1.gazoil_capacity, hold1.gazoil_quantity, hold1.reserve_gazoil_quantity);
+      labels.push("Capacité", "Contenance Ordinaire", "Réserve");
+      datas.push({ id: "1", labels, data, label: "Statistiques Gasoil" });
       break;
     case STATISTIQUES.hold:
       const holds = await context.prisma.holds({ orderBy: "id_DESC" });
@@ -127,27 +239,27 @@ async function statistique(parent, args, context, info) {
         labels.push(hold.name);
         data.push(hold.super_capacity);
       });
-      datas.push({ id:"1",labels, data, label: "Super capacité" });
+      datas.push({ id: "1", labels, data, label: "Super capacité" });
       data = [];
       holds.map((hold) => {
         data.push(hold.gazoil_capacity);
       });
-      datas.push({ id:"2",labels, data, label: "Gazoil capacité" });
+      datas.push({ id: "2", labels, data, label: "Gazoil capacité" });
       data = [];
       holds.map((hold) => {
         data.push(hold.super_quantity);
       });
-      datas.push({ id:"3",labels, data, label: "Contenance Super Ordinaire" });
+      datas.push({ id: "3", labels, data, label: "Contenance Super Ordinaire" });
       data = [];
       holds.map((hold) => {
         data.push(hold.gazoil_quantity);
       });
-      datas.push({ id:"4",labels, data, label: "Contenance Gasoil Ordinaire" });
+      datas.push({ id: "4", labels, data, label: "Contenance Gasoil Ordinaire" });
       data = [];
       holds.map((hold) => {
         data.push(hold.reserve_super_quantity);
       });
-      datas.push({ id:"5",labels, data, label: "Contenance Super Réserve" });
+      datas.push({ id: "5", labels, data, label: "Contenance Super Réserve" });
       break;
     case STATISTIQUES.emetteur:
       const bons = await context.prisma.user({ id: args.user }).bons();
@@ -174,7 +286,7 @@ async function statistique(parent, args, context, info) {
           .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
           .reduce(reducer, 0.0)
       );
-      datas.push({ id:"1",labels, data, label: "Super" });
+      datas.push({ id: "1", labels, data, label: "Super" });
       data = [];
       const gazoilBons = bons.filter((bon) => bon.fuel_type === FUEL.gazoil);
       // for bon emis
@@ -198,7 +310,7 @@ async function statistique(parent, args, context, info) {
           .map((bon) => bon.initial_number_of_liter - bon.number_of_liter)
           .reduce(reducer, 0.0)
       );
-      datas.push({ id:"2",labels, data, label: "Gazoil" });
+      datas.push({ id: "2", labels, data, label: "Gazoil" });
       labels = [];
       data = [];
       labels.push("Super O", "Gasoil O", "Super R", "Gasoil R");
@@ -210,7 +322,7 @@ async function statistique(parent, args, context, info) {
         hold.reserve_super_quantity,
         hold.reserve_gazoil_quantity
       );
-      datas.push({ id:"3",labels, data, label: "Quantité restante dans les cuves" });
+      datas.push({ id: "3", labels, data, label: "Quantité restante dans les cuves" });
       break;
   }
   return datas;
