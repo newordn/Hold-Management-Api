@@ -32,6 +32,9 @@ async function exporting(parent, args, context, info) {
   let link = "";
   let workbook = new excel.Workbook();
   let stream = new Stream.PassThrough();
+  const fillStyle = { type: "pattern", pattern: "solid", fgColor: { argb: "969C5C" } };
+  const alignmentStyle = { vertical: "middle", horizontal: "center" };
+  const style = { fill: fillStyle, alignment: alignmentStyle, font: { bold: true }, size: 16 };
   try {
     switch (args.type) {
       case ROLES.administrateur:
@@ -39,7 +42,7 @@ async function exporting(parent, args, context, info) {
         const soutesSheet = workbook.addWorksheet(`BHM-${label}`);
         const holds = await context.prisma.holds();
         const holdNames = [
-          { header: "Soutes", key: "Soutes", width: 15, },
+          { header: "Soutes", key: "Soutes", width: 15 },
           {
             header: "Localisation",
             key: "Soutes",
@@ -73,9 +76,22 @@ async function exporting(parent, args, context, info) {
           }
         ];
         soutesSheet.columns = holdNames;
+        let row = soutesSheet.getRow(1);
+        for (i = 1; i <= 12; i++) {
+          row.getCell(i).style = style;
+        }
         holds.map((hold, i) => {
           let row = soutesSheet.getRow(i + 2);
           row.getCell(1).value = hold.name;
+          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+            3
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+            6
+          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = row.getCell(
+            9
+          ).alignment = row.getCell(10).alignment = row.getCell(11).alignment = row.getCell(
+            12
+          ).alignment = alignmentStyle;
           row.getCell(2).value = hold.localisation;
           row.getCell(3).value = hold.super_capacity;
           row.getCell(4).value = hold.gazoil_capacity;
@@ -115,8 +131,15 @@ async function exporting(parent, args, context, info) {
           { header: "Dotation Gazoil (litres)", key: "gazoil", width: 20 }
         ];
         usersSheet.columns = usersName;
+        row = usersSheet.getRow(1);
+        for (i = 1; i <= 8; i++) row.getCell(i).style = style;
         users.map((user, i) => {
           let row = usersSheet.getRow(i + 2);
+          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+            3
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+            6
+          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment  = alignmentStyle;
           row.getCell(1).value = user.matricule;
           row.getCell(2).value = user.fullname;
           row.getCell(3).value = user.username;
@@ -146,8 +169,13 @@ async function exporting(parent, args, context, info) {
           { header: "Type", key: "type", width: 10 }
         ];
         carsSheet.columns = carsName;
+        row = carsSheet.getRow(1);
+        for (i = 1; i <= 5; i++) row.getCell(i).style = style;
         cars.map((car, i) => {
           let row = carsSheet.getRow(i + 2);
+          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+            3
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment  = alignmentStyle;
           row.getCell(1).value = car.immatriculation;
           row.getCell(2).value = car.marque;
           row.getCell(3).value = car.capacity;
