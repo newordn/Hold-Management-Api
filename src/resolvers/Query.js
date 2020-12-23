@@ -1,6 +1,7 @@
 const { STATISTIQUES } = require("../consts/statistique");
 const { FUEL } = require("../consts/fuels");
 const { ROLES } = require("../consts/roles");
+const { getUserId } = require("../helpers/user");
 const excel = require("exceljs");
 const { storeStreamUpload } = require("../helpers/upload");
 const Stream = require("stream");
@@ -35,13 +36,22 @@ async function exporting(parent, args, context, info) {
   const fillStyle = { type: "pattern", pattern: "solid", fgColor: { argb: "969C5C" } };
   const alignmentStyle = { vertical: "middle", horizontal: "center" };
   const style = { fill: fillStyle, alignment: alignmentStyle, font: { bold: true }, size: 16 };
+  let soutesSheet;
+  let holds;
+  let holdsNames;
+  let bonsSheet;
+  let bonsNames;
+  let bons;
+  let hold;
+  let row;
+  let userId = getUserId(context);
   try {
     switch (args.type) {
       case ROLES.administrateur:
         label = "Soutes";
-        const soutesSheet = workbook.addWorksheet(`BHM-${label}`);
-        const holds = await context.prisma.holds();
-        const holdNames = [
+        soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        holds = await context.prisma.holds();
+        holdNames = [
           { header: "Soutes", key: "Soutes", width: 15 },
           {
             header: "Localisation",
@@ -76,12 +86,12 @@ async function exporting(parent, args, context, info) {
           }
         ];
         soutesSheet.columns = holdNames;
-        let row = soutesSheet.getRow(1);
+        row = soutesSheet.getRow(1);
         for (i = 1; i <= 12; i++) {
           row.getCell(i).style = style;
         }
         holds.map((hold, i) => {
-          let row = soutesSheet.getRow(i + 2);
+          row = soutesSheet.getRow(i + 2);
           row.getCell(1).value = hold.name;
           row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
             3
@@ -134,12 +144,12 @@ async function exporting(parent, args, context, info) {
         row = usersSheet.getRow(1);
         for (i = 1; i <= 8; i++) row.getCell(i).style = style;
         users.map((user, i) => {
-          let row = usersSheet.getRow(i + 2);
+          row = usersSheet.getRow(i + 2);
           row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
             3
           ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
             6
-          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment  = alignmentStyle;
+          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = alignmentStyle;
           row.getCell(1).value = user.matricule;
           row.getCell(2).value = user.fullname;
           row.getCell(3).value = user.username;
@@ -172,10 +182,10 @@ async function exporting(parent, args, context, info) {
         row = carsSheet.getRow(1);
         for (i = 1; i <= 5; i++) row.getCell(i).style = style;
         cars.map((car, i) => {
-          let row = carsSheet.getRow(i + 2);
+          row = carsSheet.getRow(i + 2);
           row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
             3
-          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment  = alignmentStyle;
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = alignmentStyle;
           row.getCell(1).value = car.immatriculation;
           row.getCell(2).value = car.marque;
           row.getCell(3).value = car.capacity;
@@ -188,34 +198,260 @@ async function exporting(parent, args, context, info) {
         break;
       case ROLES.acheteur:
         label = "Statistiques Soutes";
+        soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        holds = await context.prisma.holds();
+        holdNames = [
+          { header: "Soutes", key: "Soutes", width: 15 },
+          {
+            header: "Localisation",
+            key: "Soutes",
+            width: 20
+          },
+          { header: "Super Capacité", key: "super_capacity", width: 20 },
+          { header: "Gasoil Capacité", key: "gazoil_capacity", width: 20 },
+          { header: "Quantité Super Ordinaire", key: "super_quantity", width: 25 },
+          { header: "Quantité Gasoil Ordinaire", key: "gazoil_quantity", width: 25 },
+          {
+            header: "Quantité Théorique Super Ordinaire",
+            key: "theorical_super_quantity",
+            width: 30
+          },
+          {
+            header: "Quantité Théorique Gasoil Ordinaire",
+            key: "theorical_gazoil_quantity",
+            width: 30
+          },
+          { header: "Quantité Super Réserve", key: "reserve_super_quantity", width: 25 },
+          { header: "Quantité Gasoil Réserve", key: "reserve_gazoil_quantity", width: 25 },
+          {
+            header: "Quantité Théorique Super Réserve",
+            key: "theorical_reserve_super_quantity",
+            width: 30
+          },
+          {
+            header: "Quantité Théorique Gasoil Réserve",
+            key: "theorical_reserve_gazoil_quantity",
+            width: 30
+          }
+        ];
+        soutesSheet.columns = holdNames;
+        row = soutesSheet.getRow(1);
+        for (i = 1; i <= 12; i++) {
+          row.getCell(i).style = style;
+        }
+        holds.map((hold, i) => {
+          row = soutesSheet.getRow(i + 2);
+          row.getCell(1).value = hold.name;
+          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+            3
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+            6
+          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = row.getCell(
+            9
+          ).alignment = row.getCell(10).alignment = row.getCell(11).alignment = row.getCell(
+            12
+          ).alignment = alignmentStyle;
+          row.getCell(2).value = hold.localisation;
+          row.getCell(3).value = hold.super_capacity;
+          row.getCell(4).value = hold.gazoil_capacity;
+          row.getCell(5).value = hold.super_quantity;
+          row.getCell(6).value = hold.gazoil_quantity;
+          row.getCell(7).value = hold.theorical_super_quantity;
+          row.getCell(8).value = hold.theorical_gazoil_quantity;
+          row.getCell(9).value = hold.reserve_super_quantity;
+          row.getCell(10).value = hold.reserve_gazoil_quantity;
+          row.getCell(11).value = hold.theorical_reserve_super_quantity;
+          row.getCell(12).value = hold.theorical_reserve_gazoil_quantity;
+        });
+        workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
         datas.push({ id: "1", label, link, start_date, end_date });
+
         break;
       case ROLES.responsableSoute:
-        label = "Statistiques Emetteurs";
+        label = "Statistiques Soute";
+        soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        hold = await context.prisma.user({ id: userId }).hold();
+        holdNames = [
+          { header: "Soute", key: "Soute", width: 15 },
+          {
+            header: "Localisation",
+            key: "localisation",
+            width: 20
+          },
+          { header: "Super Capacité", key: "super_capacity", width: 20 },
+          { header: "Gasoil Capacité", key: "gazoil_capacity", width: 20 },
+          { header: "Quantité Super Ordinaire", key: "super_quantity", width: 25 },
+          { header: "Quantité Gasoil Ordinaire", key: "gazoil_quantity", width: 25 },
+          { header: "Quantité Super Réserve", key: "reserve_super_quantity", width: 25 },
+          { header: "Quantité Gasoil Réserve", key: "reserve_gazoil_quantity", width: 25 }
+        ];
+        soutesSheet.columns = holdNames;
+        row = soutesSheet.getRow(1);
+        for (i = 1; i <= 8; i++) {
+          row.getCell(i).style = style;
+        }
+
+        row = soutesSheet.getRow(2);
+        row.getCell(1).value = hold.name;
+        row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+          3
+        ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+          6
+        ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = alignmentStyle;
+        row.getCell(2).value = hold.localisation;
+        row.getCell(3).value = hold.super_capacity;
+        row.getCell(4).value = hold.gazoil_capacity;
+        row.getCell(5).value = hold.super_quantity;
+        row.getCell(6).value = hold.gazoil_quantity;
+        row.getCell(7).value = hold.reserve_super_quantity;
+        row.getCell(8).value = hold.reserve_gazoil_quantity;
+        workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ id: "1", label, link, start_date, end_date });
-        label = "Statistiques Soutiers";
         datas.push({ id: "2", label, link, start_date, end_date });
-        label = "Statistiques Niveaux Cuves";
-        datas.push({ id: "3", label, link, start_date, end_date });
         break;
       case ROLES.emetteur:
+        label = "Statistiques Soute";
+        soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        hold = await context.prisma.user({ id: userId }).hold();
+        holdNames = [
+          { header: "Soute", key: "Soute", width: 15 },
+          {
+            header: "Localisation",
+            key: "localisation",
+            width: 20
+          },
+          { header: "Super Capacité", key: "super_capacity", width: 20 },
+          { header: "Gasoil Capacité", key: "gazoil_capacity", width: 20 },
+          { header: "Quantité Super Ordinaire", key: "super_quantity", width: 25 },
+          { header: "Quantité Gasoil Ordinaire", key: "gazoil_quantity", width: 25 },
+          { header: "Quantité Super Réserve", key: "reserve_super_quantity", width: 25 },
+          { header: "Quantité Gasoil Réserve", key: "reserve_gazoil_quantity", width: 25 }
+        ];
+        soutesSheet.columns = holdNames;
+        row = soutesSheet.getRow(1);
+        for (i = 1; i <= 8; i++) {
+          row.getCell(i).style = style;
+        }
+
+        row = soutesSheet.getRow(2);
+        row.getCell(1).value = hold.name;
+        row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+          3
+        ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+          6
+        ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = alignmentStyle;
+        row.getCell(2).value = hold.localisation;
+        row.getCell(3).value = hold.super_capacity;
+        row.getCell(4).value = hold.gazoil_capacity;
+        row.getCell(5).value = hold.super_quantity;
+        row.getCell(6).value = hold.gazoil_quantity;
+        row.getCell(7).value = hold.reserve_super_quantity;
+        row.getCell(8).value = hold.reserve_gazoil_quantity;
+        workbook.xlsx.write(stream);
+        link = await storeStreamUpload(stream, `BHM-${label}`);
+        datas.push({ id: "2", label, link, start_date, end_date });
+        
         label = "Statistiques Bons";
+        bonsSheet = workbook.addWorksheet(`BHM-${label}`);
+        bons = await context.prisma.user({id: userId}).bons()
+        bonNames = [
+          { header: "Départ", key: "departure", width: 20 },
+          {
+            header: "Destination",
+            key: "destination",
+            width: 20
+          },
+          { header: "Type d'essence", key: "fuel_type", width: 20 },
+          { header: "Nombre de litre initial", key: " initial_number_of_liter", width: 20 },
+          { header: "Nombre de litre après consommation", key: "number_of_liter", width: 30 },
+          { header: "Véhicule", key: "car", width: 25 },
+          { header: "Conducteur", key: "driver", width: 25 },
+          { header: "Date d'émission", key: "emission_date", width: 25 },
+          { header: "Date de consommation", key: "consumed_date", width: 25 },
+          { header: "Kilométrage a la consommation", key: "coverage_when_consuming", width: 25 },
+          { header: "Consommé", key: "consumed", width: 10 },
+
+        ];
+        bonsSheet.columns = bonNames;
+        row = bonsSheet.getRow(1);
+        for (i = 1; i <= 11; i++) {
+          row.getCell(i).style = style;
+        }
+        await Promise.all(bons.map(async (bon, i) => {
+          row = bonsSheet.getRow(i + 2);
+          row.getCell(1).value = bon.departure;
+          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+            3
+          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+            6
+          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = row.getCell(
+            9
+          ).alignment = row.getCell(10).alignment  = row.getCell(11).alignment = alignmentStyle;
+          row.getCell(2).value = bon.destination;
+          row.getCell(3).value = bon.fuel_type;
+          row.getCell(4).value = bon.initial_number_of_liter;
+          row.getCell(5).value = bon.number_of_liter;
+          row.getCell(7).value = bon.driver;
+          row.getCell(8).value = bon.emission_date;
+          row.getCell(9).value = bon.consumed_date;
+          row.getCell(10).value = bon.coverage_when_consuming;
+          row.getCell(11).value = bon.consumed? "Oui" : "Non";
+          let car = await context.prisma.bon({id: bon.id}).car()
+          row.getCell(6).value = car ? car.marque + "-" +  car.immatriculation: " "
+          
+          
+        }));
+        
+        workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
         datas.push({ id: "1", label, link, start_date, end_date });
-        label = "Statistiques Niveaux Cuves";
-        datas.push({ id: "2", label, link, start_date, end_date });
         break;
       case ROLES.soutier:
-        label = "Statistiques Bons";
+        label = "Statistiques Soute";
+        soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+        hold = await context.prisma.user({ id: userId }).hold();
+        holdNames = [
+          { header: "Soute", key: "Soute", width: 15 },
+          {
+            header: "Localisation",
+            key: "localisation",
+            width: 20
+          },
+          { header: "Super Capacité", key: "super_capacity", width: 20 },
+          { header: "Gasoil Capacité", key: "gazoil_capacity", width: 20 },
+          { header: "Quantité Super Ordinaire", key: "super_quantity", width: 25 },
+          { header: "Quantité Gasoil Ordinaire", key: "gazoil_quantity", width: 25 },
+          { header: "Quantité Super Réserve", key: "reserve_super_quantity", width: 25 },
+          { header: "Quantité Gasoil Réserve", key: "reserve_gazoil_quantity", width: 25 }
+        ];
+        soutesSheet.columns = holdNames;
+        row = soutesSheet.getRow(1);
+        for (i = 1; i <= 8; i++) {
+          row.getCell(i).style = style;
+        }
+
+        row = soutesSheet.getRow(2);
+        row.getCell(1).value = hold.name;
+        row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+          3
+        ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+          6
+        ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = alignmentStyle;
+        row.getCell(2).value = hold.localisation;
+        row.getCell(3).value = hold.super_capacity;
+        row.getCell(4).value = hold.gazoil_capacity;
+        row.getCell(5).value = hold.super_quantity;
+        row.getCell(6).value = hold.gazoil_quantity;
+        row.getCell(7).value = hold.reserve_super_quantity;
+        row.getCell(8).value = hold.reserve_gazoil_quantity;
+        workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
-        datas.push({ id: "1", label, link, start_date, end_date });
-        label = "Statistiques Niveaux Cuves";
         datas.push({ id: "2", label, link, start_date, end_date });
         break;
     }
   } catch (e) {
+    console.log(e)
     throw e;
   }
   return datas;
