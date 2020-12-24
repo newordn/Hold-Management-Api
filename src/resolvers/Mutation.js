@@ -34,7 +34,9 @@ async function signUp(parent, args, context, info) {
         " avec le mot de passe " +
         generatePassword +
         " avec le role " +
-        args.role
+        args.role,
+        user.id,
+        context
     );
     return {
       user,
@@ -99,7 +101,7 @@ async function updateUsersHoldRole(parent, args, context, info) {
       user: { connect: { id: args.user } }
     });
     console.log(MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
-    sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
+    sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name), user.id, context);
     return user;
   } catch (e) {
     console.log(e);
@@ -122,7 +124,7 @@ async function resetPassword(parent, args, context, info) {
       action: MESSAGES.resetPassword(args.matricule, args.password, generatePassword),
       user: { connect: { matricule: args.matricule } }
     });
-    sendSms(user.phone, MESSAGES.resetPassword(args.matricule, args.password, generatePassword));
+    sendSms(user.phone, MESSAGES.resetPassword(args.matricule, args.password, generatePassword), user.id, context);
     return user;
   } catch (e) {
     console.log(e);
@@ -207,7 +209,9 @@ async function dotateHold(parent, args, context, info) {
         theorical_gazoil_quantity,
         theorical_reserve_super_quantity,
         theorical_reserve_gazoil_quantity
-      )
+      ),
+      responsableSoute.id,
+      context
     );
     return updateHold;
   } catch (e) {
@@ -276,7 +280,9 @@ const consumedBon = async (parent, args, context, info) => {
     const getUser = await context.prisma.user({ id: user });
     await sendSms(
       getUser.phone,
-      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
+      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume),
+      getUser.id,
+      context
     );
     return { message: "Code de confirmation incorrect", status };
   } catch (e) {
@@ -379,7 +385,9 @@ const bon = async (parent, args, context, info) => {
             getCar.immatriculation,
             hold,
             driver
-          )
+          ),
+          soutierSoute.id,
+          context
         );
       });
       await context.prisma.createLog({
@@ -452,11 +460,13 @@ async function dotateEmetteur(parent, args, context, info) {
     let reste_super_quantity = hold.theorical_super_quantity - number_of_liter_super;
     let reste_gazoil_quantity = hold.theorical_gazoil_quantity - number_of_liter_gazoil;
     if (reste_super_quantity < 3000)
-      sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name, "super", reste_super_quantity));
+      sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name, "super", reste_super_quantity), responsableUser.id, context);
     if (reste_gazoil_quantity < 3000)
       sendSms(
         responsableUser.phone,
-        MESSAGES.holdLevel(hold.name, "gazoil", reste_gazoil_quantity)
+        MESSAGES.holdLevel(hold.name, "gazoil", reste_gazoil_quantity),
+        responsableUser.id,
+        context
       );
     await context.prisma.updateHold({
       data: {
@@ -487,7 +497,9 @@ async function dotateEmetteur(parent, args, context, info) {
         motif,
         number_of_liter_super,
         number_of_liter_gazoil
-      )
+      ),
+      user1.id,
+      context
     );
     return updateUser;
   } catch (e) {
