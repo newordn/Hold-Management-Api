@@ -1,8 +1,7 @@
 const accountSid = "AC25511275cb52991c4a3ec10e5ca96424"
-const authToken = "0e6ecca3524ca0e009f6199cc0c40f76"
+const authToken = "fdc6a75be1617ff70ca95e779670bfac"
 const my_number = "+16592342415"
 const client = require('twilio')(accountSid, authToken);
-var topic = 'notification'
 var admin = require("firebase-admin");
 
 var serviceAccount = require("./hold-management-firebase-adminsdk-n26od-9514649214.json");
