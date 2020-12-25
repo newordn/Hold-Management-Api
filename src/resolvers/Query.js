@@ -458,7 +458,7 @@ async function exporting(parent, args, context, info) {
 }
 async function notifications(parent, args, context, info) {
   console.log("notifications query");
-  const notifications = await context.prisma.notifications({ orderBy: "id_DESC" });
+  const notifications = await context.prisma.user({id: args.user}).notifications();
   return notifications;
 }
 async function cars(parent, args, context, info) {
