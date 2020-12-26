@@ -45,7 +45,7 @@ async function signUp(parent, args, context, info) {
   }
 }
 async function signIn(parent, args, context, info) {
-  let user = await context.prisma.user({ matricule: args.matricule });
+  let user = await context.prisma.user({ phone: args.phone });
   if (!user) {
     throw new Error("L'utilisateur n'existe pas.");
   }
