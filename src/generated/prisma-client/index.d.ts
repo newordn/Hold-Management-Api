@@ -514,6 +514,8 @@ export type UserOrderByInput =
   | "phone_DESC"
   | "super_ASC"
   | "super_DESC"
+  | "service_ASC"
+  | "service_DESC"
   | "gazoil_ASC"
   | "gazoil_DESC"
   | "role_ASC"
@@ -745,6 +747,20 @@ export interface UserWhereInput {
   super_lte?: Maybe<Float>;
   super_gt?: Maybe<Float>;
   super_gte?: Maybe<Float>;
+  service?: Maybe<String>;
+  service_not?: Maybe<String>;
+  service_in?: Maybe<String[] | String>;
+  service_not_in?: Maybe<String[] | String>;
+  service_lt?: Maybe<String>;
+  service_lte?: Maybe<String>;
+  service_gt?: Maybe<String>;
+  service_gte?: Maybe<String>;
+  service_contains?: Maybe<String>;
+  service_not_contains?: Maybe<String>;
+  service_starts_with?: Maybe<String>;
+  service_not_starts_with?: Maybe<String>;
+  service_ends_with?: Maybe<String>;
+  service_not_ends_with?: Maybe<String>;
   gazoil?: Maybe<Float>;
   gazoil_not?: Maybe<Float>;
   gazoil_in?: Maybe<Float[] | Float>;
@@ -1577,6 +1593,7 @@ export interface UserCreateWithoutBonsInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -1658,6 +1675,7 @@ export interface UserCreateWithoutHoldInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -1807,6 +1825,7 @@ export interface UserCreateWithoutDotationsInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -1986,6 +2005,7 @@ export interface UserUpdateWithoutBonsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -2185,6 +2205,7 @@ export interface UserUpdateWithoutHoldDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -2440,6 +2461,7 @@ export interface UserUpdateWithoutDotationsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3440,6 +3462,20 @@ export interface UserScalarWhereInput {
   super_lte?: Maybe<Float>;
   super_gt?: Maybe<Float>;
   super_gte?: Maybe<Float>;
+  service?: Maybe<String>;
+  service_not?: Maybe<String>;
+  service_in?: Maybe<String[] | String>;
+  service_not_in?: Maybe<String[] | String>;
+  service_lt?: Maybe<String>;
+  service_lte?: Maybe<String>;
+  service_gt?: Maybe<String>;
+  service_gte?: Maybe<String>;
+  service_contains?: Maybe<String>;
+  service_not_contains?: Maybe<String>;
+  service_starts_with?: Maybe<String>;
+  service_not_starts_with?: Maybe<String>;
+  service_ends_with?: Maybe<String>;
+  service_not_ends_with?: Maybe<String>;
   gazoil?: Maybe<Float>;
   gazoil_not?: Maybe<Float>;
   gazoil_in?: Maybe<Float[] | Float>;
@@ -3502,6 +3538,7 @@ export interface UserUpdateManyDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3643,6 +3680,7 @@ export interface UserCreateWithoutDotationEmetteursInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3677,6 +3715,7 @@ export interface UserUpdateWithoutDotationEmetteursDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3785,6 +3824,7 @@ export interface UserCreateWithoutLogsInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3815,6 +3855,7 @@ export interface UserUpdateWithoutLogsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3854,6 +3895,7 @@ export interface UserCreateWithoutNotificationsInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3884,6 +3926,7 @@ export interface UserUpdateWithoutNotificationsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3912,6 +3955,7 @@ export interface UserCreateInput {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3931,6 +3975,7 @@ export interface UserUpdateInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3950,6 +3995,7 @@ export interface UserUpdateManyMutationInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
+  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -4203,6 +4249,7 @@ export interface User {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -4218,6 +4265,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
+  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -4281,6 +4329,7 @@ export interface UserSubscription
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   super: () => Promise<AsyncIterator<Float>>;
+  service: () => Promise<AsyncIterator<String>>;
   gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
@@ -4346,6 +4395,7 @@ export interface UserNullablePromise
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
+  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -5914,6 +5964,7 @@ export interface UserPreviousValues {
   fullname: String;
   phone: String;
   super: Float;
+  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -5931,6 +5982,7 @@ export interface UserPreviousValuesPromise
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
+  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -5948,6 +6000,7 @@ export interface UserPreviousValuesSubscription
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   super: () => Promise<AsyncIterator<Float>>;
+  service: () => Promise<AsyncIterator<String>>;
   gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;

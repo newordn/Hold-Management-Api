@@ -3251,6 +3251,7 @@ type User {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3278,6 +3279,7 @@ input UserCreateInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3328,6 +3330,7 @@ input UserCreateWithoutBonsInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3347,6 +3350,7 @@ input UserCreateWithoutDotationEmetteursInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3366,6 +3370,7 @@ input UserCreateWithoutDotationsInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3385,6 +3390,7 @@ input UserCreateWithoutHoldInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3404,6 +3410,7 @@ input UserCreateWithoutLogsInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3423,6 +3430,7 @@ input UserCreateWithoutNotificationsInput {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3455,6 +3463,8 @@ enum UserOrderByInput {
   phone_DESC
   super_ASC
   super_DESC
+  service_ASC
+  service_DESC
   gazoil_ASC
   gazoil_DESC
   role_ASC
@@ -3474,6 +3484,7 @@ type UserPreviousValues {
   fullname: String!
   phone: String!
   super: Float!
+  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3575,6 +3586,20 @@ input UserScalarWhereInput {
   super_lte: Float
   super_gt: Float
   super_gte: Float
+  service: String
+  service_not: String
+  service_in: [String!]
+  service_not_in: [String!]
+  service_lt: String
+  service_lte: String
+  service_gt: String
+  service_gte: String
+  service_contains: String
+  service_not_contains: String
+  service_starts_with: String
+  service_not_starts_with: String
+  service_ends_with: String
+  service_not_ends_with: String
   gazoil: Float
   gazoil_not: Float
   gazoil_in: [Float!]
@@ -3650,6 +3675,7 @@ input UserUpdateInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3669,6 +3695,7 @@ input UserUpdateManyDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3682,6 +3709,7 @@ input UserUpdateManyMutationInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3749,6 +3777,7 @@ input UserUpdateWithoutBonsDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3767,6 +3796,7 @@ input UserUpdateWithoutDotationEmetteursDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3785,6 +3815,7 @@ input UserUpdateWithoutDotationsDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3803,6 +3834,7 @@ input UserUpdateWithoutHoldDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3821,6 +3853,7 @@ input UserUpdateWithoutLogsDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3839,6 +3872,7 @@ input UserUpdateWithoutNotificationsDataInput {
   fullname: String
   phone: String
   super: Float
+  service: String
   gazoil: Float
   role: String
   password: String
@@ -3980,6 +4014,20 @@ input UserWhereInput {
   super_lte: Float
   super_gt: Float
   super_gte: Float
+  service: String
+  service_not: String
+  service_in: [String!]
+  service_not_in: [String!]
+  service_lt: String
+  service_lte: String
+  service_gt: String
+  service_gte: String
+  service_contains: String
+  service_not_contains: String
+  service_starts_with: String
+  service_not_starts_with: String
+  service_ends_with: String
+  service_not_ends_with: String
   gazoil: Float
   gazoil_not: Float
   gazoil_in: [Float!]

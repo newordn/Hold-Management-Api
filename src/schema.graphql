@@ -15,7 +15,7 @@ type Query{
 }
    
 type Mutation{  
-    signUp(grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!): AuthPayload!
+    signUp(grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!, service: String!): AuthPayload!
     signIn(matricule:String!,password:String!): AuthPayload!
     hold(name:String!, localisation: String!, super_capacity: Float!, gazoil_capacity: Float!): Hold!
     updateUsersHoldRole(user:ID!, hold: ID!, role: String!): User!
@@ -66,6 +66,7 @@ type User{
    username: String!
    fullname: String!
    phone: String!
+   service: String!
    super: Float!
    gazoil: Float!
    reserve: Float!

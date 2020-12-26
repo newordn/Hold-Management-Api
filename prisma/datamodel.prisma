@@ -7,6 +7,7 @@ type User{
    fullname: String!
    phone: String! @unique
    super: Float!
+   service: String!
    gazoil: Float!
    role: String!
    password: String!
