@@ -1,5 +1,5 @@
-const accountSid = "SK1ddaaf261e7f083f7df9129a4d6e271f"
-const authToken = "lWaJA9ueW540ItHU5Xz09AgK0zDfOSoh"
+const accountSid = "AC25511275cb52991c4a3ec10e5ca96424"
+const authToken = "035d5daa24d981cc88b299e1e996cc1d"
 const my_number = "+16592342415"
 const client = require('twilio')(accountSid, authToken);
 var admin = require("firebase-admin");
