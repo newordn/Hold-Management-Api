@@ -53,7 +53,7 @@ async function signIn(parent, args, context, info) {
   if (!valid) {
     throw new Error("Mot de passe incorrect");
   }
-  if(user.service!==args.service){
+  if(user.service===null || user.service!==args.service){
     throw new Error("Vous n'êtes pas/plus du service")
   }
   if (user) {
