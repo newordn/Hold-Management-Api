@@ -103,6 +103,8 @@ type Hold{
     gazoil_capacity: Float!
     super_quantity: Float!
     gazoil_quantity: Float!
+    super_cuves_number: Float!
+    gazoil_cuves_number: Float!
     theorical_super_quantity: Float!
     theorical_gazoil_quantity: Float!
     reserve_super_quantity: Float!

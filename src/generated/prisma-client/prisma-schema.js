@@ -2013,6 +2013,8 @@ type Hold {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2040,6 +2042,8 @@ input HoldCreateInput {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2080,6 +2084,8 @@ input HoldCreateWithoutBonsInput {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2099,6 +2105,8 @@ input HoldCreateWithoutCarsInput {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2118,6 +2126,8 @@ input HoldCreateWithoutDotationsInput {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2137,6 +2147,8 @@ input HoldCreateWithoutUsersInput {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2168,6 +2180,10 @@ enum HoldOrderByInput {
   super_quantity_DESC
   gazoil_quantity_ASC
   gazoil_quantity_DESC
+  super_cuves_number_ASC
+  super_cuves_number_DESC
+  gazoil_cuves_number_ASC
+  gazoil_cuves_number_DESC
   theorical_super_quantity_ASC
   theorical_super_quantity_DESC
   theorical_gazoil_quantity_ASC
@@ -2192,6 +2208,8 @@ type HoldPreviousValues {
   gazoil_capacity: Float!
   super_quantity: Float!
   gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
   theorical_super_quantity: Float!
   theorical_gazoil_quantity: Float!
   reserve_super_quantity: Float!
@@ -2419,6 +2437,8 @@ input HoldUpdateInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2438,6 +2458,8 @@ input HoldUpdateManyMutationInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2485,6 +2507,8 @@ input HoldUpdateWithoutBonsDataInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2503,6 +2527,8 @@ input HoldUpdateWithoutCarsDataInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2521,6 +2547,8 @@ input HoldUpdateWithoutDotationsDataInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2539,6 +2567,8 @@ input HoldUpdateWithoutUsersDataInput {
   gazoil_capacity: Float
   super_quantity: Float
   gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
   theorical_super_quantity: Float
   theorical_gazoil_quantity: Float
   reserve_super_quantity: Float
@@ -2645,6 +2675,22 @@ input HoldWhereInput {
   gazoil_quantity_lte: Float
   gazoil_quantity_gt: Float
   gazoil_quantity_gte: Float
+  super_cuves_number: Float
+  super_cuves_number_not: Float
+  super_cuves_number_in: [Float!]
+  super_cuves_number_not_in: [Float!]
+  super_cuves_number_lt: Float
+  super_cuves_number_lte: Float
+  super_cuves_number_gt: Float
+  super_cuves_number_gte: Float
+  gazoil_cuves_number: Float
+  gazoil_cuves_number_not: Float
+  gazoil_cuves_number_in: [Float!]
+  gazoil_cuves_number_not_in: [Float!]
+  gazoil_cuves_number_lt: Float
+  gazoil_cuves_number_lte: Float
+  gazoil_cuves_number_gt: Float
+  gazoil_cuves_number_gte: Float
   theorical_super_quantity: Float
   theorical_super_quantity_not: Float
   theorical_super_quantity_in: [Float!]
