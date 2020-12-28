@@ -456,6 +456,8 @@ export type BonOrderByInput =
   | "fuel_type_DESC"
   | "reason_ASC"
   | "reason_DESC"
+  | "reserve_ASC"
+  | "reserve_DESC"
   | "number_of_liter_ASC"
   | "number_of_liter_DESC"
   | "initial_number_of_liter_ASC"
@@ -941,6 +943,8 @@ export interface BonWhereInput {
   reason_not_starts_with?: Maybe<String>;
   reason_ends_with?: Maybe<String>;
   reason_not_ends_with?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  reserve_not?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   number_of_liter_not?: Maybe<Float>;
   number_of_liter_in?: Maybe<Float[] | Float>;
@@ -1589,6 +1593,7 @@ export interface BonCreateInput {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -1724,6 +1729,7 @@ export interface BonCreateWithoutUserInput {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -1803,6 +1809,7 @@ export interface BonCreateWithoutHoldsInput {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -1937,6 +1944,7 @@ export interface BonCreateWithoutCarInput {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -2008,6 +2016,7 @@ export interface BonUpdateInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -2281,6 +2290,7 @@ export interface BonUpdateWithoutUserDataInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -2385,6 +2395,7 @@ export interface BonUpdateWithoutHoldsDataInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -2733,6 +2744,7 @@ export interface BonUpdateWithoutCarDataInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -3316,6 +3328,8 @@ export interface BonScalarWhereInput {
   reason_not_starts_with?: Maybe<String>;
   reason_ends_with?: Maybe<String>;
   reason_not_ends_with?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  reserve_not?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   number_of_liter_not?: Maybe<Float>;
   number_of_liter_in?: Maybe<Float[] | Float>;
@@ -3390,6 +3404,7 @@ export interface BonUpdateManyDataInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -3606,6 +3621,7 @@ export interface BonUpdateManyMutationInput {
   destination?: Maybe<String>;
   fuel_type?: Maybe<String>;
   reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
   number_of_liter?: Maybe<Float>;
   initial_number_of_liter?: Maybe<Float>;
   status?: Maybe<Boolean>;
@@ -4182,6 +4198,7 @@ export interface Bon {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -4201,6 +4218,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
   destination: () => Promise<String>;
   fuel_type: () => Promise<String>;
   reason: () => Promise<String>;
+  reserve: () => Promise<Boolean>;
   number_of_liter: () => Promise<Float>;
   initial_number_of_liter: () => Promise<Float>;
   status: () => Promise<Boolean>;
@@ -4233,6 +4251,7 @@ export interface BonSubscription
   destination: () => Promise<AsyncIterator<String>>;
   fuel_type: () => Promise<AsyncIterator<String>>;
   reason: () => Promise<AsyncIterator<String>>;
+  reserve: () => Promise<AsyncIterator<Boolean>>;
   number_of_liter: () => Promise<AsyncIterator<Float>>;
   initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
   status: () => Promise<AsyncIterator<Boolean>>;
@@ -4263,6 +4282,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
   destination: () => Promise<String>;
   fuel_type: () => Promise<String>;
   reason: () => Promise<String>;
+  reserve: () => Promise<Boolean>;
   number_of_liter: () => Promise<Float>;
   initial_number_of_liter: () => Promise<Float>;
   status: () => Promise<Boolean>;
@@ -5514,6 +5534,7 @@ export interface BonPreviousValues {
   destination: String;
   fuel_type: String;
   reason: String;
+  reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
@@ -5535,6 +5556,7 @@ export interface BonPreviousValuesPromise
   destination: () => Promise<String>;
   fuel_type: () => Promise<String>;
   reason: () => Promise<String>;
+  reserve: () => Promise<Boolean>;
   number_of_liter: () => Promise<Float>;
   initial_number_of_liter: () => Promise<Float>;
   status: () => Promise<Boolean>;
@@ -5556,6 +5578,7 @@ export interface BonPreviousValuesSubscription
   destination: () => Promise<AsyncIterator<String>>;
   fuel_type: () => Promise<AsyncIterator<String>>;
   reason: () => Promise<AsyncIterator<String>>;
+  reserve: () => Promise<AsyncIterator<Boolean>>;
   number_of_liter: () => Promise<AsyncIterator<Float>>;
   initial_number_of_liter: () => Promise<AsyncIterator<Float>>;
   status: () => Promise<AsyncIterator<Boolean>>;

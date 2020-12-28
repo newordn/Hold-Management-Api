@@ -33,6 +33,7 @@ const MESSAGES = {
   car: (user, hold, marque, capacity, type, immatriculation, kilometrage) =>
     `${prefixe}L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} consommant du ${type} qui a kilometrage de ${kilometrage} qui réside a la soute immatriculé ${hold}${suffixe}`,
   bon: (
+    reserve,
     expiration_date,
     departure,
     destination,
@@ -43,7 +44,7 @@ const MESSAGES = {
     car,
     holds,
     driver
-  ) => `${prefixe}L'utilisateur immatriculé ${user} emet le bon pour du ${fuel_type} quittant de ${departure} pour ${destination} de ${initial_number_of_liter} litres 
+  ) => `${prefixe}L'utilisateur immatriculé ${user} emet le bon pour du ${fuel_type} ${reserve ? "(consommation réserve)": "(consommation ordinaire)"} quittant de ${departure} pour ${destination} de ${initial_number_of_liter} litres 
   qui expire le ${expiration_date} avec pour motif/service ${reason} conduit par ${driver} a consommé dans les soutes immatriculées ${holds} avec la voiture immatriculé ${car}${suffixe}`,
   consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume) =>
     `${prefixe}Consommation de ${number_of_liter_to_consume} L du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${

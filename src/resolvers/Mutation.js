@@ -294,6 +294,7 @@ const consumedBon = async (parent, args, context, info) => {
 };
 const bon = async (parent, args, context, info) => {
   const {
+    reserve,
     expiration_date,
     departure,
     destination,
@@ -309,6 +310,7 @@ const bon = async (parent, args, context, info) => {
   const emetteur = await context.prisma.user({ id: user });
   console.log(
     MESSAGES.bon(
+      reserve,
       expiration_date,
       departure,
       destination,
@@ -347,6 +349,7 @@ const bon = async (parent, args, context, info) => {
         });
       }
       const data = await context.prisma.createBon({
+         reserve,
         coverage_when_consuming: 0,
         expiration_date,
         driver,
@@ -377,6 +380,7 @@ const bon = async (parent, args, context, info) => {
         sendSms(
           soutierSoute.phone,
           MESSAGES.bon(
+            reserve,
             expiration_date,
             departure,
             destination,
@@ -394,6 +398,7 @@ const bon = async (parent, args, context, info) => {
       });
       await context.prisma.createLog({
         action: MESSAGES.bon(
+          reserve,
           expiration_date,
           departure,
           destination,

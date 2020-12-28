@@ -54,6 +54,7 @@ type Bon {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -82,6 +83,7 @@ input BonCreateInput {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -118,6 +120,7 @@ input BonCreateWithoutCarInput {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -138,6 +141,7 @@ input BonCreateWithoutHoldsInput {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -158,6 +162,7 @@ input BonCreateWithoutUserInput {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -193,6 +198,8 @@ enum BonOrderByInput {
   fuel_type_DESC
   reason_ASC
   reason_DESC
+  reserve_ASC
+  reserve_DESC
   number_of_liter_ASC
   number_of_liter_DESC
   initial_number_of_liter_ASC
@@ -218,6 +225,7 @@ type BonPreviousValues {
   destination: String!
   fuel_type: String!
   reason: String!
+  reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
@@ -337,6 +345,8 @@ input BonScalarWhereInput {
   reason_not_starts_with: String
   reason_ends_with: String
   reason_not_ends_with: String
+  reserve: Boolean
+  reserve_not: Boolean
   number_of_liter: Float
   number_of_liter_not: Float
   number_of_liter_in: [Float!]
@@ -424,6 +434,7 @@ input BonUpdateInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -444,6 +455,7 @@ input BonUpdateManyDataInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -461,6 +473,7 @@ input BonUpdateManyMutationInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -511,6 +524,7 @@ input BonUpdateWithoutCarDataInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -530,6 +544,7 @@ input BonUpdateWithoutHoldsDataInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -549,6 +564,7 @@ input BonUpdateWithoutUserDataInput {
   destination: String
   fuel_type: String
   reason: String
+  reserve: Boolean
   number_of_liter: Float
   initial_number_of_liter: Float
   status: Boolean
@@ -690,6 +706,8 @@ input BonWhereInput {
   reason_not_starts_with: String
   reason_ends_with: String
   reason_not_ends_with: String
+  reserve: Boolean
+  reserve_not: Boolean
   number_of_liter: Float
   number_of_liter_not: Float
   number_of_liter_in: [Float!]
