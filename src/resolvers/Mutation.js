@@ -200,6 +200,7 @@ async function dotateHold(parent, args, context, info) {
       user: { connect: { id: user } }
     });
     let responsableSoute = await getUserByHoldAndRole(context, hold, ROLES.responsableSoute);
+    console.log(responsableSoute, "responsable soute")
     if(responsableSoute)
     sendSms(
       responsableSoute.phone,
