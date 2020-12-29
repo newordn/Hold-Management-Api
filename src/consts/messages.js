@@ -9,7 +9,7 @@ const MESSAGES = {
     ),
   signUp: (name) =>
     createMessage(
-      "Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme"
+      `Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme`
     ),
   signIn: (name) => createMessage(`Connexion de l'utilisateur immatriculé ${name}`),
   hold: (name) => createMessage(`Création de la soute de ${name}`),
