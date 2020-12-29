@@ -29,7 +29,6 @@ var message = {
     })
 }
 const sendSms = async (number, message,user, context)=>{
-/*
  client.messages
   .create({
      body: message,
@@ -37,7 +36,7 @@ const sendSms = async (number, message,user, context)=>{
      to: `+237${number}`
    })
   .then(message => console.log(message.sid))
-  .catch(e=>console.log(e)) */
+  .catch(e=>console.log(e))
    await context.prisma.createNotification({user: {connect: {id: user}}, message})
    notify({bigText:message, message, title: 'Bir Hold Management', subText:'Bir Hold Management'}, number)
 }
