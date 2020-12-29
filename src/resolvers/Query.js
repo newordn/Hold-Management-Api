@@ -468,10 +468,11 @@ async function cars(parent, args, context, info) {
 }
 async function bons(parent, args, context, info) {
   console.log("bons query");
-  const data = await context.prisma.bons({
+  const id = await getUserId(context)
+  const data = await context.prisma.user({id}).bons({
     orderBy: "id_DESC",
     where: { consumed: args.consumed }
-  });
+  })
   return data;
 }
 async function emetteurs(parent, args, context, info) {
