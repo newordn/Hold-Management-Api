@@ -542,7 +542,7 @@ async function dotateEmetteur(parent, args, context, info) {
 const transfertBon = async (parent, args, context, info) => {
   try{
     const from = await context.prisma.user({id: args.from})
-    const to = await context.primsa.user({id: args.to})
+    const to = await context.prisma.user({id: args.to})
     const restant = args.fuel_type === FUEL.super ? from.super - args.number_of_liter : from.gazoil - args.number_of_liter;
     const more = args.fuel_type === FUEL.super ? to.super + args.number_of_liter : to.gazoil + args.number_of_liter;
     const fromUpdated = null
