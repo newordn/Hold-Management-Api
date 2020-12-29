@@ -549,6 +549,7 @@ const transfertBon = async (parent, args, context, info) => {
     console.log(MESSAGES.transfertBon(from.phone,to.phone,args.number_of_liter, args.fuel_type,args.motif))
     if(restant<0)
     throw new Error("Vous n'avez pas assez de bons(litres)")
+    console.log(args.fuel_type)
     fromUpdated= await context.prisma.updateUser({
       data:{
         super: args.fuel_type=== FUEL.super ? restant: from.super,
