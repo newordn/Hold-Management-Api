@@ -5,7 +5,7 @@ const createMessage = (message) => `${prefixe}${message}${suffixe}`;
 const MESSAGES = {
   transfertBon: (from, to, number_of_liter, fuel_type, motif) =>
     createMessage(
-      `Transfert de l'utilisateur ${from} de ${number_of_liter} litres a l'utilisateur ${to} de ${super_type} pour ${motif}`
+      `Transfert de l'utilisateur ${from} de ${number_of_liter} litres a l'utilisateur ${to} de ${fuel_type} pour ${motif}`
     ),
   signUp: (name) =>
     createMessage(
