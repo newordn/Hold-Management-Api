@@ -2,7 +2,7 @@ require('dotenv').config()
 const accountSid = process.env.TWILIO_ACCOUNT_SID 
 const apiKey = process.env.TWILIO_API_KEY 
 const apiSecret = process.env.TWILIO_API_SECRET 
-const my_number = "+16592342415"
+const my_number = "+18188539866"
 const client = require('twilio')(apiKey,apiSecret, {accountSid});
 var admin = require("firebase-admin");
 
