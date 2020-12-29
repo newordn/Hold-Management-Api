@@ -543,16 +543,16 @@ const transfertBon = async (parent, args, context, info) => {
   try{
     const from = await context.prisma.user({id: args.from})
     const to = await context.prisma.user({id: args.to})
-    const restant = args.fuel_type === FUEL.super ? from.super - args.number_of_liter : from.gazoil - args.number_of_liter;
-    const more = args.fuel_type === FUEL.super ? to.super + args.number_of_liter : to.gazoil + args.number_of_liter;
+    const restant = args.fuel_type === FUEL.Super ? from.super - args.number_of_liter : from.gazoil - args.number_of_liter;
+    const more = args.fuel_type === FUEL.Super ? to.super + args.number_of_liter : to.gazoil + args.number_of_liter;
     const fromUpdated = null
     console.log(MESSAGES.transfertBon(from.phone,to.phone,args.number_of_liter, args.fuel_type,args.motif))
     if(restant<0)
     throw new Error("Vous n'avez pas assez de bons(litres)")
     fromUpdated= await context.prisma.updateUser({
       data:{
-        super: args.fuel_type=== FUEL.super ? restant: from.super,
-        gazoil: args.fuel_type=== FUEL.gazoil ? restant: from.gazoil
+        super: args.fuel_type=== FUEL.Super ? restant: from.super,
+        gazoil: args.fuel_type=== FUEL.Gazoil ? restant: from.gazoil
       },
       where:{
         id: args.from
@@ -560,8 +560,8 @@ const transfertBon = async (parent, args, context, info) => {
     })
     await context.prisma.updateUser({
       data:{
-        super: args.fuel_type=== FUEL.super ? more: to.super,
-        gazoil: args.fuel_type=== FUEL.gazoil ? more: to.gazoil
+        super: args.fuel_type=== FUEL.Super ? more: to.super,
+        gazoil: args.fuel_type=== FUEL.Gazoil ? more: to.gazoil
       },
       where:{
         id: args.to
