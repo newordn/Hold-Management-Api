@@ -1,6 +1,5 @@
-const suffixe =
-  "\nLien vers l'application mobile android : https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nWeb: https://bir-fuel-manager.com";
-const prefixe = "Lien vers l'application web : Bir Fuel Manager Mobile\n";
+const suffixe ="\nLien vers l'application mobile android : https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nLien vers l'application Web: https://bir-fuel-manager.com";
+const prefixe = "Bir Fuel Manager\n";
 const createMessage = (message) => `${prefixe}${message}${suffixe}`;
 const MESSAGES = {
   transfertBon: (from, to, number_of_liter, fuel_type, motif) =>
