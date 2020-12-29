@@ -1,6 +1,6 @@
 const suffixe ="\nLien vers l'application mobile android : https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nLien vers l'application Web: https://bir-fuel-manager.com";
 const prefixe = "Bir Fuel Manager\n";
-const createMessage = (message) => `${prefixe}${message}${suffixe}`;
+const createMessage = (message) => `${prefixe}${message}`;
 const MESSAGES = {
   transfertBon: (from, to, number_of_liter, fuel_type, motif) =>
     createMessage(
@@ -8,7 +8,7 @@ const MESSAGES = {
     ),
   signUp: (name) =>
     createMessage(
-      `Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme`
+      `Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme${suffixe}`
     ),
   signIn: (name) => createMessage(`Connexion de l'utilisateur immatriculé ${name}`),
   hold: (name) => createMessage(`Création de la soute de ${name}`),
