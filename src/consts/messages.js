@@ -1,6 +1,6 @@
 const suffixe =
-  "\nMobile: https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nWeb: https://bir-hold-management.com";
-const prefixe = "Bir Hold Management Mobile\n";
+  "\nMobile: https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nWeb: https://bir-fuel-manage.comr";
+const prefixe = "Bir Fuel Manager Mobile\n";
 const createMessage = (message) => `${prefixe}${message}${suffixe}`;
 const MESSAGES = {
   transfertBon: (from, to, number_of_liter, fuel_type, motif) =>
