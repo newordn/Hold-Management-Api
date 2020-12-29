@@ -577,12 +577,13 @@ const transfertBon = async (parent, args, context, info) => {
       args.to,
       context
     );
+    return fromUpdated
   }
   catch (e) {
     console.log(e);
     throw new Error(e.message);
   }
-  return fromUpdated
+  
 }
 module.exports = {
   signUp,
