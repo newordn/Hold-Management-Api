@@ -226,7 +226,7 @@ const car = async (parent, args, context, info) => {
   const { user, hold, marque, capacity, type, immatriculation, image, kilometrage, number_of_resevoir, service } = args;
   console.log(MESSAGES.car(user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service));
   try {
-    const imageUploaded = await context.storeUpload(image);
+    const imageUploaded = image ? await context.storeUpload(image): {path: ""}
     const data = await context.prisma.createCar({
       number_of_resevoir,
       service,
