@@ -375,7 +375,7 @@ const bon = async (parent, args, context, info) => {
           }
         });
       }
-      const data = await context.prisma.createBon({
+      const data = car ? await context.prisma.createBon({
         type,
          reserve,
         coverage_when_consuming: 0,
@@ -398,7 +398,29 @@ const bon = async (parent, args, context, info) => {
         emission_date: new Date(),
         initial_number_of_liter,
         number_of_liter: initial_number_of_liter
-      });
+      }):  await context.prisma.createBon({
+        type,
+         reserve,
+        coverage_when_consuming: 0,
+        expiration_date,
+        driver,
+        fuel_type,
+        destination,
+        departure,
+        reason,
+        code: generator.generate({
+          length: 10,
+          numbers: true
+        }),
+        initial_number_of_liter,
+        user: { connect: { id: user } },
+        status: true,
+        consumed: false,
+        consumed_date: null,
+        emission_date: new Date(),
+        initial_number_of_liter,
+        number_of_liter: initial_number_of_liter
+      })
       holds.map(async (hold) => {
         await context.prisma.createHoldsOnBons({
           hold: { connect: { id: hold } },
