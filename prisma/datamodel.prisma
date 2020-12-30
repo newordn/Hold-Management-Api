@@ -87,8 +87,8 @@ type Bon{
     expiration_date: String!
     consumed_date: DateTime
     emission_date: DateTime!
-    departure: String!
-    destination: String!
+    departure: String
+    destination: String
     fuel_type: String!
     reason: String!
     reserve: Boolean!
@@ -98,8 +98,9 @@ type Bon{
     user: User! @relation(name:"UserBons")
     car: Car
     holds: [HoldsOnBons!]
-    driver: String!
+    driver: String
     code: String!
+    type: Boolean!
     created_at: DateTime! @createdAt
 }
 

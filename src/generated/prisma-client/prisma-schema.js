@@ -50,8 +50,8 @@ type Bon {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
@@ -61,8 +61,9 @@ type Bon {
   user: User!
   car: Car
   holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
   created_at: DateTime!
 }
 
@@ -79,8 +80,8 @@ input BonCreateInput {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
@@ -90,8 +91,9 @@ input BonCreateInput {
   user: UserCreateOneWithoutBonsInput!
   car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
 }
 
 input BonCreateManyWithoutUserInput {
@@ -116,8 +118,8 @@ input BonCreateWithoutCarInput {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
@@ -126,8 +128,9 @@ input BonCreateWithoutCarInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   holds: HoldsOnBonsCreateManyWithoutBonInput
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
 }
 
 input BonCreateWithoutHoldsInput {
@@ -137,8 +140,8 @@ input BonCreateWithoutHoldsInput {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
@@ -147,8 +150,9 @@ input BonCreateWithoutHoldsInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   car: CarCreateOneWithoutBonInput
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
 }
 
 input BonCreateWithoutUserInput {
@@ -158,8 +162,8 @@ input BonCreateWithoutUserInput {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
@@ -168,8 +172,9 @@ input BonCreateWithoutUserInput {
   status: Boolean!
   car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
 }
 
 type BonEdge {
@@ -210,6 +215,8 @@ enum BonOrderByInput {
   driver_DESC
   code_ASC
   code_DESC
+  type_ASC
+  type_DESC
   created_at_ASC
   created_at_DESC
 }
@@ -221,16 +228,17 @@ type BonPreviousValues {
   expiration_date: String!
   consumed_date: DateTime
   emission_date: DateTime!
-  departure: String!
-  destination: String!
+  departure: String
+  destination: String
   fuel_type: String!
   reason: String!
   reserve: Boolean!
   number_of_liter: Float!
   initial_number_of_liter: Float!
   status: Boolean!
-  driver: String!
+  driver: String
   code: String!
+  type: Boolean!
   created_at: DateTime!
 }
 
@@ -393,6 +401,8 @@ input BonScalarWhereInput {
   code_not_starts_with: String
   code_ends_with: String
   code_not_ends_with: String
+  type: Boolean
+  type_not: Boolean
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]
@@ -443,6 +453,7 @@ input BonUpdateInput {
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateManyDataInput {
@@ -461,6 +472,7 @@ input BonUpdateManyDataInput {
   status: Boolean
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateManyMutationInput {
@@ -479,6 +491,7 @@ input BonUpdateManyMutationInput {
   status: Boolean
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateManyWithoutUserInput {
@@ -532,6 +545,7 @@ input BonUpdateWithoutCarDataInput {
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateWithoutHoldsDataInput {
@@ -552,6 +566,7 @@ input BonUpdateWithoutHoldsDataInput {
   car: CarUpdateOneWithoutBonInput
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateWithoutUserDataInput {
@@ -572,6 +587,7 @@ input BonUpdateWithoutUserDataInput {
   holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
+  type: Boolean
 }
 
 input BonUpdateWithWhereUniqueWithoutUserInput {
@@ -759,6 +775,8 @@ input BonWhereInput {
   code_not_starts_with: String
   code_ends_with: String
   code_not_ends_with: String
+  type: Boolean
+  type_not: Boolean
   created_at: DateTime
   created_at_not: DateTime
   created_at_in: [DateTime!]

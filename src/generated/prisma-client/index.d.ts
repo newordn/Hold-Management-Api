@@ -468,6 +468,8 @@ export type BonOrderByInput =
   | "driver_DESC"
   | "code_ASC"
   | "code_DESC"
+  | "type_ASC"
+  | "type_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -996,6 +998,8 @@ export interface BonWhereInput {
   code_not_starts_with?: Maybe<String>;
   code_ends_with?: Maybe<String>;
   code_not_ends_with?: Maybe<String>;
+  type?: Maybe<Boolean>;
+  type_not?: Maybe<Boolean>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1589,8 +1593,8 @@ export interface BonCreateInput {
   expiration_date: String;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
-  departure: String;
-  destination: String;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
@@ -1600,8 +1604,9 @@ export interface BonCreateInput {
   user: UserCreateOneWithoutBonsInput;
   car?: Maybe<CarCreateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
-  driver: String;
+  driver?: Maybe<String>;
   code: String;
+  type: Boolean;
 }
 
 export interface UserCreateOneWithoutBonsInput {
@@ -1725,8 +1730,8 @@ export interface BonCreateWithoutUserInput {
   expiration_date: String;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
-  departure: String;
-  destination: String;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
@@ -1735,8 +1740,9 @@ export interface BonCreateWithoutUserInput {
   status: Boolean;
   car?: Maybe<CarCreateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
-  driver: String;
+  driver?: Maybe<String>;
   code: String;
+  type: Boolean;
 }
 
 export interface CarCreateOneWithoutBonInput {
@@ -1805,8 +1811,8 @@ export interface BonCreateWithoutHoldsInput {
   expiration_date: String;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
-  departure: String;
-  destination: String;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
@@ -1815,8 +1821,9 @@ export interface BonCreateWithoutHoldsInput {
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
   car?: Maybe<CarCreateOneWithoutBonInput>;
-  driver: String;
+  driver?: Maybe<String>;
   code: String;
+  type: Boolean;
 }
 
 export interface DotationCreateManyWithoutHoldInput {
@@ -1940,8 +1947,8 @@ export interface BonCreateWithoutCarInput {
   expiration_date: String;
   consumed_date?: Maybe<DateTimeInput>;
   emission_date: DateTimeInput;
-  departure: String;
-  destination: String;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
@@ -1950,8 +1957,9 @@ export interface BonCreateWithoutCarInput {
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
-  driver: String;
+  driver?: Maybe<String>;
   code: String;
+  type: Boolean;
 }
 
 export interface HoldsOnBonsCreateManyWithoutBonInput {
@@ -2025,6 +2033,7 @@ export interface BonUpdateInput {
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface UserUpdateOneRequiredWithoutBonsInput {
@@ -2298,6 +2307,7 @@ export interface BonUpdateWithoutUserDataInput {
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface CarUpdateOneWithoutBonInput {
@@ -2403,6 +2413,7 @@ export interface BonUpdateWithoutHoldsDataInput {
   car?: Maybe<CarUpdateOneWithoutBonInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface BonUpsertWithoutHoldsInput {
@@ -2752,6 +2763,7 @@ export interface BonUpdateWithoutCarDataInput {
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface HoldsOnBonsUpdateManyWithoutBonInput {
@@ -3376,6 +3388,8 @@ export interface BonScalarWhereInput {
   code_not_starts_with?: Maybe<String>;
   code_ends_with?: Maybe<String>;
   code_not_ends_with?: Maybe<String>;
+  type?: Maybe<Boolean>;
+  type_not?: Maybe<Boolean>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3410,6 +3424,7 @@ export interface BonUpdateManyDataInput {
   status?: Maybe<Boolean>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutHoldInput {
@@ -3627,6 +3642,7 @@ export interface BonUpdateManyMutationInput {
   status?: Maybe<Boolean>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
+  type?: Maybe<Boolean>;
 }
 
 export interface CarCreateInput {
@@ -4194,16 +4210,17 @@ export interface Bon {
   expiration_date: String;
   consumed_date?: DateTimeOutput;
   emission_date: DateTimeOutput;
-  departure: String;
-  destination: String;
+  departure?: String;
+  destination?: String;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
-  driver: String;
+  driver?: String;
   code: String;
+  type: Boolean;
   created_at: DateTimeOutput;
 }
 
@@ -4235,6 +4252,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
   }) => T;
   driver: () => Promise<String>;
   code: () => Promise<String>;
+  type: () => Promise<Boolean>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -4268,6 +4286,7 @@ export interface BonSubscription
   }) => T;
   driver: () => Promise<AsyncIterator<String>>;
   code: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<Boolean>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -4299,6 +4318,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
   }) => T;
   driver: () => Promise<String>;
   code: () => Promise<String>;
+  type: () => Promise<Boolean>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -5530,16 +5550,17 @@ export interface BonPreviousValues {
   expiration_date: String;
   consumed_date?: DateTimeOutput;
   emission_date: DateTimeOutput;
-  departure: String;
-  destination: String;
+  departure?: String;
+  destination?: String;
   fuel_type: String;
   reason: String;
   reserve: Boolean;
   number_of_liter: Float;
   initial_number_of_liter: Float;
   status: Boolean;
-  driver: String;
+  driver?: String;
   code: String;
+  type: Boolean;
   created_at: DateTimeOutput;
 }
 
@@ -5562,6 +5583,7 @@ export interface BonPreviousValuesPromise
   status: () => Promise<Boolean>;
   driver: () => Promise<String>;
   code: () => Promise<String>;
+  type: () => Promise<Boolean>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -5584,6 +5606,7 @@ export interface BonPreviousValuesSubscription
   status: () => Promise<AsyncIterator<Boolean>>;
   driver: () => Promise<AsyncIterator<String>>;
   code: () => Promise<AsyncIterator<String>>;
+  type: () => Promise<AsyncIterator<Boolean>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
