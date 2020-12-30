@@ -49,9 +49,9 @@ const MESSAGES = {
     createMessage(
       `Rénitialisation du mot de passe de l'utilisateur immatriculé ${matricule} dont l'ancien mot de passe est proche de ceci ${password} et le nouveau ${newPassword} `
     ),
-  car: (user, hold, marque, capacity, type, immatriculation, kilometrage) =>
+  car: (user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service) =>
     createMessage(
-      `L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}`
+      `L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
     ),
   bon: (
     type,

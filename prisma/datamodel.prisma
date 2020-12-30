@@ -115,7 +115,9 @@ type Car {
     id: ID! @id
     bon: Bon @relation(link: INLINE)
     hold: Hold! @relation(name: "HoldCars")
-    image: String!
+    image: String
+    service: String!
+    number_of_reservoir: Float!
     marque: String!
     capacity: Float!
     type: String!

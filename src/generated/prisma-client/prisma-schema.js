@@ -798,7 +798,9 @@ type Car {
   id: ID!
   bon: Bon
   hold: Hold!
-  image: String!
+  image: String
+  service: String!
+  number_of_reservoir: Float!
   marque: String!
   capacity: Float!
   type: String!
@@ -817,7 +819,9 @@ input CarCreateInput {
   id: ID
   bon: BonCreateOneWithoutCarInput
   hold: HoldCreateOneWithoutCarsInput!
-  image: String!
+  image: String
+  service: String!
+  number_of_reservoir: Float!
   marque: String!
   capacity: Float!
   type: String!
@@ -838,7 +842,9 @@ input CarCreateOneWithoutBonInput {
 input CarCreateWithoutBonInput {
   id: ID
   hold: HoldCreateOneWithoutCarsInput!
-  image: String!
+  image: String
+  service: String!
+  number_of_reservoir: Float!
   marque: String!
   capacity: Float!
   type: String!
@@ -849,7 +855,9 @@ input CarCreateWithoutBonInput {
 input CarCreateWithoutHoldInput {
   id: ID
   bon: BonCreateOneWithoutCarInput
-  image: String!
+  image: String
+  service: String!
+  number_of_reservoir: Float!
   marque: String!
   capacity: Float!
   type: String!
@@ -867,6 +875,10 @@ enum CarOrderByInput {
   id_DESC
   image_ASC
   image_DESC
+  service_ASC
+  service_DESC
+  number_of_reservoir_ASC
+  number_of_reservoir_DESC
   marque_ASC
   marque_DESC
   capacity_ASC
@@ -883,7 +895,9 @@ enum CarOrderByInput {
 
 type CarPreviousValues {
   id: ID!
-  image: String!
+  image: String
+  service: String!
+  number_of_reservoir: Float!
   marque: String!
   capacity: Float!
   type: String!
@@ -921,6 +935,28 @@ input CarScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  service: String
+  service_not: String
+  service_in: [String!]
+  service_not_in: [String!]
+  service_lt: String
+  service_lte: String
+  service_gt: String
+  service_gte: String
+  service_contains: String
+  service_not_contains: String
+  service_starts_with: String
+  service_not_starts_with: String
+  service_ends_with: String
+  service_not_ends_with: String
+  number_of_reservoir: Float
+  number_of_reservoir_not: Float
+  number_of_reservoir_in: [Float!]
+  number_of_reservoir_not_in: [Float!]
+  number_of_reservoir_lt: Float
+  number_of_reservoir_lte: Float
+  number_of_reservoir_gt: Float
+  number_of_reservoir_gte: Float
   marque: String
   marque_not: String
   marque_in: [String!]
@@ -1014,6 +1050,8 @@ input CarUpdateInput {
   bon: BonUpdateOneWithoutCarInput
   hold: HoldUpdateOneRequiredWithoutCarsInput
   image: String
+  service: String
+  number_of_reservoir: Float
   marque: String
   capacity: Float
   type: String
@@ -1023,6 +1061,8 @@ input CarUpdateInput {
 
 input CarUpdateManyDataInput {
   image: String
+  service: String
+  number_of_reservoir: Float
   marque: String
   capacity: Float
   type: String
@@ -1032,6 +1072,8 @@ input CarUpdateManyDataInput {
 
 input CarUpdateManyMutationInput {
   image: String
+  service: String
+  number_of_reservoir: Float
   marque: String
   capacity: Float
   type: String
@@ -1068,6 +1110,8 @@ input CarUpdateOneWithoutBonInput {
 input CarUpdateWithoutBonDataInput {
   hold: HoldUpdateOneRequiredWithoutCarsInput
   image: String
+  service: String
+  number_of_reservoir: Float
   marque: String
   capacity: Float
   type: String
@@ -1078,6 +1122,8 @@ input CarUpdateWithoutBonDataInput {
 input CarUpdateWithoutHoldDataInput {
   bon: BonUpdateOneWithoutCarInput
   image: String
+  service: String
+  number_of_reservoir: Float
   marque: String
   capacity: Float
   type: String
@@ -1132,6 +1178,28 @@ input CarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
+  service: String
+  service_not: String
+  service_in: [String!]
+  service_not_in: [String!]
+  service_lt: String
+  service_lte: String
+  service_gt: String
+  service_gte: String
+  service_contains: String
+  service_not_contains: String
+  service_starts_with: String
+  service_not_starts_with: String
+  service_ends_with: String
+  service_not_ends_with: String
+  number_of_reservoir: Float
+  number_of_reservoir_not: Float
+  number_of_reservoir_in: [Float!]
+  number_of_reservoir_not_in: [Float!]
+  number_of_reservoir_lt: Float
+  number_of_reservoir_lte: Float
+  number_of_reservoir_gt: Float
+  number_of_reservoir_gte: Float
   marque: String
   marque_not: String
   marque_in: [String!]

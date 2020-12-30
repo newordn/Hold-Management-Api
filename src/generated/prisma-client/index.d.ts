@@ -540,6 +540,10 @@ export type CarOrderByInput =
   | "id_DESC"
   | "image_ASC"
   | "image_DESC"
+  | "service_ASC"
+  | "service_DESC"
+  | "number_of_reservoir_ASC"
+  | "number_of_reservoir_DESC"
   | "marque_ASC"
   | "marque_DESC"
   | "capacity_ASC"
@@ -1044,6 +1048,28 @@ export interface CarWhereInput {
   image_not_starts_with?: Maybe<String>;
   image_ends_with?: Maybe<String>;
   image_not_ends_with?: Maybe<String>;
+  service?: Maybe<String>;
+  service_not?: Maybe<String>;
+  service_in?: Maybe<String[] | String>;
+  service_not_in?: Maybe<String[] | String>;
+  service_lt?: Maybe<String>;
+  service_lte?: Maybe<String>;
+  service_gt?: Maybe<String>;
+  service_gte?: Maybe<String>;
+  service_contains?: Maybe<String>;
+  service_not_contains?: Maybe<String>;
+  service_starts_with?: Maybe<String>;
+  service_not_starts_with?: Maybe<String>;
+  service_ends_with?: Maybe<String>;
+  service_not_ends_with?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
+  number_of_reservoir_not?: Maybe<Float>;
+  number_of_reservoir_in?: Maybe<Float[] | Float>;
+  number_of_reservoir_not_in?: Maybe<Float[] | Float>;
+  number_of_reservoir_lt?: Maybe<Float>;
+  number_of_reservoir_lte?: Maybe<Float>;
+  number_of_reservoir_gt?: Maybe<Float>;
+  number_of_reservoir_gte?: Maybe<Float>;
   marque?: Maybe<String>;
   marque_not?: Maybe<String>;
   marque_in?: Maybe<String[] | String>;
@@ -1753,7 +1779,9 @@ export interface CarCreateOneWithoutBonInput {
 export interface CarCreateWithoutBonInput {
   id?: Maybe<ID_Input>;
   hold: HoldCreateOneWithoutCarsInput;
-  image: String;
+  image?: Maybe<String>;
+  service: String;
+  number_of_reservoir: Float;
   marque: String;
   capacity: Float;
   type: String;
@@ -1927,7 +1955,9 @@ export interface CarCreateManyWithoutHoldInput {
 export interface CarCreateWithoutHoldInput {
   id?: Maybe<ID_Input>;
   bon?: Maybe<BonCreateOneWithoutCarInput>;
-  image: String;
+  image?: Maybe<String>;
+  service: String;
+  number_of_reservoir: Float;
   marque: String;
   capacity: Float;
   type: String;
@@ -2322,6 +2352,8 @@ export interface CarUpdateOneWithoutBonInput {
 export interface CarUpdateWithoutBonDataInput {
   hold?: Maybe<HoldUpdateOneRequiredWithoutCarsInput>;
   image?: Maybe<String>;
+  service?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
   marque?: Maybe<String>;
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
@@ -2729,6 +2761,8 @@ export interface CarUpdateWithWhereUniqueWithoutHoldInput {
 export interface CarUpdateWithoutHoldDataInput {
   bon?: Maybe<BonUpdateOneWithoutCarInput>;
   image?: Maybe<String>;
+  service?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
   marque?: Maybe<String>;
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
@@ -2876,6 +2910,28 @@ export interface CarScalarWhereInput {
   image_not_starts_with?: Maybe<String>;
   image_ends_with?: Maybe<String>;
   image_not_ends_with?: Maybe<String>;
+  service?: Maybe<String>;
+  service_not?: Maybe<String>;
+  service_in?: Maybe<String[] | String>;
+  service_not_in?: Maybe<String[] | String>;
+  service_lt?: Maybe<String>;
+  service_lte?: Maybe<String>;
+  service_gt?: Maybe<String>;
+  service_gte?: Maybe<String>;
+  service_contains?: Maybe<String>;
+  service_not_contains?: Maybe<String>;
+  service_starts_with?: Maybe<String>;
+  service_not_starts_with?: Maybe<String>;
+  service_ends_with?: Maybe<String>;
+  service_not_ends_with?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
+  number_of_reservoir_not?: Maybe<Float>;
+  number_of_reservoir_in?: Maybe<Float[] | Float>;
+  number_of_reservoir_not_in?: Maybe<Float[] | Float>;
+  number_of_reservoir_lt?: Maybe<Float>;
+  number_of_reservoir_lte?: Maybe<Float>;
+  number_of_reservoir_gt?: Maybe<Float>;
+  number_of_reservoir_gte?: Maybe<Float>;
   marque?: Maybe<String>;
   marque_not?: Maybe<String>;
   marque_in?: Maybe<String[] | String>;
@@ -2954,6 +3010,8 @@ export interface CarUpdateManyWithWhereNestedInput {
 
 export interface CarUpdateManyDataInput {
   image?: Maybe<String>;
+  service?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
   marque?: Maybe<String>;
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
@@ -3649,7 +3707,9 @@ export interface CarCreateInput {
   id?: Maybe<ID_Input>;
   bon?: Maybe<BonCreateOneWithoutCarInput>;
   hold: HoldCreateOneWithoutCarsInput;
-  image: String;
+  image?: Maybe<String>;
+  service: String;
+  number_of_reservoir: Float;
   marque: String;
   capacity: Float;
   type: String;
@@ -3661,6 +3721,8 @@ export interface CarUpdateInput {
   bon?: Maybe<BonUpdateOneWithoutCarInput>;
   hold?: Maybe<HoldUpdateOneRequiredWithoutCarsInput>;
   image?: Maybe<String>;
+  service?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
   marque?: Maybe<String>;
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
@@ -3670,6 +3732,8 @@ export interface CarUpdateInput {
 
 export interface CarUpdateManyMutationInput {
   image?: Maybe<String>;
+  service?: Maybe<String>;
+  number_of_reservoir?: Maybe<Float>;
   marque?: Maybe<String>;
   capacity?: Maybe<Float>;
   type?: Maybe<String>;
@@ -4853,7 +4917,9 @@ export interface HoldsOnBonsNullablePromise
 
 export interface Car {
   id: ID_Output;
-  image: String;
+  image?: String;
+  service: String;
+  number_of_reservoir: Float;
   marque: String;
   capacity: Float;
   type: String;
@@ -4867,6 +4933,8 @@ export interface CarPromise extends Promise<Car>, Fragmentable {
   bon: <T = BonPromise>() => T;
   hold: <T = HoldPromise>() => T;
   image: () => Promise<String>;
+  service: () => Promise<String>;
+  number_of_reservoir: () => Promise<Float>;
   marque: () => Promise<String>;
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
@@ -4882,6 +4950,8 @@ export interface CarSubscription
   bon: <T = BonSubscription>() => T;
   hold: <T = HoldSubscription>() => T;
   image: () => Promise<AsyncIterator<String>>;
+  service: () => Promise<AsyncIterator<String>>;
+  number_of_reservoir: () => Promise<AsyncIterator<Float>>;
   marque: () => Promise<AsyncIterator<String>>;
   capacity: () => Promise<AsyncIterator<Float>>;
   type: () => Promise<AsyncIterator<String>>;
@@ -4895,6 +4965,8 @@ export interface CarNullablePromise extends Promise<Car | null>, Fragmentable {
   bon: <T = BonPromise>() => T;
   hold: <T = HoldPromise>() => T;
   image: () => Promise<String>;
+  service: () => Promise<String>;
+  number_of_reservoir: () => Promise<Float>;
   marque: () => Promise<String>;
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
@@ -5637,7 +5709,9 @@ export interface CarSubscriptionPayloadSubscription
 
 export interface CarPreviousValues {
   id: ID_Output;
-  image: String;
+  image?: String;
+  service: String;
+  number_of_reservoir: Float;
   marque: String;
   capacity: Float;
   type: String;
@@ -5651,6 +5725,8 @@ export interface CarPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
+  service: () => Promise<String>;
+  number_of_reservoir: () => Promise<Float>;
   marque: () => Promise<String>;
   capacity: () => Promise<Float>;
   type: () => Promise<String>;
@@ -5664,6 +5740,8 @@ export interface CarPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
+  service: () => Promise<AsyncIterator<String>>;
+  number_of_reservoir: () => Promise<AsyncIterator<Float>>;
   marque: () => Promise<AsyncIterator<String>>;
   capacity: () => Promise<AsyncIterator<Float>>;
   type: () => Promise<AsyncIterator<String>>;
