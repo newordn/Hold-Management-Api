@@ -1,13 +1,16 @@
-const SERVICES = {
+export const SERVICES = {
 premierBir: "1ER BIR",
-giram: "GIRAM",
-ci: "CI",
-opsAlpha: "OPS ALPHA",
-garage: "GARAGE",
-cuisine: "CUISINE",
-maintenance: "MAINTENANCE",
 cat: "CAT",
-goe: "GOA"
+ci: "CI",
+cuisine: "CUISINE",
+garage: "GARAGE",
+giram: "GIRAM",
+goe: "GOA",
+maintenance: "MAINTENANCE",
+opsAlpha: "OPS ALPHA",
+medicalCenter: "MEDICAL CENTER",
+bastos: "BASTOS",
+sceEss: "SERVICE DES ESSENCES"
 };
 modules.exports = {
   SERVICES,
