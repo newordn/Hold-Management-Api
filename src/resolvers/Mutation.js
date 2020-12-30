@@ -333,6 +333,7 @@ const bon = async (parent, args, context, info) => {
     driver
   } = args;
   const getCar = await context.prisma.car({ id: car });
+  const immatriculation = getCar ? getCar.immatriculation : ""
   const emetteur = await context.prisma.user({ id: user });
   console.log(
     MESSAGES.bon(
@@ -346,7 +347,7 @@ const bon = async (parent, args, context, info) => {
       initial_number_of_liter,
       user,
       holds,
-      getCar.immatriculation,
+      immatriculation,
       driver
     )
   );
@@ -439,7 +440,7 @@ const bon = async (parent, args, context, info) => {
             reason,
             initial_number_of_liter,
             user,
-            getCar.immatriculation,
+            immatriculation,
             hold,
             driver
           ),
@@ -458,7 +459,7 @@ const bon = async (parent, args, context, info) => {
           reason,
           initial_number_of_liter,
           user,
-          getCar.immatriculation,
+          immatriculation,
           holds,
           driver
         ),
