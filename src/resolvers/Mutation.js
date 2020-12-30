@@ -223,12 +223,12 @@ async function dotateHold(parent, args, context, info) {
   }
 }
 const car = async (parent, args, context, info) => {
-  const { user, hold, marque, capacity, type, immatriculation, image, kilometrage, number_of_resevoir, service } = args;
+  const { user, hold, marque, capacity, type, immatriculation, image, kilometrage, number_of_reservoir, service } = args;
   console.log(MESSAGES.car(user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service));
   try {
     const imageUploaded = image ? await context.storeUpload(image): {path: ""}
     const data = await context.prisma.createCar({
-      number_of_resevoir,
+      number_of_reservoir,
       service,
       marque,
       capacity,
@@ -239,7 +239,7 @@ const car = async (parent, args, context, info) => {
       hold: { connect: { id: hold } }
     });
     await context.prisma.createLog({
-      action: MESSAGES.car(hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service),
+      action: MESSAGES.car(hold, marque, capacity, type, immatriculation, kilometrage, number_of_reservoir, service),
       user: { connect: { id: user } }
     });
     return data;
