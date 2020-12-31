@@ -12,6 +12,7 @@ type Query{
     statistique(user:ID!, type: String!): [Statistique!]!
     emetteurs(hold:ID!): [User!]!
     exporting(type: String!): [Exporting!]!
+    usersByService(service: ID!): [User!]!
 }
    
 type Mutation{  
@@ -26,6 +27,17 @@ type Mutation{
     transfertBon(from: ID!, to: ID!, number_of_liter: Float!, fuel_type: String!, motif: String!): User!
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
     dotateEmetteur(responsableSoute: ID!, user:ID!,start_date: Float!, end_date: Float!, number_of_liter_super: Float!, number_of_liter_gazoil: Float!, motif: String!): DotationEmetteur!
+    service(label: String!, description: String!, hold: ID!): Service!
+}
+type Service {
+    id: ID!
+    label: String!
+    users: [User!]
+    super: Float!
+    gazoil: Float!
+    hold: Hold!
+    description: String
+    created_at: String!
 }
 type DotationEmetteur{
     id: ID!

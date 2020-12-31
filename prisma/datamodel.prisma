@@ -7,7 +7,6 @@ type User{
    fullname: String!
    phone: String! @unique
    super: Float!
-   service: String!
    gazoil: Float!
    role: String!
    password: String!
@@ -18,6 +17,7 @@ type User{
    hold: Hold @relation(name: "UserHolds")
    notifications: [Notification!] @relation(name: "UserNotifications")
    created_at: DateTime! @createdAt
+   service: Service @relation(name: "UserServices")
 }
 type DotationEmetteur{
     id: ID! @id
@@ -70,6 +70,7 @@ type Hold{
     theorical_reserve_gazoil_quantity: Float!
     users: [User!] @relation(name:"UserHolds")
     bons: [HoldsOnBons!]
+    services: [Service!] @relation(name: "HoldServices")
     cars: [Car!] @relation(name: "HoldCars")
     dotations: [Dotation!] @relation(name: "HoldDotations")
     created_at: DateTime! @createdAt
@@ -123,5 +124,15 @@ type Car {
     type: String!
     immatriculation: String! @unique
     kilometrage: Float!
+    created_at: DateTime! @createdAt
+}
+type Service {
+    id: ID! @id
+    label: String!
+    hold: Hold! @relation(name: "HoldServices")
+    users: [User!]! @relation(name: "UserServices")
+    super: Float!
+    gazoil: Float!
+    description: String
     created_at: DateTime! @createdAt
 }

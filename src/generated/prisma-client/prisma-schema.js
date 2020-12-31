@@ -35,6 +35,10 @@ type AggregateNotification {
   count: Int!
 }
 
+type AggregateService {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -2127,6 +2131,7 @@ type Hold {
   theorical_reserve_gazoil_quantity: Float!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   bons(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  services(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Service!]
   cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
   dotations(where: DotationWhereInput, orderBy: DotationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Dotation!]
   created_at: DateTime!
@@ -2156,6 +2161,7 @@ input HoldCreateInput {
   theorical_reserve_gazoil_quantity: Float!
   users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  services: ServiceCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -2172,6 +2178,11 @@ input HoldCreateOneWithoutCarsInput {
 
 input HoldCreateOneWithoutDotationsInput {
   create: HoldCreateWithoutDotationsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldCreateOneWithoutServicesInput {
+  create: HoldCreateWithoutServicesInput
   connect: HoldWhereUniqueInput
 }
 
@@ -2197,6 +2208,7 @@ input HoldCreateWithoutBonsInput {
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
   users: UserCreateManyWithoutHoldInput
+  services: ServiceCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -2219,6 +2231,7 @@ input HoldCreateWithoutCarsInput {
   theorical_reserve_gazoil_quantity: Float!
   users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  services: ServiceCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
 
@@ -2240,7 +2253,30 @@ input HoldCreateWithoutDotationsInput {
   theorical_reserve_gazoil_quantity: Float!
   users: UserCreateManyWithoutHoldInput
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  services: ServiceCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
+}
+
+input HoldCreateWithoutServicesInput {
+  id: ID
+  name: String!
+  localisation: String!
+  super_capacity: Float!
+  gazoil_capacity: Float!
+  super_quantity: Float!
+  gazoil_quantity: Float!
+  super_cuves_number: Float!
+  gazoil_cuves_number: Float!
+  theorical_super_quantity: Float!
+  theorical_gazoil_quantity: Float!
+  reserve_super_quantity: Float!
+  reserve_gazoil_quantity: Float!
+  theorical_reserve_super_quantity: Float!
+  theorical_reserve_gazoil_quantity: Float!
+  users: UserCreateManyWithoutHoldInput
+  bons: HoldsOnBonsCreateManyWithoutHoldInput
+  cars: CarCreateManyWithoutHoldInput
+  dotations: DotationCreateManyWithoutHoldInput
 }
 
 input HoldCreateWithoutUsersInput {
@@ -2260,6 +2296,7 @@ input HoldCreateWithoutUsersInput {
   theorical_reserve_super_quantity: Float!
   theorical_reserve_gazoil_quantity: Float!
   bons: HoldsOnBonsCreateManyWithoutHoldInput
+  services: ServiceCreateManyWithoutHoldInput
   cars: CarCreateManyWithoutHoldInput
   dotations: DotationCreateManyWithoutHoldInput
 }
@@ -2551,6 +2588,7 @@ input HoldUpdateInput {
   theorical_reserve_gazoil_quantity: Float
   users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  services: ServiceUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -2583,6 +2621,13 @@ input HoldUpdateOneRequiredWithoutCarsInput {
   create: HoldCreateWithoutCarsInput
   update: HoldUpdateWithoutCarsDataInput
   upsert: HoldUpsertWithoutCarsInput
+  connect: HoldWhereUniqueInput
+}
+
+input HoldUpdateOneRequiredWithoutServicesInput {
+  create: HoldCreateWithoutServicesInput
+  update: HoldUpdateWithoutServicesDataInput
+  upsert: HoldUpsertWithoutServicesInput
   connect: HoldWhereUniqueInput
 }
 
@@ -2620,6 +2665,7 @@ input HoldUpdateWithoutBonsDataInput {
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
   users: UserUpdateManyWithoutHoldInput
+  services: ServiceUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -2641,6 +2687,7 @@ input HoldUpdateWithoutCarsDataInput {
   theorical_reserve_gazoil_quantity: Float
   users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  services: ServiceUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
 
@@ -2661,7 +2708,29 @@ input HoldUpdateWithoutDotationsDataInput {
   theorical_reserve_gazoil_quantity: Float
   users: UserUpdateManyWithoutHoldInput
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  services: ServiceUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
+}
+
+input HoldUpdateWithoutServicesDataInput {
+  name: String
+  localisation: String
+  super_capacity: Float
+  gazoil_capacity: Float
+  super_quantity: Float
+  gazoil_quantity: Float
+  super_cuves_number: Float
+  gazoil_cuves_number: Float
+  theorical_super_quantity: Float
+  theorical_gazoil_quantity: Float
+  reserve_super_quantity: Float
+  reserve_gazoil_quantity: Float
+  theorical_reserve_super_quantity: Float
+  theorical_reserve_gazoil_quantity: Float
+  users: UserUpdateManyWithoutHoldInput
+  bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  cars: CarUpdateManyWithoutHoldInput
+  dotations: DotationUpdateManyWithoutHoldInput
 }
 
 input HoldUpdateWithoutUsersDataInput {
@@ -2680,6 +2749,7 @@ input HoldUpdateWithoutUsersDataInput {
   theorical_reserve_super_quantity: Float
   theorical_reserve_gazoil_quantity: Float
   bons: HoldsOnBonsUpdateManyWithoutHoldInput
+  services: ServiceUpdateManyWithoutHoldInput
   cars: CarUpdateManyWithoutHoldInput
   dotations: DotationUpdateManyWithoutHoldInput
 }
@@ -2697,6 +2767,11 @@ input HoldUpsertWithoutCarsInput {
 input HoldUpsertWithoutDotationsInput {
   update: HoldUpdateWithoutDotationsDataInput!
   create: HoldCreateWithoutDotationsInput!
+}
+
+input HoldUpsertWithoutServicesInput {
+  update: HoldUpdateWithoutServicesDataInput!
+  create: HoldCreateWithoutServicesInput!
 }
 
 input HoldUpsertWithoutUsersInput {
@@ -2849,6 +2924,9 @@ input HoldWhereInput {
   bons_every: HoldsOnBonsWhereInput
   bons_some: HoldsOnBonsWhereInput
   bons_none: HoldsOnBonsWhereInput
+  services_every: ServiceWhereInput
+  services_some: ServiceWhereInput
+  services_none: ServiceWhereInput
   cars_every: CarWhereInput
   cars_some: CarWhereInput
   cars_none: CarWhereInput
@@ -3123,6 +3201,12 @@ type Mutation {
   upsertNotification(where: NotificationWhereUniqueInput!, create: NotificationCreateInput!, update: NotificationUpdateInput!): Notification!
   deleteNotification(where: NotificationWhereUniqueInput!): Notification
   deleteManyNotifications(where: NotificationWhereInput): BatchPayload!
+  createService(data: ServiceCreateInput!): Service!
+  updateService(data: ServiceUpdateInput!, where: ServiceWhereUniqueInput!): Service
+  updateManyServices(data: ServiceUpdateManyMutationInput!, where: ServiceWhereInput): BatchPayload!
+  upsertService(where: ServiceWhereUniqueInput!, create: ServiceCreateInput!, update: ServiceUpdateInput!): Service!
+  deleteService(where: ServiceWhereUniqueInput!): Service
+  deleteManyServices(where: ServiceWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -3374,10 +3458,348 @@ type Query {
   notification(where: NotificationWhereUniqueInput!): Notification
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification]!
   notificationsConnection(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): NotificationConnection!
+  service(where: ServiceWhereUniqueInput!): Service
+  services(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Service]!
+  servicesConnection(where: ServiceWhereInput, orderBy: ServiceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ServiceConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
+}
+
+type Service {
+  id: ID!
+  label: String!
+  hold: Hold!
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  super: Float!
+  gazoil: Float!
+  description: String
+  created_at: DateTime!
+}
+
+type ServiceConnection {
+  pageInfo: PageInfo!
+  edges: [ServiceEdge]!
+  aggregate: AggregateService!
+}
+
+input ServiceCreateInput {
+  id: ID
+  label: String!
+  hold: HoldCreateOneWithoutServicesInput!
+  users: UserCreateManyWithoutServiceInput
+  super: Float!
+  gazoil: Float!
+  description: String
+}
+
+input ServiceCreateManyWithoutHoldInput {
+  create: [ServiceCreateWithoutHoldInput!]
+  connect: [ServiceWhereUniqueInput!]
+}
+
+input ServiceCreateOneWithoutUsersInput {
+  create: ServiceCreateWithoutUsersInput
+  connect: ServiceWhereUniqueInput
+}
+
+input ServiceCreateWithoutHoldInput {
+  id: ID
+  label: String!
+  users: UserCreateManyWithoutServiceInput
+  super: Float!
+  gazoil: Float!
+  description: String
+}
+
+input ServiceCreateWithoutUsersInput {
+  id: ID
+  label: String!
+  hold: HoldCreateOneWithoutServicesInput!
+  super: Float!
+  gazoil: Float!
+  description: String
+}
+
+type ServiceEdge {
+  node: Service!
+  cursor: String!
+}
+
+enum ServiceOrderByInput {
+  id_ASC
+  id_DESC
+  label_ASC
+  label_DESC
+  super_ASC
+  super_DESC
+  gazoil_ASC
+  gazoil_DESC
+  description_ASC
+  description_DESC
+  created_at_ASC
+  created_at_DESC
+}
+
+type ServicePreviousValues {
+  id: ID!
+  label: String!
+  super: Float!
+  gazoil: Float!
+  description: String
+  created_at: DateTime!
+}
+
+input ServiceScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  label: String
+  label_not: String
+  label_in: [String!]
+  label_not_in: [String!]
+  label_lt: String
+  label_lte: String
+  label_gt: String
+  label_gte: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [ServiceScalarWhereInput!]
+  OR: [ServiceScalarWhereInput!]
+  NOT: [ServiceScalarWhereInput!]
+}
+
+type ServiceSubscriptionPayload {
+  mutation: MutationType!
+  node: Service
+  updatedFields: [String!]
+  previousValues: ServicePreviousValues
+}
+
+input ServiceSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ServiceWhereInput
+  AND: [ServiceSubscriptionWhereInput!]
+  OR: [ServiceSubscriptionWhereInput!]
+  NOT: [ServiceSubscriptionWhereInput!]
+}
+
+input ServiceUpdateInput {
+  label: String
+  hold: HoldUpdateOneRequiredWithoutServicesInput
+  users: UserUpdateManyWithoutServiceInput
+  super: Float
+  gazoil: Float
+  description: String
+}
+
+input ServiceUpdateManyDataInput {
+  label: String
+  super: Float
+  gazoil: Float
+  description: String
+}
+
+input ServiceUpdateManyMutationInput {
+  label: String
+  super: Float
+  gazoil: Float
+  description: String
+}
+
+input ServiceUpdateManyWithoutHoldInput {
+  create: [ServiceCreateWithoutHoldInput!]
+  delete: [ServiceWhereUniqueInput!]
+  connect: [ServiceWhereUniqueInput!]
+  set: [ServiceWhereUniqueInput!]
+  disconnect: [ServiceWhereUniqueInput!]
+  update: [ServiceUpdateWithWhereUniqueWithoutHoldInput!]
+  upsert: [ServiceUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [ServiceScalarWhereInput!]
+  updateMany: [ServiceUpdateManyWithWhereNestedInput!]
+}
+
+input ServiceUpdateManyWithWhereNestedInput {
+  where: ServiceScalarWhereInput!
+  data: ServiceUpdateManyDataInput!
+}
+
+input ServiceUpdateOneWithoutUsersInput {
+  create: ServiceCreateWithoutUsersInput
+  update: ServiceUpdateWithoutUsersDataInput
+  upsert: ServiceUpsertWithoutUsersInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ServiceWhereUniqueInput
+}
+
+input ServiceUpdateWithoutHoldDataInput {
+  label: String
+  users: UserUpdateManyWithoutServiceInput
+  super: Float
+  gazoil: Float
+  description: String
+}
+
+input ServiceUpdateWithoutUsersDataInput {
+  label: String
+  hold: HoldUpdateOneRequiredWithoutServicesInput
+  super: Float
+  gazoil: Float
+  description: String
+}
+
+input ServiceUpdateWithWhereUniqueWithoutHoldInput {
+  where: ServiceWhereUniqueInput!
+  data: ServiceUpdateWithoutHoldDataInput!
+}
+
+input ServiceUpsertWithoutUsersInput {
+  update: ServiceUpdateWithoutUsersDataInput!
+  create: ServiceCreateWithoutUsersInput!
+}
+
+input ServiceUpsertWithWhereUniqueWithoutHoldInput {
+  where: ServiceWhereUniqueInput!
+  update: ServiceUpdateWithoutHoldDataInput!
+  create: ServiceCreateWithoutHoldInput!
+}
+
+input ServiceWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  label: String
+  label_not: String
+  label_in: [String!]
+  label_not_in: [String!]
+  label_lt: String
+  label_lte: String
+  label_gt: String
+  label_gte: String
+  label_contains: String
+  label_not_contains: String
+  label_starts_with: String
+  label_not_starts_with: String
+  label_ends_with: String
+  label_not_ends_with: String
+  hold: HoldWhereInput
+  users_every: UserWhereInput
+  users_some: UserWhereInput
+  users_none: UserWhereInput
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  created_at: DateTime
+  created_at_not: DateTime
+  created_at_in: [DateTime!]
+  created_at_not_in: [DateTime!]
+  created_at_lt: DateTime
+  created_at_lte: DateTime
+  created_at_gt: DateTime
+  created_at_gte: DateTime
+  AND: [ServiceWhereInput!]
+  OR: [ServiceWhereInput!]
+  NOT: [ServiceWhereInput!]
+}
+
+input ServiceWhereUniqueInput {
+  id: ID
 }
 
 type Subscription {
@@ -3389,6 +3811,7 @@ type Subscription {
   holdsOnBons(where: HoldsOnBonsSubscriptionWhereInput): HoldsOnBonsSubscriptionPayload
   log(where: LogSubscriptionWhereInput): LogSubscriptionPayload
   notification(where: NotificationSubscriptionWhereInput): NotificationSubscriptionPayload
+  service(where: ServiceSubscriptionWhereInput): ServiceSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -3401,7 +3824,6 @@ type User {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3412,6 +3834,7 @@ type User {
   hold: Hold
   notifications(where: NotificationWhereInput, orderBy: NotificationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Notification!]
   created_at: DateTime!
+  service: Service
 }
 
 type UserConnection {
@@ -3429,7 +3852,6 @@ input UserCreateInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3439,10 +3861,16 @@ input UserCreateInput {
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateManyWithoutHoldInput {
   create: [UserCreateWithoutHoldInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input UserCreateManyWithoutServiceInput {
+  create: [UserCreateWithoutServiceInput!]
   connect: [UserWhereUniqueInput!]
 }
 
@@ -3480,7 +3908,6 @@ input UserCreateWithoutBonsInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3489,6 +3916,7 @@ input UserCreateWithoutBonsInput {
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateWithoutDotationEmetteursInput {
@@ -3500,7 +3928,6 @@ input UserCreateWithoutDotationEmetteursInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3509,6 +3936,7 @@ input UserCreateWithoutDotationEmetteursInput {
   dotations: DotationCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateWithoutDotationsInput {
@@ -3520,7 +3948,6 @@ input UserCreateWithoutDotationsInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3529,6 +3956,7 @@ input UserCreateWithoutDotationsInput {
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateWithoutHoldInput {
@@ -3540,7 +3968,6 @@ input UserCreateWithoutHoldInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3549,6 +3976,7 @@ input UserCreateWithoutHoldInput {
   dotations: DotationCreateManyWithoutUserInput
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateWithoutLogsInput {
@@ -3560,7 +3988,6 @@ input UserCreateWithoutLogsInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3569,6 +3996,7 @@ input UserCreateWithoutLogsInput {
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
   notifications: NotificationCreateManyWithoutUserInput
+  service: ServiceCreateOneWithoutUsersInput
 }
 
 input UserCreateWithoutNotificationsInput {
@@ -3580,7 +4008,6 @@ input UserCreateWithoutNotificationsInput {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3589,6 +4016,27 @@ input UserCreateWithoutNotificationsInput {
   dotations: DotationCreateManyWithoutUserInput
   dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
   hold: HoldCreateOneWithoutUsersInput
+  service: ServiceCreateOneWithoutUsersInput
+}
+
+input UserCreateWithoutServiceInput {
+  id: ID
+  active: Boolean!
+  grade: String!
+  matricule: String!
+  username: String!
+  fullname: String!
+  phone: String!
+  super: Float!
+  gazoil: Float!
+  role: String!
+  password: String!
+  logs: LogCreateManyWithoutUserInput
+  bons: BonCreateManyWithoutUserInput
+  dotations: DotationCreateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurCreateManyWithoutUserInput
+  hold: HoldCreateOneWithoutUsersInput
+  notifications: NotificationCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -3613,8 +4061,6 @@ enum UserOrderByInput {
   phone_DESC
   super_ASC
   super_DESC
-  service_ASC
-  service_DESC
   gazoil_ASC
   gazoil_DESC
   role_ASC
@@ -3634,7 +4080,6 @@ type UserPreviousValues {
   fullname: String!
   phone: String!
   super: Float!
-  service: String!
   gazoil: Float!
   role: String!
   password: String!
@@ -3736,20 +4181,6 @@ input UserScalarWhereInput {
   super_lte: Float
   super_gt: Float
   super_gte: Float
-  service: String
-  service_not: String
-  service_in: [String!]
-  service_not_in: [String!]
-  service_lt: String
-  service_lte: String
-  service_gt: String
-  service_gte: String
-  service_contains: String
-  service_not_contains: String
-  service_starts_with: String
-  service_not_starts_with: String
-  service_ends_with: String
-  service_not_ends_with: String
   gazoil: Float
   gazoil_not: Float
   gazoil_in: [Float!]
@@ -3825,7 +4256,6 @@ input UserUpdateInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3835,6 +4265,7 @@ input UserUpdateInput {
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateManyDataInput {
@@ -3845,7 +4276,6 @@ input UserUpdateManyDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3859,7 +4289,6 @@ input UserUpdateManyMutationInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3873,6 +4302,18 @@ input UserUpdateManyWithoutHoldInput {
   disconnect: [UserWhereUniqueInput!]
   update: [UserUpdateWithWhereUniqueWithoutHoldInput!]
   upsert: [UserUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [UserScalarWhereInput!]
+  updateMany: [UserUpdateManyWithWhereNestedInput!]
+}
+
+input UserUpdateManyWithoutServiceInput {
+  create: [UserCreateWithoutServiceInput!]
+  delete: [UserWhereUniqueInput!]
+  connect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  disconnect: [UserWhereUniqueInput!]
+  update: [UserUpdateWithWhereUniqueWithoutServiceInput!]
+  upsert: [UserUpsertWithWhereUniqueWithoutServiceInput!]
   deleteMany: [UserScalarWhereInput!]
   updateMany: [UserUpdateManyWithWhereNestedInput!]
 }
@@ -3927,7 +4368,6 @@ input UserUpdateWithoutBonsDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3936,6 +4376,7 @@ input UserUpdateWithoutBonsDataInput {
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithoutDotationEmetteursDataInput {
@@ -3946,7 +4387,6 @@ input UserUpdateWithoutDotationEmetteursDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3955,6 +4395,7 @@ input UserUpdateWithoutDotationEmetteursDataInput {
   dotations: DotationUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithoutDotationsDataInput {
@@ -3965,7 +4406,6 @@ input UserUpdateWithoutDotationsDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3974,6 +4414,7 @@ input UserUpdateWithoutDotationsDataInput {
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithoutHoldDataInput {
@@ -3984,7 +4425,6 @@ input UserUpdateWithoutHoldDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -3993,6 +4433,7 @@ input UserUpdateWithoutHoldDataInput {
   dotations: DotationUpdateManyWithoutUserInput
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithoutLogsDataInput {
@@ -4003,7 +4444,6 @@ input UserUpdateWithoutLogsDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -4012,6 +4452,7 @@ input UserUpdateWithoutLogsDataInput {
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
   notifications: NotificationUpdateManyWithoutUserInput
+  service: ServiceUpdateOneWithoutUsersInput
 }
 
 input UserUpdateWithoutNotificationsDataInput {
@@ -4022,7 +4463,6 @@ input UserUpdateWithoutNotificationsDataInput {
   fullname: String
   phone: String
   super: Float
-  service: String
   gazoil: Float
   role: String
   password: String
@@ -4031,11 +4471,36 @@ input UserUpdateWithoutNotificationsDataInput {
   dotations: DotationUpdateManyWithoutUserInput
   dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
   hold: HoldUpdateOneWithoutUsersInput
+  service: ServiceUpdateOneWithoutUsersInput
+}
+
+input UserUpdateWithoutServiceDataInput {
+  active: Boolean
+  grade: String
+  matricule: String
+  username: String
+  fullname: String
+  phone: String
+  super: Float
+  gazoil: Float
+  role: String
+  password: String
+  logs: LogUpdateManyWithoutUserInput
+  bons: BonUpdateManyWithoutUserInput
+  dotations: DotationUpdateManyWithoutUserInput
+  dotationEmetteurs: DotationEmetteurUpdateManyWithoutUserInput
+  hold: HoldUpdateOneWithoutUsersInput
+  notifications: NotificationUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithWhereUniqueWithoutHoldInput {
   where: UserWhereUniqueInput!
   data: UserUpdateWithoutHoldDataInput!
+}
+
+input UserUpdateWithWhereUniqueWithoutServiceInput {
+  where: UserWhereUniqueInput!
+  data: UserUpdateWithoutServiceDataInput!
 }
 
 input UserUpsertWithoutBonsInput {
@@ -4067,6 +4532,12 @@ input UserUpsertWithWhereUniqueWithoutHoldInput {
   where: UserWhereUniqueInput!
   update: UserUpdateWithoutHoldDataInput!
   create: UserCreateWithoutHoldInput!
+}
+
+input UserUpsertWithWhereUniqueWithoutServiceInput {
+  where: UserWhereUniqueInput!
+  update: UserUpdateWithoutServiceDataInput!
+  create: UserCreateWithoutServiceInput!
 }
 
 input UserWhereInput {
@@ -4164,20 +4635,6 @@ input UserWhereInput {
   super_lte: Float
   super_gt: Float
   super_gte: Float
-  service: String
-  service_not: String
-  service_in: [String!]
-  service_not_in: [String!]
-  service_lt: String
-  service_lte: String
-  service_gt: String
-  service_gte: String
-  service_contains: String
-  service_not_contains: String
-  service_starts_with: String
-  service_not_starts_with: String
-  service_ends_with: String
-  service_not_ends_with: String
   gazoil: Float
   gazoil_not: Float
   gazoil_in: [Float!]
@@ -4238,6 +4695,7 @@ input UserWhereInput {
   created_at_lte: DateTime
   created_at_gt: DateTime
   created_at_gte: DateTime
+  service: ServiceWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

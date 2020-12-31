@@ -1,10 +1,11 @@
-const ROLES = {
+ const ROLES = {
+  superAdministrateur: "superAdministrateur",
   administrateur: "administrateur",
   soutier: "soutier",
-  acheteur: "acheteur",
-  responsableSoute: "responsableSoute",
-  emetteur: "emetteur"
+  serviceEssence: "serviceEssence",
+  consommateur: "consommateur",
 };
+
 module.exports = {
   ROLES
 };

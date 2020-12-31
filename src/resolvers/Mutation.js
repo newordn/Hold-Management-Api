@@ -616,6 +616,17 @@ const transfertBon = async (parent, args, context, info) => {
   }
   
 }
+async function service(parent, args, context, info) {
+  console.log(MESSAGES.service(args.label, args.description, args.hold));
+  try {
+    let service = await context.prisma.createService({...args, super:0, gazoil:0, hold: {connect: {id: args.hold} }})
+    return service
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
+
 module.exports = {
   signUp,
   signIn,
@@ -627,5 +638,6 @@ module.exports = {
   bon,
   consumedBon,
   dotateEmetteur,
-  transfertBon
+  transfertBon,
+  service
 };

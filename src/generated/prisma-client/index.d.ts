@@ -24,6 +24,7 @@ export interface Exists {
   holdsOnBons: (where?: HoldsOnBonsWhereInput) => Promise<boolean>;
   log: (where?: LogWhereInput) => Promise<boolean>;
   notification: (where?: NotificationWhereInput) => Promise<boolean>;
+  service: (where?: ServiceWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -204,6 +205,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => NotificationConnectionPromise;
+  service: (where: ServiceWhereUniqueInput) => ServiceNullablePromise;
+  services: (args?: {
+    where?: ServiceWhereInput;
+    orderBy?: ServiceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Service>;
+  servicesConnection: (args?: {
+    where?: ServiceWhereInput;
+    orderBy?: ServiceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ServiceConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -365,6 +385,22 @@ export interface Prisma {
   deleteManyNotifications: (
     where?: NotificationWhereInput
   ) => BatchPayloadPromise;
+  createService: (data: ServiceCreateInput) => ServicePromise;
+  updateService: (args: {
+    data: ServiceUpdateInput;
+    where: ServiceWhereUniqueInput;
+  }) => ServicePromise;
+  updateManyServices: (args: {
+    data: ServiceUpdateManyMutationInput;
+    where?: ServiceWhereInput;
+  }) => BatchPayloadPromise;
+  upsertService: (args: {
+    where: ServiceWhereUniqueInput;
+    create: ServiceCreateInput;
+    update: ServiceUpdateInput;
+  }) => ServicePromise;
+  deleteService: (where: ServiceWhereUniqueInput) => ServicePromise;
+  deleteManyServices: (where?: ServiceWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -414,6 +450,9 @@ export interface Subscription {
   notification: (
     where?: NotificationSubscriptionWhereInput
   ) => NotificationSubscriptionPayloadSubscription;
+  service: (
+    where?: ServiceSubscriptionWhereInput
+  ) => ServiceSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -518,8 +557,6 @@ export type UserOrderByInput =
   | "phone_DESC"
   | "super_ASC"
   | "super_DESC"
-  | "service_ASC"
-  | "service_DESC"
   | "gazoil_ASC"
   | "gazoil_DESC"
   | "role_ASC"
@@ -532,6 +569,20 @@ export type UserOrderByInput =
 export type HoldsOnBonsOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "created_at_ASC"
+  | "created_at_DESC";
+
+export type ServiceOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "label_ASC"
+  | "label_DESC"
+  | "super_ASC"
+  | "super_DESC"
+  | "gazoil_ASC"
+  | "gazoil_DESC"
+  | "description_ASC"
+  | "description_DESC"
   | "created_at_ASC"
   | "created_at_DESC";
 
@@ -759,20 +810,6 @@ export interface UserWhereInput {
   super_lte?: Maybe<Float>;
   super_gt?: Maybe<Float>;
   super_gte?: Maybe<Float>;
-  service?: Maybe<String>;
-  service_not?: Maybe<String>;
-  service_in?: Maybe<String[] | String>;
-  service_not_in?: Maybe<String[] | String>;
-  service_lt?: Maybe<String>;
-  service_lte?: Maybe<String>;
-  service_gt?: Maybe<String>;
-  service_gte?: Maybe<String>;
-  service_contains?: Maybe<String>;
-  service_not_contains?: Maybe<String>;
-  service_starts_with?: Maybe<String>;
-  service_not_starts_with?: Maybe<String>;
-  service_ends_with?: Maybe<String>;
-  service_not_ends_with?: Maybe<String>;
   gazoil?: Maybe<Float>;
   gazoil_not?: Maybe<Float>;
   gazoil_in?: Maybe<Float[] | Float>;
@@ -833,6 +870,7 @@ export interface UserWhereInput {
   created_at_lte?: Maybe<DateTimeInput>;
   created_at_gt?: Maybe<DateTimeInput>;
   created_at_gte?: Maybe<DateTimeInput>;
+  service?: Maybe<ServiceWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -1286,6 +1324,9 @@ export interface HoldWhereInput {
   bons_every?: Maybe<HoldsOnBonsWhereInput>;
   bons_some?: Maybe<HoldsOnBonsWhereInput>;
   bons_none?: Maybe<HoldsOnBonsWhereInput>;
+  services_every?: Maybe<ServiceWhereInput>;
+  services_some?: Maybe<ServiceWhereInput>;
+  services_none?: Maybe<ServiceWhereInput>;
   cars_every?: Maybe<CarWhereInput>;
   cars_some?: Maybe<CarWhereInput>;
   cars_none?: Maybe<CarWhereInput>;
@@ -1333,6 +1374,82 @@ export interface HoldsOnBonsWhereInput {
   AND?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
   OR?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
   NOT?: Maybe<HoldsOnBonsWhereInput[] | HoldsOnBonsWhereInput>;
+}
+
+export interface ServiceWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  hold?: Maybe<HoldWhereInput>;
+  users_every?: Maybe<UserWhereInput>;
+  users_some?: Maybe<UserWhereInput>;
+  users_none?: Maybe<UserWhereInput>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ServiceWhereInput[] | ServiceWhereInput>;
+  OR?: Maybe<ServiceWhereInput[] | ServiceWhereInput>;
+  NOT?: Maybe<ServiceWhereInput[] | ServiceWhereInput>;
 }
 
 export interface DotationWhereInput {
@@ -1606,6 +1723,10 @@ export type NotificationWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type ServiceWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   matricule?: Maybe<String>;
@@ -1649,7 +1770,6 @@ export interface UserCreateWithoutBonsInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -1658,6 +1778,7 @@ export interface UserCreateWithoutBonsInput {
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface LogCreateManyWithoutUserInput {
@@ -1716,6 +1837,7 @@ export interface HoldCreateWithoutDotationsInput {
   theorical_reserve_gazoil_quantity: Float;
   users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
 }
 
@@ -1733,7 +1855,6 @@ export interface UserCreateWithoutHoldInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -1742,6 +1863,7 @@ export interface UserCreateWithoutHoldInput {
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface BonCreateManyWithoutUserInput {
@@ -1812,6 +1934,7 @@ export interface HoldCreateWithoutCarsInput {
   theorical_reserve_gazoil_quantity: Float;
   users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
@@ -1854,35 +1977,30 @@ export interface BonCreateWithoutHoldsInput {
   type: Boolean;
 }
 
-export interface DotationCreateManyWithoutHoldInput {
+export interface ServiceCreateManyWithoutHoldInput {
   create?: Maybe<
-    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+    ServiceCreateWithoutHoldInput[] | ServiceCreateWithoutHoldInput
   >;
-  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  connect?: Maybe<ServiceWhereUniqueInput[] | ServiceWhereUniqueInput>;
 }
 
-export interface DotationCreateWithoutHoldInput {
+export interface ServiceCreateWithoutHoldInput {
   id?: Maybe<ID_Input>;
-  motif: String;
-  start_date: DateTimeInput;
-  end_date: DateTimeInput;
-  number_of_liter_dotated_super: Float;
-  number_of_liter_received_super: Float;
-  number_of_liter_dotated_gazoil: Float;
-  number_of_liter_received_gazoil: Float;
-  number_of_liter_dotated_reserve_super: Float;
-  number_of_liter_received_reserve_super: Float;
-  number_of_liter_dotated_reserve_gazoil: Float;
-  number_of_liter_received_reserve_gazoil: Float;
-  user?: Maybe<UserCreateOneWithoutDotationsInput>;
+  label: String;
+  users?: Maybe<UserCreateManyWithoutServiceInput>;
+  super: Float;
+  gazoil: Float;
+  description?: Maybe<String>;
 }
 
-export interface UserCreateOneWithoutDotationsInput {
-  create?: Maybe<UserCreateWithoutDotationsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserCreateManyWithoutServiceInput {
+  create?: Maybe<
+    UserCreateWithoutServiceInput[] | UserCreateWithoutServiceInput
+  >;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
 }
 
-export interface UserCreateWithoutDotationsInput {
+export interface UserCreateWithoutServiceInput {
   id?: Maybe<ID_Input>;
   active: Boolean;
   grade: String;
@@ -1891,12 +2009,12 @@ export interface UserCreateWithoutDotationsInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
   logs?: Maybe<LogCreateManyWithoutUserInput>;
   bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
@@ -1943,6 +2061,7 @@ export interface HoldCreateWithoutUsersInput {
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -2026,8 +2145,57 @@ export interface HoldCreateWithoutBonsInput {
   theorical_reserve_super_quantity: Float;
   theorical_reserve_gazoil_quantity: Float;
   users?: Maybe<UserCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface DotationCreateManyWithoutHoldInput {
+  create?: Maybe<
+    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+  >;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+}
+
+export interface DotationCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  motif: String;
+  start_date: DateTimeInput;
+  end_date: DateTimeInput;
+  number_of_liter_dotated_super: Float;
+  number_of_liter_received_super: Float;
+  number_of_liter_dotated_gazoil: Float;
+  number_of_liter_received_gazoil: Float;
+  number_of_liter_dotated_reserve_super: Float;
+  number_of_liter_received_reserve_super: Float;
+  number_of_liter_dotated_reserve_gazoil: Float;
+  number_of_liter_received_reserve_gazoil: Float;
+  user?: Maybe<UserCreateOneWithoutDotationsInput>;
+}
+
+export interface UserCreateOneWithoutDotationsInput {
+  create?: Maybe<UserCreateWithoutDotationsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutDotationsInput {
+  id?: Maybe<ID_Input>;
+  active: Boolean;
+  grade: String;
+  matricule: String;
+  username: String;
+  fullname: String;
+  phone: String;
+  super: Float;
+  gazoil: Float;
+  role: String;
+  password: String;
+  logs?: Maybe<LogCreateManyWithoutUserInput>;
+  bons?: Maybe<BonCreateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
+  hold?: Maybe<HoldCreateOneWithoutUsersInput>;
+  notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface NotificationCreateManyWithoutUserInput {
@@ -2042,6 +2210,47 @@ export interface NotificationCreateManyWithoutUserInput {
 export interface NotificationCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   message: String;
+}
+
+export interface ServiceCreateOneWithoutUsersInput {
+  create?: Maybe<ServiceCreateWithoutUsersInput>;
+  connect?: Maybe<ServiceWhereUniqueInput>;
+}
+
+export interface ServiceCreateWithoutUsersInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+  hold: HoldCreateOneWithoutServicesInput;
+  super: Float;
+  gazoil: Float;
+  description?: Maybe<String>;
+}
+
+export interface HoldCreateOneWithoutServicesInput {
+  create?: Maybe<HoldCreateWithoutServicesInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutServicesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
+  super_cuves_number: Float;
+  gazoil_cuves_number: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
 export interface BonUpdateInput {
@@ -2081,7 +2290,6 @@ export interface UserUpdateWithoutBonsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -2090,6 +2298,7 @@ export interface UserUpdateWithoutBonsDataInput {
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface LogUpdateManyWithoutUserInput {
@@ -2247,6 +2456,7 @@ export interface HoldUpdateWithoutDotationsDataInput {
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
 }
 
@@ -2283,7 +2493,6 @@ export interface UserUpdateWithoutHoldDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -2292,6 +2501,7 @@ export interface UserUpdateWithoutHoldDataInput {
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface BonUpdateManyWithoutUserInput {
@@ -2385,6 +2595,7 @@ export interface HoldUpdateWithoutCarsDataInput {
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
@@ -2487,59 +2698,70 @@ export interface HoldsOnBonsScalarWhereInput {
   NOT?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
 }
 
-export interface DotationUpdateManyWithoutHoldInput {
+export interface ServiceUpdateManyWithoutHoldInput {
   create?: Maybe<
-    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+    ServiceCreateWithoutHoldInput[] | ServiceCreateWithoutHoldInput
   >;
-  delete?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
-  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
-  set?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
-  disconnect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  delete?: Maybe<ServiceWhereUniqueInput[] | ServiceWhereUniqueInput>;
+  connect?: Maybe<ServiceWhereUniqueInput[] | ServiceWhereUniqueInput>;
+  set?: Maybe<ServiceWhereUniqueInput[] | ServiceWhereUniqueInput>;
+  disconnect?: Maybe<ServiceWhereUniqueInput[] | ServiceWhereUniqueInput>;
   update?: Maybe<
-    | DotationUpdateWithWhereUniqueWithoutHoldInput[]
-    | DotationUpdateWithWhereUniqueWithoutHoldInput
+    | ServiceUpdateWithWhereUniqueWithoutHoldInput[]
+    | ServiceUpdateWithWhereUniqueWithoutHoldInput
   >;
   upsert?: Maybe<
-    | DotationUpsertWithWhereUniqueWithoutHoldInput[]
-    | DotationUpsertWithWhereUniqueWithoutHoldInput
+    | ServiceUpsertWithWhereUniqueWithoutHoldInput[]
+    | ServiceUpsertWithWhereUniqueWithoutHoldInput
   >;
-  deleteMany?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  deleteMany?: Maybe<ServiceScalarWhereInput[] | ServiceScalarWhereInput>;
   updateMany?: Maybe<
-    | DotationUpdateManyWithWhereNestedInput[]
-    | DotationUpdateManyWithWhereNestedInput
+    | ServiceUpdateManyWithWhereNestedInput[]
+    | ServiceUpdateManyWithWhereNestedInput
   >;
 }
 
-export interface DotationUpdateWithWhereUniqueWithoutHoldInput {
-  where: DotationWhereUniqueInput;
-  data: DotationUpdateWithoutHoldDataInput;
+export interface ServiceUpdateWithWhereUniqueWithoutHoldInput {
+  where: ServiceWhereUniqueInput;
+  data: ServiceUpdateWithoutHoldDataInput;
 }
 
-export interface DotationUpdateWithoutHoldDataInput {
-  motif?: Maybe<String>;
-  start_date?: Maybe<DateTimeInput>;
-  end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated_super?: Maybe<Float>;
-  number_of_liter_received_super?: Maybe<Float>;
-  number_of_liter_dotated_gazoil?: Maybe<Float>;
-  number_of_liter_received_gazoil?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super?: Maybe<Float>;
-  number_of_liter_received_reserve_super?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
-  user?: Maybe<UserUpdateOneWithoutDotationsInput>;
+export interface ServiceUpdateWithoutHoldDataInput {
+  label?: Maybe<String>;
+  users?: Maybe<UserUpdateManyWithoutServiceInput>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
 }
 
-export interface UserUpdateOneWithoutDotationsInput {
-  create?: Maybe<UserCreateWithoutDotationsInput>;
-  update?: Maybe<UserUpdateWithoutDotationsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutDotationsInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface UserUpdateManyWithoutServiceInput {
+  create?: Maybe<
+    UserCreateWithoutServiceInput[] | UserCreateWithoutServiceInput
+  >;
+  delete?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  connect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  set?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  disconnect?: Maybe<UserWhereUniqueInput[] | UserWhereUniqueInput>;
+  update?: Maybe<
+    | UserUpdateWithWhereUniqueWithoutServiceInput[]
+    | UserUpdateWithWhereUniqueWithoutServiceInput
+  >;
+  upsert?: Maybe<
+    | UserUpsertWithWhereUniqueWithoutServiceInput[]
+    | UserUpsertWithWhereUniqueWithoutServiceInput
+  >;
+  deleteMany?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  updateMany?: Maybe<
+    UserUpdateManyWithWhereNestedInput[] | UserUpdateManyWithWhereNestedInput
+  >;
 }
 
-export interface UserUpdateWithoutDotationsDataInput {
+export interface UserUpdateWithWhereUniqueWithoutServiceInput {
+  where: UserWhereUniqueInput;
+  data: UserUpdateWithoutServiceDataInput;
+}
+
+export interface UserUpdateWithoutServiceDataInput {
   active?: Maybe<Boolean>;
   grade?: Maybe<String>;
   matricule?: Maybe<String>;
@@ -2547,12 +2769,12 @@ export interface UserUpdateWithoutDotationsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
   logs?: Maybe<LogUpdateManyWithoutUserInput>;
   bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
@@ -2729,6 +2951,7 @@ export interface HoldUpdateWithoutUsersDataInput {
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -2855,8 +3078,382 @@ export interface HoldUpdateWithoutBonsDataInput {
   theorical_reserve_super_quantity?: Maybe<Float>;
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   users?: Maybe<UserUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface DotationUpdateManyWithoutHoldInput {
+  create?: Maybe<
+    DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
+  >;
+  delete?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  connect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  set?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  disconnect?: Maybe<DotationWhereUniqueInput[] | DotationWhereUniqueInput>;
+  update?: Maybe<
+    | DotationUpdateWithWhereUniqueWithoutHoldInput[]
+    | DotationUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | DotationUpsertWithWhereUniqueWithoutHoldInput[]
+    | DotationUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  updateMany?: Maybe<
+    | DotationUpdateManyWithWhereNestedInput[]
+    | DotationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface DotationUpdateWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput;
+  data: DotationUpdateWithoutHoldDataInput;
+}
+
+export interface DotationUpdateWithoutHoldDataInput {
+  motif?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
+  user?: Maybe<UserUpdateOneWithoutDotationsInput>;
+}
+
+export interface UserUpdateOneWithoutDotationsInput {
+  create?: Maybe<UserCreateWithoutDotationsInput>;
+  update?: Maybe<UserUpdateWithoutDotationsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutDotationsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutDotationsDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
+  logs?: Maybe<LogUpdateManyWithoutUserInput>;
+  bons?: Maybe<BonUpdateManyWithoutUserInput>;
+  dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
+  hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
+  notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
+}
+
+export interface NotificationUpdateManyWithoutUserInput {
+  create?: Maybe<
+    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
+  >;
+  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  connect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
+  disconnect?: Maybe<
+    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
+  >;
+  update?: Maybe<
+    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
+    | NotificationUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
+    | NotificationUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    NotificationScalarWhereInput[] | NotificationScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | NotificationUpdateManyWithWhereNestedInput[]
+    | NotificationUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  data: NotificationUpdateWithoutUserDataInput;
+}
+
+export interface NotificationUpdateWithoutUserDataInput {
+  message?: Maybe<String>;
+}
+
+export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
+  where: NotificationWhereUniqueInput;
+  update: NotificationUpdateWithoutUserDataInput;
+  create: NotificationCreateWithoutUserInput;
+}
+
+export interface NotificationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  message?: Maybe<String>;
+  message_not?: Maybe<String>;
+  message_in?: Maybe<String[] | String>;
+  message_not_in?: Maybe<String[] | String>;
+  message_lt?: Maybe<String>;
+  message_lte?: Maybe<String>;
+  message_gt?: Maybe<String>;
+  message_gte?: Maybe<String>;
+  message_contains?: Maybe<String>;
+  message_not_contains?: Maybe<String>;
+  message_starts_with?: Maybe<String>;
+  message_not_starts_with?: Maybe<String>;
+  message_ends_with?: Maybe<String>;
+  message_not_ends_with?: Maybe<String>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  OR?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  NOT?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+}
+
+export interface NotificationUpdateManyWithWhereNestedInput {
+  where: NotificationScalarWhereInput;
+  data: NotificationUpdateManyDataInput;
+}
+
+export interface NotificationUpdateManyDataInput {
+  message?: Maybe<String>;
+}
+
+export interface ServiceUpdateOneWithoutUsersInput {
+  create?: Maybe<ServiceCreateWithoutUsersInput>;
+  update?: Maybe<ServiceUpdateWithoutUsersDataInput>;
+  upsert?: Maybe<ServiceUpsertWithoutUsersInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ServiceWhereUniqueInput>;
+}
+
+export interface ServiceUpdateWithoutUsersDataInput {
+  label?: Maybe<String>;
+  hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
+}
+
+export interface HoldUpdateOneRequiredWithoutServicesInput {
+  create?: Maybe<HoldCreateWithoutServicesInput>;
+  update?: Maybe<HoldUpdateWithoutServicesDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutServicesInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutServicesDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
+  super_cuves_number?: Maybe<Float>;
+  gazoil_cuves_number?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface HoldUpsertWithoutServicesInput {
+  update: HoldUpdateWithoutServicesDataInput;
+  create: HoldCreateWithoutServicesInput;
+}
+
+export interface ServiceUpsertWithoutUsersInput {
+  update: ServiceUpdateWithoutUsersDataInput;
+  create: ServiceCreateWithoutUsersInput;
+}
+
+export interface UserUpsertWithoutDotationsInput {
+  update: UserUpdateWithoutDotationsDataInput;
+  create: UserCreateWithoutDotationsInput;
+}
+
+export interface DotationUpsertWithWhereUniqueWithoutHoldInput {
+  where: DotationWhereUniqueInput;
+  update: DotationUpdateWithoutHoldDataInput;
+  create: DotationCreateWithoutHoldInput;
+}
+
+export interface DotationScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  motif?: Maybe<String>;
+  motif_not?: Maybe<String>;
+  motif_in?: Maybe<String[] | String>;
+  motif_not_in?: Maybe<String[] | String>;
+  motif_lt?: Maybe<String>;
+  motif_lte?: Maybe<String>;
+  motif_gt?: Maybe<String>;
+  motif_gte?: Maybe<String>;
+  motif_contains?: Maybe<String>;
+  motif_not_contains?: Maybe<String>;
+  motif_starts_with?: Maybe<String>;
+  motif_not_starts_with?: Maybe<String>;
+  motif_ends_with?: Maybe<String>;
+  motif_not_ends_with?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  start_date_not?: Maybe<DateTimeInput>;
+  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  start_date_lt?: Maybe<DateTimeInput>;
+  start_date_lte?: Maybe<DateTimeInput>;
+  start_date_gt?: Maybe<DateTimeInput>;
+  start_date_gte?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  end_date_not?: Maybe<DateTimeInput>;
+  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  end_date_lt?: Maybe<DateTimeInput>;
+  end_date_lte?: Maybe<DateTimeInput>;
+  end_date_gt?: Maybe<DateTimeInput>;
+  end_date_gte?: Maybe<DateTimeInput>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_dotated_super_not?: Maybe<Float>;
+  number_of_liter_dotated_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_super_gte?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_received_super_not?: Maybe<Float>;
+  number_of_liter_received_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_super_lt?: Maybe<Float>;
+  number_of_liter_received_super_lte?: Maybe<Float>;
+  number_of_liter_received_super_gt?: Maybe<Float>;
+  number_of_liter_received_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_gazoil_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super_not?: Maybe<Float>;
+  number_of_liter_received_reserve_super_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_super_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_super_gte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_dotated_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil_gte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_not?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_received_reserve_gazoil_lt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_lte?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gt?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil_gte?: Maybe<Float>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  OR?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  NOT?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+}
+
+export interface DotationUpdateManyWithWhereNestedInput {
+  where: DotationScalarWhereInput;
+  data: DotationUpdateManyDataInput;
+}
+
+export interface DotationUpdateManyDataInput {
+  motif?: Maybe<String>;
+  start_date?: Maybe<DateTimeInput>;
+  end_date?: Maybe<DateTimeInput>;
+  number_of_liter_dotated_super?: Maybe<Float>;
+  number_of_liter_received_super?: Maybe<Float>;
+  number_of_liter_dotated_gazoil?: Maybe<Float>;
+  number_of_liter_received_gazoil?: Maybe<Float>;
+  number_of_liter_dotated_reserve_super?: Maybe<Float>;
+  number_of_liter_received_reserve_super?: Maybe<Float>;
+  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
+  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
 }
 
 export interface HoldUpsertWithoutBonsInput {
@@ -3024,51 +3621,13 @@ export interface HoldUpsertWithoutUsersInput {
   create: HoldCreateWithoutUsersInput;
 }
 
-export interface NotificationUpdateManyWithoutUserInput {
-  create?: Maybe<
-    NotificationCreateWithoutUserInput[] | NotificationCreateWithoutUserInput
-  >;
-  delete?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
-  connect?: Maybe<
-    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  >;
-  set?: Maybe<NotificationWhereUniqueInput[] | NotificationWhereUniqueInput>;
-  disconnect?: Maybe<
-    NotificationWhereUniqueInput[] | NotificationWhereUniqueInput
-  >;
-  update?: Maybe<
-    | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    | NotificationUpdateWithWhereUniqueWithoutUserInput
-  >;
-  upsert?: Maybe<
-    | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    | NotificationUpsertWithWhereUniqueWithoutUserInput
-  >;
-  deleteMany?: Maybe<
-    NotificationScalarWhereInput[] | NotificationScalarWhereInput
-  >;
-  updateMany?: Maybe<
-    | NotificationUpdateManyWithWhereNestedInput[]
-    | NotificationUpdateManyWithWhereNestedInput
-  >;
+export interface UserUpsertWithWhereUniqueWithoutServiceInput {
+  where: UserWhereUniqueInput;
+  update: UserUpdateWithoutServiceDataInput;
+  create: UserCreateWithoutServiceInput;
 }
 
-export interface NotificationUpdateWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput;
-  data: NotificationUpdateWithoutUserDataInput;
-}
-
-export interface NotificationUpdateWithoutUserDataInput {
-  message?: Maybe<String>;
-}
-
-export interface NotificationUpsertWithWhereUniqueWithoutUserInput {
-  where: NotificationWhereUniqueInput;
-  update: NotificationUpdateWithoutUserDataInput;
-  create: NotificationCreateWithoutUserInput;
-}
-
-export interface NotificationScalarWhereInput {
+export interface UserScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -3083,20 +3642,122 @@ export interface NotificationScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  message?: Maybe<String>;
-  message_not?: Maybe<String>;
-  message_in?: Maybe<String[] | String>;
-  message_not_in?: Maybe<String[] | String>;
-  message_lt?: Maybe<String>;
-  message_lte?: Maybe<String>;
-  message_gt?: Maybe<String>;
-  message_gte?: Maybe<String>;
-  message_contains?: Maybe<String>;
-  message_not_contains?: Maybe<String>;
-  message_starts_with?: Maybe<String>;
-  message_not_starts_with?: Maybe<String>;
-  message_ends_with?: Maybe<String>;
-  message_not_ends_with?: Maybe<String>;
+  active?: Maybe<Boolean>;
+  active_not?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  grade_not?: Maybe<String>;
+  grade_in?: Maybe<String[] | String>;
+  grade_not_in?: Maybe<String[] | String>;
+  grade_lt?: Maybe<String>;
+  grade_lte?: Maybe<String>;
+  grade_gt?: Maybe<String>;
+  grade_gte?: Maybe<String>;
+  grade_contains?: Maybe<String>;
+  grade_not_contains?: Maybe<String>;
+  grade_starts_with?: Maybe<String>;
+  grade_not_starts_with?: Maybe<String>;
+  grade_ends_with?: Maybe<String>;
+  grade_not_ends_with?: Maybe<String>;
+  matricule?: Maybe<String>;
+  matricule_not?: Maybe<String>;
+  matricule_in?: Maybe<String[] | String>;
+  matricule_not_in?: Maybe<String[] | String>;
+  matricule_lt?: Maybe<String>;
+  matricule_lte?: Maybe<String>;
+  matricule_gt?: Maybe<String>;
+  matricule_gte?: Maybe<String>;
+  matricule_contains?: Maybe<String>;
+  matricule_not_contains?: Maybe<String>;
+  matricule_starts_with?: Maybe<String>;
+  matricule_not_starts_with?: Maybe<String>;
+  matricule_ends_with?: Maybe<String>;
+  matricule_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  fullname?: Maybe<String>;
+  fullname_not?: Maybe<String>;
+  fullname_in?: Maybe<String[] | String>;
+  fullname_not_in?: Maybe<String[] | String>;
+  fullname_lt?: Maybe<String>;
+  fullname_lte?: Maybe<String>;
+  fullname_gt?: Maybe<String>;
+  fullname_gte?: Maybe<String>;
+  fullname_contains?: Maybe<String>;
+  fullname_not_contains?: Maybe<String>;
+  fullname_starts_with?: Maybe<String>;
+  fullname_not_starts_with?: Maybe<String>;
+  fullname_ends_with?: Maybe<String>;
+  fullname_not_ends_with?: Maybe<String>;
+  phone?: Maybe<String>;
+  phone_not?: Maybe<String>;
+  phone_in?: Maybe<String[] | String>;
+  phone_not_in?: Maybe<String[] | String>;
+  phone_lt?: Maybe<String>;
+  phone_lte?: Maybe<String>;
+  phone_gt?: Maybe<String>;
+  phone_gte?: Maybe<String>;
+  phone_contains?: Maybe<String>;
+  phone_not_contains?: Maybe<String>;
+  phone_starts_with?: Maybe<String>;
+  phone_not_starts_with?: Maybe<String>;
+  phone_ends_with?: Maybe<String>;
+  phone_not_ends_with?: Maybe<String>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
+  role?: Maybe<String>;
+  role_not?: Maybe<String>;
+  role_in?: Maybe<String[] | String>;
+  role_not_in?: Maybe<String[] | String>;
+  role_lt?: Maybe<String>;
+  role_lte?: Maybe<String>;
+  role_gt?: Maybe<String>;
+  role_gte?: Maybe<String>;
+  role_contains?: Maybe<String>;
+  role_not_contains?: Maybe<String>;
+  role_starts_with?: Maybe<String>;
+  role_not_starts_with?: Maybe<String>;
+  role_ends_with?: Maybe<String>;
+  role_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3105,32 +3766,36 @@ export interface NotificationScalarWhereInput {
   created_at_lte?: Maybe<DateTimeInput>;
   created_at_gt?: Maybe<DateTimeInput>;
   created_at_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
-  OR?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
-  NOT?: Maybe<NotificationScalarWhereInput[] | NotificationScalarWhereInput>;
+  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
+  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
 }
 
-export interface NotificationUpdateManyWithWhereNestedInput {
-  where: NotificationScalarWhereInput;
-  data: NotificationUpdateManyDataInput;
+export interface UserUpdateManyWithWhereNestedInput {
+  where: UserScalarWhereInput;
+  data: UserUpdateManyDataInput;
 }
 
-export interface NotificationUpdateManyDataInput {
-  message?: Maybe<String>;
+export interface UserUpdateManyDataInput {
+  active?: Maybe<Boolean>;
+  grade?: Maybe<String>;
+  matricule?: Maybe<String>;
+  username?: Maybe<String>;
+  fullname?: Maybe<String>;
+  phone?: Maybe<String>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  role?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
-export interface UserUpsertWithoutDotationsInput {
-  update: UserUpdateWithoutDotationsDataInput;
-  create: UserCreateWithoutDotationsInput;
+export interface ServiceUpsertWithWhereUniqueWithoutHoldInput {
+  where: ServiceWhereUniqueInput;
+  update: ServiceUpdateWithoutHoldDataInput;
+  create: ServiceCreateWithoutHoldInput;
 }
 
-export interface DotationUpsertWithWhereUniqueWithoutHoldInput {
-  where: DotationWhereUniqueInput;
-  update: DotationUpdateWithoutHoldDataInput;
-  create: DotationCreateWithoutHoldInput;
-}
-
-export interface DotationScalarWhereInput {
+export interface ServiceScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -3145,100 +3810,50 @@ export interface DotationScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  motif?: Maybe<String>;
-  motif_not?: Maybe<String>;
-  motif_in?: Maybe<String[] | String>;
-  motif_not_in?: Maybe<String[] | String>;
-  motif_lt?: Maybe<String>;
-  motif_lte?: Maybe<String>;
-  motif_gt?: Maybe<String>;
-  motif_gte?: Maybe<String>;
-  motif_contains?: Maybe<String>;
-  motif_not_contains?: Maybe<String>;
-  motif_starts_with?: Maybe<String>;
-  motif_not_starts_with?: Maybe<String>;
-  motif_ends_with?: Maybe<String>;
-  motif_not_ends_with?: Maybe<String>;
-  start_date?: Maybe<DateTimeInput>;
-  start_date_not?: Maybe<DateTimeInput>;
-  start_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  start_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  start_date_lt?: Maybe<DateTimeInput>;
-  start_date_lte?: Maybe<DateTimeInput>;
-  start_date_gt?: Maybe<DateTimeInput>;
-  start_date_gte?: Maybe<DateTimeInput>;
-  end_date?: Maybe<DateTimeInput>;
-  end_date_not?: Maybe<DateTimeInput>;
-  end_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  end_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  end_date_lt?: Maybe<DateTimeInput>;
-  end_date_lte?: Maybe<DateTimeInput>;
-  end_date_gt?: Maybe<DateTimeInput>;
-  end_date_gte?: Maybe<DateTimeInput>;
-  number_of_liter_dotated_super?: Maybe<Float>;
-  number_of_liter_dotated_super_not?: Maybe<Float>;
-  number_of_liter_dotated_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_super_lt?: Maybe<Float>;
-  number_of_liter_dotated_super_lte?: Maybe<Float>;
-  number_of_liter_dotated_super_gt?: Maybe<Float>;
-  number_of_liter_dotated_super_gte?: Maybe<Float>;
-  number_of_liter_received_super?: Maybe<Float>;
-  number_of_liter_received_super_not?: Maybe<Float>;
-  number_of_liter_received_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_super_lt?: Maybe<Float>;
-  number_of_liter_received_super_lte?: Maybe<Float>;
-  number_of_liter_received_super_gt?: Maybe<Float>;
-  number_of_liter_received_super_gte?: Maybe<Float>;
-  number_of_liter_dotated_gazoil?: Maybe<Float>;
-  number_of_liter_dotated_gazoil_not?: Maybe<Float>;
-  number_of_liter_dotated_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_gazoil_lt?: Maybe<Float>;
-  number_of_liter_dotated_gazoil_lte?: Maybe<Float>;
-  number_of_liter_dotated_gazoil_gt?: Maybe<Float>;
-  number_of_liter_dotated_gazoil_gte?: Maybe<Float>;
-  number_of_liter_received_gazoil?: Maybe<Float>;
-  number_of_liter_received_gazoil_not?: Maybe<Float>;
-  number_of_liter_received_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_gazoil_lt?: Maybe<Float>;
-  number_of_liter_received_gazoil_lte?: Maybe<Float>;
-  number_of_liter_received_gazoil_gt?: Maybe<Float>;
-  number_of_liter_received_gazoil_gte?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super_not?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_reserve_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_reserve_super_lt?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super_lte?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super_gt?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super_gte?: Maybe<Float>;
-  number_of_liter_received_reserve_super?: Maybe<Float>;
-  number_of_liter_received_reserve_super_not?: Maybe<Float>;
-  number_of_liter_received_reserve_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_reserve_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_reserve_super_lt?: Maybe<Float>;
-  number_of_liter_received_reserve_super_lte?: Maybe<Float>;
-  number_of_liter_received_reserve_super_gt?: Maybe<Float>;
-  number_of_liter_received_reserve_super_gte?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil_not?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_dotated_reserve_gazoil_lt?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil_lte?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil_gt?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil_gte?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil_not?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_reserve_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_received_reserve_gazoil_lt?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil_lte?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil_gt?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil_gte?: Maybe<Float>;
+  label?: Maybe<String>;
+  label_not?: Maybe<String>;
+  label_in?: Maybe<String[] | String>;
+  label_not_in?: Maybe<String[] | String>;
+  label_lt?: Maybe<String>;
+  label_lte?: Maybe<String>;
+  label_gt?: Maybe<String>;
+  label_gte?: Maybe<String>;
+  label_contains?: Maybe<String>;
+  label_not_contains?: Maybe<String>;
+  label_starts_with?: Maybe<String>;
+  label_not_starts_with?: Maybe<String>;
+  label_ends_with?: Maybe<String>;
+  label_not_ends_with?: Maybe<String>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -3247,28 +3862,21 @@ export interface DotationScalarWhereInput {
   created_at_lte?: Maybe<DateTimeInput>;
   created_at_gt?: Maybe<DateTimeInput>;
   created_at_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
-  OR?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
-  NOT?: Maybe<DotationScalarWhereInput[] | DotationScalarWhereInput>;
+  AND?: Maybe<ServiceScalarWhereInput[] | ServiceScalarWhereInput>;
+  OR?: Maybe<ServiceScalarWhereInput[] | ServiceScalarWhereInput>;
+  NOT?: Maybe<ServiceScalarWhereInput[] | ServiceScalarWhereInput>;
 }
 
-export interface DotationUpdateManyWithWhereNestedInput {
-  where: DotationScalarWhereInput;
-  data: DotationUpdateManyDataInput;
+export interface ServiceUpdateManyWithWhereNestedInput {
+  where: ServiceScalarWhereInput;
+  data: ServiceUpdateManyDataInput;
 }
 
-export interface DotationUpdateManyDataInput {
-  motif?: Maybe<String>;
-  start_date?: Maybe<DateTimeInput>;
-  end_date?: Maybe<DateTimeInput>;
-  number_of_liter_dotated_super?: Maybe<Float>;
-  number_of_liter_received_super?: Maybe<Float>;
-  number_of_liter_dotated_gazoil?: Maybe<Float>;
-  number_of_liter_received_gazoil?: Maybe<Float>;
-  number_of_liter_dotated_reserve_super?: Maybe<Float>;
-  number_of_liter_received_reserve_super?: Maybe<Float>;
-  number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
-  number_of_liter_received_reserve_gazoil?: Maybe<Float>;
+export interface ServiceUpdateManyDataInput {
+  label?: Maybe<String>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
 }
 
 export interface HoldUpsertWithoutCarsInput {
@@ -3491,183 +4099,6 @@ export interface UserUpsertWithWhereUniqueWithoutHoldInput {
   create: UserCreateWithoutHoldInput;
 }
 
-export interface UserScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  active?: Maybe<Boolean>;
-  active_not?: Maybe<Boolean>;
-  grade?: Maybe<String>;
-  grade_not?: Maybe<String>;
-  grade_in?: Maybe<String[] | String>;
-  grade_not_in?: Maybe<String[] | String>;
-  grade_lt?: Maybe<String>;
-  grade_lte?: Maybe<String>;
-  grade_gt?: Maybe<String>;
-  grade_gte?: Maybe<String>;
-  grade_contains?: Maybe<String>;
-  grade_not_contains?: Maybe<String>;
-  grade_starts_with?: Maybe<String>;
-  grade_not_starts_with?: Maybe<String>;
-  grade_ends_with?: Maybe<String>;
-  grade_not_ends_with?: Maybe<String>;
-  matricule?: Maybe<String>;
-  matricule_not?: Maybe<String>;
-  matricule_in?: Maybe<String[] | String>;
-  matricule_not_in?: Maybe<String[] | String>;
-  matricule_lt?: Maybe<String>;
-  matricule_lte?: Maybe<String>;
-  matricule_gt?: Maybe<String>;
-  matricule_gte?: Maybe<String>;
-  matricule_contains?: Maybe<String>;
-  matricule_not_contains?: Maybe<String>;
-  matricule_starts_with?: Maybe<String>;
-  matricule_not_starts_with?: Maybe<String>;
-  matricule_ends_with?: Maybe<String>;
-  matricule_not_ends_with?: Maybe<String>;
-  username?: Maybe<String>;
-  username_not?: Maybe<String>;
-  username_in?: Maybe<String[] | String>;
-  username_not_in?: Maybe<String[] | String>;
-  username_lt?: Maybe<String>;
-  username_lte?: Maybe<String>;
-  username_gt?: Maybe<String>;
-  username_gte?: Maybe<String>;
-  username_contains?: Maybe<String>;
-  username_not_contains?: Maybe<String>;
-  username_starts_with?: Maybe<String>;
-  username_not_starts_with?: Maybe<String>;
-  username_ends_with?: Maybe<String>;
-  username_not_ends_with?: Maybe<String>;
-  fullname?: Maybe<String>;
-  fullname_not?: Maybe<String>;
-  fullname_in?: Maybe<String[] | String>;
-  fullname_not_in?: Maybe<String[] | String>;
-  fullname_lt?: Maybe<String>;
-  fullname_lte?: Maybe<String>;
-  fullname_gt?: Maybe<String>;
-  fullname_gte?: Maybe<String>;
-  fullname_contains?: Maybe<String>;
-  fullname_not_contains?: Maybe<String>;
-  fullname_starts_with?: Maybe<String>;
-  fullname_not_starts_with?: Maybe<String>;
-  fullname_ends_with?: Maybe<String>;
-  fullname_not_ends_with?: Maybe<String>;
-  phone?: Maybe<String>;
-  phone_not?: Maybe<String>;
-  phone_in?: Maybe<String[] | String>;
-  phone_not_in?: Maybe<String[] | String>;
-  phone_lt?: Maybe<String>;
-  phone_lte?: Maybe<String>;
-  phone_gt?: Maybe<String>;
-  phone_gte?: Maybe<String>;
-  phone_contains?: Maybe<String>;
-  phone_not_contains?: Maybe<String>;
-  phone_starts_with?: Maybe<String>;
-  phone_not_starts_with?: Maybe<String>;
-  phone_ends_with?: Maybe<String>;
-  phone_not_ends_with?: Maybe<String>;
-  super?: Maybe<Float>;
-  super_not?: Maybe<Float>;
-  super_in?: Maybe<Float[] | Float>;
-  super_not_in?: Maybe<Float[] | Float>;
-  super_lt?: Maybe<Float>;
-  super_lte?: Maybe<Float>;
-  super_gt?: Maybe<Float>;
-  super_gte?: Maybe<Float>;
-  service?: Maybe<String>;
-  service_not?: Maybe<String>;
-  service_in?: Maybe<String[] | String>;
-  service_not_in?: Maybe<String[] | String>;
-  service_lt?: Maybe<String>;
-  service_lte?: Maybe<String>;
-  service_gt?: Maybe<String>;
-  service_gte?: Maybe<String>;
-  service_contains?: Maybe<String>;
-  service_not_contains?: Maybe<String>;
-  service_starts_with?: Maybe<String>;
-  service_not_starts_with?: Maybe<String>;
-  service_ends_with?: Maybe<String>;
-  service_not_ends_with?: Maybe<String>;
-  gazoil?: Maybe<Float>;
-  gazoil_not?: Maybe<Float>;
-  gazoil_in?: Maybe<Float[] | Float>;
-  gazoil_not_in?: Maybe<Float[] | Float>;
-  gazoil_lt?: Maybe<Float>;
-  gazoil_lte?: Maybe<Float>;
-  gazoil_gt?: Maybe<Float>;
-  gazoil_gte?: Maybe<Float>;
-  role?: Maybe<String>;
-  role_not?: Maybe<String>;
-  role_in?: Maybe<String[] | String>;
-  role_not_in?: Maybe<String[] | String>;
-  role_lt?: Maybe<String>;
-  role_lte?: Maybe<String>;
-  role_gt?: Maybe<String>;
-  role_gte?: Maybe<String>;
-  role_contains?: Maybe<String>;
-  role_not_contains?: Maybe<String>;
-  role_starts_with?: Maybe<String>;
-  role_not_starts_with?: Maybe<String>;
-  role_ends_with?: Maybe<String>;
-  role_not_ends_with?: Maybe<String>;
-  password?: Maybe<String>;
-  password_not?: Maybe<String>;
-  password_in?: Maybe<String[] | String>;
-  password_not_in?: Maybe<String[] | String>;
-  password_lt?: Maybe<String>;
-  password_lte?: Maybe<String>;
-  password_gt?: Maybe<String>;
-  password_gte?: Maybe<String>;
-  password_contains?: Maybe<String>;
-  password_not_contains?: Maybe<String>;
-  password_starts_with?: Maybe<String>;
-  password_not_starts_with?: Maybe<String>;
-  password_ends_with?: Maybe<String>;
-  password_not_ends_with?: Maybe<String>;
-  created_at?: Maybe<DateTimeInput>;
-  created_at_not?: Maybe<DateTimeInput>;
-  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  created_at_lt?: Maybe<DateTimeInput>;
-  created_at_lte?: Maybe<DateTimeInput>;
-  created_at_gt?: Maybe<DateTimeInput>;
-  created_at_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  OR?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-  NOT?: Maybe<UserScalarWhereInput[] | UserScalarWhereInput>;
-}
-
-export interface UserUpdateManyWithWhereNestedInput {
-  where: UserScalarWhereInput;
-  data: UserUpdateManyDataInput;
-}
-
-export interface UserUpdateManyDataInput {
-  active?: Maybe<Boolean>;
-  grade?: Maybe<String>;
-  matricule?: Maybe<String>;
-  username?: Maybe<String>;
-  fullname?: Maybe<String>;
-  phone?: Maybe<String>;
-  super?: Maybe<Float>;
-  service?: Maybe<String>;
-  gazoil?: Maybe<Float>;
-  role?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
 export interface HoldUpsertWithoutDotationsInput {
   update: HoldUpdateWithoutDotationsDataInput;
   create: HoldCreateWithoutDotationsInput;
@@ -3812,7 +4243,6 @@ export interface UserCreateWithoutDotationEmetteursInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3821,6 +4251,7 @@ export interface UserCreateWithoutDotationEmetteursInput {
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface DotationEmetteurUpdateInput {
@@ -3847,7 +4278,6 @@ export interface UserUpdateWithoutDotationEmetteursDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -3856,6 +4286,7 @@ export interface UserUpdateWithoutDotationEmetteursDataInput {
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface UserUpsertWithoutDotationEmetteursInput {
@@ -3889,6 +4320,7 @@ export interface HoldCreateInput {
   theorical_reserve_gazoil_quantity: Float;
   users?: Maybe<UserCreateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
   cars?: Maybe<CarCreateManyWithoutHoldInput>;
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
@@ -3910,6 +4342,7 @@ export interface HoldUpdateInput {
   theorical_reserve_gazoil_quantity?: Maybe<Float>;
   users?: Maybe<UserUpdateManyWithoutHoldInput>;
   bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
   cars?: Maybe<CarUpdateManyWithoutHoldInput>;
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
@@ -3962,7 +4395,6 @@ export interface UserCreateWithoutLogsInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -3971,6 +4403,7 @@ export interface UserCreateWithoutLogsInput {
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface LogUpdateInput {
@@ -3993,7 +4426,6 @@ export interface UserUpdateWithoutLogsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -4002,6 +4434,7 @@ export interface UserUpdateWithoutLogsDataInput {
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface UserUpsertWithoutLogsInput {
@@ -4033,7 +4466,6 @@ export interface UserCreateWithoutNotificationsInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -4042,6 +4474,7 @@ export interface UserCreateWithoutNotificationsInput {
   dotations?: Maybe<DotationCreateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface NotificationUpdateInput {
@@ -4064,7 +4497,6 @@ export interface UserUpdateWithoutNotificationsDataInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -4073,6 +4505,7 @@ export interface UserUpdateWithoutNotificationsDataInput {
   dotations?: Maybe<DotationUpdateManyWithoutUserInput>;
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface UserUpsertWithoutNotificationsInput {
@@ -4084,6 +4517,32 @@ export interface NotificationUpdateManyMutationInput {
   message?: Maybe<String>;
 }
 
+export interface ServiceCreateInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+  hold: HoldCreateOneWithoutServicesInput;
+  users?: Maybe<UserCreateManyWithoutServiceInput>;
+  super: Float;
+  gazoil: Float;
+  description?: Maybe<String>;
+}
+
+export interface ServiceUpdateInput {
+  label?: Maybe<String>;
+  hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
+  users?: Maybe<UserUpdateManyWithoutServiceInput>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
+}
+
+export interface ServiceUpdateManyMutationInput {
+  label?: Maybe<String>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   active: Boolean;
@@ -4093,7 +4552,6 @@ export interface UserCreateInput {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -4103,6 +4561,7 @@ export interface UserCreateInput {
   dotationEmetteurs?: Maybe<DotationEmetteurCreateManyWithoutUserInput>;
   hold?: Maybe<HoldCreateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationCreateManyWithoutUserInput>;
+  service?: Maybe<ServiceCreateOneWithoutUsersInput>;
 }
 
 export interface UserUpdateInput {
@@ -4113,7 +4572,6 @@ export interface UserUpdateInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -4123,6 +4581,7 @@ export interface UserUpdateInput {
   dotationEmetteurs?: Maybe<DotationEmetteurUpdateManyWithoutUserInput>;
   hold?: Maybe<HoldUpdateOneWithoutUsersInput>;
   notifications?: Maybe<NotificationUpdateManyWithoutUserInput>;
+  service?: Maybe<ServiceUpdateOneWithoutUsersInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -4133,7 +4592,6 @@ export interface UserUpdateManyMutationInput {
   fullname?: Maybe<String>;
   phone?: Maybe<String>;
   super?: Maybe<Float>;
-  service?: Maybe<String>;
   gazoil?: Maybe<Float>;
   role?: Maybe<String>;
   password?: Maybe<String>;
@@ -4250,6 +4708,17 @@ export interface NotificationSubscriptionWhereInput {
   NOT?: Maybe<
     NotificationSubscriptionWhereInput[] | NotificationSubscriptionWhereInput
   >;
+}
+
+export interface ServiceSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ServiceWhereInput>;
+  AND?: Maybe<ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput>;
+  OR?: Maybe<ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput>;
+  NOT?: Maybe<ServiceSubscriptionWhereInput[] | ServiceSubscriptionWhereInput>;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -4395,7 +4864,6 @@ export interface User {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -4411,7 +4879,6 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
-  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -4462,6 +4929,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     last?: Int;
   }) => T;
   created_at: () => Promise<DateTimeOutput>;
+  service: <T = ServicePromise>() => T;
 }
 
 export interface UserSubscription
@@ -4475,7 +4943,6 @@ export interface UserSubscription
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   super: () => Promise<AsyncIterator<Float>>;
-  service: () => Promise<AsyncIterator<String>>;
   gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
@@ -4528,6 +4995,7 @@ export interface UserSubscription
     last?: Int;
   }) => T;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+  service: <T = ServiceSubscription>() => T;
 }
 
 export interface UserNullablePromise
@@ -4541,7 +5009,6 @@ export interface UserNullablePromise
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
-  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -4592,6 +5059,7 @@ export interface UserNullablePromise
     last?: Int;
   }) => T;
   created_at: () => Promise<DateTimeOutput>;
+  service: <T = ServicePromise>() => T;
 }
 
 export interface Log {
@@ -4750,6 +5218,15 @@ export interface HoldPromise extends Promise<Hold>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  services: <T = FragmentableArray<Service>>(args?: {
+    where?: ServiceWhereInput;
+    orderBy?: ServiceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   cars: <T = FragmentableArray<Car>>(args?: {
     where?: CarWhereInput;
     orderBy?: CarOrderByInput;
@@ -4801,6 +5278,15 @@ export interface HoldSubscription
   bons: <T = Promise<AsyncIterator<HoldsOnBonsSubscription>>>(args?: {
     where?: HoldsOnBonsWhereInput;
     orderBy?: HoldsOnBonsOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  services: <T = Promise<AsyncIterator<ServiceSubscription>>>(args?: {
+    where?: ServiceWhereInput;
+    orderBy?: ServiceOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -4864,6 +5350,15 @@ export interface HoldNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  services: <T = FragmentableArray<Service>>(args?: {
+    where?: ServiceWhereInput;
+    orderBy?: ServiceOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   cars: <T = FragmentableArray<Car>>(args?: {
     where?: CarWhereInput;
     orderBy?: CarOrderByInput;
@@ -4912,6 +5407,76 @@ export interface HoldsOnBonsNullablePromise
   id: () => Promise<ID_Output>;
   hold: <T = HoldPromise>() => T;
   bon: <T = BonPromise>() => T;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface Service {
+  id: ID_Output;
+  label: String;
+  super: Float;
+  gazoil: Float;
+  description?: String;
+  created_at: DateTimeOutput;
+}
+
+export interface ServicePromise extends Promise<Service>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  label: () => Promise<String>;
+  hold: <T = HoldPromise>() => T;
+  users: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
+  description: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface ServiceSubscription
+  extends Promise<AsyncIterator<Service>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  label: () => Promise<AsyncIterator<String>>;
+  hold: <T = HoldSubscription>() => T;
+  users: <T = Promise<AsyncIterator<UserSubscription>>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
+  description: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ServiceNullablePromise
+  extends Promise<Service | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  label: () => Promise<String>;
+  hold: <T = HoldPromise>() => T;
+  users: <T = FragmentableArray<User>>(args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
+  description: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
 
@@ -5520,6 +6085,60 @@ export interface AggregateNotificationSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface ServiceConnection {
+  pageInfo: PageInfo;
+  edges: ServiceEdge[];
+}
+
+export interface ServiceConnectionPromise
+  extends Promise<ServiceConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ServiceEdge>>() => T;
+  aggregate: <T = AggregateServicePromise>() => T;
+}
+
+export interface ServiceConnectionSubscription
+  extends Promise<AsyncIterator<ServiceConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ServiceEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateServiceSubscription>() => T;
+}
+
+export interface ServiceEdge {
+  node: Service;
+  cursor: String;
+}
+
+export interface ServiceEdgePromise extends Promise<ServiceEdge>, Fragmentable {
+  node: <T = ServicePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ServiceEdgeSubscription
+  extends Promise<AsyncIterator<ServiceEdge>>,
+    Fragmentable {
+  node: <T = ServiceSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateService {
+  count: Int;
+}
+
+export interface AggregateServicePromise
+  extends Promise<AggregateService>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateServiceSubscription
+  extends Promise<AsyncIterator<AggregateService>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -6110,6 +6729,62 @@ export interface NotificationPreviousValuesSubscription
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface ServiceSubscriptionPayload {
+  mutation: MutationType;
+  node: Service;
+  updatedFields: String[];
+  previousValues: ServicePreviousValues;
+}
+
+export interface ServiceSubscriptionPayloadPromise
+  extends Promise<ServiceSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ServicePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ServicePreviousValuesPromise>() => T;
+}
+
+export interface ServiceSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ServiceSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ServiceSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ServicePreviousValuesSubscription>() => T;
+}
+
+export interface ServicePreviousValues {
+  id: ID_Output;
+  label: String;
+  super: Float;
+  gazoil: Float;
+  description?: String;
+  created_at: DateTimeOutput;
+}
+
+export interface ServicePreviousValuesPromise
+  extends Promise<ServicePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  label: () => Promise<String>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
+  description: () => Promise<String>;
+  created_at: () => Promise<DateTimeOutput>;
+}
+
+export interface ServicePreviousValuesSubscription
+  extends Promise<AsyncIterator<ServicePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  label: () => Promise<AsyncIterator<String>>;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
+  description: () => Promise<AsyncIterator<String>>;
+  created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -6144,7 +6819,6 @@ export interface UserPreviousValues {
   fullname: String;
   phone: String;
   super: Float;
-  service: String;
   gazoil: Float;
   role: String;
   password: String;
@@ -6162,7 +6836,6 @@ export interface UserPreviousValuesPromise
   fullname: () => Promise<String>;
   phone: () => Promise<String>;
   super: () => Promise<Float>;
-  service: () => Promise<String>;
   gazoil: () => Promise<Float>;
   role: () => Promise<String>;
   password: () => Promise<String>;
@@ -6180,7 +6853,6 @@ export interface UserPreviousValuesSubscription
   fullname: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   super: () => Promise<AsyncIterator<Float>>;
-  service: () => Promise<AsyncIterator<String>>;
   gazoil: () => Promise<AsyncIterator<Float>>;
   role: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
@@ -6264,6 +6936,10 @@ export const models: Model[] = [
   },
   {
     name: "Car",
+    embedded: false
+  },
+  {
+    name: "Service",
     embedded: false
   }
 ];
