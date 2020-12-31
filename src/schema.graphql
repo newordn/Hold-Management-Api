@@ -18,7 +18,7 @@ type Query{
    
 type Mutation{  
     signUp(grade:String!,matricule:String!,username:String!,fullname:String!,phone:String!,role:String!, service: String!): AuthPayload!
-    signIn(phone:String!,service: String!,password:String!): AuthPayload!
+    signIn(phone:String!,service: ID!,password:String!): AuthPayload!
     hold(name:String!, localisation: String!, super_capacity: Float!, gazoil_capacity: Float!, super_cuves_number: Float!, gazoil_cuves_number: Float!): Hold!
     updateUsersHoldRole(user:ID!, hold: ID!, role: String!): User!
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
