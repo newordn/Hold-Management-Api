@@ -53,6 +53,7 @@ const MESSAGES = {
     createMessage(
       `L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
     ),
+  service: (label,hold)=> createMessage(`Création du service ${label}, a la soute immatriculée ${hold}`),
   bon: (
     type,
     reserve,

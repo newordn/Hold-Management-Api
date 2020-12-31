@@ -12,6 +12,7 @@ type Query{
     statistique(user:ID!, type: String!): [Statistique!]!
     emetteurs(hold:ID!): [User!]!
     exporting(type: String!): [Exporting!]!
+    services: [Service!]!
     usersByService(service: ID!): [User!]!
 }
    

@@ -617,9 +617,14 @@ const transfertBon = async (parent, args, context, info) => {
   
 }
 async function service(parent, args, context, info) {
-  console.log(MESSAGES.service(args.label, args.description, args.hold));
+  console.log(MESSAGES.service(args.label,  args.hold));
   try {
     let service = await context.prisma.createService({...args, super:0, gazoil:0, hold: {connect: {id: args.hold} }})
+    let userId = await getUserId(context)
+    await context.prisma.createLog({
+      action: MESSAGES.service(args.label,args.hold),
+      user: { connect: { id: userId } }
+    })
     return service
   } catch (e) {
     console.log(e);

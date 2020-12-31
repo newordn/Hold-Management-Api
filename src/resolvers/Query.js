@@ -29,7 +29,11 @@ async function usersByService(parent, args, context, info) {
   const services = await context.prisma.service({id:args.service }).users({orderBy: "id_DESC"})
   return services;
 }
- 
+async function services(parent, args, context, info) {
+  console.log("services query");
+  const services = await context.prisma.services({orderBy: "id_DESC"})
+  return services;
+}
 async function exporting(parent, args, context, info) {
   console.log("exporting query");
   const datas = [];
@@ -598,6 +602,7 @@ async function statistique(parent, args, context, info) {
   }
   return datas;
 }
+
 module.exports = {
   info,
   users,
@@ -609,5 +614,6 @@ module.exports = {
   statistique,
   emetteurs,
   exporting,
-  usersByService
+  usersByService,
+  services
 };
