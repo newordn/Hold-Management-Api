@@ -21,7 +21,8 @@ async function signUp(parent, args, context, info) {
     password,
     super: 0,
     gazoil: 0,
-    active: true
+    active: true,
+    service: {connect: {id: args.service}}
   });
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
@@ -54,10 +55,7 @@ async function signIn(parent, args, context, info) {
   if (!valid) {
     throw new Error("Mot de passe incorrect");
   }
-  let service = await context.prisma.user({phone: args.phone}).service()
-  if(service===null || service!==args.service){
-    throw new Error("Vous n'êtes pas/plus du service")
-  }
+  
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
