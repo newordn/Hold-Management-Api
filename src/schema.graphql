@@ -80,7 +80,7 @@ type User{
    username: String!
    fullname: String!
    phone: String!
-   service: String!
+   service: Service
    super: Float!
    gazoil: Float!
    reserve: Float!
