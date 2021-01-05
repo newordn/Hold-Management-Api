@@ -77,7 +77,8 @@ const MESSAGES = {
       `Consommation de ${number_of_liter_to_consume} L du bon immatriculé ${bon} par l'utilisateur immatriculé ${user}, kilométrage lors de la consommation: ${coverage_when_consuming}, ${
         status ? "reussie" : "échec"
       }`
-    )
+    ),
+  dotateService: (service, super_capacity, gazoil)=> createMessage(`Dotation au service ${service} de ${super_capacity} litres de super et ${gazoil} litres de gazoil`)
 };
 module.exports = {
   MESSAGES

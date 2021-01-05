@@ -631,6 +631,22 @@ async function service(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+async function dotateService(parent, args, context, info) {
+  
+  try {
+    let service = await context.prisma.service({id: args.service})
+    console.log(MESSAGES.dotateService(service.name,super_capacity, gazoil));
+    let userId = await getUserId(context)
+    await context.prisma.createLog({
+      action: MESSAGES.dotateService(service.name,super_capacity, gazoil),
+      user: { connect: { id: userId } }
+    })
+    return service
+  } catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 
 module.exports = {
   signUp,
@@ -644,5 +660,6 @@ module.exports = {
   consumedBon,
   dotateEmetteur,
   transfertBon,
-  service
+  service,
+  dotateService
 };

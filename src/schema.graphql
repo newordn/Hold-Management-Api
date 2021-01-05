@@ -29,6 +29,7 @@ type Mutation{
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
     dotateEmetteur(responsableSoute: ID!, user:ID!,start_date: Float!, end_date: Float!, number_of_liter_super: Float!, number_of_liter_gazoil: Float!, motif: String!): DotationEmetteur!
     service(label: String!, description: String!, hold: ID!): Service!
+    dotateService(service: ID!, super: Float!, gazoil: Float!): Service!
 }
 type Service {
     id: ID!
