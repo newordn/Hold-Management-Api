@@ -4,6 +4,7 @@ const Query = require("./resolvers/Query");
 const Log = require("./resolvers/Log");
 const Notification = require("./resolvers/Notification");
 const Hold = require("./resolvers/Hold");
+const Service = require("./resolvers/Service");
 const User = require("./resolvers/User");
 const Car = require("./resolvers/Car");
 const Bon = require("./resolvers/Bon");
@@ -21,7 +22,8 @@ const resolvers = {
   User,
   Car,
   Bon,
-  HoldsOnBons
+  HoldsOnBons,
+  Service
 };
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new GraphQLServer({
