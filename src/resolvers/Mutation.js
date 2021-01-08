@@ -230,7 +230,7 @@ const car = async (parent, args, context, info) => {
     const imageUploaded = image ? await context.storeUpload(image): {path: ""}
     const data = await context.prisma.createCar({
       number_of_reservoir,
-      service: {connect: {id: service}},
+      service: {connect: {id: serviceId}},
       marque,
       capacity,
       type,
