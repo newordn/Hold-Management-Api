@@ -117,7 +117,7 @@ type Car {
     bon: Bon @relation(link: INLINE)
     hold: Hold! @relation(name: "HoldCars")
     image: String
-    service: String!
+    service: Service @relation(name: "CarServices") 
     number_of_reservoir: Float!
     marque: String!
     capacity: Float!
@@ -131,6 +131,7 @@ type Service {
     label: String!
     hold: Hold! @relation(name: "HoldServices")
     users: [User!]! @relation(name: "UserServices")
+    cars: [Car!] @relation(name: "CarServices")
     super: Float!
     gazoil: Float!
     description: String

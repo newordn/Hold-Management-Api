@@ -803,7 +803,7 @@ type Car {
   bon: Bon
   hold: Hold!
   image: String
-  service: String!
+  service: Service
   number_of_reservoir: Float!
   marque: String!
   capacity: Float!
@@ -824,7 +824,7 @@ input CarCreateInput {
   bon: BonCreateOneWithoutCarInput
   hold: HoldCreateOneWithoutCarsInput!
   image: String
-  service: String!
+  service: ServiceCreateOneWithoutCarsInput
   number_of_reservoir: Float!
   marque: String!
   capacity: Float!
@@ -838,6 +838,11 @@ input CarCreateManyWithoutHoldInput {
   connect: [CarWhereUniqueInput!]
 }
 
+input CarCreateManyWithoutServiceInput {
+  create: [CarCreateWithoutServiceInput!]
+  connect: [CarWhereUniqueInput!]
+}
+
 input CarCreateOneWithoutBonInput {
   create: CarCreateWithoutBonInput
   connect: CarWhereUniqueInput
@@ -847,7 +852,7 @@ input CarCreateWithoutBonInput {
   id: ID
   hold: HoldCreateOneWithoutCarsInput!
   image: String
-  service: String!
+  service: ServiceCreateOneWithoutCarsInput
   number_of_reservoir: Float!
   marque: String!
   capacity: Float!
@@ -860,7 +865,20 @@ input CarCreateWithoutHoldInput {
   id: ID
   bon: BonCreateOneWithoutCarInput
   image: String
-  service: String!
+  service: ServiceCreateOneWithoutCarsInput
+  number_of_reservoir: Float!
+  marque: String!
+  capacity: Float!
+  type: String!
+  immatriculation: String!
+  kilometrage: Float!
+}
+
+input CarCreateWithoutServiceInput {
+  id: ID
+  bon: BonCreateOneWithoutCarInput
+  hold: HoldCreateOneWithoutCarsInput!
+  image: String
   number_of_reservoir: Float!
   marque: String!
   capacity: Float!
@@ -879,8 +897,6 @@ enum CarOrderByInput {
   id_DESC
   image_ASC
   image_DESC
-  service_ASC
-  service_DESC
   number_of_reservoir_ASC
   number_of_reservoir_DESC
   marque_ASC
@@ -900,7 +916,6 @@ enum CarOrderByInput {
 type CarPreviousValues {
   id: ID!
   image: String
-  service: String!
   number_of_reservoir: Float!
   marque: String!
   capacity: Float!
@@ -939,20 +954,6 @@ input CarScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
-  service: String
-  service_not: String
-  service_in: [String!]
-  service_not_in: [String!]
-  service_lt: String
-  service_lte: String
-  service_gt: String
-  service_gte: String
-  service_contains: String
-  service_not_contains: String
-  service_starts_with: String
-  service_not_starts_with: String
-  service_ends_with: String
-  service_not_ends_with: String
   number_of_reservoir: Float
   number_of_reservoir_not: Float
   number_of_reservoir_in: [Float!]
@@ -1054,7 +1055,7 @@ input CarUpdateInput {
   bon: BonUpdateOneWithoutCarInput
   hold: HoldUpdateOneRequiredWithoutCarsInput
   image: String
-  service: String
+  service: ServiceUpdateOneWithoutCarsInput
   number_of_reservoir: Float
   marque: String
   capacity: Float
@@ -1065,7 +1066,6 @@ input CarUpdateInput {
 
 input CarUpdateManyDataInput {
   image: String
-  service: String
   number_of_reservoir: Float
   marque: String
   capacity: Float
@@ -1076,7 +1076,6 @@ input CarUpdateManyDataInput {
 
 input CarUpdateManyMutationInput {
   image: String
-  service: String
   number_of_reservoir: Float
   marque: String
   capacity: Float
@@ -1093,6 +1092,18 @@ input CarUpdateManyWithoutHoldInput {
   disconnect: [CarWhereUniqueInput!]
   update: [CarUpdateWithWhereUniqueWithoutHoldInput!]
   upsert: [CarUpsertWithWhereUniqueWithoutHoldInput!]
+  deleteMany: [CarScalarWhereInput!]
+  updateMany: [CarUpdateManyWithWhereNestedInput!]
+}
+
+input CarUpdateManyWithoutServiceInput {
+  create: [CarCreateWithoutServiceInput!]
+  delete: [CarWhereUniqueInput!]
+  connect: [CarWhereUniqueInput!]
+  set: [CarWhereUniqueInput!]
+  disconnect: [CarWhereUniqueInput!]
+  update: [CarUpdateWithWhereUniqueWithoutServiceInput!]
+  upsert: [CarUpsertWithWhereUniqueWithoutServiceInput!]
   deleteMany: [CarScalarWhereInput!]
   updateMany: [CarUpdateManyWithWhereNestedInput!]
 }
@@ -1114,7 +1125,7 @@ input CarUpdateOneWithoutBonInput {
 input CarUpdateWithoutBonDataInput {
   hold: HoldUpdateOneRequiredWithoutCarsInput
   image: String
-  service: String
+  service: ServiceUpdateOneWithoutCarsInput
   number_of_reservoir: Float
   marque: String
   capacity: Float
@@ -1126,7 +1137,19 @@ input CarUpdateWithoutBonDataInput {
 input CarUpdateWithoutHoldDataInput {
   bon: BonUpdateOneWithoutCarInput
   image: String
-  service: String
+  service: ServiceUpdateOneWithoutCarsInput
+  number_of_reservoir: Float
+  marque: String
+  capacity: Float
+  type: String
+  immatriculation: String
+  kilometrage: Float
+}
+
+input CarUpdateWithoutServiceDataInput {
+  bon: BonUpdateOneWithoutCarInput
+  hold: HoldUpdateOneRequiredWithoutCarsInput
+  image: String
   number_of_reservoir: Float
   marque: String
   capacity: Float
@@ -1140,6 +1163,11 @@ input CarUpdateWithWhereUniqueWithoutHoldInput {
   data: CarUpdateWithoutHoldDataInput!
 }
 
+input CarUpdateWithWhereUniqueWithoutServiceInput {
+  where: CarWhereUniqueInput!
+  data: CarUpdateWithoutServiceDataInput!
+}
+
 input CarUpsertWithoutBonInput {
   update: CarUpdateWithoutBonDataInput!
   create: CarCreateWithoutBonInput!
@@ -1149,6 +1177,12 @@ input CarUpsertWithWhereUniqueWithoutHoldInput {
   where: CarWhereUniqueInput!
   update: CarUpdateWithoutHoldDataInput!
   create: CarCreateWithoutHoldInput!
+}
+
+input CarUpsertWithWhereUniqueWithoutServiceInput {
+  where: CarWhereUniqueInput!
+  update: CarUpdateWithoutServiceDataInput!
+  create: CarCreateWithoutServiceInput!
 }
 
 input CarWhereInput {
@@ -1182,20 +1216,7 @@ input CarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
-  service: String
-  service_not: String
-  service_in: [String!]
-  service_not_in: [String!]
-  service_lt: String
-  service_lte: String
-  service_gt: String
-  service_gte: String
-  service_contains: String
-  service_not_contains: String
-  service_starts_with: String
-  service_not_starts_with: String
-  service_ends_with: String
-  service_not_ends_with: String
+  service: ServiceWhereInput
   number_of_reservoir: Float
   number_of_reservoir_not: Float
   number_of_reservoir_in: [Float!]
@@ -3472,6 +3493,7 @@ type Service {
   label: String!
   hold: Hold!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
+  cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
   super: Float!
   gazoil: Float!
   description: String
@@ -3489,6 +3511,7 @@ input ServiceCreateInput {
   label: String!
   hold: HoldCreateOneWithoutServicesInput!
   users: UserCreateManyWithoutServiceInput
+  cars: CarCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3499,15 +3522,31 @@ input ServiceCreateManyWithoutHoldInput {
   connect: [ServiceWhereUniqueInput!]
 }
 
+input ServiceCreateOneWithoutCarsInput {
+  create: ServiceCreateWithoutCarsInput
+  connect: ServiceWhereUniqueInput
+}
+
 input ServiceCreateOneWithoutUsersInput {
   create: ServiceCreateWithoutUsersInput
   connect: ServiceWhereUniqueInput
+}
+
+input ServiceCreateWithoutCarsInput {
+  id: ID
+  label: String!
+  hold: HoldCreateOneWithoutServicesInput!
+  users: UserCreateManyWithoutServiceInput
+  super: Float!
+  gazoil: Float!
+  description: String
 }
 
 input ServiceCreateWithoutHoldInput {
   id: ID
   label: String!
   users: UserCreateManyWithoutServiceInput
+  cars: CarCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3517,6 +3556,7 @@ input ServiceCreateWithoutUsersInput {
   id: ID
   label: String!
   hold: HoldCreateOneWithoutServicesInput!
+  cars: CarCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3645,6 +3685,7 @@ input ServiceUpdateInput {
   label: String
   hold: HoldUpdateOneRequiredWithoutServicesInput
   users: UserUpdateManyWithoutServiceInput
+  cars: CarUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3681,6 +3722,15 @@ input ServiceUpdateManyWithWhereNestedInput {
   data: ServiceUpdateManyDataInput!
 }
 
+input ServiceUpdateOneWithoutCarsInput {
+  create: ServiceCreateWithoutCarsInput
+  update: ServiceUpdateWithoutCarsDataInput
+  upsert: ServiceUpsertWithoutCarsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ServiceWhereUniqueInput
+}
+
 input ServiceUpdateOneWithoutUsersInput {
   create: ServiceCreateWithoutUsersInput
   update: ServiceUpdateWithoutUsersDataInput
@@ -3690,9 +3740,19 @@ input ServiceUpdateOneWithoutUsersInput {
   connect: ServiceWhereUniqueInput
 }
 
+input ServiceUpdateWithoutCarsDataInput {
+  label: String
+  hold: HoldUpdateOneRequiredWithoutServicesInput
+  users: UserUpdateManyWithoutServiceInput
+  super: Float
+  gazoil: Float
+  description: String
+}
+
 input ServiceUpdateWithoutHoldDataInput {
   label: String
   users: UserUpdateManyWithoutServiceInput
+  cars: CarUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3701,6 +3761,7 @@ input ServiceUpdateWithoutHoldDataInput {
 input ServiceUpdateWithoutUsersDataInput {
   label: String
   hold: HoldUpdateOneRequiredWithoutServicesInput
+  cars: CarUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3709,6 +3770,11 @@ input ServiceUpdateWithoutUsersDataInput {
 input ServiceUpdateWithWhereUniqueWithoutHoldInput {
   where: ServiceWhereUniqueInput!
   data: ServiceUpdateWithoutHoldDataInput!
+}
+
+input ServiceUpsertWithoutCarsInput {
+  update: ServiceUpdateWithoutCarsDataInput!
+  create: ServiceCreateWithoutCarsInput!
 }
 
 input ServiceUpsertWithoutUsersInput {
@@ -3755,6 +3821,9 @@ input ServiceWhereInput {
   users_every: UserWhereInput
   users_some: UserWhereInput
   users_none: UserWhereInput
+  cars_every: CarWhereInput
+  cars_some: CarWhereInput
+  cars_none: CarWhereInput
   super: Float
   super_not: Float
   super_in: [Float!]
