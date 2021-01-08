@@ -166,6 +166,7 @@ type Car {
     hold: Hold!
     image: String!
     marque: String!
+    service: Service
     capacity: Float!
     type: String!
     bon: Bon
