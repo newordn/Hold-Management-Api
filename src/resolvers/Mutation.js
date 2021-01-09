@@ -89,13 +89,33 @@ async function hold(parent, args, context, info) {
     throw new Error(e.message);
   }
 }
+async function updateUserService(parent, args, context, info){
+  try{
+    const user = await context.prisma.updateUser({
+      data: { service: { connect: { id: args.service } } },
+      where: { id: args.user }
+    });
+    const service= await context.prisma.service({ id: args.service});
+    console.log(MESSAGES.updateUserService(user.fullname, service.label))
+    let userId = await getUserId(context)
+    await context.prisma.createLog({
+      action: MESSAGES.updateUserService(user.fullname, service.label),
+      user: { connect: { id: userId } }
+    });
+   
+    return user
+  }
+  catch (e) {
+    console.log(e);
+    throw new Error(e.message);
+  }
+}
 async function updateUsersHoldRole(parent, args, context, info) {
   try {
     const user = await context.prisma.updateUser({
       data: { role: args.role, hold: { connect: { id: args.hold } } },
       where: { id: args.user }
     });
-    10;
     const hold = await context.prisma.hold({ id: args.hold });
 
     await context.prisma.createLog({
@@ -662,5 +682,6 @@ module.exports = {
   dotateEmetteur,
   transfertBon,
   service,
-  dotateService
+  dotateService,
+  updateUserService
 };
