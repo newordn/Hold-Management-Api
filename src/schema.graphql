@@ -170,6 +170,7 @@ type Car {
     capacity: Float!
     type: String!
     bon: Bon
+    number_of_reservoir: Float!
     immatriculation: String!
     kilometrage: Float!
     created_at: String
