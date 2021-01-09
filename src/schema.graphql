@@ -5,6 +5,7 @@ type Query{
     info(message: String!): String!
     users: [User!]!
     logs: [Log!]!
+    logsByUser(user: ID!): [Log!]!
     holds: [Hold!]!
     bons(consumed:Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
