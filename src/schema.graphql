@@ -15,7 +15,7 @@ type Query{
     exporting(type: String!): [Exporting!]!
     services: [Service!]!
     usersByService(service: ID!): [User!]!
-    carsByService(service: ID!): [User!]!
+    carsByService(service: ID!): [Car!]!
 }
    
 type Mutation{  
