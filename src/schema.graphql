@@ -16,6 +16,8 @@ type Query{
     services: [Service!]!
     usersByService(service: ID!): [User!]!
     carsByService(service: ID!): [Car!]!
+    servicesByHold(hold: ID!): [Service!]!
+    carsByHold(hold: ID!): [Car!]!
 }
    
 type Mutation{  
@@ -129,6 +131,7 @@ type Hold{
     theorical_reserve_super_quantity: Float!
     theorical_reserve_gazoil_quantity: Float!
     users: [User!]
+    services: [Service!]!
     bons: [HoldsOnBons!]
     cars: [Car!]
     dotations: [Dotation!]
