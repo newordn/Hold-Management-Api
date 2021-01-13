@@ -11,6 +11,7 @@ type Query{
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
     statistique(user:ID!, type: String!): [Statistique!]!
+    holdStatistiques(hold: ID!): [Statistique!]!
     emetteurs(hold:ID!): [User!]!
     exporting(type: String!): [Exporting!]!
     services: [Service!]!

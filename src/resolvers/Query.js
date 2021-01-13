@@ -513,6 +513,22 @@ async function emetteurs(parent, args, context, info) {
   const users = await context.prisma.hold({ id: args.hold }).users();
   return users.filter((user) => user.role === ROLES.emetteur);
 }
+async function holdStatistiques(parent, args, context, info) {
+  const datas = [];
+  let labels = [];
+  let data = [];
+  console.log("hold statistiques " + args.hold);
+    const hold = await context.prisma.hold({id: args.hold});
+      data.push( hold.super_quantity, hold.reserve_super_quantity);
+      labels.push("Contenance Ordinaire", "Réserve");
+      datas.push({ id: "1", labels, data, label: "Statistiques Super" });
+      data = [];
+      labels = [];
+      data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity);
+      labels.push("Contenance Ordinaire", "Réserve");
+      datas.push({ id: "1", labels, data, label: "Statistiques Gasoil" });
+      return datas
+}
 async function statistique(parent, args, context, info) {
   console.log("statistique query " + args.type);
   const datas = [];
@@ -642,5 +658,6 @@ module.exports = {
   logsByUser,
   carsByService,
   servicesByHold,
-  carsByHold
+  carsByHold,
+  holdStatistiques
 };
