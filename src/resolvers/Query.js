@@ -526,7 +526,7 @@ async function holdStatistiques(parent, args, context, info) {
       labels = [];
       data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity);
       labels.push("Contenance Ordinaire", "Réserve");
-      datas.push({ id: "1", labels, data, label: "Statistiques Gasoil" });
+      datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
       return datas
 }
 async function statistique(parent, args, context, info) {
