@@ -1,10 +1,16 @@
-const { STATISTIQUES } = require("../consts/statistique");
+const {
+  STATISTIQUES,
+  HOLD_STATS_LABEL,
+  SERVICES_LABEL,
+  CARS_LABEL
+} = require("../consts/statistique");
 const { FUEL } = require("../consts/fuels");
 const { ROLES } = require("../consts/roles");
 const { getUserId } = require("../helpers/user");
 const excel = require("exceljs");
 const { storeStreamUpload } = require("../helpers/upload");
 const Stream = require("stream");
+const { parseDate, addDays } = require("../helpers/parse");
 async function info(parent, args, context, info) {
   console.log(args.message);
   return args.message;
@@ -26,35 +32,35 @@ async function holds(parent, args, context, info) {
 }
 async function usersByService(parent, args, context, info) {
   console.log("usersByService query");
-  const users = await context.prisma.service({id:args.service }).users({orderBy: "id_DESC"})
+  const users = await context.prisma.service({ id: args.service }).users({ orderBy: "id_DESC" });
   return users;
 }
 async function carsByService(parent, args, context, info) {
   console.log("carsByService query");
-  const cars = await context.prisma.service({id:args.service }).cars({orderBy: "id_DESC"})
+  const cars = await context.prisma.service({ id: args.service }).cars({ orderBy: "id_DESC" });
   return cars;
 }
 async function servicesByHold(parent, args, context, info) {
   console.log("servicesByHold query");
-  const services = await context.prisma.hold({id:args.hold }).services({orderBy: "id_DESC"})
+  const services = await context.prisma.hold({ id: args.hold }).services({ orderBy: "id_DESC" });
   return services;
 }
 async function carsByHold(parent, args, context, info) {
   console.log("carsByHold query");
-  const cars = await context.prisma.hold({id:args.hold}).cars({orderBy: "id_DESC"})
+  const cars = await context.prisma.hold({ id: args.hold }).cars({ orderBy: "id_DESC" });
   return cars;
 }
-  
-  carsByHold
+
+carsByHold;
 async function logsByUser(parent, args, context, info) {
   console.log("logsByUser query");
-  const logs = await context.prisma.user({id:args.user}).logs({orderBy: "id_DESC"})
+  const logs = await context.prisma.user({ id: args.user }).logs({ orderBy: "id_DESC" });
   return logs;
 }
 
 async function services(parent, args, context, info) {
   console.log("services query");
-  const services = await context.prisma.services({orderBy: "id_DESC"})
+  const services = await context.prisma.services({ orderBy: "id_DESC" });
   return services;
 }
 async function exporting(parent, args, context, info) {
@@ -384,10 +390,10 @@ async function exporting(parent, args, context, info) {
         workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
         datas.push({ id: "2", label, link, start_date, end_date });
-        
+
         label = "Statistiques Bons";
         bonsSheet = workbook.addWorksheet(`BHM-${label}`);
-        bons = await context.prisma.user({id: userId}).bons()
+        bons = await context.prisma.user({ id: userId }).bons();
         bonNames = [
           { header: "Départ", key: "departure", width: 20 },
           {
@@ -403,39 +409,38 @@ async function exporting(parent, args, context, info) {
           { header: "Date d'émission", key: "emission_date", width: 25 },
           { header: "Date de consommation", key: "consumed_date", width: 25 },
           { header: "Kilométrage a la consommation", key: "coverage_when_consuming", width: 25 },
-          { header: "Consommé", key: "consumed", width: 10 },
-
+          { header: "Consommé", key: "consumed", width: 10 }
         ];
         bonsSheet.columns = bonNames;
         row = bonsSheet.getRow(1);
         for (i = 1; i <= 11; i++) {
           row.getCell(i).style = style;
         }
-        await Promise.all(bons.map(async (bon, i) => {
-          row = bonsSheet.getRow(i + 2);
-          row.getCell(1).value = bon.departure;
-          row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
-            3
-          ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
-            6
-          ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = row.getCell(
-            9
-          ).alignment = row.getCell(10).alignment  = row.getCell(11).alignment = alignmentStyle;
-          row.getCell(2).value = bon.destination;
-          row.getCell(3).value = bon.fuel_type;
-          row.getCell(4).value = bon.initial_number_of_liter;
-          row.getCell(5).value = bon.number_of_liter;
-          row.getCell(7).value = bon.driver;
-          row.getCell(8).value = bon.emission_date;
-          row.getCell(9).value = bon.consumed_date;
-          row.getCell(10).value = bon.coverage_when_consuming;
-          row.getCell(11).value = bon.consumed? "Oui" : "Non";
-          let car = await context.prisma.bon({id: bon.id}).car()
-          row.getCell(6).value = car ? car.marque + "-" +  car.immatriculation: " "
-          
-          
-        }));
-        
+        await Promise.all(
+          bons.map(async (bon, i) => {
+            row = bonsSheet.getRow(i + 2);
+            row.getCell(1).value = bon.departure;
+            row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(
+              3
+            ).alignment = row.getCell(4).alignment = row.getCell(5).alignment = row.getCell(
+              6
+            ).alignment = row.getCell(7).alignment = row.getCell(8).alignment = row.getCell(
+              9
+            ).alignment = row.getCell(10).alignment = row.getCell(11).alignment = alignmentStyle;
+            row.getCell(2).value = bon.destination;
+            row.getCell(3).value = bon.fuel_type;
+            row.getCell(4).value = bon.initial_number_of_liter;
+            row.getCell(5).value = bon.number_of_liter;
+            row.getCell(7).value = bon.driver;
+            row.getCell(8).value = bon.emission_date;
+            row.getCell(9).value = bon.consumed_date;
+            row.getCell(10).value = bon.coverage_when_consuming;
+            row.getCell(11).value = bon.consumed ? "Oui" : "Non";
+            let car = await context.prisma.bon({ id: bon.id }).car();
+            row.getCell(6).value = car ? car.marque + "-" + car.immatriculation : " ";
+          })
+        );
+
         workbook.xlsx.write(stream);
         link = await storeStreamUpload(stream, `BHM-${label}`);
         datas.push({ id: "1", label, link, start_date, end_date });
@@ -484,14 +489,14 @@ async function exporting(parent, args, context, info) {
         break;
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
     throw e;
   }
   return datas;
 }
 async function notifications(parent, args, context, info) {
   console.log("notifications query");
-  const notifications = await context.prisma.user({id: args.user}).notifications();
+  const notifications = await context.prisma.user({ id: args.user }).notifications();
   return notifications;
 }
 async function cars(parent, args, context, info) {
@@ -501,11 +506,11 @@ async function cars(parent, args, context, info) {
 }
 async function bons(parent, args, context, info) {
   console.log("bons query");
-  const id = await getUserId(context)
-  const data = await context.prisma.user({id}).bons({
+  const id = await getUserId(context);
+  const data = await context.prisma.user({ id }).bons({
     orderBy: "id_DESC",
     where: { consumed: args.consumed }
-  })
+  });
   return data;
 }
 async function emetteurs(parent, args, context, info) {
@@ -513,21 +518,131 @@ async function emetteurs(parent, args, context, info) {
   const users = await context.prisma.hold({ id: args.hold }).users();
   return users.filter((user) => user.role === ROLES.emetteur);
 }
+async function holdExporting(parent, args, context, info) {
+  const datas = [];
+  let label = "";
+  let link = "";
+  let workbook = new excel.Workbook();
+  let stream = new Stream.PassThrough();
+  const fillStyle = { type: "pattern", pattern: "solid", fgColor: { argb: "969C5C" } };
+  const alignmentStyle = { vertical: "middle", horizontal: "center" };
+  const style = { fill: fillStyle, alignment: alignmentStyle, font: { bold: true }, size: 16 };
+  label = "Niveaux des cuves";
+  soutesSheet = workbook.addWorksheet(`BHM-${label}`);
+  hold = await context.prisma.hold({ id: args.hold });
+  soutesSheet.columns = HOLD_STATS_LABEL;
+  row = soutesSheet.getRow(1);
+  for (i = 1; i <= 10; i++) {
+    row.getCell(i).style = style;
+  }
+
+  row = soutesSheet.getRow(2);
+  row.getCell(1).value = hold.name;
+  row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
+    4
+  ).alignment = row.getCell(5).alignment = row.getCell(6).alignment = row.getCell(
+    7
+  ).alignment = row.getCell(8).alignment = alignmentStyle;
+  row.getCell(2).value = hold.localisation;
+  row.getCell(3).value = hold.super_capacity;
+  row.getCell(4).value = hold.super_cuves_number;
+  row.getCell(5).value = hold.gazoil_capacity;
+  row.getCell(6).value = hold.gazoil_cuves_number;
+  row.getCell(7).value = hold.super_quantity;
+  row.getCell(8).value = hold.gazoil_quantity;
+  row.getCell(9).value = hold.reserve_super_quantity;
+  row.getCell(10).value = hold.reserve_gazoil_quantity;
+  workbook.xlsx.write(stream);
+  link = await storeStreamUpload(stream, `BHM-${label}`);
+  let created_at = hold.created_at;
+  datas.push({
+    id: "1",
+    label,
+    link,
+    start_date: parseDate(created_at),
+    end_date: parseDate(addDays(30, created_at).toDateString())
+  });
+  label = "Services";
+  workbook = new excel.Workbook();
+  stream = new Stream.PassThrough();
+  const services = await context.prisma.hold({ id: args.hold }).services();
+  servicesSheet = workbook.addWorksheet(`BHM-${label}`);
+  servicesSheet.columns = SERVICES_LABEL;
+  row = servicesSheet.getRow(1);
+  for (i = 1; i <= 4; i++) {
+    row.getCell(i).style = style;
+  }
+  services.map((service, i) => {
+    row = servicesSheet.getRow(i + 2);
+    row.getCell(1).value = service.label;
+    row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
+      4
+    ).alignment = alignmentStyle;
+    row.getCell(2).value = service.super;
+    row.getCell(3).value = service.gazoil;
+    row.getCell(4).value = hold.name;
+  });
+  workbook.xlsx.write(stream);
+  link = await storeStreamUpload(stream, `BHM-${label}`);
+  datas.push({
+    id: "2",
+    label,
+    link,
+    start_date: parseDate(created_at),
+    end_date: parseDate(new Date().toDateString())
+  });
+  label = "Véhicules";
+  workbook = new excel.Workbook();
+  stream = new Stream.PassThrough();
+  const cars = await context.prisma.hold({ id: args.hold }).cars();
+  carsSheet = workbook.addWorksheet(`BHM-${label}`);
+  carsSheet.columns = CARS_LABEL;
+  row = servicesSheet.getRow(1);
+  for (i = 1; i <= 7; i++) {
+    row.getCell(i).style = style;
+  }
+  cars.map((car, i) => {
+    row = carsSheet.getRow(i + 2);
+    row.getCell(1).value = car.marque;
+    row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
+      4
+    ).alignment = row.getCell(5).alignment = row.getCell(6).alignment = row.getCell(
+      7
+    ).alignment = alignmentStyle;
+    row.getCell(2).value = car.capacity;
+    row.getCell(3).value = car.type;
+    row.getCell(4).value = car.number_of_reservoir;
+    row.getCell(5).value = car.immatriculation;
+    row.getCell(6).value = car.kilometrage;
+    row.getCell(7).value = hold.name;
+  });
+  workbook.xlsx.write(stream);
+  link = await storeStreamUpload(stream, `BHM-${label}`);
+  datas.push({
+    id: "3",
+    label,
+    link,
+    start_date: parseDate(created_at),
+    end_date: parseDate(new Date().toDateString())
+  });
+
+  return datas;
+}
 async function holdStatistiques(parent, args, context, info) {
   const datas = [];
   let labels = [];
   let data = [];
   console.log("hold statistiques " + args.hold);
-    const hold = await context.prisma.hold({id: args.hold});
-      data.push( hold.super_quantity, hold.reserve_super_quantity);
-      labels.push("Contenance Ordinaire", "Réserve");
-      datas.push({ id: "1", labels, data, label: "Statistiques Super" });
-      data = [];
-      labels = [];
-      data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity);
-      labels.push("Contenance Ordinaire", "Réserve");
-      datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
-      return datas
+  const hold = await context.prisma.hold({ id: args.hold });
+  data.push(hold.super_quantity, hold.reserve_super_quantity);
+  labels.push("Contenance Ordinaire", "Réserve");
+  datas.push({ id: "1", labels, data, label: "Statistiques Super" });
+  data = [];
+  labels = [];
+  data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity);
+  labels.push("Contenance Ordinaire", "Réserve");
+  datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
+  return datas;
 }
 async function statistique(parent, args, context, info) {
   console.log("statistique query " + args.type);
@@ -659,5 +774,6 @@ module.exports = {
   carsByService,
   servicesByHold,
   carsByHold,
-  holdStatistiques
+  holdStatistiques,
+  holdExporting
 };

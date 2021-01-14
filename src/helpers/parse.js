@@ -9,6 +9,12 @@ const parseDate = (date) => {
   const seconds = d.getSeconds() < 10 ? `0${d.getSeconds()}` : d.getSeconds();
   return `${year}-${month}-${days} ${hours}h:${minutes}m:${seconds}s`;
 };
+ const addDays = (days, date_string) => {
+  const date = new Date(date_string)
+  date.setDate(date.getDate() + days);
+  return date;
+};
 module.exports={
-  parseDate
+  parseDate,
+  addDays
 }
