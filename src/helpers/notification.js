@@ -8,7 +8,7 @@ const SMS_PARAM = {
         tokenSeller: "GHD4DFG45F"
     }
 const axios = require("axios");
-var hmacsha1 = require('hmacsha1');
+var hmacsha1Generate = require('hmacsha1-generate');
 var serviceAccount = require("./hold-management-firebase-adminsdk-n26od-9514649214.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -40,7 +40,7 @@ const sendSms = async (number, message, user, context) => {
       id: SMS_PARAM.idSeller,
       timestamp,
       schedule: "",
-      signature: hmacsha1(SMS_PARAM.tokenSeller+ timestamp,SMS_PARAM.secretSeller) ,
+      signature: hmacsha1Generate.generateSignature(SMS_PARAM.secretSeller,SMS_PARAM.tokenSeller+ timestamp) ,
       phonenumber: `237${number}`,
       sms:message
     })
@@ -52,7 +52,7 @@ const sendSms = async (number, message, user, context) => {
     });
   await context.prisma.createNotification({ user: { connect: { id: user } }, message });
   notify(
-    { bigText: message, message, title: "Bir Hold Management", subText: "Bir Hold Management" },
+    { bigText: message, message, title: "Bir Fuel Manager", subText: "Bir Fuel Manager" },
     number
   );
 };
