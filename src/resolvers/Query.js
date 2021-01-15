@@ -312,6 +312,23 @@ async function holdStatistiques(parent, args, context, info) {
   datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
   return datas;
 }
+async function userStatistiques(parent, args, context, info) {
+  const datas = [];
+  let labels = [];
+  let data = [];
+  console.log("user statistiques " + args.user);
+  const user = await context.prisma.user({ id: args.user});
+  const service = await context.prisma.user({ id: args.user}).service();
+  labels.push("Emission", "Quantité restante");
+  data.push(0, service.super);
+  datas.push({ id: "1", labels, data, label: "Statistiques Super" });
+  data = [];
+  labels = [];
+  labels.push("Emission", "Quantité restante");
+  data.push(0, service.gazoil);
+  datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
+  return datas;
+}
 async function serviceStatistiques(parent, args, context, info) {
   const datas = [];
   let labels = [];
@@ -346,6 +363,7 @@ module.exports = {
   carsByHold,
   holdStatistiques,
   serviceStatistiques,
+  userStatistiques,
   holdExporting,
   serviceExporting
 };

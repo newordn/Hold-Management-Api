@@ -12,6 +12,7 @@ type Query{
     cars: [Car!]!
     holdStatistiques(hold: ID!): [Statistique!]!
     serviceStatistiques(service: ID!): [Statistique!]!
+    userStatistiques(user: ID!): [Statistique!]!
     holdExporting(hold: ID!): [Exporting!]!
     serviceExporting(service: ID!): [Exporting!]!
     emetteurs(hold:ID!): [User!]!
