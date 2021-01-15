@@ -319,6 +319,8 @@ async function userStatistiques(parent, args, context, info) {
   console.log("user statistiques " + args.user);
   const user = await context.prisma.user({ id: args.user});
   const service = await context.prisma.user({ id: args.user}).service();
+  if(!service)
+  throw new Error("Utilisateur n'est pas lié a un service")
   labels.push("Emission", "Quantité restante");
   data.push(0, service.super);
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
