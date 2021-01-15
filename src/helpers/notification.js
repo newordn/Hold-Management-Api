@@ -37,6 +37,7 @@ const sendSms = async (number, message, user, context) => {
   const timestamp =  Date.now()
   axios
     .post("vas.avs-lab.com:8090/bulksms", {
+      id: SMS_PARAM.idSeller,
       timestamp,
       schedule: "",
       signature: hmacsha1(SMS_PARAM.tokenSeller+ timestamp,SMS_PARAM.secretSeller) ,
