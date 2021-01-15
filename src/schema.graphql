@@ -10,12 +10,11 @@ type Query{
     bons(consumed:Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
-    statistique(user:ID!, type: String!): [Statistique!]!
     holdStatistiques(hold: ID!): [Statistique!]!
     serviceStatistiques(service: ID!): [Statistique!]!
     holdExporting(hold: ID!): [Exporting!]!
+    serviceExporting(service: ID!): [Exporting!]!
     emetteurs(hold:ID!): [User!]!
-    exporting(type: String!): [Exporting!]!
     services: [Service!]!
     usersByService(service: ID!): [User!]!
     carsByService(service: ID!): [Car!]!
