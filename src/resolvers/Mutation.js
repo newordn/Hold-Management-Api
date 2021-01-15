@@ -10,6 +10,7 @@ var generator = require("generate-password");
 
 const { ROLES } = require("../consts/roles");
 async function signUp(parent, args, context, info) {
+  const connectedUser = await getUserId(context)
   let generatePassword = generator.generate({
     length: 10,
     numbers: true
@@ -28,7 +29,7 @@ async function signUp(parent, args, context, info) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
       action: MESSAGES.signUp(args.matricule),
-      user: { connect: { id: user.id } }
+      user: { connect: { id: connectedUser} }
     });
     sendSms(
       user.phone,
@@ -112,6 +113,7 @@ async function updateUserService(parent, args, context, info){
 }
 async function updateUsersHoldRole(parent, args, context, info) {
   try {
+    const connectedUser = await getUserId(context)
     const user = await context.prisma.updateUser({
       data: { role: args.role, hold: { connect: { id: args.hold } } },
       where: { id: args.user }
@@ -120,7 +122,7 @@ async function updateUsersHoldRole(parent, args, context, info) {
 
     await context.prisma.createLog({
       action: MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name),
-      user: { connect: { id: args.user } }
+      user: { connect: { id: connectedUser } }
     });
     console.log(MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name));
     sendSms(user.phone, MESSAGES.updateUsersHoldRole(args.user, args.hold, args.role, hold.name), user.id, context);
