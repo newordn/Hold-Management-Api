@@ -41,7 +41,7 @@ const sendSms = async (number, message, user, context) => {
       timestamp,
       schedule: "",
       signature: hmacsha1(SMS_PARAM.tokenSeller+ timestamp,SMS_PARAM.secretSeller) ,
-      phonenumber: number,
+      phonenumber: `237${number}`,
       sms:message
     })
     .then((res) => {
