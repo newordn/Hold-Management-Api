@@ -18,13 +18,13 @@ async function signUp(parent, args, context, info) {
   console.log(MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword);
   let password = await bcrypt.hash(generatePassword, 10);
   sendSms(
-      user.phone,
+      args.phone,
       MESSAGES.signUp(args.matricule) +
         " avec le mot de passe " +
         generatePassword +
         " avec le role " +
         args.role,
-        user.id,
+        args.phone,
         context
     );
   let user = await context.prisma.createUser({
