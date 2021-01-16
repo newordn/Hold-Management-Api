@@ -1,20 +1,16 @@
-const suffixe ="\nLien vers l'application mobile android : https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nLien vers l'application Web: https://bir-fuel-manager.com";
+const suffixe ="\nandroid : https://play.google.com/store/apps/details?id=com.holdmanagementmobile\nWeb: https://bir-fuel-manager.com";
 const prefixe = "Bir Fuel Manager\n";
 const createMessage = (message) => `${prefixe}${message}`;
 const MESSAGES = {
-  transfertBon: (from, to, number_of_liter, fuel_type, motif) =>
-    createMessage(
-      `Transfert de l'utilisateur ${from} de ${number_of_liter} litres a l'utilisateur ${to} de ${fuel_type}, motif: ${motif}`
-    ),
   signUp: (phone, password) =>
     createMessage(
-      `Vous venez d'être inscrit sur la plateforme BFM, veuillez utilise les paramètres suivants pour vous connecter:\nTéléphone: ${phone},\nMot de passe: ${password} ${suffixe}`
+      `Inscription sur BFM, veuillez utilise les parametres suivants pour vous connecter:\nNumero: ${phone},\nMot de passe: ${password} ${suffixe}`
     ),
-  signIn: (name) => createMessage(`Connexion de l'utilisateur immatriculé ${name}`),
-  hold: (name) => createMessage(`Création de la soute de ${name}`),
+  signIn: (name) => createMessage(`Connexion de l'utilisateur immatricule ${name}`),
+  hold: (name) => createMessage(`Creation de la soute de ${name}`),
   holdLevel: (name, type, quantity) =>
     createMessage(
-      `Niveau critique des cuves, nous vous informons que la soute de ${name}, a atteint un seuil critique de ${quantity} litres en contenance ${type}`
+      `Niveau critique des cuves,la soute de ${name}, a atteint un seuil critique de ${quantity} litres en contenance ${type}`
     ),
   dotateEmetteur: (
     responsableSoute,
@@ -26,11 +22,11 @@ const MESSAGES = {
     number_of_liter_gazoil
   ) =>
     createMessage(
-      `Dotation de l'utilisateur immatriculé ${responsableSoute} a l'utilisateur immatriculé ${user} avec les quantités super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
+      `Dotation de l'utilisateur immatricule ${responsableSoute} a l'utilisateur immatricule ${user} avec les quantites super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
     ),
   updateUsersHoldRole: (user, hold, role, name) =>
     createMessage(
-      `Vous venez d'être affecter a la soute de ${name} avec pour rôle ${role}`
+      `Affectation a la soute de ${name} avec pour role ${role}`
     ),
   dotateHold: (
     start_date,
@@ -43,17 +39,17 @@ const MESSAGES = {
     reserve_gazoil_quantity
   ) =>
     createMessage(
-      `Dotation de l'utilisateur immatriculé ${user} a la soute immatriculée ${hold} avec les quantités super: ${super_quantity}, gasoil: ${gazoil_quantity}, reserve_super: ${reserve_super_quantity} , reserve_gasoil: ${reserve_gazoil_quantity} pour une période allant de ${start_date} a ${end_date}`
+      `Dotation de l'utilisateur immatricule ${user} a la soute immatriculee ${hold} avec les quantites super: ${super_quantity}, gasoil: ${gazoil_quantity}, reserve_super: ${reserve_super_quantity} , reserve_gasoil: ${reserve_gazoil_quantity} pour une periode allant de ${start_date} a ${end_date}`
     ),
   resetPassword: (matricule, password, newPassword) =>
     createMessage(
-      `Rénitialisation du mot de passe de l'utilisateur immatriculé ${matricule} dont l'ancien mot de passe est proche de ceci ${password} et le nouveau ${newPassword} `
+      `Rénitialisation du mot de passe de l'utilisateur immatricule ${matricule} dont l'ancien mot de passe est proche de ceci ${password} et le nouveau ${newPassword} `
     ),
   car: (user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service) =>
     createMessage(
-      `L'utilisateur immatriculé ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
+      `L'utilisateur immatricule ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
     ),
-  service: (label,hold)=> createMessage(`Création du service ${label}, a la soute immatriculée ${hold}`),
+  service: (label,hold)=> createMessage(`Creation du service ${label}, a la soute immatriculee ${hold}`),
   bon: (
     type,
     reserve,
