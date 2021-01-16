@@ -307,7 +307,7 @@ async function holdStatistiques(parent, args, context, info) {
   let consommation_super = 0
   let consommation_gazoil = 0
   await Promise.all(holdOnBons.map(async holdOnBon=>{
-    let bon = await context.prisma.holdsOnBons({id: holdOnBon}).bon()
+    let bon = await context.prisma.holdsOnBons({id: holdOnBon.id}).bon()
     if(bon.fuel_type=== FUEL.super)
     consommation_super += bon.number_of_liter
     else
@@ -328,7 +328,7 @@ async function holdStatistiques(parent, args, context, info) {
   let consommation_service_gazoil = 0
   const services = await context.prisma.hold({id: args.hold}).services()
   await Promise.all(services.map(async service=>{
-    let bons = context.prisma.service({id: service.id}).bons()
+    let bons = await context.prisma.service({id: service.id}).bons()
     bons.map(bon=>{
       if(bon.fuel_type===FUEL.super)
       consommation_service_super+= bon.number_of_liter
@@ -340,7 +340,7 @@ async function holdStatistiques(parent, args, context, info) {
   labels.push(service.label);
   }))
   datas.push({ id: "3", labels, data, label: "Statistiques Services Super" });
-  datas.push({ id: "4", labels, dataGazoil, label: "Statistiques Services Gasoil" });
+  datas.push({ id: "4", labels, data:dataGazoil, label: "Statistiques Services Gasoil" });
   return datas;
 }
 async function userStatistiques(parent, args, context, info) {
