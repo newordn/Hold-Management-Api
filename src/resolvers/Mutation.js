@@ -536,7 +536,7 @@ async function dotateService(parent, args, context, info) {
     await context.prisma.updateService({
       data: {
         super: service.super + args.super,
-        gazoi: service.gazoil + args.gazoil,
+        gazoil: service.gazoil + args.gazoil,
       },
       where:{
         id: args.service
