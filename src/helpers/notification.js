@@ -8,7 +8,6 @@ const SMS_PARAM = {
         tokenSeller: "GHD4DFG45F"
     }
 const axios = require("axios");
-var hmacsha1Generate = require('hmacsha1-generate');
 var serviceAccount = require("./hold-management-firebase-adminsdk-n26od-9514649214.json");
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -33,12 +32,13 @@ const notify = (data, topic) => {
       console.log("Error sending message:", error);
     });
 };
+const Hashes = require('jshashes')
+var SHA1 = new Hashes.SHA1
 const sendSms = async (number, message, user, context) => {
-  const timestamp =  1212
-  const signature = hmacsha1Generate.generateSignature(SMS_PARAM.secretSeller,SMS_PARAM.tokenSeller+ timestamp)
-  console.log(signature)
+  const timestamp =  Date.now()
+  const signature = SHA1.hex_hmac(SMS_PARAM.secretSeller,`${SMS_PARAM.tokenSeller}${timestamp}`)
   axios
-    .post("vas.avs-lab.com:8090/bulksms", {
+    .post("http://vas.avs-lab.com:8090/bulksms", {
       id: SMS_PARAM.idSeller,
       timestamp,
       schedule: "",

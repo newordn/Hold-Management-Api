@@ -15,18 +15,8 @@ async function signUp(parent, args, context, info) {
     length: 10,
     numbers: true
   });
-  console.log(MESSAGES.signUp(args.matricule) + " avec le mot de passe " + generatePassword);
+  console.log(MESSAGES.signUp(args.phone,generatePassword));
   let password = await bcrypt.hash(generatePassword, 10);
-  sendSms(
-      args.phone,
-      MESSAGES.signUp(args.matricule) +
-        " avec le mot de passe " +
-        generatePassword +
-        " avec le role " +
-        args.role,
-        args.phone,
-        context
-    );
   let user = await context.prisma.createUser({
     ...args,
     password,
@@ -38,10 +28,16 @@ async function signUp(parent, args, context, info) {
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
-      action: MESSAGES.signUp(args.matricule),
+      action: MESSAGES.signUp(args.phone,generatePassword),
       user: { connect: { id: connectedUser} }
     });
-    
+    sendSms(
+      user.phone,
+      MESSAGES.signUp(args.phone,generatePassword),
+        args.role,
+        user.id,
+        context
+    );
     return {
       user,
       token

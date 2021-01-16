@@ -6,9 +6,9 @@ const MESSAGES = {
     createMessage(
       `Transfert de l'utilisateur ${from} de ${number_of_liter} litres a l'utilisateur ${to} de ${fuel_type}, motif: ${motif}`
     ),
-  signUp: (name) =>
+  signUp: (phone, password) =>
     createMessage(
-      `Inscription de l'utilisateur immatriculé ${name}, veuillez vous connectez avec vos identifiants sur la plateforme${suffixe}`
+      `Vous venez d'être inscrit sur la plateforme BFM, veuillez utilise les paramètres suivants pour vous connecter:\nTéléphone: ${phone},\nMot de passe: ${password} ${suffixe}`
     ),
   signIn: (name) => createMessage(`Connexion de l'utilisateur immatriculé ${name}`),
   hold: (name) => createMessage(`Création de la soute de ${name}`),
