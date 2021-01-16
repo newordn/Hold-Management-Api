@@ -106,7 +106,7 @@ async function serviceExporting(parent, args, context, info) {
   consommationsSheet = workbook.addWorksheet(`BHM-${label}`);
   consommationsSheet.columns = CONSOMMATION_SERVICES_LABEL;
   row = consommationsSheet.getRow(1);
-  for (i = 1; i <= 10; i++) {
+  for (i = 1; i <= 5; i++) {
     row.getCell(i).style = style;
   }
 
