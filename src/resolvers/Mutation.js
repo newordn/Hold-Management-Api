@@ -531,7 +531,7 @@ async function dotateService(parent, args, context, info) {
       end_date: new Date(args.end_date),
       super: args.super,
       gazoil: args.gazoil,
-      user: { connect: { id: userId} }
+      service: { connect: { id: args.service} }
     });
     await context.prisma.updateService({
       data: {
