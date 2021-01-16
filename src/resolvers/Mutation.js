@@ -504,98 +504,7 @@ const bon = async (parent, args, context, info) => {
     throw new Error(e.message);
   }
 };
-async function dotateEmetteur(parent, args, context, info) {
-  const {
-    responsableSoute,
-    start_date,
-    end_date,
-    user,
-    motif,
-    number_of_liter_super,
-    number_of_liter_gazoil
-  } = args;
-  console.log(
-    MESSAGES.dotateEmetteur(
-      responsableSoute,
-      user,
-      start_date,
-      end_date,
-      motif,
-      number_of_liter_super,
-      number_of_liter_gazoil
-    )
-  );
-  try {
-    const user1 = await context.prisma.user({ id: user });
-    await context.prisma.createDotationEmetteur({
-      motif,
-      start_date: new Date(start_date),
-      end_date: new Date(end_date),
-      number_of_liter_super,
-      number_of_liter_gazoil,
-      user: { connect: { id: user } }
-    });
-    const updateUser = await context.prisma.updateUser({
-      data: {
-        super: user1.super + number_of_liter_super,
-        gazoil: user1.gazoil + number_of_liter_gazoil
-      },
-      where: { id: user }
-    });
-    let responsableUser = await context.prisma.user({ id: responsableSoute });
-    let holdId = await context.prisma.user({ id: responsableSoute }).hold();
-    holdId = holdId.id;
-    const hold = await context.prisma.hold({ id: holdId });
-    let reste_super_quantity = hold.theorical_super_quantity - number_of_liter_super;
-    let reste_gazoil_quantity = hold.theorical_gazoil_quantity - number_of_liter_gazoil;
-    if (reste_super_quantity < 3000)
-      sendSms(responsableUser.phone, MESSAGES.holdLevel(hold.name, "super", reste_super_quantity), responsableUser.id, context);
-    if (reste_gazoil_quantity < 3000)
-      sendSms(
-        responsableUser.phone,
-        MESSAGES.holdLevel(hold.name, "gazoil", reste_gazoil_quantity),
-        responsableUser.id,
-        context
-      );
-    await context.prisma.updateHold({
-      data: {
-        theorical_super_quantity: reste_super_quantity,
-        theorical_gazoil_quantity: reste_gazoil_quantity
-      },
-      where: { id: holdId }
-    });
-    await context.prisma.createLog({
-      action: MESSAGES.dotateEmetteur(
-        responsableSoute,
-        user,
-        start_date,
-        end_date,
-        motif,
-        number_of_liter_super,
-        number_of_liter_gazoil
-      ),
-      user: { connect: { id: responsableSoute } }
-    });
-    sendSms(
-      user1.phone,
-      MESSAGES.dotateEmetteur(
-        responsableSoute,
-        parseDate(new Date(start_date).toDateString()),
-        parseDate(new Date(end_date).toDateString()),
-        user,
-        motif,
-        number_of_liter_super,
-        number_of_liter_gazoil
-      ),
-      user1.id,
-      context
-    );
-    return updateUser;
-  } catch (e) {
-    console.log(e);
-    throw new Error(e.message);
-  }
-}
+
 async function service(parent, args, context, info) {
   console.log(MESSAGES.service(args.label,  args.hold));
   try {
@@ -643,7 +552,6 @@ module.exports = {
   car,
   bon,
   consumedBon,
-  dotateEmetteur,
   service,
   dotateService,
   updateUserService
