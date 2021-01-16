@@ -613,10 +613,10 @@ export type DotationServiceOrderByInput =
   | "start_date_DESC"
   | "end_date_ASC"
   | "end_date_DESC"
-  | "number_of_liter_super_ASC"
-  | "number_of_liter_super_DESC"
-  | "number_of_liter_gazoil_ASC"
-  | "number_of_liter_gazoil_DESC"
+  | "super_ASC"
+  | "super_DESC"
+  | "gazoil_ASC"
+  | "gazoil_DESC"
   | "motif_ASC"
   | "motif_DESC"
   | "created_at_ASC"
@@ -1475,22 +1475,22 @@ export interface DotationServiceWhereInput {
   end_date_lte?: Maybe<DateTimeInput>;
   end_date_gt?: Maybe<DateTimeInput>;
   end_date_gte?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_super_not?: Maybe<Float>;
-  number_of_liter_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_super_lt?: Maybe<Float>;
-  number_of_liter_super_lte?: Maybe<Float>;
-  number_of_liter_super_gt?: Maybe<Float>;
-  number_of_liter_super_gte?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
-  number_of_liter_gazoil_not?: Maybe<Float>;
-  number_of_liter_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_gazoil_lt?: Maybe<Float>;
-  number_of_liter_gazoil_lte?: Maybe<Float>;
-  number_of_liter_gazoil_gt?: Maybe<Float>;
-  number_of_liter_gazoil_gte?: Maybe<Float>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
   motif?: Maybe<String>;
   motif_not?: Maybe<String>;
   motif_in?: Maybe<String[] | String>;
@@ -2309,8 +2309,8 @@ export interface DotationServiceCreateWithoutServiceInput {
   id?: Maybe<ID_Input>;
   start_date: DateTimeInput;
   end_date: DateTimeInput;
-  number_of_liter_super: Float;
-  number_of_liter_gazoil: Float;
+  super: Float;
+  gazoil: Float;
   motif: String;
 }
 
@@ -3672,8 +3672,8 @@ export interface DotationServiceUpdateWithWhereUniqueWithoutServiceInput {
 export interface DotationServiceUpdateWithoutServiceDataInput {
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   motif?: Maybe<String>;
 }
 
@@ -3714,22 +3714,22 @@ export interface DotationServiceScalarWhereInput {
   end_date_lte?: Maybe<DateTimeInput>;
   end_date_gt?: Maybe<DateTimeInput>;
   end_date_gte?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_super_not?: Maybe<Float>;
-  number_of_liter_super_in?: Maybe<Float[] | Float>;
-  number_of_liter_super_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_super_lt?: Maybe<Float>;
-  number_of_liter_super_lte?: Maybe<Float>;
-  number_of_liter_super_gt?: Maybe<Float>;
-  number_of_liter_super_gte?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
-  number_of_liter_gazoil_not?: Maybe<Float>;
-  number_of_liter_gazoil_in?: Maybe<Float[] | Float>;
-  number_of_liter_gazoil_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_gazoil_lt?: Maybe<Float>;
-  number_of_liter_gazoil_lte?: Maybe<Float>;
-  number_of_liter_gazoil_gt?: Maybe<Float>;
-  number_of_liter_gazoil_gte?: Maybe<Float>;
+  super?: Maybe<Float>;
+  super_not?: Maybe<Float>;
+  super_in?: Maybe<Float[] | Float>;
+  super_not_in?: Maybe<Float[] | Float>;
+  super_lt?: Maybe<Float>;
+  super_lte?: Maybe<Float>;
+  super_gt?: Maybe<Float>;
+  super_gte?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  gazoil_not?: Maybe<Float>;
+  gazoil_in?: Maybe<Float[] | Float>;
+  gazoil_not_in?: Maybe<Float[] | Float>;
+  gazoil_lt?: Maybe<Float>;
+  gazoil_lte?: Maybe<Float>;
+  gazoil_gt?: Maybe<Float>;
+  gazoil_gte?: Maybe<Float>;
   motif?: Maybe<String>;
   motif_not?: Maybe<String>;
   motif_in?: Maybe<String[] | String>;
@@ -3771,8 +3771,8 @@ export interface DotationServiceUpdateManyWithWhereNestedInput {
 export interface DotationServiceUpdateManyDataInput {
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   motif?: Maybe<String>;
 }
 
@@ -4437,8 +4437,8 @@ export interface DotationServiceCreateInput {
   id?: Maybe<ID_Input>;
   start_date: DateTimeInput;
   end_date: DateTimeInput;
-  number_of_liter_super: Float;
-  number_of_liter_gazoil: Float;
+  super: Float;
+  gazoil: Float;
   motif: String;
   service: ServiceCreateOneWithoutDotationsInput;
 }
@@ -4463,8 +4463,8 @@ export interface ServiceCreateWithoutDotationsInput {
 export interface DotationServiceUpdateInput {
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   motif?: Maybe<String>;
   service?: Maybe<ServiceUpdateOneRequiredWithoutDotationsInput>;
 }
@@ -4495,8 +4495,8 @@ export interface ServiceUpsertWithoutDotationsInput {
 export interface DotationServiceUpdateManyMutationInput {
   start_date?: Maybe<DateTimeInput>;
   end_date?: Maybe<DateTimeInput>;
-  number_of_liter_super?: Maybe<Float>;
-  number_of_liter_gazoil?: Maybe<Float>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
   motif?: Maybe<String>;
 }
 
@@ -5796,8 +5796,8 @@ export interface DotationService {
   id: ID_Output;
   start_date: DateTimeOutput;
   end_date: DateTimeOutput;
-  number_of_liter_super: Float;
-  number_of_liter_gazoil: Float;
+  super: Float;
+  gazoil: Float;
   motif: String;
   created_at: DateTimeOutput;
 }
@@ -5808,8 +5808,8 @@ export interface DotationServicePromise
   id: () => Promise<ID_Output>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_super: () => Promise<Float>;
-  number_of_liter_gazoil: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   motif: () => Promise<String>;
   service: <T = ServicePromise>() => T;
   created_at: () => Promise<DateTimeOutput>;
@@ -5821,8 +5821,8 @@ export interface DotationServiceSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  number_of_liter_super: () => Promise<AsyncIterator<Float>>;
-  number_of_liter_gazoil: () => Promise<AsyncIterator<Float>>;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
   motif: () => Promise<AsyncIterator<String>>;
   service: <T = ServiceSubscription>() => T;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -5834,8 +5834,8 @@ export interface DotationServiceNullablePromise
   id: () => Promise<ID_Output>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_super: () => Promise<Float>;
-  number_of_liter_gazoil: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   motif: () => Promise<String>;
   service: <T = ServicePromise>() => T;
   created_at: () => Promise<DateTimeOutput>;
@@ -6724,8 +6724,8 @@ export interface DotationServicePreviousValues {
   id: ID_Output;
   start_date: DateTimeOutput;
   end_date: DateTimeOutput;
-  number_of_liter_super: Float;
-  number_of_liter_gazoil: Float;
+  super: Float;
+  gazoil: Float;
   motif: String;
   created_at: DateTimeOutput;
 }
@@ -6736,8 +6736,8 @@ export interface DotationServicePreviousValuesPromise
   id: () => Promise<ID_Output>;
   start_date: () => Promise<DateTimeOutput>;
   end_date: () => Promise<DateTimeOutput>;
-  number_of_liter_super: () => Promise<Float>;
-  number_of_liter_gazoil: () => Promise<Float>;
+  super: () => Promise<Float>;
+  gazoil: () => Promise<Float>;
   motif: () => Promise<String>;
   created_at: () => Promise<DateTimeOutput>;
 }
@@ -6748,8 +6748,8 @@ export interface DotationServicePreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   start_date: () => Promise<AsyncIterator<DateTimeOutput>>;
   end_date: () => Promise<AsyncIterator<DateTimeOutput>>;
-  number_of_liter_super: () => Promise<AsyncIterator<Float>>;
-  number_of_liter_gazoil: () => Promise<AsyncIterator<Float>>;
+  super: () => Promise<AsyncIterator<Float>>;
+  gazoil: () => Promise<AsyncIterator<Float>>;
   motif: () => Promise<AsyncIterator<String>>;
   created_at: () => Promise<AsyncIterator<DateTimeOutput>>;
 }

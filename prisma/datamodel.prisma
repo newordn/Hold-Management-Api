@@ -22,8 +22,8 @@ type DotationService{
     id: ID! @id
     start_date: DateTime!
     end_date: DateTime!
-    number_of_liter_super: Float!
-    number_of_liter_gazoil: Float!
+    super: Float!
+    gazoil: Float!
     motif: String!
     service: Service! @relation(name: "DotationService")
     created_at: DateTime! @createdAt

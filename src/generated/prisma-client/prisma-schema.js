@@ -1645,8 +1645,8 @@ type DotationService {
   id: ID!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_super: Float!
-  number_of_liter_gazoil: Float!
+  super: Float!
+  gazoil: Float!
   motif: String!
   service: Service!
   created_at: DateTime!
@@ -1662,8 +1662,8 @@ input DotationServiceCreateInput {
   id: ID
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_super: Float!
-  number_of_liter_gazoil: Float!
+  super: Float!
+  gazoil: Float!
   motif: String!
   service: ServiceCreateOneWithoutDotationsInput!
 }
@@ -1677,8 +1677,8 @@ input DotationServiceCreateWithoutServiceInput {
   id: ID
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_super: Float!
-  number_of_liter_gazoil: Float!
+  super: Float!
+  gazoil: Float!
   motif: String!
 }
 
@@ -1694,10 +1694,10 @@ enum DotationServiceOrderByInput {
   start_date_DESC
   end_date_ASC
   end_date_DESC
-  number_of_liter_super_ASC
-  number_of_liter_super_DESC
-  number_of_liter_gazoil_ASC
-  number_of_liter_gazoil_DESC
+  super_ASC
+  super_DESC
+  gazoil_ASC
+  gazoil_DESC
   motif_ASC
   motif_DESC
   created_at_ASC
@@ -1708,8 +1708,8 @@ type DotationServicePreviousValues {
   id: ID!
   start_date: DateTime!
   end_date: DateTime!
-  number_of_liter_super: Float!
-  number_of_liter_gazoil: Float!
+  super: Float!
+  gazoil: Float!
   motif: String!
   created_at: DateTime!
 }
@@ -1745,22 +1745,22 @@ input DotationServiceScalarWhereInput {
   end_date_lte: DateTime
   end_date_gt: DateTime
   end_date_gte: DateTime
-  number_of_liter_super: Float
-  number_of_liter_super_not: Float
-  number_of_liter_super_in: [Float!]
-  number_of_liter_super_not_in: [Float!]
-  number_of_liter_super_lt: Float
-  number_of_liter_super_lte: Float
-  number_of_liter_super_gt: Float
-  number_of_liter_super_gte: Float
-  number_of_liter_gazoil: Float
-  number_of_liter_gazoil_not: Float
-  number_of_liter_gazoil_in: [Float!]
-  number_of_liter_gazoil_not_in: [Float!]
-  number_of_liter_gazoil_lt: Float
-  number_of_liter_gazoil_lte: Float
-  number_of_liter_gazoil_gt: Float
-  number_of_liter_gazoil_gte: Float
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
   motif: String
   motif_not: String
   motif_in: [String!]
@@ -1809,8 +1809,8 @@ input DotationServiceSubscriptionWhereInput {
 input DotationServiceUpdateInput {
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_super: Float
-  number_of_liter_gazoil: Float
+  super: Float
+  gazoil: Float
   motif: String
   service: ServiceUpdateOneRequiredWithoutDotationsInput
 }
@@ -1818,16 +1818,16 @@ input DotationServiceUpdateInput {
 input DotationServiceUpdateManyDataInput {
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_super: Float
-  number_of_liter_gazoil: Float
+  super: Float
+  gazoil: Float
   motif: String
 }
 
 input DotationServiceUpdateManyMutationInput {
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_super: Float
-  number_of_liter_gazoil: Float
+  super: Float
+  gazoil: Float
   motif: String
 }
 
@@ -1851,8 +1851,8 @@ input DotationServiceUpdateManyWithWhereNestedInput {
 input DotationServiceUpdateWithoutServiceDataInput {
   start_date: DateTime
   end_date: DateTime
-  number_of_liter_super: Float
-  number_of_liter_gazoil: Float
+  super: Float
+  gazoil: Float
   motif: String
 }
 
@@ -1898,22 +1898,22 @@ input DotationServiceWhereInput {
   end_date_lte: DateTime
   end_date_gt: DateTime
   end_date_gte: DateTime
-  number_of_liter_super: Float
-  number_of_liter_super_not: Float
-  number_of_liter_super_in: [Float!]
-  number_of_liter_super_not_in: [Float!]
-  number_of_liter_super_lt: Float
-  number_of_liter_super_lte: Float
-  number_of_liter_super_gt: Float
-  number_of_liter_super_gte: Float
-  number_of_liter_gazoil: Float
-  number_of_liter_gazoil_not: Float
-  number_of_liter_gazoil_in: [Float!]
-  number_of_liter_gazoil_not_in: [Float!]
-  number_of_liter_gazoil_lt: Float
-  number_of_liter_gazoil_lte: Float
-  number_of_liter_gazoil_gt: Float
-  number_of_liter_gazoil_gte: Float
+  super: Float
+  super_not: Float
+  super_in: [Float!]
+  super_not_in: [Float!]
+  super_lt: Float
+  super_lte: Float
+  super_gt: Float
+  super_gte: Float
+  gazoil: Float
+  gazoil_not: Float
+  gazoil_in: [Float!]
+  gazoil_not_in: [Float!]
+  gazoil_lt: Float
+  gazoil_lte: Float
+  gazoil_gt: Float
+  gazoil_gte: Float
   motif: String
   motif_not: String
   motif_in: [String!]
