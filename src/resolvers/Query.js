@@ -307,7 +307,7 @@ async function holdStatistiques(parent, args, context, info) {
   let consommation_super = 0
   let consommation_gazoil = 0
   await Promise.all(holdOnBons.map(async holdOnBon=>{
-    let bon = await context.prisma.holdOnBon({id: holdOnBon}).bon()
+    let bon = await context.prisma.holdsOnBons({id: holdOnBon}).bon()
     if(bon.fuel_type=== FUEL.super)
     consommation_super += bon.number_of_liter
     else
