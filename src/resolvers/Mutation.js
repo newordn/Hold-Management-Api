@@ -523,7 +523,7 @@ async function service(parent, args, context, info) {
 async function dotateService(parent, args, context, info) {
   try {
     let service = await context.prisma.service({id: args.service})
-    console.log(MESSAGES.dotateService(service.name,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))));
+    console.log(MESSAGES.dotateService(service.label,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))));
     let userId = await getUserId(context)
     await context.prisma.createDotationService({
       motif:args.motif,
@@ -541,7 +541,7 @@ async function dotateService(parent, args, context, info) {
     })
     
     await context.prisma.createLog({
-      action: MESSAGES.dotateService(service.name,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))),
+      action: MESSAGES.dotateService(service.label,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))),
       user: { connect: { id: userId } }
     })
     return service

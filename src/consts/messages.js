@@ -74,7 +74,7 @@ const MESSAGES = {
         status ? "reussie" : "échec"
       }`
     ),
-  dotateService: (service, super_capacity, gazoil)=> createMessage(`Dotation au service ${service} de ${super_capacity} litres de super et ${gazoil} litres de gazoil`),
+  dotateService: (service, super_capacity, gazoil, start_date, end_date)=> createMessage(`Dotation au service ${service} de ${super_capacity} litres de super et ${gazoil} litres de gazoil, du ${start_date} et ${end_date}`),
   updateUserService: (user, service)=>  createMessage(`Affectation de l'utilisateur ${user} au service ${service}`)
 };
 module.exports = {
