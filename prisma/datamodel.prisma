@@ -13,20 +13,19 @@ type User{
    logs: [Log!] @relation(name:"UserLogs")
    bons: [Bon!] @relation(name:"UserBons")
    dotations: [Dotation!] @relation(name: "UserDotations")
-   dotationEmetteurs: [DotationEmetteur!]! @relation(name: "UserDotationEmetteurs")
    hold: Hold @relation(name: "UserHolds")
    notifications: [Notification!] @relation(name: "UserNotifications")
    created_at: DateTime! @createdAt
    service: Service @relation(name: "UserServices")
 }
-type DotationEmetteur{
+type DotationService{
     id: ID! @id
     start_date: DateTime!
     end_date: DateTime!
     number_of_liter_super: Float!
     number_of_liter_gazoil: Float!
     motif: String!
-    user: User! @relation(name: "UserDotationEmetteurs")
+    service: Service! @relation(name: "DotationService")
     created_at: DateTime! @createdAt
 }
 type Dotation{
@@ -134,6 +133,7 @@ type Service {
     users: [User!]! @relation(name: "UserServices")
     cars: [Car!] @relation(name: "CarServices")
     bons: [Bon!] @relation(name: "BonServices")
+    dotations: [DotationService!] @relation(name: "DotationServices")
     super: Float!
     gazoil: Float!
     description: String

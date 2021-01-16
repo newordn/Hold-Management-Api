@@ -9,7 +9,7 @@ var models = [
     embedded: false
   },
   {
-    name: "DotationEmetteur",
+    name: "DotationService",
     embedded: false
   },
   {
