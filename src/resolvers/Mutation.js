@@ -526,7 +526,7 @@ async function dotateService(parent, args, context, info) {
     console.log(MESSAGES.dotateService(service.name,args.super, args.gazoil));
     let userId = await getUserId(context)
     await context.prisma.createDotationService({
-      motif,
+      motif:args.motif,
       start_date: new Date(start_date),
       end_date: new Date(end_date),
       super: args.super,
