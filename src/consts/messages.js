@@ -30,7 +30,7 @@ const MESSAGES = {
     ),
   updateUsersHoldRole: (user, hold, role, name) =>
     createMessage(
-      `Mise a jour de l'utilisateur immatriculé ${user}, assignation a la soute de ${name} immatriculée ${hold} avec pour role ${role}`
+      `Vous venez d'être affecter a la soute de ${name} avec pour rôle ${role}`
     ),
   dotateHold: (
     start_date,
