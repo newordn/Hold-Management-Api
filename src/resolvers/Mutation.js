@@ -166,8 +166,8 @@ async function dotateHold(parent, args, context, info) {
   } = args;
   console.log(
     MESSAGES.dotateHold(
-      new Date(start_date),
-      new Date(end_date),
+      parseDate(new Date(start_date).toDateString()),
+      parseDate(new Date(end_date).toDateString()),
       user,
       hold,
       theorical_super_quantity,
@@ -177,15 +177,16 @@ async function dotateHold(parent, args, context, info) {
     )
   );
   try {
+    // neword: We will implement received platform after
     const hold1 = await context.prisma.hold({ id: hold });
     await context.prisma.createDotation({
       motif,
       number_of_liter_dotated_super: theorical_super_quantity,
-      number_of_liter_received_super: 0,
+      number_of_liter_received_super: theorical_super_quantity,
       number_of_liter_dotated_reserve_super: theorical_reserve_super_quantity,
-      number_of_liter_received_reserve_super: 0,
+      number_of_liter_received_reserve_super: theorical_reserve_super_quantity,
       number_of_liter_dotated_reserve_gazoil: theorical_reserve_super_quantity,
-      number_of_liter_received_reserve_gazoil: 0,
+      number_of_liter_received_reserve_gazoil: theorical_reserve_super_quantity,
       number_of_liter_dotated_gazoil: theorical_gazoil_quantity,
       number_of_liter_received_gazoil: 0,
       start_date: new Date(start_date),
@@ -196,19 +197,23 @@ async function dotateHold(parent, args, context, info) {
     const updateHold = await context.prisma.updateHold({
       data: {
         theorical_super_quantity: hold1.theorical_super_quantity + theorical_super_quantity,
+        super_quantity: hold1.super_quantity + theorical_super_quantity,
         theorical_gazoil_quantity: hold1.theorical_gazoil_quantity + theorical_gazoil_quantity,
+        gazoil_quantity: hold1.gazoil_quantity + theorical_gazoil_quantity,
         theorical_reserve_super_quantity:
           hold1.theorical_reserve_super_quantity + theorical_reserve_super_quantity,
+        reserve_super_quantity: hold1.reserve_super_quantity + theorical_reserve_super_quantity,
         theorical_reserve_gazoil_quantity:
-          hold1.theorical_reserve_gazoil_quantity + theorical_reserve_gazoil_quantity
+          hold1.theorical_reserve_gazoil_quantity + theorical_reserve_gazoil_quantity,
+          reserve_gazoil_quantity: hold1.reserve_gazoil_quantity + theorical_reserve_gazoil_quantity,
       },
       where: { id: hold }
     });
 
     await context.prisma.createLog({
       action: MESSAGES.dotateHold(
-        start_date,
-        end_date,
+        parseDate(new Date(start_date)),
+        parseDate(new Date(end_date)),
         user,
         hold,
         theorical_super_quantity,
@@ -218,13 +223,13 @@ async function dotateHold(parent, args, context, info) {
       ),
       user: { connect: { id: user } }
     });
-    let responsableSoute = await getUserByHoldAndRole(context, hold, ROLES.responsableSoute);
-    if(responsableSoute)
+    let administrateur = await getUserByHoldAndRole(context, hold, ROLES.administrateur);
+    if(administrateur)
     sendSms(
-      responsableSoute.phone,
+      administrateur.phone,
       MESSAGES.dotateHold(
-        new Date(start_date),
-        new Date(end_date),
+        parseDate(new Date(start_date)),
+        parseDate(new Date(end_date)),
         user,
         hold,
         theorical_super_quantity,
@@ -232,7 +237,7 @@ async function dotateHold(parent, args, context, info) {
         theorical_reserve_super_quantity,
         theorical_reserve_gazoil_quantity
       ),
-      responsableSoute.id,
+      administrateur.id,
       context
     );
     return updateHold;
@@ -356,7 +361,7 @@ const bon = async (parent, args, context, info) => {
   } = args;
   const getCar = await context.prisma.car({ id: car });
   const immatriculation = getCar ? getCar.immatriculation : ""
-  const emetteur = await context.prisma.user({ id: user });
+  const service = await context.prisma.user({ id: user }).service();
   console.log(
     MESSAGES.bon(
       type,
@@ -375,32 +380,33 @@ const bon = async (parent, args, context, info) => {
   );
   let restant =
     fuel_type === FUEL.super
-      ? emetteur.super - initial_number_of_liter
-      : emetteur.gazoil - initial_number_of_liter;
+      ? service.super - initial_number_of_liter
+      : service.gazoil - initial_number_of_liter;
   try {
     if (restant > 0) {
       if (fuel_type === FUEL.super) {
-        await context.prisma.updateUser({
+        await context.prisma.updateService({
           data: {
             super: restant
           },
           where: {
-            id: user
+            id: service.id
           }
         });
       } else {
-        await context.prisma.updateUser({
+        await context.prisma.updateService({
           data: {
             gazoil: restant
           },
           where: {
-            id: user
+            id: service.id
           }
         });
       }
       const data = car ? await context.prisma.createBon({
         type,
          reserve,
+        service: {connect: {id: service.id}} ,
         coverage_when_consuming: 0,
         expiration_date,
         driver,
@@ -424,6 +430,7 @@ const bon = async (parent, args, context, info) => {
       }):  await context.prisma.createBon({
         type,
          reserve,
+          service: {connect: {id: service.id}},
         coverage_when_consuming: 0,
         expiration_date,
         driver,
@@ -605,13 +612,18 @@ async function service(parent, args, context, info) {
   }
 }
 async function dotateService(parent, args, context, info) {
-  
   try {
     let service = await context.prisma.service({id: args.service})
-    console.log(MESSAGES.dotateService(service.name,super_capacity, gazoil));
+    console.log(MESSAGES.dotateService(service.name,args.super, args.gazoil));
+    await context.prisma.updateService({
+      data: {
+        super: service.super + args.super,
+        gazoi: service.gazoil + args.gazoil,
+      }
+    })
     let userId = await getUserId(context)
     await context.prisma.createLog({
-      action: MESSAGES.dotateService(service.name,super_capacity, gazoil),
+      action: MESSAGES.dotateService(service.name,args.super, args.gazoil),
       user: { connect: { id: userId } }
     })
     return service

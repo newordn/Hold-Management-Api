@@ -1010,6 +1010,7 @@ export interface BonWhereInput {
   holds_every?: Maybe<HoldsOnBonsWhereInput>;
   holds_some?: Maybe<HoldsOnBonsWhereInput>;
   holds_none?: Maybe<HoldsOnBonsWhereInput>;
+  service?: Maybe<ServiceWhereInput>;
   driver?: Maybe<String>;
   driver_not?: Maybe<String>;
   driver_in?: Maybe<String[] | String>;
@@ -1397,6 +1398,9 @@ export interface ServiceWhereInput {
   cars_every?: Maybe<CarWhereInput>;
   cars_some?: Maybe<CarWhereInput>;
   cars_none?: Maybe<CarWhereInput>;
+  bons_every?: Maybe<BonWhereInput>;
+  bons_some?: Maybe<BonWhereInput>;
+  bons_none?: Maybe<BonWhereInput>;
   super?: Maybe<Float>;
   super_not?: Maybe<Float>;
   super_in?: Maybe<Float[] | Float>;
@@ -1739,6 +1743,7 @@ export interface BonCreateInput {
   user: UserCreateOneWithoutBonsInput;
   car?: Maybe<CarCreateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  service?: Maybe<ServiceCreateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code: String;
   type: Boolean;
@@ -1876,6 +1881,7 @@ export interface BonCreateWithoutUserInput {
   status: Boolean;
   car?: Maybe<CarCreateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  service?: Maybe<ServiceCreateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code: String;
   type: Boolean;
@@ -1960,9 +1966,138 @@ export interface BonCreateWithoutHoldsInput {
   status: Boolean;
   user: UserCreateOneWithoutBonsInput;
   car?: Maybe<CarCreateOneWithoutBonInput>;
+  service?: Maybe<ServiceCreateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code: String;
   type: Boolean;
+}
+
+export interface ServiceCreateOneWithoutBonsInput {
+  create?: Maybe<ServiceCreateWithoutBonsInput>;
+  connect?: Maybe<ServiceWhereUniqueInput>;
+}
+
+export interface ServiceCreateWithoutBonsInput {
+  id?: Maybe<ID_Input>;
+  label: String;
+  hold: HoldCreateOneWithoutServicesInput;
+  users?: Maybe<UserCreateManyWithoutServiceInput>;
+  cars?: Maybe<CarCreateManyWithoutServiceInput>;
+  super: Float;
+  gazoil: Float;
+  description?: Maybe<String>;
+}
+
+export interface HoldCreateOneWithoutServicesInput {
+  create?: Maybe<HoldCreateWithoutServicesInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutServicesInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
+  super_cuves_number: Float;
+  gazoil_cuves_number: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
+}
+
+export interface CarCreateManyWithoutHoldInput {
+  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
+  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+}
+
+export interface CarCreateWithoutHoldInput {
+  id?: Maybe<ID_Input>;
+  bon?: Maybe<BonCreateOneWithoutCarInput>;
+  image?: Maybe<String>;
+  service?: Maybe<ServiceCreateOneWithoutCarsInput>;
+  number_of_reservoir: Float;
+  marque: String;
+  capacity: Float;
+  type: String;
+  immatriculation: String;
+  kilometrage: Float;
+}
+
+export interface BonCreateOneWithoutCarInput {
+  create?: Maybe<BonCreateWithoutCarInput>;
+  connect?: Maybe<BonWhereUniqueInput>;
+}
+
+export interface BonCreateWithoutCarInput {
+  id?: Maybe<ID_Input>;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  expiration_date: String;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date: DateTimeInput;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type: String;
+  reason: String;
+  reserve: Boolean;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  user: UserCreateOneWithoutBonsInput;
+  holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  service?: Maybe<ServiceCreateOneWithoutBonsInput>;
+  driver?: Maybe<String>;
+  code: String;
+  type: Boolean;
+}
+
+export interface HoldsOnBonsCreateManyWithoutBonInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
+  >;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+}
+
+export interface HoldsOnBonsCreateWithoutBonInput {
+  id?: Maybe<ID_Input>;
+  hold: HoldCreateOneWithoutBonsInput;
+}
+
+export interface HoldCreateOneWithoutBonsInput {
+  create?: Maybe<HoldCreateWithoutBonsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldCreateWithoutBonsInput {
+  id?: Maybe<ID_Input>;
+  name: String;
+  localisation: String;
+  super_capacity: Float;
+  gazoil_capacity: Float;
+  super_quantity: Float;
+  gazoil_quantity: Float;
+  super_cuves_number: Float;
+  gazoil_cuves_number: Float;
+  theorical_super_quantity: Float;
+  theorical_gazoil_quantity: Float;
+  reserve_super_quantity: Float;
+  reserve_gazoil_quantity: Float;
+  theorical_reserve_super_quantity: Float;
+  theorical_reserve_gazoil_quantity: Float;
+  users?: Maybe<UserCreateManyWithoutHoldInput>;
+  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
+  cars?: Maybe<CarCreateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
 export interface ServiceCreateManyWithoutHoldInput {
@@ -1977,6 +2112,7 @@ export interface ServiceCreateWithoutHoldInput {
   label: String;
   users?: Maybe<UserCreateManyWithoutServiceInput>;
   cars?: Maybe<CarCreateManyWithoutServiceInput>;
+  bons?: Maybe<BonCreateManyWithoutServiceInput>;
   super: Float;
   gazoil: Float;
   description?: Maybe<String>;
@@ -2055,90 +2191,6 @@ export interface HoldCreateWithoutUsersInput {
   dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
-export interface CarCreateManyWithoutHoldInput {
-  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
-  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
-}
-
-export interface CarCreateWithoutHoldInput {
-  id?: Maybe<ID_Input>;
-  bon?: Maybe<BonCreateOneWithoutCarInput>;
-  image?: Maybe<String>;
-  service?: Maybe<ServiceCreateOneWithoutCarsInput>;
-  number_of_reservoir: Float;
-  marque: String;
-  capacity: Float;
-  type: String;
-  immatriculation: String;
-  kilometrage: Float;
-}
-
-export interface BonCreateOneWithoutCarInput {
-  create?: Maybe<BonCreateWithoutCarInput>;
-  connect?: Maybe<BonWhereUniqueInput>;
-}
-
-export interface BonCreateWithoutCarInput {
-  id?: Maybe<ID_Input>;
-  consumed: Boolean;
-  coverage_when_consuming: Float;
-  expiration_date: String;
-  consumed_date?: Maybe<DateTimeInput>;
-  emission_date: DateTimeInput;
-  departure?: Maybe<String>;
-  destination?: Maybe<String>;
-  fuel_type: String;
-  reason: String;
-  reserve: Boolean;
-  number_of_liter: Float;
-  initial_number_of_liter: Float;
-  status: Boolean;
-  user: UserCreateOneWithoutBonsInput;
-  holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
-  driver?: Maybe<String>;
-  code: String;
-  type: Boolean;
-}
-
-export interface HoldsOnBonsCreateManyWithoutBonInput {
-  create?: Maybe<
-    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
-  >;
-  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
-}
-
-export interface HoldsOnBonsCreateWithoutBonInput {
-  id?: Maybe<ID_Input>;
-  hold: HoldCreateOneWithoutBonsInput;
-}
-
-export interface HoldCreateOneWithoutBonsInput {
-  create?: Maybe<HoldCreateWithoutBonsInput>;
-  connect?: Maybe<HoldWhereUniqueInput>;
-}
-
-export interface HoldCreateWithoutBonsInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  localisation: String;
-  super_capacity: Float;
-  gazoil_capacity: Float;
-  super_quantity: Float;
-  gazoil_quantity: Float;
-  super_cuves_number: Float;
-  gazoil_cuves_number: Float;
-  theorical_super_quantity: Float;
-  theorical_gazoil_quantity: Float;
-  reserve_super_quantity: Float;
-  reserve_gazoil_quantity: Float;
-  theorical_reserve_super_quantity: Float;
-  theorical_reserve_gazoil_quantity: Float;
-  users?: Maybe<UserCreateManyWithoutHoldInput>;
-  services?: Maybe<ServiceCreateManyWithoutHoldInput>;
-  cars?: Maybe<CarCreateManyWithoutHoldInput>;
-  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
-}
-
 export interface DotationCreateManyWithoutHoldInput {
   create?: Maybe<
     DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
@@ -2211,36 +2263,10 @@ export interface ServiceCreateWithoutUsersInput {
   label: String;
   hold: HoldCreateOneWithoutServicesInput;
   cars?: Maybe<CarCreateManyWithoutServiceInput>;
+  bons?: Maybe<BonCreateManyWithoutServiceInput>;
   super: Float;
   gazoil: Float;
   description?: Maybe<String>;
-}
-
-export interface HoldCreateOneWithoutServicesInput {
-  create?: Maybe<HoldCreateWithoutServicesInput>;
-  connect?: Maybe<HoldWhereUniqueInput>;
-}
-
-export interface HoldCreateWithoutServicesInput {
-  id?: Maybe<ID_Input>;
-  name: String;
-  localisation: String;
-  super_capacity: Float;
-  gazoil_capacity: Float;
-  super_quantity: Float;
-  gazoil_quantity: Float;
-  super_cuves_number: Float;
-  gazoil_cuves_number: Float;
-  theorical_super_quantity: Float;
-  theorical_gazoil_quantity: Float;
-  reserve_super_quantity: Float;
-  reserve_gazoil_quantity: Float;
-  theorical_reserve_super_quantity: Float;
-  theorical_reserve_gazoil_quantity: Float;
-  users?: Maybe<UserCreateManyWithoutHoldInput>;
-  bons?: Maybe<HoldsOnBonsCreateManyWithoutHoldInput>;
-  cars?: Maybe<CarCreateManyWithoutHoldInput>;
-  dotations?: Maybe<DotationCreateManyWithoutHoldInput>;
 }
 
 export interface CarCreateManyWithoutServiceInput {
@@ -2261,6 +2287,34 @@ export interface CarCreateWithoutServiceInput {
   kilometrage: Float;
 }
 
+export interface BonCreateManyWithoutServiceInput {
+  create?: Maybe<BonCreateWithoutServiceInput[] | BonCreateWithoutServiceInput>;
+  connect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+}
+
+export interface BonCreateWithoutServiceInput {
+  id?: Maybe<ID_Input>;
+  consumed: Boolean;
+  coverage_when_consuming: Float;
+  expiration_date: String;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date: DateTimeInput;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type: String;
+  reason: String;
+  reserve: Boolean;
+  number_of_liter: Float;
+  initial_number_of_liter: Float;
+  status: Boolean;
+  user: UserCreateOneWithoutBonsInput;
+  car?: Maybe<CarCreateOneWithoutBonInput>;
+  holds?: Maybe<HoldsOnBonsCreateManyWithoutBonInput>;
+  driver?: Maybe<String>;
+  code: String;
+  type: Boolean;
+}
+
 export interface ServiceCreateOneWithoutCarsInput {
   create?: Maybe<ServiceCreateWithoutCarsInput>;
   connect?: Maybe<ServiceWhereUniqueInput>;
@@ -2271,6 +2325,7 @@ export interface ServiceCreateWithoutCarsInput {
   label: String;
   hold: HoldCreateOneWithoutServicesInput;
   users?: Maybe<UserCreateManyWithoutServiceInput>;
+  bons?: Maybe<BonCreateManyWithoutServiceInput>;
   super: Float;
   gazoil: Float;
   description?: Maybe<String>;
@@ -2293,6 +2348,7 @@ export interface BonUpdateInput {
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
   car?: Maybe<CarUpdateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  service?: Maybe<ServiceUpdateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
   type?: Maybe<Boolean>;
@@ -2568,6 +2624,7 @@ export interface BonUpdateWithoutUserDataInput {
   status?: Maybe<Boolean>;
   car?: Maybe<CarUpdateOneWithoutBonInput>;
   holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  service?: Maybe<ServiceUpdateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
   type?: Maybe<Boolean>;
@@ -2677,48 +2734,185 @@ export interface BonUpdateWithoutHoldsDataInput {
   status?: Maybe<Boolean>;
   user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
   car?: Maybe<CarUpdateOneWithoutBonInput>;
+  service?: Maybe<ServiceUpdateOneWithoutBonsInput>;
   driver?: Maybe<String>;
   code?: Maybe<String>;
   type?: Maybe<Boolean>;
 }
 
-export interface BonUpsertWithoutHoldsInput {
-  update: BonUpdateWithoutHoldsDataInput;
-  create: BonCreateWithoutHoldsInput;
+export interface ServiceUpdateOneWithoutBonsInput {
+  create?: Maybe<ServiceCreateWithoutBonsInput>;
+  update?: Maybe<ServiceUpdateWithoutBonsDataInput>;
+  upsert?: Maybe<ServiceUpsertWithoutBonsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ServiceWhereUniqueInput>;
 }
 
-export interface HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput {
+export interface ServiceUpdateWithoutBonsDataInput {
+  label?: Maybe<String>;
+  hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
+  users?: Maybe<UserUpdateManyWithoutServiceInput>;
+  cars?: Maybe<CarUpdateManyWithoutServiceInput>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
+}
+
+export interface HoldUpdateOneRequiredWithoutServicesInput {
+  create?: Maybe<HoldCreateWithoutServicesInput>;
+  update?: Maybe<HoldUpdateWithoutServicesDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutServicesInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutServicesDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
+  super_cuves_number?: Maybe<Float>;
+  gazoil_cuves_number?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
+  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
+}
+
+export interface CarUpdateManyWithoutHoldInput {
+  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
+  delete?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  set?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  disconnect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
+  update?: Maybe<
+    | CarUpdateWithWhereUniqueWithoutHoldInput[]
+    | CarUpdateWithWhereUniqueWithoutHoldInput
+  >;
+  upsert?: Maybe<
+    | CarUpsertWithWhereUniqueWithoutHoldInput[]
+    | CarUpsertWithWhereUniqueWithoutHoldInput
+  >;
+  deleteMany?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
+  updateMany?: Maybe<
+    CarUpdateManyWithWhereNestedInput[] | CarUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CarUpdateWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput;
+  data: CarUpdateWithoutHoldDataInput;
+}
+
+export interface CarUpdateWithoutHoldDataInput {
+  bon?: Maybe<BonUpdateOneWithoutCarInput>;
+  image?: Maybe<String>;
+  service?: Maybe<ServiceUpdateOneWithoutCarsInput>;
+  number_of_reservoir?: Maybe<Float>;
+  marque?: Maybe<String>;
+  capacity?: Maybe<Float>;
+  type?: Maybe<String>;
+  immatriculation?: Maybe<String>;
+  kilometrage?: Maybe<Float>;
+}
+
+export interface BonUpdateOneWithoutCarInput {
+  create?: Maybe<BonCreateWithoutCarInput>;
+  update?: Maybe<BonUpdateWithoutCarDataInput>;
+  upsert?: Maybe<BonUpsertWithoutCarInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<BonWhereUniqueInput>;
+}
+
+export interface BonUpdateWithoutCarDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
+  holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  service?: Maybe<ServiceUpdateOneWithoutBonsInput>;
+  driver?: Maybe<String>;
+  code?: Maybe<String>;
+  type?: Maybe<Boolean>;
+}
+
+export interface HoldsOnBonsUpdateManyWithoutBonInput {
+  create?: Maybe<
+    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
+  >;
+  delete?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  set?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
+  disconnect?: Maybe<
+    HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput
+  >;
+  update?: Maybe<
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput[]
+    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput
+  >;
+  upsert?: Maybe<
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput[]
+    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput
+  >;
+  deleteMany?: Maybe<
+    HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput
+  >;
+}
+
+export interface HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput {
   where: HoldsOnBonsWhereUniqueInput;
-  update: HoldsOnBonsUpdateWithoutHoldDataInput;
-  create: HoldsOnBonsCreateWithoutHoldInput;
+  data: HoldsOnBonsUpdateWithoutBonDataInput;
 }
 
-export interface HoldsOnBonsScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  created_at?: Maybe<DateTimeInput>;
-  created_at_not?: Maybe<DateTimeInput>;
-  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  created_at_lt?: Maybe<DateTimeInput>;
-  created_at_lte?: Maybe<DateTimeInput>;
-  created_at_gt?: Maybe<DateTimeInput>;
-  created_at_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
-  OR?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
-  NOT?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+export interface HoldsOnBonsUpdateWithoutBonDataInput {
+  hold?: Maybe<HoldUpdateOneRequiredWithoutBonsInput>;
+}
+
+export interface HoldUpdateOneRequiredWithoutBonsInput {
+  create?: Maybe<HoldCreateWithoutBonsInput>;
+  update?: Maybe<HoldUpdateWithoutBonsDataInput>;
+  upsert?: Maybe<HoldUpsertWithoutBonsInput>;
+  connect?: Maybe<HoldWhereUniqueInput>;
+}
+
+export interface HoldUpdateWithoutBonsDataInput {
+  name?: Maybe<String>;
+  localisation?: Maybe<String>;
+  super_capacity?: Maybe<Float>;
+  gazoil_capacity?: Maybe<Float>;
+  super_quantity?: Maybe<Float>;
+  gazoil_quantity?: Maybe<Float>;
+  super_cuves_number?: Maybe<Float>;
+  gazoil_cuves_number?: Maybe<Float>;
+  theorical_super_quantity?: Maybe<Float>;
+  theorical_gazoil_quantity?: Maybe<Float>;
+  reserve_super_quantity?: Maybe<Float>;
+  reserve_gazoil_quantity?: Maybe<Float>;
+  theorical_reserve_super_quantity?: Maybe<Float>;
+  theorical_reserve_gazoil_quantity?: Maybe<Float>;
+  users?: Maybe<UserUpdateManyWithoutHoldInput>;
+  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
+  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
+  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
 export interface ServiceUpdateManyWithoutHoldInput {
@@ -2753,6 +2947,7 @@ export interface ServiceUpdateWithoutHoldDataInput {
   label?: Maybe<String>;
   users?: Maybe<UserUpdateManyWithoutServiceInput>;
   cars?: Maybe<CarUpdateManyWithoutServiceInput>;
+  bons?: Maybe<BonUpdateManyWithoutServiceInput>;
   super?: Maybe<Float>;
   gazoil?: Maybe<Float>;
   description?: Maybe<String>;
@@ -2980,133 +3175,6 @@ export interface HoldUpdateWithoutUsersDataInput {
   dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
 }
 
-export interface CarUpdateManyWithoutHoldInput {
-  create?: Maybe<CarCreateWithoutHoldInput[] | CarCreateWithoutHoldInput>;
-  delete?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
-  connect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
-  set?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
-  disconnect?: Maybe<CarWhereUniqueInput[] | CarWhereUniqueInput>;
-  update?: Maybe<
-    | CarUpdateWithWhereUniqueWithoutHoldInput[]
-    | CarUpdateWithWhereUniqueWithoutHoldInput
-  >;
-  upsert?: Maybe<
-    | CarUpsertWithWhereUniqueWithoutHoldInput[]
-    | CarUpsertWithWhereUniqueWithoutHoldInput
-  >;
-  deleteMany?: Maybe<CarScalarWhereInput[] | CarScalarWhereInput>;
-  updateMany?: Maybe<
-    CarUpdateManyWithWhereNestedInput[] | CarUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface CarUpdateWithWhereUniqueWithoutHoldInput {
-  where: CarWhereUniqueInput;
-  data: CarUpdateWithoutHoldDataInput;
-}
-
-export interface CarUpdateWithoutHoldDataInput {
-  bon?: Maybe<BonUpdateOneWithoutCarInput>;
-  image?: Maybe<String>;
-  service?: Maybe<ServiceUpdateOneWithoutCarsInput>;
-  number_of_reservoir?: Maybe<Float>;
-  marque?: Maybe<String>;
-  capacity?: Maybe<Float>;
-  type?: Maybe<String>;
-  immatriculation?: Maybe<String>;
-  kilometrage?: Maybe<Float>;
-}
-
-export interface BonUpdateOneWithoutCarInput {
-  create?: Maybe<BonCreateWithoutCarInput>;
-  update?: Maybe<BonUpdateWithoutCarDataInput>;
-  upsert?: Maybe<BonUpsertWithoutCarInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<BonWhereUniqueInput>;
-}
-
-export interface BonUpdateWithoutCarDataInput {
-  consumed?: Maybe<Boolean>;
-  coverage_when_consuming?: Maybe<Float>;
-  expiration_date?: Maybe<String>;
-  consumed_date?: Maybe<DateTimeInput>;
-  emission_date?: Maybe<DateTimeInput>;
-  departure?: Maybe<String>;
-  destination?: Maybe<String>;
-  fuel_type?: Maybe<String>;
-  reason?: Maybe<String>;
-  reserve?: Maybe<Boolean>;
-  number_of_liter?: Maybe<Float>;
-  initial_number_of_liter?: Maybe<Float>;
-  status?: Maybe<Boolean>;
-  user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
-  holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
-  driver?: Maybe<String>;
-  code?: Maybe<String>;
-  type?: Maybe<Boolean>;
-}
-
-export interface HoldsOnBonsUpdateManyWithoutBonInput {
-  create?: Maybe<
-    HoldsOnBonsCreateWithoutBonInput[] | HoldsOnBonsCreateWithoutBonInput
-  >;
-  delete?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
-  connect?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
-  set?: Maybe<HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput>;
-  disconnect?: Maybe<
-    HoldsOnBonsWhereUniqueInput[] | HoldsOnBonsWhereUniqueInput
-  >;
-  update?: Maybe<
-    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput[]
-    | HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput
-  >;
-  upsert?: Maybe<
-    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput[]
-    | HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput
-  >;
-  deleteMany?: Maybe<
-    HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput
-  >;
-}
-
-export interface HoldsOnBonsUpdateWithWhereUniqueWithoutBonInput {
-  where: HoldsOnBonsWhereUniqueInput;
-  data: HoldsOnBonsUpdateWithoutBonDataInput;
-}
-
-export interface HoldsOnBonsUpdateWithoutBonDataInput {
-  hold?: Maybe<HoldUpdateOneRequiredWithoutBonsInput>;
-}
-
-export interface HoldUpdateOneRequiredWithoutBonsInput {
-  create?: Maybe<HoldCreateWithoutBonsInput>;
-  update?: Maybe<HoldUpdateWithoutBonsDataInput>;
-  upsert?: Maybe<HoldUpsertWithoutBonsInput>;
-  connect?: Maybe<HoldWhereUniqueInput>;
-}
-
-export interface HoldUpdateWithoutBonsDataInput {
-  name?: Maybe<String>;
-  localisation?: Maybe<String>;
-  super_capacity?: Maybe<Float>;
-  gazoil_capacity?: Maybe<Float>;
-  super_quantity?: Maybe<Float>;
-  gazoil_quantity?: Maybe<Float>;
-  super_cuves_number?: Maybe<Float>;
-  gazoil_cuves_number?: Maybe<Float>;
-  theorical_super_quantity?: Maybe<Float>;
-  theorical_gazoil_quantity?: Maybe<Float>;
-  reserve_super_quantity?: Maybe<Float>;
-  reserve_gazoil_quantity?: Maybe<Float>;
-  theorical_reserve_super_quantity?: Maybe<Float>;
-  theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  users?: Maybe<UserUpdateManyWithoutHoldInput>;
-  services?: Maybe<ServiceUpdateManyWithoutHoldInput>;
-  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
-  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
-}
-
 export interface DotationUpdateManyWithoutHoldInput {
   create?: Maybe<
     DotationCreateWithoutHoldInput[] | DotationCreateWithoutHoldInput
@@ -3286,42 +3354,10 @@ export interface ServiceUpdateWithoutUsersDataInput {
   label?: Maybe<String>;
   hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
   cars?: Maybe<CarUpdateManyWithoutServiceInput>;
+  bons?: Maybe<BonUpdateManyWithoutServiceInput>;
   super?: Maybe<Float>;
   gazoil?: Maybe<Float>;
   description?: Maybe<String>;
-}
-
-export interface HoldUpdateOneRequiredWithoutServicesInput {
-  create?: Maybe<HoldCreateWithoutServicesInput>;
-  update?: Maybe<HoldUpdateWithoutServicesDataInput>;
-  upsert?: Maybe<HoldUpsertWithoutServicesInput>;
-  connect?: Maybe<HoldWhereUniqueInput>;
-}
-
-export interface HoldUpdateWithoutServicesDataInput {
-  name?: Maybe<String>;
-  localisation?: Maybe<String>;
-  super_capacity?: Maybe<Float>;
-  gazoil_capacity?: Maybe<Float>;
-  super_quantity?: Maybe<Float>;
-  gazoil_quantity?: Maybe<Float>;
-  super_cuves_number?: Maybe<Float>;
-  gazoil_cuves_number?: Maybe<Float>;
-  theorical_super_quantity?: Maybe<Float>;
-  theorical_gazoil_quantity?: Maybe<Float>;
-  reserve_super_quantity?: Maybe<Float>;
-  reserve_gazoil_quantity?: Maybe<Float>;
-  theorical_reserve_super_quantity?: Maybe<Float>;
-  theorical_reserve_gazoil_quantity?: Maybe<Float>;
-  users?: Maybe<UserUpdateManyWithoutHoldInput>;
-  bons?: Maybe<HoldsOnBonsUpdateManyWithoutHoldInput>;
-  cars?: Maybe<CarUpdateManyWithoutHoldInput>;
-  dotations?: Maybe<DotationUpdateManyWithoutHoldInput>;
-}
-
-export interface HoldUpsertWithoutServicesInput {
-  update: HoldUpdateWithoutServicesDataInput;
-  create: HoldCreateWithoutServicesInput;
 }
 
 export interface CarUpdateManyWithoutServiceInput {
@@ -3490,6 +3526,257 @@ export interface CarUpdateManyDataInput {
   kilometrage?: Maybe<Float>;
 }
 
+export interface BonUpdateManyWithoutServiceInput {
+  create?: Maybe<BonCreateWithoutServiceInput[] | BonCreateWithoutServiceInput>;
+  delete?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  connect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  set?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  disconnect?: Maybe<BonWhereUniqueInput[] | BonWhereUniqueInput>;
+  update?: Maybe<
+    | BonUpdateWithWhereUniqueWithoutServiceInput[]
+    | BonUpdateWithWhereUniqueWithoutServiceInput
+  >;
+  upsert?: Maybe<
+    | BonUpsertWithWhereUniqueWithoutServiceInput[]
+    | BonUpsertWithWhereUniqueWithoutServiceInput
+  >;
+  deleteMany?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  updateMany?: Maybe<
+    BonUpdateManyWithWhereNestedInput[] | BonUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BonUpdateWithWhereUniqueWithoutServiceInput {
+  where: BonWhereUniqueInput;
+  data: BonUpdateWithoutServiceDataInput;
+}
+
+export interface BonUpdateWithoutServiceDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  user?: Maybe<UserUpdateOneRequiredWithoutBonsInput>;
+  car?: Maybe<CarUpdateOneWithoutBonInput>;
+  holds?: Maybe<HoldsOnBonsUpdateManyWithoutBonInput>;
+  driver?: Maybe<String>;
+  code?: Maybe<String>;
+  type?: Maybe<Boolean>;
+}
+
+export interface BonUpsertWithWhereUniqueWithoutServiceInput {
+  where: BonWhereUniqueInput;
+  update: BonUpdateWithoutServiceDataInput;
+  create: BonCreateWithoutServiceInput;
+}
+
+export interface BonScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  consumed?: Maybe<Boolean>;
+  consumed_not?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  coverage_when_consuming_not?: Maybe<Float>;
+  coverage_when_consuming_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_not_in?: Maybe<Float[] | Float>;
+  coverage_when_consuming_lt?: Maybe<Float>;
+  coverage_when_consuming_lte?: Maybe<Float>;
+  coverage_when_consuming_gt?: Maybe<Float>;
+  coverage_when_consuming_gte?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  expiration_date_not?: Maybe<String>;
+  expiration_date_in?: Maybe<String[] | String>;
+  expiration_date_not_in?: Maybe<String[] | String>;
+  expiration_date_lt?: Maybe<String>;
+  expiration_date_lte?: Maybe<String>;
+  expiration_date_gt?: Maybe<String>;
+  expiration_date_gte?: Maybe<String>;
+  expiration_date_contains?: Maybe<String>;
+  expiration_date_not_contains?: Maybe<String>;
+  expiration_date_starts_with?: Maybe<String>;
+  expiration_date_not_starts_with?: Maybe<String>;
+  expiration_date_ends_with?: Maybe<String>;
+  expiration_date_not_ends_with?: Maybe<String>;
+  consumed_date?: Maybe<DateTimeInput>;
+  consumed_date_not?: Maybe<DateTimeInput>;
+  consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  consumed_date_lt?: Maybe<DateTimeInput>;
+  consumed_date_lte?: Maybe<DateTimeInput>;
+  consumed_date_gt?: Maybe<DateTimeInput>;
+  consumed_date_gte?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  emission_date_not?: Maybe<DateTimeInput>;
+  emission_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  emission_date_lt?: Maybe<DateTimeInput>;
+  emission_date_lte?: Maybe<DateTimeInput>;
+  emission_date_gt?: Maybe<DateTimeInput>;
+  emission_date_gte?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  departure_not?: Maybe<String>;
+  departure_in?: Maybe<String[] | String>;
+  departure_not_in?: Maybe<String[] | String>;
+  departure_lt?: Maybe<String>;
+  departure_lte?: Maybe<String>;
+  departure_gt?: Maybe<String>;
+  departure_gte?: Maybe<String>;
+  departure_contains?: Maybe<String>;
+  departure_not_contains?: Maybe<String>;
+  departure_starts_with?: Maybe<String>;
+  departure_not_starts_with?: Maybe<String>;
+  departure_ends_with?: Maybe<String>;
+  departure_not_ends_with?: Maybe<String>;
+  destination?: Maybe<String>;
+  destination_not?: Maybe<String>;
+  destination_in?: Maybe<String[] | String>;
+  destination_not_in?: Maybe<String[] | String>;
+  destination_lt?: Maybe<String>;
+  destination_lte?: Maybe<String>;
+  destination_gt?: Maybe<String>;
+  destination_gte?: Maybe<String>;
+  destination_contains?: Maybe<String>;
+  destination_not_contains?: Maybe<String>;
+  destination_starts_with?: Maybe<String>;
+  destination_not_starts_with?: Maybe<String>;
+  destination_ends_with?: Maybe<String>;
+  destination_not_ends_with?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  fuel_type_not?: Maybe<String>;
+  fuel_type_in?: Maybe<String[] | String>;
+  fuel_type_not_in?: Maybe<String[] | String>;
+  fuel_type_lt?: Maybe<String>;
+  fuel_type_lte?: Maybe<String>;
+  fuel_type_gt?: Maybe<String>;
+  fuel_type_gte?: Maybe<String>;
+  fuel_type_contains?: Maybe<String>;
+  fuel_type_not_contains?: Maybe<String>;
+  fuel_type_starts_with?: Maybe<String>;
+  fuel_type_not_starts_with?: Maybe<String>;
+  fuel_type_ends_with?: Maybe<String>;
+  fuel_type_not_ends_with?: Maybe<String>;
+  reason?: Maybe<String>;
+  reason_not?: Maybe<String>;
+  reason_in?: Maybe<String[] | String>;
+  reason_not_in?: Maybe<String[] | String>;
+  reason_lt?: Maybe<String>;
+  reason_lte?: Maybe<String>;
+  reason_gt?: Maybe<String>;
+  reason_gte?: Maybe<String>;
+  reason_contains?: Maybe<String>;
+  reason_not_contains?: Maybe<String>;
+  reason_starts_with?: Maybe<String>;
+  reason_not_starts_with?: Maybe<String>;
+  reason_ends_with?: Maybe<String>;
+  reason_not_ends_with?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  reserve_not?: Maybe<Boolean>;
+  number_of_liter?: Maybe<Float>;
+  number_of_liter_not?: Maybe<Float>;
+  number_of_liter_in?: Maybe<Float[] | Float>;
+  number_of_liter_not_in?: Maybe<Float[] | Float>;
+  number_of_liter_lt?: Maybe<Float>;
+  number_of_liter_lte?: Maybe<Float>;
+  number_of_liter_gt?: Maybe<Float>;
+  number_of_liter_gte?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  initial_number_of_liter_not?: Maybe<Float>;
+  initial_number_of_liter_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_not_in?: Maybe<Float[] | Float>;
+  initial_number_of_liter_lt?: Maybe<Float>;
+  initial_number_of_liter_lte?: Maybe<Float>;
+  initial_number_of_liter_gt?: Maybe<Float>;
+  initial_number_of_liter_gte?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  status_not?: Maybe<Boolean>;
+  driver?: Maybe<String>;
+  driver_not?: Maybe<String>;
+  driver_in?: Maybe<String[] | String>;
+  driver_not_in?: Maybe<String[] | String>;
+  driver_lt?: Maybe<String>;
+  driver_lte?: Maybe<String>;
+  driver_gt?: Maybe<String>;
+  driver_gte?: Maybe<String>;
+  driver_contains?: Maybe<String>;
+  driver_not_contains?: Maybe<String>;
+  driver_starts_with?: Maybe<String>;
+  driver_not_starts_with?: Maybe<String>;
+  driver_ends_with?: Maybe<String>;
+  driver_not_ends_with?: Maybe<String>;
+  code?: Maybe<String>;
+  code_not?: Maybe<String>;
+  code_in?: Maybe<String[] | String>;
+  code_not_in?: Maybe<String[] | String>;
+  code_lt?: Maybe<String>;
+  code_lte?: Maybe<String>;
+  code_gt?: Maybe<String>;
+  code_gte?: Maybe<String>;
+  code_contains?: Maybe<String>;
+  code_not_contains?: Maybe<String>;
+  code_starts_with?: Maybe<String>;
+  code_not_starts_with?: Maybe<String>;
+  code_ends_with?: Maybe<String>;
+  code_not_ends_with?: Maybe<String>;
+  type?: Maybe<Boolean>;
+  type_not?: Maybe<Boolean>;
+  created_at?: Maybe<DateTimeInput>;
+  created_at_not?: Maybe<DateTimeInput>;
+  created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  created_at_lt?: Maybe<DateTimeInput>;
+  created_at_lte?: Maybe<DateTimeInput>;
+  created_at_gt?: Maybe<DateTimeInput>;
+  created_at_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  OR?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  NOT?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+}
+
+export interface BonUpdateManyWithWhereNestedInput {
+  where: BonScalarWhereInput;
+  data: BonUpdateManyDataInput;
+}
+
+export interface BonUpdateManyDataInput {
+  consumed?: Maybe<Boolean>;
+  coverage_when_consuming?: Maybe<Float>;
+  expiration_date?: Maybe<String>;
+  consumed_date?: Maybe<DateTimeInput>;
+  emission_date?: Maybe<DateTimeInput>;
+  departure?: Maybe<String>;
+  destination?: Maybe<String>;
+  fuel_type?: Maybe<String>;
+  reason?: Maybe<String>;
+  reserve?: Maybe<Boolean>;
+  number_of_liter?: Maybe<Float>;
+  initial_number_of_liter?: Maybe<Float>;
+  status?: Maybe<Boolean>;
+  driver?: Maybe<String>;
+  code?: Maybe<String>;
+  type?: Maybe<Boolean>;
+}
+
 export interface ServiceUpsertWithoutUsersInput {
   update: ServiceUpdateWithoutUsersDataInput;
   create: ServiceCreateWithoutUsersInput;
@@ -3645,51 +3932,6 @@ export interface DotationUpdateManyDataInput {
   number_of_liter_received_reserve_super?: Maybe<Float>;
   number_of_liter_dotated_reserve_gazoil?: Maybe<Float>;
   number_of_liter_received_reserve_gazoil?: Maybe<Float>;
-}
-
-export interface HoldUpsertWithoutBonsInput {
-  update: HoldUpdateWithoutBonsDataInput;
-  create: HoldCreateWithoutBonsInput;
-}
-
-export interface HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput {
-  where: HoldsOnBonsWhereUniqueInput;
-  update: HoldsOnBonsUpdateWithoutBonDataInput;
-  create: HoldsOnBonsCreateWithoutBonInput;
-}
-
-export interface BonUpsertWithoutCarInput {
-  update: BonUpdateWithoutCarDataInput;
-  create: BonCreateWithoutCarInput;
-}
-
-export interface ServiceUpdateOneWithoutCarsInput {
-  create?: Maybe<ServiceCreateWithoutCarsInput>;
-  update?: Maybe<ServiceUpdateWithoutCarsDataInput>;
-  upsert?: Maybe<ServiceUpsertWithoutCarsInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<ServiceWhereUniqueInput>;
-}
-
-export interface ServiceUpdateWithoutCarsDataInput {
-  label?: Maybe<String>;
-  hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
-  users?: Maybe<UserUpdateManyWithoutServiceInput>;
-  super?: Maybe<Float>;
-  gazoil?: Maybe<Float>;
-  description?: Maybe<String>;
-}
-
-export interface ServiceUpsertWithoutCarsInput {
-  update: ServiceUpdateWithoutCarsDataInput;
-  create: ServiceCreateWithoutCarsInput;
-}
-
-export interface CarUpsertWithWhereUniqueWithoutHoldInput {
-  where: CarWhereUniqueInput;
-  update: CarUpdateWithoutHoldDataInput;
-  create: CarCreateWithoutHoldInput;
 }
 
 export interface HoldUpsertWithoutUsersInput {
@@ -3955,23 +4197,18 @@ export interface ServiceUpdateManyDataInput {
   description?: Maybe<String>;
 }
 
-export interface HoldUpsertWithoutCarsInput {
-  update: HoldUpdateWithoutCarsDataInput;
-  create: HoldCreateWithoutCarsInput;
+export interface HoldUpsertWithoutBonsInput {
+  update: HoldUpdateWithoutBonsDataInput;
+  create: HoldCreateWithoutBonsInput;
 }
 
-export interface CarUpsertWithoutBonInput {
-  update: CarUpdateWithoutBonDataInput;
-  create: CarCreateWithoutBonInput;
+export interface HoldsOnBonsUpsertWithWhereUniqueWithoutBonInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  update: HoldsOnBonsUpdateWithoutBonDataInput;
+  create: HoldsOnBonsCreateWithoutBonInput;
 }
 
-export interface BonUpsertWithWhereUniqueWithoutUserInput {
-  where: BonWhereUniqueInput;
-  update: BonUpdateWithoutUserDataInput;
-  create: BonCreateWithoutUserInput;
-}
-
-export interface BonScalarWhereInput {
+export interface HoldsOnBonsScalarWhereInput {
   id?: Maybe<ID_Input>;
   id_not?: Maybe<ID_Input>;
   id_in?: Maybe<ID_Input[] | ID_Input>;
@@ -3986,152 +4223,6 @@ export interface BonScalarWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  consumed?: Maybe<Boolean>;
-  consumed_not?: Maybe<Boolean>;
-  coverage_when_consuming?: Maybe<Float>;
-  coverage_when_consuming_not?: Maybe<Float>;
-  coverage_when_consuming_in?: Maybe<Float[] | Float>;
-  coverage_when_consuming_not_in?: Maybe<Float[] | Float>;
-  coverage_when_consuming_lt?: Maybe<Float>;
-  coverage_when_consuming_lte?: Maybe<Float>;
-  coverage_when_consuming_gt?: Maybe<Float>;
-  coverage_when_consuming_gte?: Maybe<Float>;
-  expiration_date?: Maybe<String>;
-  expiration_date_not?: Maybe<String>;
-  expiration_date_in?: Maybe<String[] | String>;
-  expiration_date_not_in?: Maybe<String[] | String>;
-  expiration_date_lt?: Maybe<String>;
-  expiration_date_lte?: Maybe<String>;
-  expiration_date_gt?: Maybe<String>;
-  expiration_date_gte?: Maybe<String>;
-  expiration_date_contains?: Maybe<String>;
-  expiration_date_not_contains?: Maybe<String>;
-  expiration_date_starts_with?: Maybe<String>;
-  expiration_date_not_starts_with?: Maybe<String>;
-  expiration_date_ends_with?: Maybe<String>;
-  expiration_date_not_ends_with?: Maybe<String>;
-  consumed_date?: Maybe<DateTimeInput>;
-  consumed_date_not?: Maybe<DateTimeInput>;
-  consumed_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  consumed_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  consumed_date_lt?: Maybe<DateTimeInput>;
-  consumed_date_lte?: Maybe<DateTimeInput>;
-  consumed_date_gt?: Maybe<DateTimeInput>;
-  consumed_date_gte?: Maybe<DateTimeInput>;
-  emission_date?: Maybe<DateTimeInput>;
-  emission_date_not?: Maybe<DateTimeInput>;
-  emission_date_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  emission_date_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
-  emission_date_lt?: Maybe<DateTimeInput>;
-  emission_date_lte?: Maybe<DateTimeInput>;
-  emission_date_gt?: Maybe<DateTimeInput>;
-  emission_date_gte?: Maybe<DateTimeInput>;
-  departure?: Maybe<String>;
-  departure_not?: Maybe<String>;
-  departure_in?: Maybe<String[] | String>;
-  departure_not_in?: Maybe<String[] | String>;
-  departure_lt?: Maybe<String>;
-  departure_lte?: Maybe<String>;
-  departure_gt?: Maybe<String>;
-  departure_gte?: Maybe<String>;
-  departure_contains?: Maybe<String>;
-  departure_not_contains?: Maybe<String>;
-  departure_starts_with?: Maybe<String>;
-  departure_not_starts_with?: Maybe<String>;
-  departure_ends_with?: Maybe<String>;
-  departure_not_ends_with?: Maybe<String>;
-  destination?: Maybe<String>;
-  destination_not?: Maybe<String>;
-  destination_in?: Maybe<String[] | String>;
-  destination_not_in?: Maybe<String[] | String>;
-  destination_lt?: Maybe<String>;
-  destination_lte?: Maybe<String>;
-  destination_gt?: Maybe<String>;
-  destination_gte?: Maybe<String>;
-  destination_contains?: Maybe<String>;
-  destination_not_contains?: Maybe<String>;
-  destination_starts_with?: Maybe<String>;
-  destination_not_starts_with?: Maybe<String>;
-  destination_ends_with?: Maybe<String>;
-  destination_not_ends_with?: Maybe<String>;
-  fuel_type?: Maybe<String>;
-  fuel_type_not?: Maybe<String>;
-  fuel_type_in?: Maybe<String[] | String>;
-  fuel_type_not_in?: Maybe<String[] | String>;
-  fuel_type_lt?: Maybe<String>;
-  fuel_type_lte?: Maybe<String>;
-  fuel_type_gt?: Maybe<String>;
-  fuel_type_gte?: Maybe<String>;
-  fuel_type_contains?: Maybe<String>;
-  fuel_type_not_contains?: Maybe<String>;
-  fuel_type_starts_with?: Maybe<String>;
-  fuel_type_not_starts_with?: Maybe<String>;
-  fuel_type_ends_with?: Maybe<String>;
-  fuel_type_not_ends_with?: Maybe<String>;
-  reason?: Maybe<String>;
-  reason_not?: Maybe<String>;
-  reason_in?: Maybe<String[] | String>;
-  reason_not_in?: Maybe<String[] | String>;
-  reason_lt?: Maybe<String>;
-  reason_lte?: Maybe<String>;
-  reason_gt?: Maybe<String>;
-  reason_gte?: Maybe<String>;
-  reason_contains?: Maybe<String>;
-  reason_not_contains?: Maybe<String>;
-  reason_starts_with?: Maybe<String>;
-  reason_not_starts_with?: Maybe<String>;
-  reason_ends_with?: Maybe<String>;
-  reason_not_ends_with?: Maybe<String>;
-  reserve?: Maybe<Boolean>;
-  reserve_not?: Maybe<Boolean>;
-  number_of_liter?: Maybe<Float>;
-  number_of_liter_not?: Maybe<Float>;
-  number_of_liter_in?: Maybe<Float[] | Float>;
-  number_of_liter_not_in?: Maybe<Float[] | Float>;
-  number_of_liter_lt?: Maybe<Float>;
-  number_of_liter_lte?: Maybe<Float>;
-  number_of_liter_gt?: Maybe<Float>;
-  number_of_liter_gte?: Maybe<Float>;
-  initial_number_of_liter?: Maybe<Float>;
-  initial_number_of_liter_not?: Maybe<Float>;
-  initial_number_of_liter_in?: Maybe<Float[] | Float>;
-  initial_number_of_liter_not_in?: Maybe<Float[] | Float>;
-  initial_number_of_liter_lt?: Maybe<Float>;
-  initial_number_of_liter_lte?: Maybe<Float>;
-  initial_number_of_liter_gt?: Maybe<Float>;
-  initial_number_of_liter_gte?: Maybe<Float>;
-  status?: Maybe<Boolean>;
-  status_not?: Maybe<Boolean>;
-  driver?: Maybe<String>;
-  driver_not?: Maybe<String>;
-  driver_in?: Maybe<String[] | String>;
-  driver_not_in?: Maybe<String[] | String>;
-  driver_lt?: Maybe<String>;
-  driver_lte?: Maybe<String>;
-  driver_gt?: Maybe<String>;
-  driver_gte?: Maybe<String>;
-  driver_contains?: Maybe<String>;
-  driver_not_contains?: Maybe<String>;
-  driver_starts_with?: Maybe<String>;
-  driver_not_starts_with?: Maybe<String>;
-  driver_ends_with?: Maybe<String>;
-  driver_not_ends_with?: Maybe<String>;
-  code?: Maybe<String>;
-  code_not?: Maybe<String>;
-  code_in?: Maybe<String[] | String>;
-  code_not_in?: Maybe<String[] | String>;
-  code_lt?: Maybe<String>;
-  code_lte?: Maybe<String>;
-  code_gt?: Maybe<String>;
-  code_gte?: Maybe<String>;
-  code_contains?: Maybe<String>;
-  code_not_contains?: Maybe<String>;
-  code_starts_with?: Maybe<String>;
-  code_not_starts_with?: Maybe<String>;
-  code_ends_with?: Maybe<String>;
-  code_not_ends_with?: Maybe<String>;
-  type?: Maybe<Boolean>;
-  type_not?: Maybe<Boolean>;
   created_at?: Maybe<DateTimeInput>;
   created_at_not?: Maybe<DateTimeInput>;
   created_at_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -4140,33 +4231,81 @@ export interface BonScalarWhereInput {
   created_at_lte?: Maybe<DateTimeInput>;
   created_at_gt?: Maybe<DateTimeInput>;
   created_at_gte?: Maybe<DateTimeInput>;
-  AND?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
-  OR?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
-  NOT?: Maybe<BonScalarWhereInput[] | BonScalarWhereInput>;
+  AND?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+  OR?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
+  NOT?: Maybe<HoldsOnBonsScalarWhereInput[] | HoldsOnBonsScalarWhereInput>;
 }
 
-export interface BonUpdateManyWithWhereNestedInput {
-  where: BonScalarWhereInput;
-  data: BonUpdateManyDataInput;
+export interface BonUpsertWithoutCarInput {
+  update: BonUpdateWithoutCarDataInput;
+  create: BonCreateWithoutCarInput;
 }
 
-export interface BonUpdateManyDataInput {
-  consumed?: Maybe<Boolean>;
-  coverage_when_consuming?: Maybe<Float>;
-  expiration_date?: Maybe<String>;
-  consumed_date?: Maybe<DateTimeInput>;
-  emission_date?: Maybe<DateTimeInput>;
-  departure?: Maybe<String>;
-  destination?: Maybe<String>;
-  fuel_type?: Maybe<String>;
-  reason?: Maybe<String>;
-  reserve?: Maybe<Boolean>;
-  number_of_liter?: Maybe<Float>;
-  initial_number_of_liter?: Maybe<Float>;
-  status?: Maybe<Boolean>;
-  driver?: Maybe<String>;
-  code?: Maybe<String>;
-  type?: Maybe<Boolean>;
+export interface ServiceUpdateOneWithoutCarsInput {
+  create?: Maybe<ServiceCreateWithoutCarsInput>;
+  update?: Maybe<ServiceUpdateWithoutCarsDataInput>;
+  upsert?: Maybe<ServiceUpsertWithoutCarsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<ServiceWhereUniqueInput>;
+}
+
+export interface ServiceUpdateWithoutCarsDataInput {
+  label?: Maybe<String>;
+  hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
+  users?: Maybe<UserUpdateManyWithoutServiceInput>;
+  bons?: Maybe<BonUpdateManyWithoutServiceInput>;
+  super?: Maybe<Float>;
+  gazoil?: Maybe<Float>;
+  description?: Maybe<String>;
+}
+
+export interface ServiceUpsertWithoutCarsInput {
+  update: ServiceUpdateWithoutCarsDataInput;
+  create: ServiceCreateWithoutCarsInput;
+}
+
+export interface CarUpsertWithWhereUniqueWithoutHoldInput {
+  where: CarWhereUniqueInput;
+  update: CarUpdateWithoutHoldDataInput;
+  create: CarCreateWithoutHoldInput;
+}
+
+export interface HoldUpsertWithoutServicesInput {
+  update: HoldUpdateWithoutServicesDataInput;
+  create: HoldCreateWithoutServicesInput;
+}
+
+export interface ServiceUpsertWithoutBonsInput {
+  update: ServiceUpdateWithoutBonsDataInput;
+  create: ServiceCreateWithoutBonsInput;
+}
+
+export interface BonUpsertWithoutHoldsInput {
+  update: BonUpdateWithoutHoldsDataInput;
+  create: BonCreateWithoutHoldsInput;
+}
+
+export interface HoldsOnBonsUpsertWithWhereUniqueWithoutHoldInput {
+  where: HoldsOnBonsWhereUniqueInput;
+  update: HoldsOnBonsUpdateWithoutHoldDataInput;
+  create: HoldsOnBonsCreateWithoutHoldInput;
+}
+
+export interface HoldUpsertWithoutCarsInput {
+  update: HoldUpdateWithoutCarsDataInput;
+  create: HoldCreateWithoutCarsInput;
+}
+
+export interface CarUpsertWithoutBonInput {
+  update: CarUpdateWithoutBonDataInput;
+  create: CarCreateWithoutBonInput;
+}
+
+export interface BonUpsertWithWhereUniqueWithoutUserInput {
+  where: BonWhereUniqueInput;
+  update: BonUpdateWithoutUserDataInput;
+  create: BonCreateWithoutUserInput;
 }
 
 export interface UserUpsertWithWhereUniqueWithoutHoldInput {
@@ -4598,6 +4737,7 @@ export interface ServiceCreateInput {
   hold: HoldCreateOneWithoutServicesInput;
   users?: Maybe<UserCreateManyWithoutServiceInput>;
   cars?: Maybe<CarCreateManyWithoutServiceInput>;
+  bons?: Maybe<BonCreateManyWithoutServiceInput>;
   super: Float;
   gazoil: Float;
   description?: Maybe<String>;
@@ -4608,6 +4748,7 @@ export interface ServiceUpdateInput {
   hold?: Maybe<HoldUpdateOneRequiredWithoutServicesInput>;
   users?: Maybe<UserUpdateManyWithoutServiceInput>;
   cars?: Maybe<CarUpdateManyWithoutServiceInput>;
+  bons?: Maybe<BonUpdateManyWithoutServiceInput>;
   super?: Maybe<Float>;
   gazoil?: Maybe<Float>;
   description?: Maybe<String>;
@@ -4860,6 +5001,7 @@ export interface BonPromise extends Promise<Bon>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  service: <T = ServicePromise>() => T;
   driver: () => Promise<String>;
   code: () => Promise<String>;
   type: () => Promise<Boolean>;
@@ -4894,6 +5036,7 @@ export interface BonSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  service: <T = ServiceSubscription>() => T;
   driver: () => Promise<AsyncIterator<String>>;
   code: () => Promise<AsyncIterator<String>>;
   type: () => Promise<AsyncIterator<Boolean>>;
@@ -4926,6 +5069,7 @@ export interface BonNullablePromise extends Promise<Bon | null>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  service: <T = ServicePromise>() => T;
   driver: () => Promise<String>;
   code: () => Promise<String>;
   type: () => Promise<Boolean>;
@@ -5518,6 +5662,15 @@ export interface ServicePromise extends Promise<Service>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  bons: <T = FragmentableArray<Bon>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   super: () => Promise<Float>;
   gazoil: () => Promise<Float>;
   description: () => Promise<String>;
@@ -5548,6 +5701,15 @@ export interface ServiceSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  bons: <T = Promise<AsyncIterator<BonSubscription>>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   super: () => Promise<AsyncIterator<Float>>;
   gazoil: () => Promise<AsyncIterator<Float>>;
   description: () => Promise<AsyncIterator<String>>;
@@ -5572,6 +5734,15 @@ export interface ServiceNullablePromise
   cars: <T = FragmentableArray<Car>>(args?: {
     where?: CarWhereInput;
     orderBy?: CarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  bons: <T = FragmentableArray<Bon>>(args?: {
+    where?: BonWhereInput;
+    orderBy?: BonOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;

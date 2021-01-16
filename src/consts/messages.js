@@ -39,7 +39,7 @@ const MESSAGES = {
     reserve_gazoil_quantity
   ) =>
     createMessage(
-      `Dotation de l'utilisateur immatricule ${user} a la soute immatriculee ${hold} avec les quantites super: ${super_quantity}, gasoil: ${gazoil_quantity}, reserve_super: ${reserve_super_quantity} , reserve_gasoil: ${reserve_gazoil_quantity} pour une periode allant de ${start_date} a ${end_date}`
+      `Dotation de l'utilisateur immatricule ${user} a la soute immatriculee ${hold} avec les quantites super: ${super_quantity}, gasoil: ${gazoil_quantity}, reserve_super: ${reserve_super_quantity} , reserve_gasoil: ${reserve_gazoil_quantity}  de ${start_date} a ${end_date}`
     ),
   resetPassword: (matricule, password, newPassword) =>
     createMessage(

@@ -3,6 +3,7 @@ const fillStyle = { type: "pattern", pattern: "solid", fgColor: { argb: "969C5C"
 const alignmentStyle = { vertical: "middle", horizontal: "center" };
 const style = { fill: fillStyle, alignment: alignmentStyle, font: { bold: true }, size: 16 };
 const { ROLES } = require("../consts/roles");
+const { FUEL} = require("../consts/fuels");
 const { getUserId } = require("../helpers/user");
 const excel = require("exceljs");
 const { storeStreamUpload } = require("../helpers/upload");
@@ -302,14 +303,44 @@ async function holdStatistiques(parent, args, context, info) {
   let data = [];
   console.log("hold statistiques " + args.hold);
   const hold = await context.prisma.hold({ id: args.hold });
-  data.push(hold.super_quantity, hold.reserve_super_quantity);
-  labels.push("Contenance Ordinaire", "Réserve");
+  const holdOnBons = await context.prisma.hold({id: args.hold}).bons()
+  let consommation_super = 0
+  let consommation_gazoil = 0
+  await Promise.all(holdOnBons.map(async holdOnBon=>{
+    let bon = await context.prisma.holdOnBon({id: holdOnBon}).bon()
+    if(bon.fuel_type=== FUEL.super)
+    consommation_super += bon.number_of_liter
+    else
+    consommation_gazoil += bon.number_of_liter
+  }))
+  data.push(hold.super_quantity, hold.reserve_super_quantity, consommation_super);
+  labels.push("Contenance Ordinaire", "Réserve", "Consommation du mois");
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
   data = [];
   labels = [];
-  data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity);
-  labels.push("Contenance Ordinaire", "Réserve");
+  data.push(hold.gazoil_quantity, hold.reserve_gazoil_quantity, consommation_gazoil);
+  labels.push("Contenance Ordinaire", "Réserve", "Consommation du mois");
   datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
+  data = [];
+  let dataGazoil =[]
+  labels = [];
+  let consommation_service_super = 0
+  let consommation_service_gazoil = 0
+  const services = await context.prisma.hold({id: args.hold}).services()
+  await Promise.all(services.map(async service=>{
+    let bons = context.prisma.service({id: service.id}).bons()
+    bons.map(bon=>{
+      if(bon.fuel_type===FUEL.super)
+      consommation_service_super+= bon.number_of_liter
+      else
+      consommation_service_gazoil+= bon.number_of_liter
+    })
+  data.push(consommation_service_super);
+  dataGazoil.push(consommation_service_gazoil)
+  labels.push(service.label);
+  }))
+  datas.push({ id: "3", labels, data, label: "Statistiques Services Super" });
+  datas.push({ id: "4", labels, dataGazoil, label: "Statistiques Services Gasoil" });
   return datas;
 }
 async function userStatistiques(parent, args, context, info) {

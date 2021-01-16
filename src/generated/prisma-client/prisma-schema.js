@@ -65,6 +65,7 @@ type Bon {
   user: User!
   car: Car
   holds(where: HoldsOnBonsWhereInput, orderBy: HoldsOnBonsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HoldsOnBons!]
+  service: Service
   driver: String
   code: String!
   type: Boolean!
@@ -95,9 +96,15 @@ input BonCreateInput {
   user: UserCreateOneWithoutBonsInput!
   car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
+  service: ServiceCreateOneWithoutBonsInput
   driver: String
   code: String!
   type: Boolean!
+}
+
+input BonCreateManyWithoutServiceInput {
+  create: [BonCreateWithoutServiceInput!]
+  connect: [BonWhereUniqueInput!]
 }
 
 input BonCreateManyWithoutUserInput {
@@ -132,6 +139,7 @@ input BonCreateWithoutCarInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   holds: HoldsOnBonsCreateManyWithoutBonInput
+  service: ServiceCreateOneWithoutBonsInput
   driver: String
   code: String!
   type: Boolean!
@@ -154,6 +162,30 @@ input BonCreateWithoutHoldsInput {
   status: Boolean!
   user: UserCreateOneWithoutBonsInput!
   car: CarCreateOneWithoutBonInput
+  service: ServiceCreateOneWithoutBonsInput
+  driver: String
+  code: String!
+  type: Boolean!
+}
+
+input BonCreateWithoutServiceInput {
+  id: ID
+  consumed: Boolean!
+  coverage_when_consuming: Float!
+  expiration_date: String!
+  consumed_date: DateTime
+  emission_date: DateTime!
+  departure: String
+  destination: String
+  fuel_type: String!
+  reason: String!
+  reserve: Boolean!
+  number_of_liter: Float!
+  initial_number_of_liter: Float!
+  status: Boolean!
+  user: UserCreateOneWithoutBonsInput!
+  car: CarCreateOneWithoutBonInput
+  holds: HoldsOnBonsCreateManyWithoutBonInput
   driver: String
   code: String!
   type: Boolean!
@@ -176,6 +208,7 @@ input BonCreateWithoutUserInput {
   status: Boolean!
   car: CarCreateOneWithoutBonInput
   holds: HoldsOnBonsCreateManyWithoutBonInput
+  service: ServiceCreateOneWithoutBonsInput
   driver: String
   code: String!
   type: Boolean!
@@ -455,6 +488,7 @@ input BonUpdateInput {
   user: UserUpdateOneRequiredWithoutBonsInput
   car: CarUpdateOneWithoutBonInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
+  service: ServiceUpdateOneWithoutBonsInput
   driver: String
   code: String
   type: Boolean
@@ -496,6 +530,18 @@ input BonUpdateManyMutationInput {
   driver: String
   code: String
   type: Boolean
+}
+
+input BonUpdateManyWithoutServiceInput {
+  create: [BonCreateWithoutServiceInput!]
+  delete: [BonWhereUniqueInput!]
+  connect: [BonWhereUniqueInput!]
+  set: [BonWhereUniqueInput!]
+  disconnect: [BonWhereUniqueInput!]
+  update: [BonUpdateWithWhereUniqueWithoutServiceInput!]
+  upsert: [BonUpsertWithWhereUniqueWithoutServiceInput!]
+  deleteMany: [BonScalarWhereInput!]
+  updateMany: [BonUpdateManyWithWhereNestedInput!]
 }
 
 input BonUpdateManyWithoutUserInput {
@@ -547,6 +593,7 @@ input BonUpdateWithoutCarDataInput {
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
+  service: ServiceUpdateOneWithoutBonsInput
   driver: String
   code: String
   type: Boolean
@@ -568,6 +615,29 @@ input BonUpdateWithoutHoldsDataInput {
   status: Boolean
   user: UserUpdateOneRequiredWithoutBonsInput
   car: CarUpdateOneWithoutBonInput
+  service: ServiceUpdateOneWithoutBonsInput
+  driver: String
+  code: String
+  type: Boolean
+}
+
+input BonUpdateWithoutServiceDataInput {
+  consumed: Boolean
+  coverage_when_consuming: Float
+  expiration_date: String
+  consumed_date: DateTime
+  emission_date: DateTime
+  departure: String
+  destination: String
+  fuel_type: String
+  reason: String
+  reserve: Boolean
+  number_of_liter: Float
+  initial_number_of_liter: Float
+  status: Boolean
+  user: UserUpdateOneRequiredWithoutBonsInput
+  car: CarUpdateOneWithoutBonInput
+  holds: HoldsOnBonsUpdateManyWithoutBonInput
   driver: String
   code: String
   type: Boolean
@@ -589,9 +659,15 @@ input BonUpdateWithoutUserDataInput {
   status: Boolean
   car: CarUpdateOneWithoutBonInput
   holds: HoldsOnBonsUpdateManyWithoutBonInput
+  service: ServiceUpdateOneWithoutBonsInput
   driver: String
   code: String
   type: Boolean
+}
+
+input BonUpdateWithWhereUniqueWithoutServiceInput {
+  where: BonWhereUniqueInput!
+  data: BonUpdateWithoutServiceDataInput!
 }
 
 input BonUpdateWithWhereUniqueWithoutUserInput {
@@ -607,6 +683,12 @@ input BonUpsertWithoutCarInput {
 input BonUpsertWithoutHoldsInput {
   update: BonUpdateWithoutHoldsDataInput!
   create: BonCreateWithoutHoldsInput!
+}
+
+input BonUpsertWithWhereUniqueWithoutServiceInput {
+  where: BonWhereUniqueInput!
+  update: BonUpdateWithoutServiceDataInput!
+  create: BonCreateWithoutServiceInput!
 }
 
 input BonUpsertWithWhereUniqueWithoutUserInput {
@@ -751,6 +833,7 @@ input BonWhereInput {
   holds_every: HoldsOnBonsWhereInput
   holds_some: HoldsOnBonsWhereInput
   holds_none: HoldsOnBonsWhereInput
+  service: ServiceWhereInput
   driver: String
   driver_not: String
   driver_in: [String!]
@@ -3494,6 +3577,7 @@ type Service {
   hold: Hold!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User!]
   cars(where: CarWhereInput, orderBy: CarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Car!]
+  bons(where: BonWhereInput, orderBy: BonOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bon!]
   super: Float!
   gazoil: Float!
   description: String
@@ -3512,6 +3596,7 @@ input ServiceCreateInput {
   hold: HoldCreateOneWithoutServicesInput!
   users: UserCreateManyWithoutServiceInput
   cars: CarCreateManyWithoutServiceInput
+  bons: BonCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3520,6 +3605,11 @@ input ServiceCreateInput {
 input ServiceCreateManyWithoutHoldInput {
   create: [ServiceCreateWithoutHoldInput!]
   connect: [ServiceWhereUniqueInput!]
+}
+
+input ServiceCreateOneWithoutBonsInput {
+  create: ServiceCreateWithoutBonsInput
+  connect: ServiceWhereUniqueInput
 }
 
 input ServiceCreateOneWithoutCarsInput {
@@ -3532,11 +3622,23 @@ input ServiceCreateOneWithoutUsersInput {
   connect: ServiceWhereUniqueInput
 }
 
+input ServiceCreateWithoutBonsInput {
+  id: ID
+  label: String!
+  hold: HoldCreateOneWithoutServicesInput!
+  users: UserCreateManyWithoutServiceInput
+  cars: CarCreateManyWithoutServiceInput
+  super: Float!
+  gazoil: Float!
+  description: String
+}
+
 input ServiceCreateWithoutCarsInput {
   id: ID
   label: String!
   hold: HoldCreateOneWithoutServicesInput!
   users: UserCreateManyWithoutServiceInput
+  bons: BonCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3547,6 +3649,7 @@ input ServiceCreateWithoutHoldInput {
   label: String!
   users: UserCreateManyWithoutServiceInput
   cars: CarCreateManyWithoutServiceInput
+  bons: BonCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3557,6 +3660,7 @@ input ServiceCreateWithoutUsersInput {
   label: String!
   hold: HoldCreateOneWithoutServicesInput!
   cars: CarCreateManyWithoutServiceInput
+  bons: BonCreateManyWithoutServiceInput
   super: Float!
   gazoil: Float!
   description: String
@@ -3686,6 +3790,7 @@ input ServiceUpdateInput {
   hold: HoldUpdateOneRequiredWithoutServicesInput
   users: UserUpdateManyWithoutServiceInput
   cars: CarUpdateManyWithoutServiceInput
+  bons: BonUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3722,6 +3827,15 @@ input ServiceUpdateManyWithWhereNestedInput {
   data: ServiceUpdateManyDataInput!
 }
 
+input ServiceUpdateOneWithoutBonsInput {
+  create: ServiceCreateWithoutBonsInput
+  update: ServiceUpdateWithoutBonsDataInput
+  upsert: ServiceUpsertWithoutBonsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ServiceWhereUniqueInput
+}
+
 input ServiceUpdateOneWithoutCarsInput {
   create: ServiceCreateWithoutCarsInput
   update: ServiceUpdateWithoutCarsDataInput
@@ -3740,10 +3854,21 @@ input ServiceUpdateOneWithoutUsersInput {
   connect: ServiceWhereUniqueInput
 }
 
+input ServiceUpdateWithoutBonsDataInput {
+  label: String
+  hold: HoldUpdateOneRequiredWithoutServicesInput
+  users: UserUpdateManyWithoutServiceInput
+  cars: CarUpdateManyWithoutServiceInput
+  super: Float
+  gazoil: Float
+  description: String
+}
+
 input ServiceUpdateWithoutCarsDataInput {
   label: String
   hold: HoldUpdateOneRequiredWithoutServicesInput
   users: UserUpdateManyWithoutServiceInput
+  bons: BonUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3753,6 +3878,7 @@ input ServiceUpdateWithoutHoldDataInput {
   label: String
   users: UserUpdateManyWithoutServiceInput
   cars: CarUpdateManyWithoutServiceInput
+  bons: BonUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3762,6 +3888,7 @@ input ServiceUpdateWithoutUsersDataInput {
   label: String
   hold: HoldUpdateOneRequiredWithoutServicesInput
   cars: CarUpdateManyWithoutServiceInput
+  bons: BonUpdateManyWithoutServiceInput
   super: Float
   gazoil: Float
   description: String
@@ -3770,6 +3897,11 @@ input ServiceUpdateWithoutUsersDataInput {
 input ServiceUpdateWithWhereUniqueWithoutHoldInput {
   where: ServiceWhereUniqueInput!
   data: ServiceUpdateWithoutHoldDataInput!
+}
+
+input ServiceUpsertWithoutBonsInput {
+  update: ServiceUpdateWithoutBonsDataInput!
+  create: ServiceCreateWithoutBonsInput!
 }
 
 input ServiceUpsertWithoutCarsInput {
@@ -3824,6 +3956,9 @@ input ServiceWhereInput {
   cars_every: CarWhereInput
   cars_some: CarWhereInput
   cars_none: CarWhereInput
+  bons_every: BonWhereInput
+  bons_some: BonWhereInput
+  bons_none: BonWhereInput
   super: Float
   super_not: Float
   super_in: [Float!]
