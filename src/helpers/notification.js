@@ -34,13 +34,15 @@ const notify = (data, topic) => {
     });
 };
 const sendSms = async (number, message, user, context) => {
-  const timestamp =  Date.now()
+  const timestamp =  1212
+  const signature = hmacsha1Generate.generateSignature(SMS_PARAM.secretSeller,SMS_PARAM.tokenSeller+ timestamp)
+  console.log(signature)
   axios
     .post("vas.avs-lab.com:8090/bulksms", {
       id: SMS_PARAM.idSeller,
       timestamp,
       schedule: "",
-      signature: hmacsha1Generate.generateSignature(SMS_PARAM.secretSeller,SMS_PARAM.tokenSeller+ timestamp) ,
+      signature ,
       phonenumber: `237${number}`,
       sms:message
     })
