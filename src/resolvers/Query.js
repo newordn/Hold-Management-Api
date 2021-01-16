@@ -93,6 +93,15 @@ async function serviceExporting(parent, args, context, info) {
   let workbook = new excel.Workbook();
   let stream = new Stream.PassThrough();
   let service = await context.prisma.service({ id: args.service });
+  let consommation_service_super=0
+  let consommation_service_gazoil=0
+  let bons = await context.prisma.service({id: args.service}).bons()
+    bons.map(bon=>{
+      if(bon.fuel_type===FUEL.super)
+      consommation_service_super+= bon.number_of_liter
+      else
+      consommation_service_gazoil+= bon.number_of_liter
+    })
   label = "Consommations " + service.label;
   consommationsSheet = workbook.addWorksheet(`BHM-${label}`);
   consommationsSheet.columns = CONSOMMATION_SERVICES_LABEL;
@@ -106,9 +115,9 @@ async function serviceExporting(parent, args, context, info) {
   row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
     4
   ).alignment = row.getCell(5).alignment= alignmentStyle;
-  row.getCell(2).value = 0
+  row.getCell(2).value = consommation_service_super
   row.getCell(3).value = service.super
-  row.getCell(4).value = 0
+  row.getCell(4).value = consommation_service_gazoil
   row.getCell(5).value = service.gazoil
   workbook.xlsx.write(stream);
   link = await storeStreamUpload(stream, `BHM-${label}`);
