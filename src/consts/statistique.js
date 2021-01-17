@@ -30,7 +30,7 @@ const CONSOMMATION_SERVICES_LABEL = [
   { header: "Consommation Super", key: "super1", width: 25 },
   { header: "Quantité Restante Super", key: "super", width: 25 },
   { header: "Consommation Gasoil", key: "gazoil1", width: 25 },
-  { header: "Quantité Restante Gasoil", key: "gazoil", width: 25 },
+  { header: "Quantité Restante Gasoil", key: "gazoil", width: 25 }
 ];
 const CARS_LABEL = [
   { header: "Marque", key: "marque", width: 25 },
@@ -68,6 +68,23 @@ const USERS_LABEL = [
   { header: "Dotation Super (litres)", key: "super", width: 20 },
   { header: "Dotation Gazoil (litres)", key: "gazoil", width: 20 }
 ];
+const BONS_LABEL = [
+  { header: "Départ", key: "departure", width: 20 },
+  {
+    header: "Destination",
+    key: "destination",
+    width: 20
+  },
+  { header: "Type d'essence", key: "fuel_type", width: 20 },
+  { header: "Nombre de litre initial", key: " initial_number_of_liter", width: 20 },
+  { header: "Nombre de litre après consommation", key: "number_of_liter", width: 30 },
+  { header: "Véhicule", key: "car", width: 25 },
+  { header: "Conducteur", key: "driver", width: 25 },
+  { header: "Date d'émission", key: "emission_date", width: 25 },
+  { header: "Date de consommation", key: "consumed_date", width: 25 },
+  { header: "Kilométrage a la consommation", key: "coverage_when_consuming", width: 25 },
+  { header: "Consommé", key: "consumed", width: 10 }
+];
 module.exports = {
   STATISTIQUES,
   HOLD_STATS_LABEL,
@@ -75,5 +92,6 @@ module.exports = {
   CARS_LABEL,
   USERS_LABEL,
   CARS_LABEL_SERVICE,
-  CONSOMMATION_SERVICES_LABEL
+  CONSOMMATION_SERVICES_LABEL,
+  BONS_LABEL
 };

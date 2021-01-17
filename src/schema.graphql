@@ -14,6 +14,7 @@ type Query{
     serviceStatistiques(service: ID!): [Statistique!]!
     userStatistiques(user: ID!): [Statistique!]!
     holdExporting(hold: ID!): [Exporting!]!
+    userExporting(user: ID!): [Exporting!]!
     serviceExporting(service: ID!): [Exporting!]!
     emetteurs(hold:ID!): [User!]!
     services: [Service!]!

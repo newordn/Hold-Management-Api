@@ -1,9 +1,17 @@
-const { HOLD_STATS_LABEL, SERVICES_LABEL, CARS_LABEL, CARS_LABEL_SERVICE, CONSOMMATION_SERVICES_LABEL, USERS_LABEL  } = require("../consts/statistique");
+const {
+  BONS_LABEL,
+  HOLD_STATS_LABEL,
+  SERVICES_LABEL,
+  CARS_LABEL,
+  CARS_LABEL_SERVICE,
+  CONSOMMATION_SERVICES_LABEL,
+  USERS_LABEL
+} = require("../consts/statistique");
 const fillStyle = { type: "pattern", pattern: "solid", fgColor: { argb: "969C5C" } };
 const alignmentStyle = { vertical: "middle", horizontal: "center" };
 const style = { fill: fillStyle, alignment: alignmentStyle, font: { bold: true }, size: 16 };
 const { ROLES } = require("../consts/roles");
-const { FUEL} = require("../consts/fuels");
+const { FUEL } = require("../consts/fuels");
 const { getUserId } = require("../helpers/user");
 const excel = require("exceljs");
 const { storeStreamUpload } = require("../helpers/upload");
@@ -91,22 +99,20 @@ async function emetteurs(parent, args, context, info) {
   return users.filter((user) => user.role === ROLES.emetteur);
 }
 async function serviceExporting(parent, args, context, info) {
-  console.log("service exporting query")
+  console.log("service exporting query");
   const datas = [];
   let label = "";
   let link = "";
   let workbook = new excel.Workbook();
   let stream = new Stream.PassThrough();
   let service = await context.prisma.service({ id: args.service });
-  let consommation_service_super=0
-  let consommation_service_gazoil=0
-  let bons = await context.prisma.service({id: args.service}).bons()
-    bons.map(bon=>{
-      if(bon.fuel_type===FUEL.super)
-      consommation_service_super+= bon.number_of_liter
-      else
-      consommation_service_gazoil+= bon.number_of_liter
-    })
+  let consommation_service_super = 0;
+  let consommation_service_gazoil = 0;
+  let bons = await context.prisma.service({ id: args.service }).bons();
+  bons.map((bon) => {
+    if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
+    else consommation_service_gazoil += bon.number_of_liter;
+  });
   label = "Consommations " + service.label;
   consommationsSheet = workbook.addWorksheet(`BHM-${label}`);
   consommationsSheet.columns = CONSOMMATION_SERVICES_LABEL;
@@ -119,11 +125,11 @@ async function serviceExporting(parent, args, context, info) {
   row.getCell(1).value = service.label;
   row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
     4
-  ).alignment = row.getCell(5).alignment= alignmentStyle;
-  row.getCell(2).value = consommation_service_super
-  row.getCell(3).value = service.super
-  row.getCell(4).value = consommation_service_gazoil
-  row.getCell(5).value = service.gazoil
+  ).alignment = row.getCell(5).alignment = alignmentStyle;
+  row.getCell(2).value = consommation_service_super;
+  row.getCell(3).value = service.super;
+  row.getCell(4).value = consommation_service_gazoil;
+  row.getCell(5).value = service.gazoil;
   workbook.xlsx.write(stream);
   link = await storeStreamUpload(stream, `BHM-${label}`);
   let created_at = service.created_at;
@@ -134,12 +140,12 @@ async function serviceExporting(parent, args, context, info) {
     start_date: parseDate(created_at),
     end_date: parseDate(addDays(30, created_at).toDateString())
   });
-  label = "Utilisateurs "+ service.label;
+  label = "Utilisateurs " + service.label;
   workbook = new excel.Workbook();
   stream = new Stream.PassThrough();
   const users = await context.prisma.service({ id: args.service }).users();
   usersSheet = workbook.addWorksheet(`BHM-${label}`);
-  usersSheet.columns = USERS_LABEL
+  usersSheet.columns = USERS_LABEL;
   row = usersSheet.getRow(1);
   for (i = 1; i <= 8; i++) {
     row.getCell(i).style = style;
@@ -149,7 +155,9 @@ async function serviceExporting(parent, args, context, info) {
     row.getCell(1).value = user.matricule;
     row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
       4
-    ).alignment = row.getCell(5).alignment = row.getCell(6).alignment = row.getCell(7).alignment = row.getCell(8).alignment =  alignmentStyle;
+    ).alignment = row.getCell(5).alignment = row.getCell(6).alignment = row.getCell(
+      7
+    ).alignment = row.getCell(8).alignment = alignmentStyle;
     row.getCell(2).value = user.fullname;
     row.getCell(3).value = user.username;
     row.getCell(4).value = user.grade;
@@ -167,7 +175,7 @@ async function serviceExporting(parent, args, context, info) {
     start_date: parseDate(created_at),
     end_date: parseDate(new Date().toDateString())
   });
-  label = "Véhicules "+ service.label;
+  label = "Véhicules " + service.label;
   workbook = new excel.Workbook();
   stream = new Stream.PassThrough();
   const cars = await context.prisma.service({ id: args.service }).cars();
@@ -245,7 +253,7 @@ async function holdExporting(parent, args, context, info) {
     start_date: parseDate(created_at),
     end_date: parseDate(addDays(30, created_at).toDateString())
   });
-  label = "Services "+ hold.name;
+  label = "Services " + hold.name;
   workbook = new excel.Workbook();
   stream = new Stream.PassThrough();
   const services = await context.prisma.hold({ id: args.hold }).services();
@@ -274,7 +282,7 @@ async function holdExporting(parent, args, context, info) {
     start_date: parseDate(created_at),
     end_date: parseDate(new Date().toDateString())
   });
-  label = "Véhicules "+ hold.name;
+  label = "Véhicules " + hold.name;
   workbook = new excel.Workbook();
   stream = new Stream.PassThrough();
   const cars = await context.prisma.hold({ id: args.hold }).cars();
@@ -317,16 +325,16 @@ async function holdStatistiques(parent, args, context, info) {
   let data = [];
   console.log("hold statistiques " + args.hold);
   const hold = await context.prisma.hold({ id: args.hold });
-  const holdOnBons = await context.prisma.hold({id: args.hold}).bons()
-  let consommation_super = 0
-  let consommation_gazoil = 0
-  await Promise.all(holdOnBons.map(async holdOnBon=>{
-    let bon = await context.prisma.holdsOnBons({id: holdOnBon.id}).bon()
-    if(bon.fuel_type=== FUEL.super)
-    consommation_super += bon.number_of_liter
-    else
-    consommation_gazoil += bon.number_of_liter
-  }))
+  const holdOnBons = await context.prisma.hold({ id: args.hold }).bons();
+  let consommation_super = 0;
+  let consommation_gazoil = 0;
+  await Promise.all(
+    holdOnBons.map(async (holdOnBon) => {
+      let bon = await context.prisma.holdsOnBons({ id: holdOnBon.id }).bon();
+      if (bon.fuel_type === FUEL.super) consommation_super += bon.number_of_liter;
+      else consommation_gazoil += bon.number_of_liter;
+    })
+  );
   data.push(hold.super_quantity, hold.reserve_super_quantity, consommation_super);
   labels.push("Contenance Ordinaire", "Réserve", "Consommation du mois");
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
@@ -336,25 +344,73 @@ async function holdStatistiques(parent, args, context, info) {
   labels.push("Contenance Ordinaire", "Réserve", "Consommation du mois");
   datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
   data = [];
-  let dataGazoil =[]
+  let dataGazoil = [];
   labels = [];
-  let consommation_service_super = 0
-  let consommation_service_gazoil = 0
-  const services = await context.prisma.hold({id: args.hold}).services()
-  await Promise.all(services.map(async service=>{
-    let bons = await context.prisma.service({id: service.id}).bons()
-    bons.map(bon=>{
-      if(bon.fuel_type===FUEL.super)
-      consommation_service_super+= bon.number_of_liter
-      else
-      consommation_service_gazoil+= bon.number_of_liter
+  let consommation_service_super = 0;
+  let consommation_service_gazoil = 0;
+  const services = await context.prisma.hold({ id: args.hold }).services();
+  await Promise.all(
+    services.map(async (service) => {
+      let bons = await context.prisma.service({ id: service.id }).bons();
+      bons.map((bon) => {
+        if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
+        else consommation_service_gazoil += bon.number_of_liter;
+      });
+      data.push(consommation_service_super);
+      dataGazoil.push(consommation_service_gazoil);
+      labels.push(service.label);
     })
-  data.push(consommation_service_super);
-  dataGazoil.push(consommation_service_gazoil)
-  labels.push(service.label);
-  }))
+  );
   datas.push({ id: "3", labels, data, label: "Statistiques Services Super" });
-  datas.push({ id: "4", labels, data:dataGazoil, label: "Statistiques Services Gasoil" });
+  datas.push({ id: "4", labels, data: dataGazoil, label: "Statistiques Services Gasoil" });
+  return datas;
+}
+async function userExporting(parent, args, context, info) {
+  let label = "";
+  let datas=[]
+  let workbook = new excel.Workbook();
+  let stream = new Stream.PassThrough();
+  label = "Statistiques Bons";
+  let user = await context.prisma.user({id: args.user})
+  let created_at = user.created_at
+  let bons = await context.prisma.user({ id: args.user }).bons();
+  let bonsSheet;
+  bonsSheet = workbook.addWorksheet(`BHM-${label}`);
+  bonsSheet.columns = BONS_LABEL
+  row = bonsSheet.getRow(1);
+  for (i = 1; i <= 11; i++) {
+    row.getCell(i).style = style;
+  }
+  await Promise.all(
+    bons.map(async (bon, i) => {
+      row = bonsSheet.getRow(i + 2);
+      row.getCell(1).value = bon.departure;
+      row.getCell(1).alignment = row.getCell(2).alignment = row.getCell(3).alignment = row.getCell(
+        4
+      ).alignment = row.getCell(5).alignment = row.getCell(6).alignment = row.getCell(
+        7
+      ).alignment = row.getCell(8).alignment = row.getCell(9).alignment = row.getCell(
+        10
+      ).alignment = row.getCell(11).alignment = alignmentStyle;
+      row.getCell(2).value = bon.destination;
+      row.getCell(3).value = bon.fuel_type;
+      row.getCell(4).value = bon.initial_number_of_liter;
+      row.getCell(5).value = bon.number_of_liter;
+      row.getCell(7).value = bon.driver;
+      row.getCell(8).value = bon.emission_date;
+      row.getCell(9).value = bon.consumed_date;
+      row.getCell(10).value = bon.coverage_when_consuming;
+      row.getCell(11).value = bon.consumed ? "Oui" : "Non";
+      let car = await context.prisma.bon({ id: bon.id }).car();
+      row.getCell(6).value = car ? car.marque + "-" + car.immatriculation : " ";
+    })
+  );
+
+  workbook.xlsx.write(stream);
+  link = await storeStreamUpload(stream, `BHM-${label}`);
+  datas.push({ id: "1", label, link, 
+    start_date: parseDate(created_at),
+    end_date: parseDate(addDays(30, created_at).toDateString())});
   return datas;
 }
 async function userStatistiques(parent, args, context, info) {
@@ -362,17 +418,23 @@ async function userStatistiques(parent, args, context, info) {
   let labels = [];
   let data = [];
   console.log("user statistiques " + args.user);
-  const user = await context.prisma.user({ id: args.user});
-  const service = await context.prisma.user({ id: args.user}).service();
-  if(!service)
-  throw new Error("Utilisateur n'est pas lié a un service")
+  const user = await context.prisma.user({ id: args.user });
+  const service = await context.prisma.user({ id: args.user }).service();
+  if (!service) throw new Error("Utilisateur n'est pas lié a un service");
   labels.push("Emission", "Quantité restante");
-  data.push(0, service.super);
+  let consommation_service_super = 0;
+  let consommation_service_gazoil = 0;
+  let bons = await context.prisma.user({ id: args.user }).bons();
+  bons.map((bon) => {
+    if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
+    else consommation_service_gazoil += bon.number_of_liter;
+  });
+  data.push(consommation_service_super, service.super);
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
   data = [];
   labels = [];
   labels.push("Emission", "Quantité restante");
-  data.push(0, service.gazoil);
+  data.push(consommation_service_gazoil, service.gazoil);
   datas.push({ id: "2", labels, data, label: "Statistiques Gasoil" });
   return datas;
 }
@@ -382,17 +444,15 @@ async function serviceStatistiques(parent, args, context, info) {
   let data = [];
   console.log("service statistiques " + args.service);
   const service = await context.prisma.service({ id: args.service });
-  let consommation_service_super=0
-  let consommation_service_gazoil=0
-  let bons = await context.prisma.service({id: args.service}).bons()
-    bons.map(bon=>{
-      if(bon.fuel_type===FUEL.super)
-      consommation_service_super+= bon.number_of_liter
-      else
-      consommation_service_gazoil+= bon.number_of_liter
-    })
-  data.push(consommation_service_super,  service.super);
-  labels.push("Consommation",  "Quantité restante");
+  let consommation_service_super = 0;
+  let consommation_service_gazoil = 0;
+  let bons = await context.prisma.service({ id: args.service }).bons();
+  bons.map((bon) => {
+    if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
+    else consommation_service_gazoil += bon.number_of_liter;
+  });
+  data.push(consommation_service_super, service.super);
+  labels.push("Consommation", "Quantité restante");
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
   data = [];
   labels = [];
@@ -422,5 +482,6 @@ module.exports = {
   userStatistiques,
   holdExporting,
   serviceExporting,
-  usersByHold
+  usersByHold,
+  userExporting
 };
