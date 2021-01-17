@@ -17,12 +17,14 @@ async function signUp(parent, args, context, info) {
   });
   console.log(MESSAGES.signUp(args.phone,generatePassword));
   let password = await bcrypt.hash(generatePassword, 10);
+  let hold = await context.prisma.service({id: args.service}).hold()
   let user = await context.prisma.createUser({
     ...args,
     password,
     super: 0,
     gazoil: 0,
     active: true,
+    hold: {connect: {id: hold.id}},
     service: {connect: {id: args.service}}
   });
   if (user) {
