@@ -96,7 +96,8 @@ async function bons(parent, args, context, info) {
 async function bonsByHold(parent, args, context, info) {
   console.log("bonsByHold query");
   const id = await getUserId(context);
-  const datas = await context.prisma.user({ id }).hold().bons()
+  const hold = await context.prisma.user({ id }).hold()
+  const datas = await context.prisma.hold({id: hold.id}).bons()
   return datas;
 }
 
