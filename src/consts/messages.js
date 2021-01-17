@@ -10,7 +10,7 @@ const MESSAGES = {
   hold: (name) => createMessage(`Creation de la soute de ${name}`),
   holdLevel: (name, type, quantity) =>
     createMessage(
-      `Niveau critique des cuves,la soute de ${name}, a atteint un seuil critique de ${quantity} litres en contenance ${type}`
+      `Niveau critique des cuves,la soute de ${name}, a atteint un seuil critique de ${quantity} l en contenance ${type}`
     ),
   dotateEmetteur: (
     responsableSoute,
@@ -64,17 +64,17 @@ const MESSAGES = {
     holds,
     driver
   ) =>
-    createMessage(`L'utilisateur immatricule ${user} emet le bon pour du ${fuel_type} ${
+    createMessage(`Emission du bon pour du ${fuel_type} ${
       reserve ? "(consommation reserve)" : "(consommation ordinaire)"
-    }  ${type?" ": `quittant de ${departure} pour ${destination}`} de ${initial_number_of_liter} litres 
-  qui expire le ${expiration_date} avec pour motif/service ${reason} ${type ? "": `conduit par ${driver} a consomm dans les soutes ${holds} avec la voiture  ${car}`}`),
+    }  ${type?" ": ` de ${departure} a ${destination}`} de ${initial_number_of_liter} l
+  qui expire le ${expiration_date},motif ${reason} ${type ? "": `conduit par ${driver} a consomme dans les soutes ${holds} avec la voiture  ${car}`}`),
   consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume) =>
     createMessage(
       `Consommation de ${number_of_liter_to_consume} L du bon  ${bon} par l'utilisateur ${user}, kilometrage : ${coverage_when_consuming}, ${
         status ? "reussie" : "echec"
       }`
     ),
-  dotateService: (service, super_capacity, gazoil, start_date, end_date)=> createMessage(`Dotation au service ${service} de ${super_capacity} litres de super et ${gazoil} litres de gazoil, du ${start_date} et ${end_date}`),
+  dotateService: (service, super_capacity, gazoil, start_date, end_date)=> createMessage(`Dotation au service ${service} de ${super_capacity} l de super et ${gazoil} l de gazoil, du ${start_date} et ${end_date}`),
   updateUserService: (user, service)=>  createMessage(`Affectation de l'utilisateur ${user} au service ${service}`)
 };
 module.exports = {
