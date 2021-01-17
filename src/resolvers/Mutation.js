@@ -364,7 +364,7 @@ const bon = async (parent, args, context, info) => {
   } = args;
   const getCar = await context.prisma.car({ id: car });
   const immatriculation = getCar ? getCar.immatriculation : ""
-  const service = await context.prisma.user({ id: user }).service();
+  const service = await context.prisma.service({ id: args.service })
   console.log(
     MESSAGES.bon(
       type,
