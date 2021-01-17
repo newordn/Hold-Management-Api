@@ -8,8 +8,12 @@ async function user(parent, args, context, info){
 async function car(parent, args, context, info){
   return await context.prisma.bon({id: parent.id}).car()
 }
+async function service(parent, args, context, info){
+  return await context.prisma.bon({id: parent.id}).service()
+}
 module.exports = {
   holds,
   user,
-  car
+  car,
+  service
 };
