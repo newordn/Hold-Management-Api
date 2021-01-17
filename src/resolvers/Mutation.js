@@ -298,8 +298,10 @@ const consumedBon = async (parent, args, context, info) => {
       });
       const hold = await context.prisma.user({ id: user }).hold()
       const fuel_type_boolean = fuel_type=== FUEL.super ? true: false; 
-      if(hold.super_quantity < number_of_liter_to_consume || hold.gazoil_quantity < number_of_liter_to_consume)
-      throw new Error("Niveau de la soute pour consommation ordinaire insuffisant")
+      if(hold.super_quantity!=0 && hold.super_quantity < number_of_liter_to_consume )
+      throw new Error("Niveau de la soute pour consommation ordinaire insuffisant super")
+      if(hold.gazoil_quantity!=0 && hold.gazoil_quantity < number_of_liter_to_consume )
+      throw new Error("Niveau de la soute pour consommation ordinaire insuffisant gasoil")
       else if(!bon.reserve)
       await context.prisma.updateHold({
         data:{
