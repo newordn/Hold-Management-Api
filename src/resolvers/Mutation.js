@@ -332,9 +332,9 @@ const consumedBon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
-       const getUser = await context.prisma.user({ id: user });
+       const emetteur = await context.prisma.bon({ id: bon}).user()
     await sendSms(
-      getUser.phone,
+      emetteur.phone,
       MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume),
       getUser.id,
       context
