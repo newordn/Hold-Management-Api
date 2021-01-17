@@ -101,6 +101,7 @@ async function bonsByHold(parent, args, context, info) {
   const datas = [] 
   await Promise.all(holdOnBons.map(async holdOnBon=>{
   let bon = await context.prisma.holdsOnBons({id: holdOnBon.id}).bon()
+  if(bon.consumed===args.consumed)
   datas.push(bon)
   }))
   return datas;
