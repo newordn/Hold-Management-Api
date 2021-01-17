@@ -8,6 +8,7 @@ type Query{
     logsByUser(user: ID!): [Log!]!
     holds: [Hold!]!
     bons(consumed:Boolean!): [Bon!]!
+    bonsByHold(consumed: Boolean!): [Bon!]!
     notifications(user: ID!): [Notification!]!
     cars: [Car!]!
     holdStatistiques(hold: ID!): [Statistique!]!

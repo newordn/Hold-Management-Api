@@ -93,6 +93,13 @@ async function bons(parent, args, context, info) {
   });
   return data;
 }
+async function bonsByHold(parent, args, context, info) {
+  console.log("bonsByHold query");
+  const id = await getUserId(context);
+  const datas = await context.prisma.user({ id }).hold().bons()
+  return datas;
+}
+
 async function emetteurs(parent, args, context, info) {
   console.log("emetteurs by hold query");
   const users = await context.prisma.hold({ id: args.hold }).users();
@@ -483,5 +490,6 @@ module.exports = {
   holdExporting,
   serviceExporting,
   usersByHold,
-  userExporting
+  userExporting,
+  bonsByHold
 };
