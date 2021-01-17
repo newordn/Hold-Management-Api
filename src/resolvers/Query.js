@@ -96,14 +96,15 @@ async function bons(parent, args, context, info) {
 async function bonsByHold(parent, args, context, info) {
   console.log("bonsByHold query");
   const id = await getUserId(context);
-  const hold = await context.prisma.user({ id }).hold()
-  const holdOnBons= await context.prisma.hold({id: hold.id}).bons({ orderBy: "id_DESC" })
-  const datas = [] 
-  await Promise.all(holdOnBons.map(async holdOnBon=>{
-  let bon = await context.prisma.holdsOnBons({id: holdOnBon.id}).bon()
-  if(bon.consumed===args.consumed)
-  datas.push(bon)
-  }))
+  const hold = await context.prisma.user({ id }).hold();
+  const holdOnBons = await context.prisma.hold({ id: hold.id }).bons({ orderBy: "id_DESC" });
+  const datas = [];
+  await Promise.all(
+    holdOnBons.map(async (holdOnBon) => {
+      let bon = await context.prisma.holdsOnBons({ id: holdOnBon.id }).bon();
+      if (bon.consumed === args.consumed) datas.push(bon);
+    })
+  );
   return datas;
 }
 
@@ -345,8 +346,10 @@ async function holdStatistiques(parent, args, context, info) {
   await Promise.all(
     holdOnBons.map(async (holdOnBon) => {
       let bon = await context.prisma.holdsOnBons({ id: holdOnBon.id }).bon();
-      if (bon.fuel_type === FUEL.super) consommation_super += bon.number_of_liter;
-      else consommation_gazoil += bon.number_of_liter;
+      if (bon.consumed) {
+      if (bon.fuel_type === FUEL.super) consommation_super += (bon.initial_number_of_liter-bon.number_of_liter);
+      else consommation_gazoil += (bon.initial_number_of_liter-bon.number_of_liter)
+      }
     })
   );
   data.push(hold.super_quantity, hold.reserve_super_quantity, consommation_super);
@@ -367,8 +370,11 @@ async function holdStatistiques(parent, args, context, info) {
     services.map(async (service) => {
       let bons = await context.prisma.service({ id: service.id }).bons({ orderBy: "id_DESC" });
       bons.map((bon) => {
-        if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
-        else consommation_service_gazoil += bon.number_of_liter;
+        if (bon.consumed) {
+          if (bon.fuel_type === FUEL.super)
+            consommation_service_super += bon.initial_number_of_liter - bon.number_of_liter;
+          else consommation_service_gazoil += bon.initial_number_of_liter - bon.number_of_liter;
+        }
       });
       data.push(consommation_service_super);
       dataGazoil.push(consommation_service_gazoil);
@@ -381,16 +387,16 @@ async function holdStatistiques(parent, args, context, info) {
 }
 async function userExporting(parent, args, context, info) {
   let label = "";
-  let datas=[]
+  let datas = [];
   let workbook = new excel.Workbook();
   let stream = new Stream.PassThrough();
   label = "Statistiques Bons";
-  let user = await context.prisma.user({id: args.user})
-  let created_at = user.created_at
+  let user = await context.prisma.user({ id: args.user });
+  let created_at = user.created_at;
   let bons = await context.prisma.user({ id: args.user }).bons({ orderBy: "id_DESC" });
   let bonsSheet;
   bonsSheet = workbook.addWorksheet(`BHM-${label}`);
-  bonsSheet.columns = BONS_LABEL
+  bonsSheet.columns = BONS_LABEL;
   row = bonsSheet.getRow(1);
   for (i = 1; i <= 11; i++) {
     row.getCell(i).style = style;
@@ -422,9 +428,13 @@ async function userExporting(parent, args, context, info) {
 
   workbook.xlsx.write(stream);
   link = await storeStreamUpload(stream, `BHM-${label}`);
-  datas.push({ id: "1", label, link, 
+  datas.push({
+    id: "1",
+    label,
+    link,
     start_date: parseDate(created_at),
-    end_date: parseDate(addDays(30, created_at).toDateString())});
+    end_date: parseDate(addDays(30, created_at).toDateString())
+  });
   return datas;
 }
 async function userStatistiques(parent, args, context, info) {
