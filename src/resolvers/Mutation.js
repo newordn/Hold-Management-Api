@@ -332,19 +332,20 @@ const consumedBon = async (parent, args, context, info) => {
         ),
         user: { connect: { id: user } }
       });
-      return { message: " Bon consommé avec succès", status };
-    }
-    console.log(
-      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
-    );
-      
-    const getUser = await context.prisma.user({ id: user });
+       const getUser = await context.prisma.user({ id: user });
     await sendSms(
       getUser.phone,
       MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume),
       getUser.id,
       context
     );
+      return { message: " Bon consommé avec succès", status };
+    }
+    console.log(
+      MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume)
+    );
+      
+   
     return { message: "Code de confirmation incorrect", status };
   } catch (e) {
     console.log(e);
