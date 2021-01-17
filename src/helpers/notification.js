@@ -17,7 +17,7 @@ admin.initializeApp({
 const notify = (data, topic) => {
   var message = {
     data,
-    topic
+    topic: `notification_${topic}`
   };
 
   // Send a message to the device corresponding to the provided
