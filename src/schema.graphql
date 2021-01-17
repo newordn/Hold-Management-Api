@@ -21,6 +21,7 @@ type Query{
     carsByService(service: ID!): [Car!]!
     servicesByHold(hold: ID!): [Service!]!
     carsByHold(hold: ID!): [Car!]!
+    usersByHold(hold: ID!): [User!]!
 }
    
 type Mutation{  
