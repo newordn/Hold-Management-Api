@@ -448,9 +448,12 @@ async function userStatistiques(parent, args, context, info) {
   let consommation_service_gazoil = 0;
   let bons = await context.prisma.user({ id: args.user }).bons({ orderBy: "id_DESC" });
   bons.map((bon) => {
-    if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
-    else consommation_service_gazoil += bon.number_of_liter;
-  });
+        if (bon.consumed) {
+          if (bon.fuel_type === FUEL.super)
+            consommation_service_super += bon.initial_number_of_liter - bon.number_of_liter;
+          else consommation_service_gazoil += bon.initial_number_of_liter - bon.number_of_liter;
+        }
+      });
   data.push(consommation_service_super, service.super);
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
   data = [];
@@ -470,9 +473,12 @@ async function serviceStatistiques(parent, args, context, info) {
   let consommation_service_gazoil = 0;
   let bons = await context.prisma.service({ id: args.service }).bons({ orderBy: "id_DESC" });
   bons.map((bon) => {
-    if (bon.fuel_type === FUEL.super) consommation_service_super += bon.number_of_liter;
-    else consommation_service_gazoil += bon.number_of_liter;
-  });
+        if (bon.consumed) {
+          if (bon.fuel_type === FUEL.super)
+            consommation_service_super += bon.initial_number_of_liter - bon.number_of_liter;
+          else consommation_service_gazoil += bon.initial_number_of_liter - bon.number_of_liter;
+        }
+      });
   data.push(consommation_service_super, service.super);
   labels.push("Consommation", "Quantité restante");
   datas.push({ id: "1", labels, data, label: "Statistiques Super" });
