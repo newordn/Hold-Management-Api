@@ -533,6 +533,19 @@ async function dotateService(parent, args, context, info) {
     let service = await context.prisma.service({id: args.service})
     console.log(MESSAGES.dotateService(service.label,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))));
     let userId = await getUserId(context)
+    let hold = await context.prisma.service({id: args.service}).service()
+    let services = await context.prisma.hold({id: hold.id}).services()
+    let dotationSuperService = 0
+    let dotationGazoilService =0
+    services.map(service=>{
+      dotationSuperService+= service.super
+      dotationGazoilService+= service.gazoil
+    })
+    if(hold.super< dotationSuperService + args.super)
+    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.super}, vous pouvez faire une dotation maximale de ${hold.super-dotationSuperService} `)
+    if(hold.gazoil< dotationGazoilService + args.gazoil)
+    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.gazoil}, vous pouvez faire une dotation maximale de ${hold.gazoil-dotationGazoilService} `)
+    
     await context.prisma.createDotationService({
       motif:args.motif,
       start_date: new Date(args.start_date),
