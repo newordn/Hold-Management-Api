@@ -62,7 +62,7 @@ async function signIn(parent, args, context, info) {
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
-      action: MESSAGES.signIn(args.matricule),
+      action: MESSAGES.signIn(args.phone),
       user: { connect: { id: user.id } }
     });
     return {
@@ -139,18 +139,18 @@ async function resetPassword(parent, args, context, info) {
     length: 10,
     numbers: true
   });
-  console.log(MESSAGES.resetPassword(args.matricule, args.password, generatePassword));
+  console.log(MESSAGES.resetPassword(args.phone, generatePassword));
   let password1 = await bcrypt.hash(generatePassword, 10);
   try {
     const user = await context.prisma.updateUser({
       data: { password: password1 },
-      where: { matricule: args.matricule }
+      where: { phone: args.phone }
     });
     await context.prisma.createLog({
-      action: MESSAGES.resetPassword(args.matricule, args.password, generatePassword),
-      user: { connect: { matricule: args.matricule } }
+      action: MESSAGES.resetPassword(args.phone, generatePassword),
+      user: { connect: { phone: args.phone} }
     });
-    sendSms(user.phone, MESSAGES.resetPassword(args.matricule, args.password, generatePassword), user.id, context);
+    sendSms(user.phone, MESSAGES.resetPassword(args.phone, generatePassword), user.id, context);
     return user;
   } catch (e) {
     console.log(e);

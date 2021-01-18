@@ -6,7 +6,7 @@ const MESSAGES = {
     createMessage(
       `Inscription sur BFM, veuillez vous connecter:\nNumero: ${phone},\nMot de passe: ${password} ${suffixe}`
     ),
-  signIn: (name) => createMessage(`Connexion de l'utilisateur immatricule ${name}`),
+  signIn: (name) => createMessage(`Connexion de l'utilisateur ${name}`),
   hold: (name) => createMessage(`Creation de la soute de ${name}`),
   holdLevel: (name, type, quantity) =>
     createMessage(
@@ -22,7 +22,7 @@ const MESSAGES = {
     number_of_liter_gazoil
   ) =>
     createMessage(
-      `Dotation de l'utilisateur immatricule ${responsableSoute} a l'utilisateur  ${user} avec les quantites super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
+      `Dotation de l'utilisateur ${responsableSoute} a l'utilisateur  ${user} avec les quantites super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
     ),
   updateUsersHoldRole: (user, hold, role, name) =>
     createMessage(
@@ -41,9 +41,9 @@ const MESSAGES = {
     createMessage(
       `Dotation de l'utilisateur ${user} a la soute ${hold} avec les quantites super: ${super_quantity}, gasoil: ${gazoil_quantity}, reserve_super: ${reserve_super_quantity} , reserve_gasoil: ${reserve_gazoil_quantity}  de ${start_date} a ${end_date}`
     ),
-  resetPassword: (matricule, password, newPassword) =>
+  resetPassword: (phone, newPassword) =>
     createMessage(
-      `Renitialisation du mot de passe de l'utilisateur ${matricule}, nouveau mot de passe:  ${newPassword} `
+      `Renitialisation du mot de passe de l'utilisateur ${phone}, nouveau mot de passe:  ${newPassword} `
     ),
   car: (user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service) =>
     createMessage(

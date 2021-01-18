@@ -162,7 +162,7 @@ async function serviceExporting(parent, args, context, info) {
   usersSheet = workbook.addWorksheet(`BHM-${label}`);
   usersSheet.columns = USERS_LABEL;
   row = usersSheet.getRow(1);
-  for (i = 1; i <= 8; i++) {
+  for (i = 1; i <= 6; i++) {
     row.getCell(i).style = style;
   }
   users.map((user, i) => {
@@ -178,8 +178,6 @@ async function serviceExporting(parent, args, context, info) {
     row.getCell(4).value = user.grade;
     row.getCell(5).value = user.phone;
     row.getCell(6).value = user.role;
-    row.getCell(7).value = user.super;
-    row.getCell(8).value = user.gazoil;
   });
   workbook.xlsx.write(stream);
   link = await storeStreamUpload(stream, `BHM-${label}`);
@@ -252,11 +250,11 @@ async function holdExporting(parent, args, context, info) {
   row.getCell(2).value = hold.localisation;
   row.getCell(3).value = hold.super_capacity;
   row.getCell(4).value = hold.super_cuves_number;
-  row.getCell(5).value = hold.gazoil_capacity;
-  row.getCell(6).value = hold.gazoil_cuves_number;
-  row.getCell(7).value = hold.super_quantity;
-  row.getCell(8).value = hold.gazoil_quantity;
-  row.getCell(9).value = hold.reserve_super_quantity;
+  row.getCell(5).value = hold.super_quantity;
+  row.getCell(6).value = hold.reserve_super_quantity;
+  row.getCell(7).value = hold.gazoil_capacity;
+  row.getCell(8).value = hold.gazoil_cuves_number;
+  row.getCell(9).value = hold.gazoil_quantity;
   row.getCell(10).value = hold.reserve_gazoil_quantity;
   workbook.xlsx.write(stream);
   link = await storeStreamUpload(stream, `BHM-${label}`);
