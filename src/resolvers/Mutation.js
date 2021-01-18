@@ -336,7 +336,7 @@ const consumedBon = async (parent, args, context, info) => {
     await sendSms(
       emetteur.phone,
       MESSAGES.consumedBon(user, bon, coverage_when_consuming, status, number_of_liter_to_consume),
-      getUser.id,
+      emetteur.id,
       context
     );
       return { message: " Bon consommé avec succès", status };
