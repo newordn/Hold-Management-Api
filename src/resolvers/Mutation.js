@@ -533,7 +533,7 @@ async function dotateService(parent, args, context, info) {
     let service = await context.prisma.service({id: args.service})
     console.log(MESSAGES.dotateService(service.label,args.super, args.gazoil, parseDate(new Date(args.start_date)),parseDate(new Date(args.end_date))));
     let userId = await getUserId(context)
-    let hold = await context.prisma.service({id: args.service}).service()
+    let hold = await context.prisma.service({id: args.service}).hold()
     let services = await context.prisma.hold({id: hold.id}).services()
     let dotationSuperService = 0
     let dotationGazoilService =0

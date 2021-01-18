@@ -22,7 +22,7 @@ const MESSAGES = {
     number_of_liter_gazoil
   ) =>
     createMessage(
-      `Dotation de l'utilisateur ${responsableSoute} a l'utilisateur  ${user} avec les quantites super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
+      `Dotation de l'utilisateur ${responsableSoute} a l'utilisateur  ${user} ,super: ${number_of_liter_super} et gazoil: ${number_of_liter_gazoil} pour ${motif} valable du ${start_date} au ${end_date}`
     ),
   updateUsersHoldRole: (user, hold, role, name) =>
     createMessage(
@@ -47,7 +47,7 @@ const MESSAGES = {
     ),
   car: (user, hold, marque, capacity, type, immatriculation, kilometrage, number_of_resevoir, service) =>
     createMessage(
-      `L'utilisateur immatricule ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
+      `L'utilisateur  ${user} effectue la création du véhicule de marque ${marque} immatriculé ${immatriculation} d'une capacité de ${capacity} avec ${number_of_resevoir} réservoirs, consommant du ${type} qui a kilométrage de ${kilometrage} qui réside a la soute immatriculé ${hold}, utilisé par le service ${service}`
     ),
   service: (label,hold)=> createMessage(`Creation du service ${label}, a la soute immatriculee ${hold}`),
   bon: (
