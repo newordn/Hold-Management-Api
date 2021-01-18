@@ -541,10 +541,10 @@ async function dotateService(parent, args, context, info) {
       dotationSuperService+= service.super
       dotationGazoilService+= service.gazoil
     })
-    if(hold.super< dotationSuperService + args.super)
-    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.super}, vous pouvez faire une dotation maximale de ${hold.super-dotationSuperService} `)
-    if(hold.gazoil< dotationGazoilService + args.gazoil)
-    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.gazoil}, vous pouvez faire une dotation maximale de ${hold.gazoil-dotationGazoilService} `)
+    if(hold.super_quantity< dotationSuperService + args.super)
+    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.super_quantity}, vous pouvez faire une dotation maximale de ${Math.abs(hold.super_quantity-dotationSuperService)} `)
+    if(hold.gazoil_quantity< dotationGazoilService + args.gazoil)
+    throw new Error(`Dotation impossible, niveau en super de la soute insufisante ${hold.gazoil_quantity}, vous pouvez faire une dotation maximale de ${Math.abs(hold.gazoil_quantity-dotationGazoilService)} `)
     
     await context.prisma.createDotationService({
       motif:args.motif,
