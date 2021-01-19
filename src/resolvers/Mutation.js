@@ -30,7 +30,7 @@ async function signUp(parent, args, context, info) {
   if (user) {
     const token = jwt.sign({ userId: user.id }, APP_SECRET);
     await context.prisma.createLog({
-      action: MESSAGES.signUp(args.phone,generatePassword),
+      action: MESSAGES.signUp(args.phone,""),
       user: { connect: { id: connectedUser} }
     });
     sendSms(
@@ -147,7 +147,7 @@ async function resetPassword(parent, args, context, info) {
       where: { phone: args.phone }
     });
     await context.prisma.createLog({
-      action: MESSAGES.resetPassword(args.phone, generatePassword),
+      action: MESSAGES.resetPassword(args.phone, ""),
       user: { connect: { phone: args.phone} }
     });
     sendSms(user.phone, MESSAGES.resetPassword(args.phone, generatePassword), user.id, context);
