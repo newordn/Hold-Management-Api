@@ -1,6 +1,7 @@
 const { MESSAGES } = require("../../consts/messages");
 const { sendSms } = require("../../helpers/notification");
 const {getUserByHoldAndRole } = require("../../helpers/user");
+const { FUEL } = require("../../consts/fuels");
 const bon = async (parent, args, context, info) => {
   const {
     type,
