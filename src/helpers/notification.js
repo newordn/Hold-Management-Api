@@ -37,7 +37,7 @@ var SHA1 = new Hashes.SHA1
 const sendSms = async (number, message, user, context) => {
   const timestamp =  Date.now()
   const signature = SHA1.hex_hmac(SMS_PARAM.secretSeller,`${SMS_PARAM.tokenSeller}${timestamp}`)
-    axios
+    /*axios
     .post("http://vas.avs-lab.com:8090/bulksms", {
       id: SMS_PARAM.idSeller,
       timestamp,
@@ -52,7 +52,7 @@ const sendSms = async (number, message, user, context) => {
     .catch((error) => {
       console.error(error);
     });
-   
+   */
   await context.prisma.createNotification({ user: { connect: { id: user } }, message });
   notify(
     { bigText: message, message, title: "Bir Fuel Manager", subText: "Bir Fuel Manager" },
