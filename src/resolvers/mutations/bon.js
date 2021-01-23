@@ -118,7 +118,7 @@ const bon = async (parent, args, context, info) => {
         hold: { connect: { id: hold.id } },
         bon: { connect: { id: data.id } }
       });
-      let soutierSoute = await getUserByHoldAndRole(context, hold, ROLES.soutier);
+      let soutierSoute = await getUserByHoldAndRole(context, hold.id, ROLES.soutier);
       sendSms(
         soutierSoute.phone,
         MESSAGES.bon(
