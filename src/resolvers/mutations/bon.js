@@ -1,8 +1,11 @@
+/* initialization */
 const { MESSAGES } = require("../../consts/messages");
 const { sendSms } = require("../../helpers/notification");
 const { getUserByHoldAndRole } = require("../../helpers/user");
 const { FUEL } = require("../../consts/fuels");
 var generator = require("generate-password");
+const { ROLES } = require("../../consts/roles");
+/* initialization */
 const bon = async (parent, args, context, info) => {
   const {
     type,

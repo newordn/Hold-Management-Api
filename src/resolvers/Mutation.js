@@ -1,3 +1,4 @@
+/* initialization */
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { APP_SECRET, getUserByHoldAndRole } = require("../helpers/user");
@@ -8,8 +9,8 @@ const { parseDate } = require("../helpers/parse");
 const { getUserId } = require("../helpers/user");
 const {bon} = require("./mutations/bon")
 var generator = require("generate-password");
-
 const { ROLES } = require("../consts/roles");
+/* initialization */
 async function signUp(parent, args, context, info) {
   const connectedUser = await getUserId(context)
   let generatePassword = generator.generate({
