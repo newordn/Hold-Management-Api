@@ -35,7 +35,7 @@ type Mutation{
     dotateHold(user:ID!, hold:ID!, theorical_super_quantity: Float!, theorical_gazoil_quantity: Float!, theorical_reserve_super_quantity: Float!, theorical_reserve_gazoil_quantity: Float!, motif: String!, start_date: Float!, end_date: Float!): Hold!
     resetPassword(phone: String!): User!
     car(user: ID!, hold: ID!, image: Upload, marque: String!, capacity: Float!, type: String!, immatriculation: String!, kilometrage: Float!, service: ID!, number_of_reservoir: Float!): Car!
-    bon(user: ID!,expiration_date: String!, driver: String,  departure: String, destination: String, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,car: ID,holds: [ID!]!, reserve: Boolean!, type: Boolean!, service: ID!): Bon!
+    bon(user: ID!,expiration_date: String!, driver: String,  departure: String, destination: String, fuel_type: String!, reason: String!, initial_number_of_liter: Float!,car: ID, reserve: Boolean!, type: Boolean!): Bon!
     consumedBon(user: ID!, bon: ID!,coverage_when_consuming: Float!, code: String!, number_of_liter_to_consume: Float!): ConsumedBon!
     service(label: String!, description: String!, hold: ID!): Service!
     dotateService(service: ID!, super: Float!, gazoil: Float!,motif: String!, start_date: Float!, end_date: Float!): Service!

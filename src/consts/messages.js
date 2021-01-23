@@ -61,13 +61,12 @@ const MESSAGES = {
     initial_number_of_liter,
     user,
     car,
-    holds,
     driver
   ) =>
     createMessage(`Emission du bon pour du ${fuel_type} ${
       reserve ? "(consommation reserve)" : "(consommation ordinaire)"
     }  ${type?" ": ` de ${departure} a ${destination}`} de ${initial_number_of_liter} l
-  qui expire le ${expiration_date},motif ${reason} ${type ? "": `conduit par ${driver} a consomme dans les soutes ${holds} avec la voiture  ${car}`}`),
+  qui expire le ${expiration_date},motif ${reason} ${type ? "": `conduit par ${driver} avec la voiture  ${car}`}`),
   consumedBon: (user, bon, coverage_when_consuming, status, number_of_liter_to_consume) =>
     createMessage(
       `Consommation de ${number_of_liter_to_consume} L du bon  ${bon} par l'utilisateur ${user}, kilometrage : ${coverage_when_consuming}, ${
